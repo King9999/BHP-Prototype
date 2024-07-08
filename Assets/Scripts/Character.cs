@@ -71,15 +71,5 @@ public abstract class Character : MonoBehaviour
         Poisoned, Dizzy, Blind, Injured, Berserk, DisableLeg, DisableSkill, DisableSuper, Weak
     }
     public List<Status> status;     //ailments can stack. NOTE: This might be redundant since there will be scriptable objects to handle status effects
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }
