@@ -19,7 +19,7 @@ public abstract class Character : MonoBehaviour
     public float mnp;           //mental power. MNT + equipped weapon + any other bonuses
     public float rst;           //resistance. MNT + equipped armor + any other bonuses
     public float mov;           //movement. MOV = SPD / 3 (rounded down) + any other bonuses
-    public float evd = 0.05f;           //evade chance. 
+    public float evd;           //evade chance. 
     protected bool isTheirTurn; //if true, avatar can perform actions.
     protected bool turnTaken;
 

@@ -133,8 +133,9 @@ GameObject:
   m_Component:
   - component: {fileID: 553820381}
   - component: {fileID: 553820380}
+  - component: {fileID: 553820382}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Test Hunter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -207,6 +208,58 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 69.427, z: 0}
+--- !u!114 &553820382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553820379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d75f52e6c5ca6b478e9cb969d1ec6a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterName: 
+  healthPoints: 0
+  maxHealthPoints: 0
+  skillPoints: 0
+  maxSkillPoints: 0
+  str: 0
+  vit: 0
+  spd: 0
+  mnt: 0
+  atp: 0
+  dfp: 0
+  mnp: 0
+  rst: 0
+  mov: 0
+  evd: 0
+  hpMod: 1
+  spMod: 1
+  atpMod: 1
+  dfpMod: 1
+  spdMod: 1
+  mnpMod: 1
+  rstMod: 1
+  evdMod: 1
+  resistPoison: 0
+  resistDizzy: 0
+  resistBlind: 0
+  resistBerserk: 0
+  resistCardDrain: 0
+  resistDisableLeg: 0
+  resistDisableSkill: 0
+  resistDisableSuper: 0
+  resistWeak: 0
+  status: 
+  currentAllocationPoints: 0
+  strPoints: 0
+  spdPoints: 0
+  vitPoints: 0
+  mntPoints: 0
+  hunterLevel: 1
+  isAI: 0
 --- !u!1 &666782459
 GameObject:
   m_ObjectHideFlags: 0
