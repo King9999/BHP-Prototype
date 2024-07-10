@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class ItemMod : ScriptableObject
 {
     public string modName;
-   
+    public int modID;           //used for looking up mods in JSON file.
 
     public virtual void ActivateOnEquip(Hunter hunter) { }
     public virtual void DeactivateOnUnequip(Hunter hunter) { }

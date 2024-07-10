@@ -32,6 +32,7 @@ public abstract class Character : MonoBehaviour
     public float mnpMod = 1;
     public float rstMod = 1;
     public float evdMod = 1;
+    public float debuffResist = 0;      //reduces the chance of being affected by a debuff. Value from 0 to 1. This is a hidden value.
 
     //coroutine check
     protected bool animateAttackCoroutineOn;
@@ -55,7 +56,8 @@ public abstract class Character : MonoBehaviour
     public float resistDisableSuper;
     public float resistWeak;
 
-    /* STATUS DETAILS
+
+    /* DEBUFF DETAILS
         -------------
         Poisoned = Target loses (5% * duration count) of HP each turn. Lasts 3 turns.
         Dizzy = Target cannot act for 1 turn. Ailment removed if target is hit.
@@ -65,11 +67,27 @@ public abstract class Character : MonoBehaviour
         Disable Leg = total MOV reduced by 50% 
         Disable Skill = Cannot use skills
         Disable Super = Cannot gain super meter. 
-        Weak = Roll 1 die for attacks/skills */
-    public enum Status
+        Weak = Roll 1 die for attacks/skills 
+        Unlucky = when attacking or defending, all rolls for the afflicted user occur twice, and the worst of the two results is applied.*/
+    public enum Debuff
     {
-        Poisoned, Dizzy, Blind, Injured, Berserk, DisableLeg, DisableSkill, DisableSuper, Weak
+        Poisoned, Dizzy, Blind, Injured, Berserk, DisableLeg, DisableSkill, DisableSuper, Weak, Unlucky
     }
-    public List<Status> status;     //ailments can stack. NOTE: This might be redundant since there will be scriptable objects to handle status effects
+
+    /* BUFF DETAILS
+     * -------
+     * Regen = 15% of max HP restored at the end of each turn.
+     * Empowered = ATP and MNP increased by 20%
+     * Haste = +4 to MOV
+     * SecondWind = When HP is 0, 50% HP is restored immediately, and Injured does not occur. SecondWind cannot be applied again on the same character after triggering.
+     * Lucky = when attacking or defending, all rolls for the user occur twice, and the best of the two results is applied. 
+     * 
+     * */
+    public enum Buff
+    {
+        Regen, Empowered, Haste, SecondWind, Lucky
+    }
+    public List<CharacterEffect> debuffs;     //ailments can stack. NOTE: This might be redundant since there will be scriptable objects to handle status effects
+    public List<CharacterEffect> buffs;
     
 }
