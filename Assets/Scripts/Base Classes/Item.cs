@@ -12,7 +12,7 @@ public abstract class Item : ScriptableObject
     public bool isKeyItem;      //key items cannot be sold or dropped.
     public bool isTargetItem;   //the target item required to complete a dungeon.
     public Sprite sprite;
-    [System.NonSerialized] protected bool isEquipped = false;     //applies to weapons, armor, and accessories. NonSerialized means Unity will reset the variable state
+    
 
     public enum ItemType
     {
@@ -24,15 +24,15 @@ public abstract class Item : ScriptableObject
     //public ItemEffect effect; //uncomment this once I have a scriptable object
 
     public virtual void ActivateEffect() { }
-    public bool IsEquipped() { return isEquipped; }
+    //public bool IsEquipped() { return isEquipped; }
     public virtual void Equip(Hunter hunter)
     {
-        if (isEquipped)
-            return;
+        //if (isEquipped)
+            //return;
     }
     public virtual void Unequip(Hunter hunter)
     {
-        if (!isEquipped)
-            return;
+        //if (!isEquipped)
+            //return;
     }
 }

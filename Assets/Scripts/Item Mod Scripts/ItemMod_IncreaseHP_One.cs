@@ -4,7 +4,7 @@ using UnityEngine;
 
 //mod's value must be generated randomly when this object comes into existence.
 [CreateAssetMenu(menuName = "Item Mod/Increase HP Lv 1", fileName = "itemMod_increaseHP_1")]
-public class ItemModIncreaseHP_One : ItemMod
+public class ItemMod_IncreaseHP_One : ItemMod
 {
     private int hp = 3;
     
