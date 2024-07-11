@@ -19,8 +19,8 @@ MonoBehaviour:
   currentCooldown: 0
   skillInCooldown: 0
   skillEffectDuration: 1
-  weaponRestriction: 0
-  usageType: 0
+  weaponRestriction: 1
+  usageType: 2
   triggerOnHit: 1
   triggerWhenUserHit: 0
   triggerOnEndOfUserTurn: 0

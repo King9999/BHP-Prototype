@@ -12,14 +12,14 @@ public class ItemMod_IncreaseHP_One : ItemMod
     void Awake()
     {
         hp = Random.Range(hp, Mathf.CeilToInt(hp * 1.5f) + 1);
-        Debug.Log("Item mod's HP value is " + hp);
-        //modName = "HP + " + hp;
-    }
-
-    private void Reset()
-    {
+        //Debug.Log("Item mod's HP value is " + hp);
         modName = "HP + " + hp;
     }
+
+    /*private void Reset()
+    {
+        modName = "HP + " + hp;
+    }*/
 
     public override void ActivateOnEquip(Hunter hunter)
     {

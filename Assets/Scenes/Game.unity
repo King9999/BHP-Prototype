@@ -243,6 +243,7 @@ MonoBehaviour:
   mnpMod: 1
   rstMod: 1
   evdMod: 1
+  debuffResist: 0
   resistPoison: 0
   resistDizzy: 0
   resistBlind: 0
@@ -252,7 +253,8 @@ MonoBehaviour:
   resistDisableSkill: 0
   resistDisableSuper: 0
   resistWeak: 0
-  status: 
+  debuffs: []
+  buffs: []
   currentAllocationPoints: 0
   strPoints: 0
   spdPoints: 0
@@ -260,6 +262,7 @@ MonoBehaviour:
   mntPoints: 0
   hunterLevel: 1
   isAI: 0
+  equippedWeapon: {fileID: 0}
 --- !u!1 &666782459
 GameObject:
   m_ObjectHideFlags: 0
@@ -761,6 +764,98 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1556682616
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1556682618}
+  - component: {fileID: 1556682617}
+  m_Layer: 0
+  m_Name: Game Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1556682617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556682616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d7ebf531f1e99b4aa98064c022f8203, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mods: []
+--- !u!4 &1556682618
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556682616}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.7192686, y: -1.3400458, z: 0.24262273}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1725645150
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1725645152}
+  - component: {fileID: 1725645151}
+  m_Layer: 0
+  m_Name: Item Mod Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1725645151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725645150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 094eaf65b4842f34aaec2c4e1708ed71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemMods:
+  - {fileID: 11400000, guid: ad72571b232fb5748badde5221e270f6, type: 2}
+  newMods: []
+--- !u!4 &1725645152
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725645150}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.7192686, y: -1.3400458, z: 0.24262273}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -771,3 +866,5 @@ SceneRoots:
   - {fileID: 666782463}
   - {fileID: 1220435753}
   - {fileID: 1379899461}
+  - {fileID: 1556682618}
+  - {fileID: 1725645152}
