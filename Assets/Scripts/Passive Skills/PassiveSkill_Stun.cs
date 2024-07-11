@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//
+
 [CreateAssetMenu(menuName = "Skills/Passive Skills/Stun", fileName = "passiveSkill_Stun")]
 public class PassiveSkill_Stun : PassiveSkill
 {
     private float dizzyChance = 0.5f;
     // Start is called before the first frame update
-    void Awake()
+    void Reset()
     {
         skillName = "Stun";
         skillDetails = "After target takes damage, 50% chance target is Dizzied";

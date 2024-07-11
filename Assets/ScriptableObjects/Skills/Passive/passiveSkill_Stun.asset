@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 846dd74e12715504f9c800d1e8f5873e, type: 3}
+  m_Name: passiveSkill_Stun
+  m_EditorClassIdentifier: 
+  skillID: 0
+  skillName: Stun
+  skillDetails: After target takes damage, 50% chance target is Dizzied
+  skillCooldown: 0
+  currentCooldown: 0
+  skillInCooldown: 0
+  skillEffectDuration: 1
+  weaponRestriction: 0
+  usageType: 0
+  triggerOnHit: 1
+  triggerWhenUserHit: 0
+  triggerOnEndOfUserTurn: 0

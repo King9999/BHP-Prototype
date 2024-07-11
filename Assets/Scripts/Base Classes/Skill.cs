@@ -11,6 +11,20 @@ public abstract class Skill : ScriptableObject
     public bool skillInCooldown;
     public int skillEffectDuration;                 //how long a skill lasts on the user or a target.
 
+    public enum WeaponRestriction                     //some skills only work with certain weapon types.
+    {
+        None, Melee, Gun, Augmenter
+    }
+
+    public WeaponRestriction weaponRestriction;
+
+    public enum UsageType                           //skill can be used only in the field, in combat, or both.               
+    {
+        Versatile, Field, Battle
+    }
+
+    public UsageType usageType;
+
     public virtual void ActivateSkill(Character user, Character target) 
     {
         if (skillInCooldown) return;
