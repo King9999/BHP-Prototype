@@ -8,7 +8,7 @@ public class ItemMod_IncreaseHP_One : ItemMod
 {
     private int hp = 3;
     
-    //once the object is created, a random HP value is generated.
+    //once the object is created, a random HP value is generated. Must use Awake(), not Start()!
     void Awake()
     {
         hp = Random.Range(hp, Mathf.CeilToInt(hp * 1.5f) + 1);
@@ -16,10 +16,10 @@ public class ItemMod_IncreaseHP_One : ItemMod
         modName = "HP + " + hp;
     }
 
-    /*private void Reset()
+    private void Reset()
     {
-        modName = "HP + " + hp;
-    }*/
+        modName = "HP + (3-5)";
+    }
 
     public override void ActivateOnEquip(Hunter hunter)
     {

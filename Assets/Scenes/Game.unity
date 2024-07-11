@@ -838,9 +838,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 094eaf65b4842f34aaec2c4e1708ed71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemMods:
-  - {fileID: 11400000, guid: ad72571b232fb5748badde5221e270f6, type: 2}
-  newMods: []
+  itemModTables:
+  - itemMods:
+    - {fileID: 11400000, guid: ad72571b232fb5748badde5221e270f6, type: 2}
 --- !u!4 &1725645152
 Transform:
   m_ObjectHideFlags: 0
