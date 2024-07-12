@@ -13,9 +13,6 @@ public class Hunter : Character
     public bool isAI;
 
     /*** EQUIPMENT & SKILLS (uncomment these once the classes exist)
-     * public Weapon weapon;
-     * public Armor armor;
-     * public Accessory accessory;
      * 
      * public List<ActiveSkill> activeSkills;   //
      * public List<PassiveSkill> passiveSkills;
@@ -23,8 +20,9 @@ public class Hunter : Character
      * 
      * ***/
 
-    public Weapon equippedWeapon;   //max size is 3.
+    public Weapon equippedWeapon;
     public Armor equippedArmor;
+    public Accessory equippedAccessory;
 
     private void Start()
     {

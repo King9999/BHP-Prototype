@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -23,15 +24,15 @@ public abstract class Item : ScriptableObject
     }
 
     public ItemType itemType;
+    
 
     //public ItemEffect effect; //uncomment this once I have a scriptable object
 
-    public virtual void ActivateEffect() { }
     //public bool IsEquipped() { return isEquipped; }
     public virtual void Equip(Hunter hunter)
     {
         //if (isEquipped)
-            //return;
+        //return;
     }
     public virtual void Unequip(Hunter hunter)
     {
