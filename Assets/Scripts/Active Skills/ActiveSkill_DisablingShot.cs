@@ -25,7 +25,7 @@ public class ActiveSkill_DisablingShot : ActiveSkill
 
         //roll dice and add result to total damage
         int diceRoll = dice.RollDice(); 
-        int dieRoll = dice.RollDie();
-        float totalDamage = Mathf.Round(user.atp * dmgEffectiveness) + diceRoll - (target.dfp + dieRoll);
+        int singleDieRoll = dice.RollSingleDie();
+        float totalDamage = Mathf.Round(user.atp * dmgEffectiveness) + diceRoll - (target.dfp + singleDieRoll);
     }
 }

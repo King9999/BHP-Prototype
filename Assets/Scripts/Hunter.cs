@@ -24,6 +24,7 @@ public class Hunter : Character
      * ***/
 
     public Weapon equippedWeapon;   //max size is 3.
+    public Armor equippedArmor;
 
     private void Start()
     {

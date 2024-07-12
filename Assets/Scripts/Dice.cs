@@ -26,7 +26,7 @@ public class Dice : MonoBehaviour
         return die1 + die2;
     }
 
-    public int RollDie()
+    public int RollSingleDie()
     {
         die1 = Random.Range(1, 7);
         die2 = 0;

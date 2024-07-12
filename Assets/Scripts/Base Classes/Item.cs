@@ -8,6 +8,8 @@ public abstract class Item : ScriptableObject
 {
     public string itemName, details;
     public int itemID;          //used for looking up item in a table/JSON file
+    public int itemLevel;
+    protected int maxItemLevel { get; } = 50;
     public int price;
     public int salePrice;       //how much an item costs when selling it. Can be adjusted by bartering
     public bool isKeyItem;      //key items cannot be sold or dropped.

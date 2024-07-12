@@ -7,8 +7,7 @@ using UnityEngine;
 public class Weapon : Item
 {
     public int atp, mnp;
-    public int itemLevel;
-    private int maxItemLevel { get; } = 50;
+    
     public List<ItemMod> itemMods;  //if there's a chip slot, there can only be 1 item mod.
     //public Skill itemSkill;         //only available if item has an empty chip slot
     public bool hasChipSlot;        //if true, itemSkill is available.
@@ -54,9 +53,7 @@ public class Weapon : Item
         isEquipped = false;
         hunter.equippedWeapon = null;
         hunter.atp = hunter.str - atp;
-        //hunter.dfp = hunter.vit - dfp;
         hunter.mnp = hunter.mnt - mnp;
-        //hunter.rst = (hunter.mnt / 2) - rst;
 
         if (itemMods.Count > 0)
         {

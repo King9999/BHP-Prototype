@@ -6,13 +6,15 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Item Mod/Increase HP Lv 1", fileName = "itemMod_increaseHP_1")]
 public class ItemMod_IncreaseHP_One : ItemMod
 {
-    private int hp = 3;
+    private float hp = 3;
     
     //once the object is created, a random HP value is generated. Must use Awake(), not Start()!
     void Awake()
     {
-        hp = Random.Range(hp, Mathf.CeilToInt(hp * 1.5f) + 1);
-        //Debug.Log("Item mod's HP value is " + hp);
+        hp = Random.Range(hp, hp * 1.6f);
+        //Debug.Log("Item mod's HP value before rounded: " + hp);
+        hp = Mathf.Round(hp);
+        
         modName = "HP + " + hp;
     }
 

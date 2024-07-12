@@ -10,6 +10,8 @@ public abstract class Skill : ScriptableObject
     public int skillCooldown, currentCooldown;                            //skillCooldown = number of turns that must pass before skill can be used again.
     public bool skillInCooldown;
     public int skillEffectDuration;                 //how long a skill lasts on the user or a target.
+    public GameObject skillAnimation;               //the visuals for skills.
+    public AudioClip skillSfx;
 
     public enum WeaponRestriction                     //some skills only work with certain weapon types.
     {

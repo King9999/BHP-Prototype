@@ -37,6 +37,9 @@ public abstract class Character : MonoBehaviour
     //coroutine check
     protected bool animateAttackCoroutineOn;
 
+    [Header("Audiovisual\n-------")]
+    public GameObject attackSpark;      //the visual effects for when character does a basic attack.
+    public AudioClip attackSound;       //SFX for basic attack
 
 
     //public List<Skill> skills;          //list of skills the avatar can choose from.
@@ -56,11 +59,17 @@ public abstract class Character : MonoBehaviour
     public float resistDisableSuper;
     public float resistWeak;
 
+    public enum CharacterState
+    {
+        Idle, Attacking, Defending, Moving, Resting, Injured
+    }
+
+    public CharacterState characterState;
 
     /* DEBUFF DETAILS
         -------------
         Poisoned = Target loses (5% * duration count) of HP each turn. Lasts 3 turns.
-        Dizzy = Target cannot act for 1 turn. Ailment removed if target is hit.
+        Dizzy = Target cannot act for 1 turn. Dizzy is removed if target is hit by an attack.
         Blind = 70% chance that an attack will miss. Cannot evade traps. Lasts for 3 turns
         Injured = HP is halved after being defeated. Stacks 2 times.
         Berserk = 50% more ATP but can't be controlled. Cannot defend.
@@ -77,7 +86,7 @@ public abstract class Character : MonoBehaviour
     /* BUFF DETAILS
      * -------
      * Regen = 15% of max HP restored at the end of each turn.
-     * Empowered = ATP and MNP increased by 20%
+     * Empowered = ATP and MNP increased by 25%
      * Haste = +4 to MOV
      * SecondWind = When HP is 0, 50% HP is restored immediately, and Injured does not occur. SecondWind cannot be applied again on the same character after triggering.
      * Lucky = when attacking or defending, all rolls for the user occur twice, and the best of the two results is applied. 
@@ -89,5 +98,9 @@ public abstract class Character : MonoBehaviour
     }
     public List<CharacterEffect> debuffs;     //ailments can stack. NOTE: This might be redundant since there will be scriptable objects to handle status effects
     public List<CharacterEffect> buffs;
+
+    public void Attack() { }
+    public void Defend() { }
+    public void Rest() { }
     
 }
