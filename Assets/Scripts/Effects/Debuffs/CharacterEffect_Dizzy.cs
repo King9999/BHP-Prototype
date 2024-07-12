@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //not much to this. As long as this object is in debuffs, player can do nothing.
-[CreateAssetMenu(menuName = "Effects/Character Effect/Dizzy", fileName = "charEffect_Dizzy")]
+[CreateAssetMenu(menuName = "Effects/Character Effects/Dizzy", fileName = "charEffect_Dizzy")]
 public class CharacterEffect_Dizzy : CharacterEffect
 {
    void Reset()

@@ -11,7 +11,7 @@ public class ItemMod_IncreaseHP_One : ItemMod
     //once the object is created, a random HP value is generated. Must use Awake(), not Start()!
     void Awake()
     {
-        hp = Random.Range(hp, hp * 1.6f);
+        hp = Random.Range(hp, hp * 1.53f);
         //Debug.Log("Item mod's HP value before rounded: " + hp);
         hp = Mathf.Round(hp);
         

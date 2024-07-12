@@ -96,7 +96,7 @@ public abstract class Character : MonoBehaviour
     {
         Regen, Empowered, Haste, SecondWind, Lucky
     }
-    public List<CharacterEffect> debuffs;     //ailments can stack. NOTE: This might be redundant since there will be scriptable objects to handle status effects
+    public List<CharacterEffect> debuffs;     //Characters can have up to 3 buffs and debuffs. Adding a 4th overwrites the oldest effect.
     public List<CharacterEffect> buffs;
 
     public void Attack() { }

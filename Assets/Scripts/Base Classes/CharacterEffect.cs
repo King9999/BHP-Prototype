@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 //buffs and debuffs that affect characters.
@@ -7,6 +8,8 @@ public abstract class CharacterEffect : ScriptableObject
 {
     public string effectName, effectDetails;
     public int totalDuration, currentDuration;
+    public Sprite effectIcon;
+    //public TextMeshPro durationText;
 
     public enum EffectType
     {
