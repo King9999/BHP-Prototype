@@ -4,7 +4,7 @@ using UnityEngine;
 
 /* Weapons raise either ATP or MNP, and can come with mods. */
 [CreateAssetMenu(menuName = "Item/Equipment/Weapon", fileName = "weapon_")]
-public class Weapon : Item
+public abstract class Weapon : Item
 {
     public float atp, mnp;
     

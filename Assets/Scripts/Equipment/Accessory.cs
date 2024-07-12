@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Item;
 
-public class Accessory : Item
+public abstract class Accessory : Item
 {
     public float atp, mnp;
     public float dfp, rst;
