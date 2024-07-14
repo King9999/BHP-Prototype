@@ -44,4 +44,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d7ebf531f1e99b4aa98064c022f8203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mods: []
+  hunterName: {fileID: 0}
+  hunterStr: {fileID: 0}
+  hunterVit: {fileID: 0}
+  hunterMnt: {fileID: 0}
+  hunterSpd: {fileID: 0}
+  hunterAtp: {fileID: 0}
+  hunterDfp: {fileID: 0}
+  hunterMnp: {fileID: 0}
+  hunterRst: {fileID: 0}
+  hunterEvd: {fileID: 0}
+  hunterHp: {fileID: 0}
+  hunterSp: {fileID: 0}
+  hunterPrefab: {fileID: 7340040267651634088, guid: 08558392a7ae0144e86f499a769a72c7, type: 3}
+  hunter: {fileID: 0}

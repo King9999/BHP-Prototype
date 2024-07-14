@@ -26,7 +26,7 @@ public class Hunter : Character
 
     private void Start()
     {
-        InitializeStats();
+        //InitializeStats();
     }
 
     public void InitializeStats()

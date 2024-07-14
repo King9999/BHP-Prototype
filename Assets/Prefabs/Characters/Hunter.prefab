@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &379485584169131718
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2083152138579269260}
+  - component: {fileID: 7340040267651634088}
+  m_Layer: 0
+  m_Name: Hunter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2083152138579269260
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 379485584169131718}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 905.325, y: 723.12213, z: -1.7899401}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7340040267651634088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 379485584169131718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d75f52e6c5ca6b478e9cb969d1ec6a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterName: 
+  healthPoints: 0
+  maxHealthPoints: 0
+  skillPoints: 0
+  maxSkillPoints: 0
+  str: 0
+  vit: 0
+  spd: 0
+  mnt: 0
+  atp: 0
+  dfp: 0
+  mnp: 0
+  rst: 0
+  mov: 0
+  evd: 0
+  hpMod: 1
+  spMod: 1
+  atpMod: 1
+  dfpMod: 1
+  spdMod: 1
+  mnpMod: 1
+  rstMod: 1
+  evdMod: 1
+  debuffResist: 0
+  attackSpark: {fileID: 0}
+  attackSound: {fileID: 0}
+  resistPoison: 0
+  resistDizzy: 0
+  resistBlind: 0
+  resistBerserk: 0
+  resistCardDrain: 0
+  resistDisableLeg: 0
+  resistDisableSkill: 0
+  resistDisableSuper: 0
+  resistWeak: 0
+  characterState: 0
+  debuffs: []
+  buffs: []
+  currentAllocationPoints: 0
+  strPoints: 0
+  spdPoints: 0
+  vitPoints: 0
+  mntPoints: 0
+  hunterLevel: 1
+  isAI: 0
+  equippedWeapon: {fileID: 0}
+  equippedArmor: {fileID: 0}
+  equippedAccessory: {fileID: 0}
