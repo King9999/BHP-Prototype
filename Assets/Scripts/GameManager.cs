@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     //hunter stats
     public TextMeshProUGUI hunterName;
     public TextMeshProUGUI hunterStr, hunterVit, hunterMnt, hunterSpd, hunterAtp, hunterDfp, hunterMnp, hunterRst, hunterEvd, hunterHp, hunterSp;
+    public TextMeshProUGUI strPointsGUI, spdPointsGUI, vitPointsGUI, mntPointsGUI;
     public Hunter hunterPrefab, hunter;
 
     // Start is called before the first frame update
@@ -40,5 +41,20 @@ public class GameManager : MonoBehaviour
         hunterEvd.text = (hunter.evd * 100) + "%";
         hunterHp.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
         hunterSp.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
+
+        //point allocation values
+        strPointsGUI.text = hunter.strPoints.ToString();
+        vitPointsGUI.text = hunter.vitPoints.ToString();
+        mntPointsGUI.text = hunter.mntPoints.ToString();
+        spdPointsGUI.text = hunter.spdPoints.ToString();
+    }
+
+    //Allocates a point to STR when clicked
+    public void AllocatePoint_STR()
+    {
+        hunter.AllocateToStr(1);
+        hunterStr.text = hunter.str.ToString();
+        strPointsGUI.text = hunter.strPoints.ToString();
+        hunterAtp.text = hunter.atp.ToString();
     }
 }

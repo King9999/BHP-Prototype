@@ -7,10 +7,18 @@ public class Hunter : Character
     [Header("Allocation Points")]
     private int totalAllocationPoints;
     public int currentAllocationPoints;
-    public int strPoints, spdPoints, vitPoints, mntPoints;  //AP is distributed to these values
+    public float strPoints, spdPoints, vitPoints, mntPoints;  //AP is distributed to these values
     private int maxHunterLevel { get; } = 50;
     public int hunterLevel = 1;
     public bool isAI;
+
+    //base values
+    private const float baseAtp = 4;
+    private const float baseDfp = 1;
+    private const float baseMnp = 1;
+    private const float baseEvd = 0.05f;
+    private const float baseRst = 1;
+    private const float baseMov = 0;
 
     /*** EQUIPMENT & SKILLS (uncomment these once the classes exist)
      * 
@@ -35,12 +43,12 @@ public class Hunter : Character
         vit = 1;
         spd = 1;
         mnt = 1;
-        atp = 4;
-        dfp = 1;
-        mnp = 1;
-        rst = 1;
-        mov = 0;
-        evd = 0.05f;
+        atp = baseAtp;
+        dfp = baseDfp;
+        mnp = baseMnp;
+        rst = baseRst;
+        mov = baseMov;
+        evd = baseEvd;
         healthPoints = 20; maxHealthPoints = 20;
         skillPoints = 4; maxSkillPoints = 4;
     }
@@ -58,13 +66,22 @@ public class Hunter : Character
     public void AllocateToStr(int amount)
     {
         strPoints += amount;
-        str = Mathf.FloorToInt(strPoints / 2);
+        Debug.Log("STR: " + strPoints / 2);
+        //str = Mathf.Floor(strPoints / 2);
+        if (Mathf.Floor(strPoints % 2) == 0)
+        {
+            str += 1;
+            //atp += 1;
+            atp = equippedWeapon == null ? baseAtp + Mathf.Floor(str / 2) : baseAtp + Mathf.Floor(str / 2) + equippedWeapon.atp;
+        }
     }
 
     public void AllocateToSpd(int amount)
     {
         spdPoints += amount;
-        spd = Mathf.FloorToInt(spdPoints / 3);
+        //spd = Mathf.FloorToInt(spdPoints / 3);
+        if (Mathf.Floor(spdPoints % 3) == 0)
+            spd += 1;
     }
 
     public void AllocateToVit(int amount)
