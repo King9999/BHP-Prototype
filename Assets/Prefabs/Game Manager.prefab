@@ -56,5 +56,10 @@ MonoBehaviour:
   hunterEvd: {fileID: 0}
   hunterHp: {fileID: 0}
   hunterSp: {fileID: 0}
+  hunterMov: {fileID: 0}
+  strPointsGUI: {fileID: 0}
+  spdPointsGUI: {fileID: 0}
+  vitPointsGUI: {fileID: 0}
+  mntPointsGUI: {fileID: 0}
   hunterPrefab: {fileID: 7340040267651634088, guid: 08558392a7ae0144e86f499a769a72c7, type: 3}
   hunter: {fileID: 0}
