@@ -4,7 +4,7 @@ using UnityEngine;
 using static System.Net.WebRequestMethods;
 
 [CreateAssetMenu(menuName = "Item/Equipment/Armor", fileName = "armor_")]
-public abstract class Armor : Item
+public class Armor : Item
 {
     public float dfp, rst;
     public List<ItemMod> itemMods;  //if there's a chip slot, there can only be 1 item mod.

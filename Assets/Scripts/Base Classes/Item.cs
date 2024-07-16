@@ -11,8 +11,8 @@ public abstract class Item : ScriptableObject
     public int itemID;          //used for looking up item in a table/JSON file
     public int itemLevel;
     protected int maxItemLevel { get; } = 50;
-    public int price;
-    public int salePrice;       //how much an item costs when selling it. Can be adjusted by bartering
+    public int price;           //cost of an item when purchasing. Sell price is 75% of this value.
+    //public int salePrice;       //how much an item costs when selling it. Can be adjusted by bartering
     public bool isKeyItem;      //key items cannot be sold or dropped.
     public bool isTargetItem;   //the target item required to complete a dungeon.
     public Sprite sprite;

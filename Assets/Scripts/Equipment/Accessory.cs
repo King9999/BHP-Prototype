@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Item;
 
-public abstract class Accessory : Item
+[CreateAssetMenu(menuName = "Item/Equipment/Accessory", fileName = "acc_")]
+public class Accessory : Item
 {
     public float atp, mnp;
     public float dfp, rst;
@@ -12,11 +13,16 @@ public abstract class Accessory : Item
     public List<ItemMod> itemMods;  //if there's a chip slot, there can only be 1 item mod.
     //public Skill itemSkill;         //only available if item has an empty chip slot
     public bool hasChipSlot;        //if true, itemSkill is available.
-    public bool isUniqueItem;       //if true, chip slot counts as 1 item mod instead of 2.
+    public bool isUniqueItem;       //if true, item has a fixed mod that it will always have.
     public int modCount = 3;            //default is 3. If item is not unique and has a chip slot, this value is 1. If item is unique, this value is 2.
 
 
     [System.NonSerialized] protected bool isEquipped = false;     //NonSerialized means Unity will reset the variable state
+
+    private void Awake()
+    {
+        //if unique item, roll 2 mods. There should already be 1 mod on the item.
+    }
 
     void Reset()
     {

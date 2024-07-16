@@ -7,6 +7,7 @@ public class Hunter : Character
     [Header("Allocation Points")]
     private int totalAllocationPoints;
     public int currentAllocationPoints;
+    public int startingAllocationPoints;    //free points player gets when creating a hunter
     public float strPoints, spdPoints, vitPoints, mntPoints;  //AP is distributed to these values
     private int maxHunterLevel { get; } = 50;
     public int hunterLevel = 1;
@@ -53,6 +54,7 @@ public class Hunter : Character
         evd = baseEvd;
         healthPoints = 20; maxHealthPoints = 20;
         skillPoints = 4; maxSkillPoints = 4;
+        startingAllocationPoints = 16;
     }
 
 
@@ -91,7 +93,7 @@ public class Hunter : Character
         spd += amount;
 
             mov = baseMov + Mathf.Floor(spd / 3);
-            evd = baseEvd + (Mathf.Floor(spd / 2) * 0.02f);
+            evd = baseEvd + Mathf.Floor(spd) * 0.01f;
         //}
 
     }

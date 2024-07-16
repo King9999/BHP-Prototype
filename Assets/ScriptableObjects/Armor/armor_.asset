@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a120e160253578c489aa7f91b6a84d1f, type: 3}
+  m_Name: armor_
+  m_EditorClassIdentifier: 
+  itemName: 
+  details: 
+  itemID: 0
+  itemLevel: 1
+  price: 0
+  salePrice: 0
+  isKeyItem: 0
+  isTargetItem: 0
+  sprite: {fileID: 0}
+  itemType: 2
+  dfp: 0
+  rst: 0
+  itemMods: []
+  hasChipSlot: 0
+  isUniqueItem: 0
+  modCount: 3

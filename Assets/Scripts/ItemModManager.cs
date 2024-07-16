@@ -23,12 +23,12 @@ public class ItemModManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < 100; i++)
+        /*for (int i = 0; i < 100; i++)
         {
             ItemMod mod = GetItemMod(0);      //IMPORTANT: use Object.Instantiate to create new instances of scriptable objects!
             Debug.Log("New mod is " + mod.modName);
             newMods.Add(mod);
-        }
+        }*/
     }
 
     public ItemMod GetItemMod(int modLevel)
