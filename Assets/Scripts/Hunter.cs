@@ -19,7 +19,7 @@ public class Hunter : Character
     private const float baseMnp = 1;
     private const float baseEvd = 0.05f;
     private const float baseRst = 1;
-    private const float baseMov = 0;
+    private const int baseMov = 0;
     private const float baseHealthPoints = 20;      //max health
     private const float baseSkillPoints = 4;        //max Sp
 

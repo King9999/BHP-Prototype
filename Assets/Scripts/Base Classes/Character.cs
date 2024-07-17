@@ -18,7 +18,7 @@ public abstract class Character : MonoBehaviour
     public float dfp;           //defense power. VIT + equipped armor + any other bonuses
     public float mnp;           //mental power. MNT + equipped weapon + any other bonuses
     public float rst;           //resistance. MNT + equipped armor + any other bonuses
-    public float mov;           //movement. MOV = SPD / 3 (rounded down) + any other bonuses
+    public int mov;           //movement. MOV = SPD / 3 (rounded down) + any other bonuses
     public float evd;           //evade chance. 
     protected bool isTheirTurn; //if true, avatar can perform actions.
     protected bool turnTaken;
@@ -42,7 +42,7 @@ public abstract class Character : MonoBehaviour
     public AudioClip attackSound;       //SFX for basic attack
 
 
-    //public List<Skill> skills;          //list of skills the avatar can choose from.
+    public List<Skill> skills;          //list of skills the avatar can choose from.
     //public List<Skill> skillEffects;    //list of skills this avatar is being affected by. Includes both permanent effects and those with durations.
     //public Dictionary<Skill, int> skillEffects;
 

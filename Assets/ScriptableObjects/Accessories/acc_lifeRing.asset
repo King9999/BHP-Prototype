@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fec0eb33e5e4d664f968180be80e04e6, type: 3}
   m_Name: acc_lifeRing
   m_EditorClassIdentifier: 
-  itemName: 
-  details: 
+  itemName: Life Ring
+  details: Increases Max HP
   itemID: 0
-  itemLevel: 1
-  price: 0
-  salePrice: 0
+  itemLevel: 5
+  price: 1000
   isKeyItem: 0
   isTargetItem: 0
   sprite: {fileID: 0}
@@ -32,7 +31,8 @@ MonoBehaviour:
   spd: 0
   evd: 0
   mov: 0
-  itemMods: []
+  itemMods:
+  - {fileID: 11400000, guid: 288025e2e41965d4db9c89e5fce3538a, type: 2}
   hasChipSlot: 0
-  isUniqueItem: 0
-  modCount: 3
+  isUniqueItem: 1
+  modCount: 2
