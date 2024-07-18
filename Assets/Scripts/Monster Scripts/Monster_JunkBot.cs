@@ -16,7 +16,7 @@ public class Monster_JunkBot : Monster
         baseEvd = 0.05f;
         baseMnp = 0;
         baseRst = 0;
-        InitialzeStats(null);
+        //InitialzeStats(1);
     }
 
     // Update is called once per frame

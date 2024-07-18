@@ -768,7 +768,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 130b757ff339bd847b7cbcd246c20f6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masterMonsterList: []
+  masterMonsterList:
+  - {fileID: 8061946384524007130, guid: 2198f8613a0c73048949854725848963, type: 3}
   activeMonsters: []
   graveyard: []
 --- !u!4 &1030325154
@@ -1360,7 +1361,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1022463709590468726, guid: 43385a4b30e2e5d4681a2b9cd81b4a29, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: AllocatePoint_SPD
+      value: OnAllocateSpdButtonPressed
       objectReference: {fileID: 0}
     - target: {fileID: 1022463709590468726, guid: 43385a4b30e2e5d4681a2b9cd81b4a29, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -1804,7 +1805,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6592286432341056066, guid: 43385a4b30e2e5d4681a2b9cd81b4a29, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: AllocatePoint_MNT
+      value: OnAllocateMntButtonPressed
       objectReference: {fileID: 0}
     - target: {fileID: 6592286432341056066, guid: 43385a4b30e2e5d4681a2b9cd81b4a29, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -1880,7 +1881,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7828295895472035246, guid: 43385a4b30e2e5d4681a2b9cd81b4a29, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: AllocatePoint_VIT
+      value: OnAllocateVitButtonPressed
       objectReference: {fileID: 0}
     - target: {fileID: 7828295895472035246, guid: 43385a4b30e2e5d4681a2b9cd81b4a29, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -1972,7 +1973,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9062283980951339636, guid: 43385a4b30e2e5d4681a2b9cd81b4a29, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: AllocatePoint_STR
+      value: OnAllocateStrButtonPressed
       objectReference: {fileID: 0}
     - target: {fileID: 9062283980951339636, guid: 43385a4b30e2e5d4681a2b9cd81b4a29, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName

@@ -34,11 +34,14 @@ public abstract class Monster : Character
         
     }
 
-
-    public void InitialzeStats(List<Hunter> hunters)
+    /* Generate monster stats based on the average level of the hunters.
+     * The average will be calculated elsewhere.
+     * */
+    public void InitialzeStats(int averageLevel)
     {
+        if (averageLevel < 1) return;
         //get average hunter level
-        int averageLevel = 0;
+        /*int averageLevel = 0;
         if (hunters != null)
         {
             foreach (Hunter hunter in hunters)
@@ -46,18 +49,19 @@ public abstract class Monster : Character
                 averageLevel += hunter.hunterLevel;
             }
             averageLevel /= hunters.Count;
-        }
+        }*/
 
         //growth rate is 0 if average level is less than 5.
         growthRate = averageLevel < 5 ? 0 : 0.125f;
 
         monsterLevel = averageLevel;
-        maxHealthPoints = Mathf.Round(baseHealthPoints * 1 + (growthRate * monsterLevel));
-        maxSkillPoints = Mathf.Round(baseSkillPoints * 1 + (growthRate * monsterLevel));
-        atp = Mathf.Round(baseAtp * 1 + (growthRate * monsterLevel));
-        dfp = Mathf.Round(baseDfp * 1 + (growthRate * monsterLevel));
-        mnp = Mathf.Round(baseMnp * 1 + (growthRate * monsterLevel));
-        rst = Mathf.Round(baseRst * 1 + (growthRate * monsterLevel));
+        maxHealthPoints = baseHealthPoints * (1 + Mathf.Round(growthRate * monsterLevel));
+        maxSkillPoints = baseSkillPoints * (1 + Mathf.Round(growthRate * monsterLevel));
+        atp = baseAtp * (1 + Mathf.Round(growthRate * monsterLevel));
+        dfp = baseDfp * (1 + Mathf.Round(growthRate * monsterLevel));
+        mnp = baseMnp * (1 + Mathf.Round(growthRate * monsterLevel));
+        rst = baseRst * (1 + Mathf.Round(growthRate * monsterLevel));
+        //Debug.Log("Monster ATP: " + baseAtp * 1 + (growthRate * monsterLevel));
         mov = baseMov + (monsterLevel / 5);
         //evd = Mathf.Round(baseEvd)
         healthPoints = maxHealthPoints;
