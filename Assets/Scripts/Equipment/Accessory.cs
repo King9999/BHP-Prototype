@@ -8,7 +8,8 @@ public class Accessory : Item
 {
     public float atp, mnp;
     public float dfp, rst;
-    public float str, vit, mnt, spd, evd, mov;
+    public float str, vit, mnt, spd, evd;
+    public int mov;
 
     public List<ItemMod> itemMods;  //if there's a chip slot, there can only be 1 item mod.
     //public Skill itemSkill;         //only available if item has an empty chip slot

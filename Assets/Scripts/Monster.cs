@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/* Monsters are CPU-controlled characters. Their level is the average level of all hunters. The items they drop depends on their level. */
-public class Monster : Character
+/* Monsters are CPU-controlled characters. Their level is the average level of all hunters. The items they drop depends on their level. 
+    At higher levels, monsters gain more abilities to make them more of a threat. */
+public abstract class Monster : Character
 {
     public int monsterLevel = 1;            //this is the average of the level of all hunters.
     public float baseAtp;
@@ -33,21 +34,19 @@ public class Monster : Character
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void InitialzeStats(List<Hunter> hunters)
     {
         //get average hunter level
         int averageLevel = 0;
-        foreach(Hunter hunter in hunters)
+        if (hunters != null)
         {
-            averageLevel += hunter.hunterLevel;
+            foreach (Hunter hunter in hunters)
+            {
+                averageLevel += hunter.hunterLevel;
+            }
+            averageLevel /= hunters.Count;
         }
-        averageLevel /= hunters.Count;
 
         //growth rate is 0 if average level is less than 5.
         growthRate = averageLevel < 5 ? 0 : 0.125f;

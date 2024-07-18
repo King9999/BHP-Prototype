@@ -92,8 +92,8 @@ public class Hunter : Character
         //{
         spd += amount;
 
-            mov = baseMov + Mathf.Floor(spd / 3);
-            evd = baseEvd + Mathf.Floor(spd) * 0.01f;
+            mov = baseMov + Mathf.FloorToInt(spd / 5);
+            evd = baseEvd + spd * 0.01f;
         //}
 
     }
