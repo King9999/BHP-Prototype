@@ -6,7 +6,7 @@ using UnityEngine;
     At higher levels, monsters gain more abilities to make them more of a threat. */
 public abstract class Monster : Character
 {
-    public int monsterLevel = 1;            //this is the average of the level of all hunters.
+    public int monsterLevel = 1;            //this is equal to the average of the level of all hunters.
     public float baseAtp;
     public float baseDfp;
     public float baseMnp;
@@ -15,6 +15,8 @@ public abstract class Monster : Character
     public int baseMov;
     public float baseHealthPoints;      //max health
     public float baseSkillPoints;        //max Sp
+    public int minAttackRange, maxAttackRange;      //range of standard attack.
+    public int baseMoney;                //amount of money dropped scales with level.
     public float growthRate;            //increases stats. Not sure if I want individual rates for each stat yet.
     public enum AI_State
     {

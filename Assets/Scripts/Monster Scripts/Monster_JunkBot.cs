@@ -16,6 +16,8 @@ public class Monster_JunkBot : Monster
         baseEvd = 0.05f;
         baseMnp = 0;
         baseRst = 0;
+        minAttackRange = 1;
+        maxAttackRange = 1;
         //InitialzeStats(1);
     }
 

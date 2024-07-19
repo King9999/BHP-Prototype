@@ -2,25 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 /* handles the game state */
 public class GameManager : MonoBehaviour
 {
     //hunter stats
-    public TextMeshProUGUI hunterName;
-    public TextMeshProUGUI hunterStr, hunterVit, hunterMnt, hunterSpd, hunterAtp, hunterDfp, hunterMnp, hunterRst, hunterEvd, hunterHp, hunterSp, hunterMov;
-    public TextMeshProUGUI strPointsGUI, spdPointsGUI, vitPointsGUI, mntPointsGUI;
+    [Header("---Hunter---")]
     public Hunter hunterPrefab;
     public List<Hunter> hunters;
 
+    [Header("---Dice---")]
+    public Dice dice;
+    public int hunterTotalRoll; //dice roll + ATP + any other bonuses
 
+    [Header("---UI---")]
+    public TextMeshProUGUI hunterName;
+    public TextMeshProUGUI hunterStr, hunterVit, hunterMnt, hunterSpd, hunterAtp, hunterDfp, hunterMnp, hunterRst, hunterEvd, hunterHp, hunterSp, hunterMov;
+    public TextMeshProUGUI strPointsGUI, spdPointsGUI, vitPointsGUI, mntPointsGUI;
+    public TextMeshProUGUI monsterName;
+    public TextMeshProUGUI monsterAtp, monsterDfp, monsterMnp, monsterRst, monsterEvd, monsterHp, monsterSp, monsterMov;
+    public TextMeshProUGUI hunterDieOneGUI, hunterDieTwoGUI, hunterAtp_total, hunterTotalAttackDamage;
 
     // Start is called before the first frame update
     void Start()
     {
         MonsterManager mm = MonsterManager.instance;
         CreateHunter();
-        mm.SpawnMonster(1);
+        mm.SpawnMonster(monsterLevel:1);
     }
 
     // Update is called once per frame
@@ -117,5 +126,22 @@ public class GameManager : MonoBehaviour
     public void OnAllocateMntButtonPressed()
     {
         AllocatePoint_MNT(hunters[0]);
+    }
+
+    /* Rolls dice and displays results for hunter and monster */
+    public void OnRollDiceButtonPressed()
+    {
+        //int diceResult = dice.RollDice();
+        hunterTotalRoll = GetTotalHunterRoll(hunters[0]);
+        hunterDieOneGUI.text = dice.die1.ToString();
+        hunterDieTwoGUI.text = dice.die2.ToString();
+        hunterAtp_total.text = "ATP\n+" + hunters[0].atp;
+        hunterTotalAttackDamage.text = hunterTotalRoll.ToString();
+    }
+
+    private int GetTotalHunterRoll(Hunter hunter)
+    {
+        int diceResult = dice.RollDice();
+        return diceResult + (int)hunter.atp;
     }
 }
