@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class Hunter : Character
 {
@@ -117,5 +118,73 @@ public class Hunter : Character
         maxSkillPoints += amount * 2;   //regular increase + MNT bonus
         mnp = equippedWeapon == null ? baseMnp + Mathf.Floor(mnt) : baseMnp + Mathf.Floor(mnt) + equippedWeapon.mnp;
         rst = equippedArmor == null ? baseRst + Mathf.Floor(mnt / 2) : baseRst + Mathf.Floor(mnt / 2) + equippedArmor.rst;
+    }
+
+    /** equip gear ***/
+    public void Equip(Weapon weapon)
+    {
+        //item can only be equipped if the player meets the level requirement
+        if (hunterLevel < weapon.itemLevel || equippedWeapon == weapon)
+            return;
+
+        //if weapon is already equipped, remove that weapon first
+        if (equippedWeapon != null)
+        {
+            Unequip(equippedWeapon);
+        }
+
+        equippedWeapon = weapon;
+        atp += weapon.atp;
+        mnp += weapon.mnp;
+
+        if (weapon.itemMods.Count > 0)
+        {
+            //apply effects of mods
+            foreach (ItemMod mod in weapon.itemMods)
+            {
+                mod.ActivateOnEquip(this);
+            }
+        }
+
+        //TODO: if there's a skill, add it to hunter's inventory.
+    }
+
+    public void Unequip(Weapon weapon)
+    {
+        if (equippedWeapon == null) return;
+
+        equippedWeapon = null;
+        atp -= weapon.atp;
+        mnp -= weapon.mnp;
+
+        if (weapon.itemMods.Count > 0)
+        {
+            //remove effects of item mods
+            foreach (ItemMod mod in weapon.itemMods)
+            {
+                mod.DeactivateOnUnequip(this);
+            }
+        }
+
+        //TODO: remove skill from inventory
+    }
+
+    public void Equip(Armor armor)
+    {
+
+    }
+
+    public void Unequip(Armor armor)
+    {
+
+    }
+
+    public void Equip(Accessory accessory)
+    {
+
+    }
+    public void Unequip(Accessory accessory)
+    {
+
     }
 }
