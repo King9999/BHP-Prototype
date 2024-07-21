@@ -12,6 +12,7 @@ public abstract class Monster : Character
     public float baseMnp;
     public float baseEvd = 0.05f;
     public float baseRst;
+    public float baseSpd;
     public int baseMov;
     public float baseHealthPoints;      //max health
     public float baseSkillPoints;        //max Sp
@@ -63,6 +64,8 @@ public abstract class Monster : Character
         dfp = baseDfp * (1 + Mathf.Round(growthRate * monsterLevel));
         mnp = baseMnp * (1 + Mathf.Round(growthRate * monsterLevel));
         rst = baseRst * (1 + Mathf.Round(growthRate * monsterLevel));
+        spd = baseSpd * (1 + Mathf.Round(growthRate * monsterLevel));
+        evd = baseEvd * (1 + Mathf.Round(growthRate * monsterLevel));
         //Debug.Log("Monster ATP: " + baseAtp * 1 + (growthRate * monsterLevel));
         mov = baseMov + (monsterLevel / 5);
         //evd = Mathf.Round(baseEvd)

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5153526562048765740
+--- !u!1 &7996940584587568177
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2410245699162834254}
-  - component: {fileID: 8061946384524007130}
+  - component: {fileID: 7044159288016436177}
+  - component: {fileID: 4577581670977467179}
   m_Layer: 0
   m_Name: Monster_JunkBot
   m_TagString: Untagged
@@ -17,43 +17,43 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2410245699162834254
+--- !u!4 &7044159288016436177
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5153526562048765740}
+  m_GameObject: {fileID: 7996940584587568177}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1223.0157, y: 645.4402, z: -1.920533}
+  m_LocalPosition: {x: 1179.6437, y: 494.06274, z: -3.4583712}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8061946384524007130
+--- !u!114 &4577581670977467179
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5153526562048765740}
+  m_GameObject: {fileID: 7996940584587568177}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e895086d9318b54e838b7f0d4d39877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   characterName: Junk Bot
-  healthPoints: 30
-  maxHealthPoints: 30
-  skillPoints: 4
-  maxSkillPoints: 4
+  healthPoints: 0
+  maxHealthPoints: 0
+  skillPoints: 0
+  maxSkillPoints: 0
   str: 0
   vit: 0
   spd: 0
   mnt: 0
-  atp: 6
+  atp: 0
   dfp: 0
   mnp: 0
   rst: 0
@@ -83,14 +83,18 @@ MonoBehaviour:
   characterState: 0
   debuffs: []
   buffs: []
-  monsterLevel: 0
+  monsterLevel: 1
   baseAtp: 6
   baseDfp: 0
   baseMnp: 0
   baseEvd: 0.05
   baseRst: 0
+  baseSpd: 2
   baseMov: 0
   baseHealthPoints: 30
   baseSkillPoints: 4
+  minAttackRange: 1
+  maxAttackRange: 1
+  baseMoney: 10
   growthRate: 0
   state: 0

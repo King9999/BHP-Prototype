@@ -14,7 +14,8 @@ public class GameManager : MonoBehaviour
 
     [Header("---Dice---")]
     public Dice dice;
-    public int hunterTotalRoll; //dice roll + ATP + any other bonuses
+    public int attackerTotalRoll; //dice roll + ATP + any other bonuses
+    public int defenderTotalRoll;   //single die roll + DFP + any other bonuses
 
     [Header("---UI---")]
     public TextMeshProUGUI hunterName;
@@ -22,8 +23,9 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI strPointsGUI, spdPointsGUI, vitPointsGUI, mntPointsGUI;
     public TextMeshProUGUI equippedWeaponText, equippedArmorText, equippedAccText;
     public TextMeshProUGUI monsterName;
-    public TextMeshProUGUI monsterAtp, monsterDfp, monsterMnp, monsterRst, monsterEvd, monsterHp, monsterSp, monsterMov;
-    public TextMeshProUGUI hunterDieOneGUI, hunterDieTwoGUI, hunterAtp_total, hunterTotalAttackDamage;
+    public TextMeshProUGUI monsterAtp, monsterDfp, monsterMnp, monsterRst, monsterEvd, monsterHp, monsterSp, monsterMov, monsterSpd;
+    public TextMeshProUGUI attackerDieOneGUI, attackerDieTwoGUI, attackerAtp_total, attackerTotalAttackDamage;
+    public TextMeshProUGUI defenderDieOneGUI, defenderDieTwoGUI, defenderDfp_total, defenderTotalDefense;
 
     // Start is called before the first frame update
     void Start()
@@ -87,8 +89,9 @@ public class GameManager : MonoBehaviour
         monsterDfp.text = monster.dfp.ToString();
         monsterMnp.text = monster.mnp.ToString();
         monsterRst.text = monster.rst.ToString();
-        monsterEvd.text = monster.evd.ToString();
+        monsterEvd.text = (monster.evd * 100) + "%";
         monsterMov.text = monster.mov.ToString();
+        monsterSpd.text = monster.spd.ToString();
         monsterHp.text = monster.healthPoints + "/" + monster.maxHealthPoints;
         monsterSp.text = monster.skillPoints + "/" + monster.maxSkillPoints;
     }
@@ -159,17 +162,55 @@ public class GameManager : MonoBehaviour
     /* Rolls dice and displays results for hunter and monster */
     public void OnRollDiceButtonPressed()
     {
+        //get rolls from both attacker and defender
+        MonsterManager mm = MonsterManager.instance;
         //int diceResult = dice.RollDice();
-        hunterTotalRoll = GetTotalHunterRoll(hunters[0]);
-        hunterDieOneGUI.text = dice.die1.ToString();
-        hunterDieTwoGUI.text = dice.die2.ToString();
-        hunterAtp_total.text = "ATP\n+" + hunters[0].atp;
-        hunterTotalAttackDamage.text = hunterTotalRoll.ToString();
+        attackerTotalRoll = GetTotalRoll_Attacker(hunters[0]);
+        attackerDieOneGUI.text = dice.die1.ToString();
+        attackerDieTwoGUI.text = dice.die2.ToString();
+        attackerAtp_total.text = "ATP\n+" + hunters[0].atp;
+        attackerTotalAttackDamage.text = attackerTotalRoll.ToString();
+
+        //defender
+        defenderTotalRoll = GetTotalRoll_Defender(mm.activeMonsters[0]);
+        defenderDieOneGUI.text = dice.die1.ToString();
+        defenderDieTwoGUI.text = dice.die2.ToString();
+        defenderDfp_total.text = "DFP\n+" + mm.activeMonsters[0].dfp;
+        defenderTotalDefense.text = defenderTotalRoll.ToString();
     }
 
-    private int GetTotalHunterRoll(Hunter hunter)
+    private int GetTotalRoll_Attacker(Character character)
     {
+
         int diceResult = dice.RollDice();
-        return diceResult + (int)hunter.atp;
+
+        if (character.TryGetComponent<Hunter>(out Hunter hunter))
+        {
+            return diceResult + (int)hunter.atp;
+        }
+        else if (character.TryGetComponent<Monster>(out Monster monster))
+        {
+            return diceResult + (int)monster.atp;
+        }
+        else
+            return 0;
+    }
+
+    private int GetTotalRoll_Defender(Character character)
+    {
+        //roll 2 dice if character is defending, i.e. they forfeit their chance to counterattack.
+        int dieResult = character.characterState == Character.CharacterState.Defending ? dice.RollDice() : dice.RollSingleDie();
+
+
+        if (character.TryGetComponent<Hunter>(out Hunter hunter))
+        {
+            return dieResult + (int)hunter.dfp;
+        }
+        else if (character.TryGetComponent<Monster>(out Monster monster))
+        {
+            return dieResult + (int)monster.dfp;
+        }
+        else
+            return 0;
     }
 }
