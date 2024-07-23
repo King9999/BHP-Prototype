@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 /* This is the combat system. It takes two character objects and two pairs of dice. */
 public class Combat : MonoBehaviour
 {
-    public Dice dice;
+    public Dice attackerDice, defenderDice;
 
     [Header("---UI---")]
     public TextMeshProUGUI attackerDieOneGUI, attackerDieTwoGUI, attackerAtp_total, attackerTotalAttackDamage;
@@ -29,6 +30,12 @@ public class Combat : MonoBehaviour
         
     }
 
+    /*public void OnRollDiceButton()
+    {
+        GameManager gm = GameManager.instance;
+        StartCombat(gm.hunters[0], defender);
+    }*/
+
     public void StartCombat(Character attacker, Character defender)
     {
         //the attacker always attacks first since they began the combat.
@@ -36,24 +43,28 @@ public class Combat : MonoBehaviour
         //the defender counterattacks with a basic attack with reduced power.
 
         //attacker
-        int totalAttackRoll = GetTotalRoll_Attacker(attacker);
-        attackerDieOneGUI.text = dice.die1.ToString();
-        attackerDieTwoGUI.text = dice.die2.ToString();
+        StartCoroutine(SimulateDiceRoll(attackerDice, defenderDice));
+        /*int totalAttackRoll = GetTotalRoll_Attacker(attacker);
+        attackerDieOneGUI.text = attackerDice.die1.ToString();
+        attackerDieTwoGUI.text = attackerDice.die2.ToString();
         attackerAtp_total.text = "ATP\n+" + attacker.atp;
         attackerTotalAttackDamage.text = totalAttackRoll.ToString();
 
         //defender
         int totalDefendRoll = GetTotalRoll_Defender(defender);
-        defenderDieOneGUI.text = dice.die1.ToString();
-        defenderDieTwoGUI.text = dice.die2.ToString();
+        defenderDieOneGUI.text = defenderDice.die1.ToString();
+        defenderDieTwoGUI.text = defenderDice.die2.ToString();
         defenderDfp_total.text = "DFP\n+" + defender.dfp;
-        defenderTotalDefense.text = totalDefendRoll.ToString();
+        defenderTotalDefense.text = totalDefendRoll.ToString();*/
+
+        //calculate damage, starting with attacker dealing damage to defender.
+        //use coroutine to 
     }
 
     private int GetTotalRoll_Attacker(Character character)
     {
 
-        int diceResult = dice.RollDice();
+        int diceResult = attackerDice.RollDice();
 
         if (character.TryGetComponent<Hunter>(out Hunter hunter))
         {
@@ -70,7 +81,7 @@ public class Combat : MonoBehaviour
     private int GetTotalRoll_Defender(Character character)
     {
         //roll 2 dice if character is defending, i.e. they forfeit their chance to counterattack.
-        int dieResult = character.characterState == Character.CharacterState.Defending ? dice.RollDice() : dice.RollSingleDie();
+        int dieResult = character.characterState == Character.CharacterState.Defending ? defenderDice.RollDice() : defenderDice.RollSingleDie();
 
 
         if (character.TryGetComponent<Hunter>(out Hunter hunter))
@@ -83,5 +94,27 @@ public class Combat : MonoBehaviour
         }
         else
             return 0;
+    }
+
+    private IEnumerator SimulateDiceRoll(Dice attackerDice, Dice defenderDice)
+    {
+        //show random values for a duration then get the rolled values
+        float rollDuration = 0.3f;
+        float currentTime = Time.time;
+        int attackRollResult = 0;
+        while (Time.time < currentTime + rollDuration)
+        {
+            attackRollResult = attackerDice.RollDice();
+            attackerDieOneGUI.text = attackerDice.die1.ToString();
+            attackerDieTwoGUI.text = attackerDice.die2.ToString();
+            //currentTime += Time.deltaTime;
+            yield return new WaitForSeconds(0.016f);    // 1/60 seconds
+        }
+
+        Debug.Log("Rolled " + attackRollResult);
+        //display the final result
+        /*int totalAttackRoll = GetTotalRoll_Attacker(attacker);
+        attackerDieOneGUI.text = attackerDice.die1.ToString();
+        attackerDieTwoGUI.text = attackerDice.die2.ToString();*/
     }
 }

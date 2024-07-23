@@ -749,6 +749,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &936551760 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8184973170632225628, guid: 2e07882434d631a4796f7ea21be3c228, type: 3}
+  m_PrefabInstance: {fileID: 8725157473772417619}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f083d8c3319e6d34781b07427399dc74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &951204651 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1824286106919749834, guid: 43385a4b30e2e5d4681a2b9cd81b4a29, type: 3}
@@ -1615,6 +1626,10 @@ PrefabInstance:
       propertyPath: vitPointsGUI
       value: 
       objectReference: {fileID: 1524665939}
+    - target: {fileID: 7881919487199102850, guid: 7a14108267b04c14ebccaeb32f62a5ca, type: 3}
+      propertyPath: combatManager
+      value: 
+      objectReference: {fileID: 936551760}
     - target: {fileID: 7881919487199102850, guid: 7a14108267b04c14ebccaeb32f62a5ca, type: 3}
       propertyPath: equippedAccText
       value: 
@@ -3088,10 +3103,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Combat
       objectReference: {fileID: 0}
+    - target: {fileID: 1688842923659787189, guid: 2e07882434d631a4796f7ea21be3c228, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -369.02353
+      objectReference: {fileID: 0}
+    - target: {fileID: 2309493125422548970, guid: 2e07882434d631a4796f7ea21be3c228, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -442
+      objectReference: {fileID: 0}
+    - target: {fileID: 2865388561116037150, guid: 2e07882434d631a4796f7ea21be3c228, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -369.02353
+      objectReference: {fileID: 0}
     - target: {fileID: 6139069944403800231, guid: 2e07882434d631a4796f7ea21be3c228, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 290511355}
+    - target: {fileID: 6139069944403800231, guid: 2e07882434d631a4796f7ea21be3c228, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnRollDiceButtonPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 6675710407181850781, guid: 2e07882434d631a4796f7ea21be3c228, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -442
+      objectReference: {fileID: 0}
     - target: {fileID: 7010778834776191588, guid: 2e07882434d631a4796f7ea21be3c228, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1161.8381
@@ -3132,6 +3167,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7768645814908071600, guid: 2e07882434d631a4796f7ea21be3c228, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7808334199851746008, guid: 2e07882434d631a4796f7ea21be3c228, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -506
+      objectReference: {fileID: 0}
+    - target: {fileID: 7938015418906397317, guid: 2e07882434d631a4796f7ea21be3c228, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8184973170632225628, guid: 2e07882434d631a4796f7ea21be3c228, type: 3}
       propertyPath: damageText
       value: 
@@ -3140,6 +3187,14 @@ PrefabInstance:
       propertyPath: statusText
       value: 
       objectReference: {fileID: 8725157473772417620}
+    - target: {fileID: 8184973170632225628, guid: 2e07882434d631a4796f7ea21be3c228, type: 3}
+      propertyPath: attackerDice
+      value: 
+      objectReference: {fileID: 8169326217820166817, guid: 9c41fa98499bd664398fd8fb218b5732, type: 3}
+    - target: {fileID: 8184973170632225628, guid: 2e07882434d631a4796f7ea21be3c228, type: 3}
+      propertyPath: defenderDice
+      value: 
+      objectReference: {fileID: 8169326217820166817, guid: 9c41fa98499bd664398fd8fb218b5732, type: 3}
     - target: {fileID: 8184973170632225628, guid: 2e07882434d631a4796f7ea21be3c228, type: 3}
       propertyPath: attackerAtp_total
       value: 

@@ -27,6 +27,22 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI attackerDieOneGUI, attackerDieTwoGUI, attackerAtp_total, attackerTotalAttackDamage;
     public TextMeshProUGUI defenderDieOneGUI, defenderDieTwoGUI, defenderDfp_total, defenderTotalDefense;
 
+    [Header("---Combat---")]
+    public Combat combatManager;
+
+    public static GameManager instance;
+
+    void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -162,8 +178,10 @@ public class GameManager : MonoBehaviour
     /* Rolls dice and displays results for hunter and monster */
     public void OnRollDiceButtonPressed()
     {
-        //get rolls from both attacker and defender
         MonsterManager mm = MonsterManager.instance;
+        combatManager.StartCombat(hunters[0], mm.activeMonsters[0]);
+        //get rolls from both attacker and defender
+        /*MonsterManager mm = MonsterManager.instance;
         //int diceResult = dice.RollDice();
         attackerTotalRoll = GetTotalRoll_Attacker(hunters[0]);
         attackerDieOneGUI.text = dice.die1.ToString();
@@ -176,7 +194,7 @@ public class GameManager : MonoBehaviour
         defenderDieOneGUI.text = dice.die1.ToString();
         defenderDieTwoGUI.text = dice.die2.ToString();
         defenderDfp_total.text = "DFP\n+" + mm.activeMonsters[0].dfp;
-        defenderTotalDefense.text = defenderTotalRoll.ToString();
+        defenderTotalDefense.text = defenderTotalRoll.ToString();*/
     }
 
     private int GetTotalRoll_Attacker(Character character)
