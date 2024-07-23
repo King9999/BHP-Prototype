@@ -8,6 +8,7 @@ using UnityEngine;
 public class Combat : MonoBehaviour
 {
     public Dice attackerDice, defenderDice;
+    public int attackRollResult, defendRollResult;
 
     [Header("---UI---")]
     public TextMeshProUGUI attackerDieOneGUI, attackerDieTwoGUI, attackerAtp_total, attackerTotalAttackDamage;
@@ -43,7 +44,7 @@ public class Combat : MonoBehaviour
         //the defender counterattacks with a basic attack with reduced power.
 
         //attacker
-        StartCoroutine(SimulateDiceRoll(attackerDice, defenderDice));
+        StartCoroutine(SimulateDiceRoll(attackerDice, defenderDice, attacker, defender));
         /*int totalAttackRoll = GetTotalRoll_Attacker(attacker);
         attackerDieOneGUI.text = attackerDice.die1.ToString();
         attackerDieTwoGUI.text = attackerDice.die2.ToString();
@@ -81,7 +82,7 @@ public class Combat : MonoBehaviour
     private int GetTotalRoll_Defender(Character character)
     {
         //roll 2 dice if character is defending, i.e. they forfeit their chance to counterattack.
-        int dieResult = character.characterState == Character.CharacterState.Defending ? defenderDice.RollDice() : defenderDice.RollSingleDie();
+        int dieResult = character.characterState == Character.CharacterState.Guarding ? defenderDice.RollDice() : defenderDice.RollSingleDie();
 
 
         if (character.TryGetComponent<Hunter>(out Hunter hunter))
@@ -96,25 +97,38 @@ public class Combat : MonoBehaviour
             return 0;
     }
 
-    private IEnumerator SimulateDiceRoll(Dice attackerDice, Dice defenderDice)
+    /* State is used to determine how the defender's rolls are simulated. */
+    private IEnumerator SimulateDiceRoll(Dice attackerDice, Dice defenderDice, Character attacker, Character defender)
     {
         //show random values for a duration then get the rolled values
-        float rollDuration = 0.3f;
+        float rollDuration = 0.4f;
         float currentTime = Time.time;
-        int attackRollResult = 0;
+        attackerTotalAttackDamage.text = "";
+        defenderTotalDefense.text = "";
+        //int attackRollResult = 0;
+        //int defendRollResult = 0;
         while (Time.time < currentTime + rollDuration)
         {
             attackRollResult = attackerDice.RollDice();
             attackerDieOneGUI.text = attackerDice.die1.ToString();
             attackerDieTwoGUI.text = attackerDice.die2.ToString();
-            //currentTime += Time.deltaTime;
+
+            //Debug.Log("state: " + state);
+            //state = Character.CharacterState.Guarding;
+            defendRollResult = defender.characterState == Character.CharacterState.Guarding ? defenderDice.RollDice() : defenderDice.RollSingleDie();
+            defenderDieOneGUI.text = defenderDice.die1.ToString();
+            defenderDieTwoGUI.text = defenderDice.die2.ToString();
+
             yield return new WaitForSeconds(0.016f);    // 1/60 seconds
         }
 
-        Debug.Log("Rolled " + attackRollResult);
         //display the final result
-        /*int totalAttackRoll = GetTotalRoll_Attacker(attacker);
-        attackerDieOneGUI.text = attackerDice.die1.ToString();
-        attackerDieTwoGUI.text = attackerDice.die2.ToString();*/
+        attackerAtp_total.text = "ATP\n+" + attacker.atp;
+        attackRollResult += (int)attacker.atp;
+        attackerTotalAttackDamage.text = attackRollResult.ToString();
+
+        defenderDfp_total.text = "DFP\n+" + defender.dfp;
+        defendRollResult += (int)defender.dfp;
+        defenderTotalDefense.text = defendRollResult.ToString();
     }
 }

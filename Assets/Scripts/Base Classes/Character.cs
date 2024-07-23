@@ -61,7 +61,7 @@ public abstract class Character : MonoBehaviour
 
     public enum CharacterState
     {
-        Idle, Attacking, Defending, Moving, Resting, Injured
+        Idle, Attacking, Guarding, Moving, Resting, Injured
     }
 
     public CharacterState characterState;

@@ -217,7 +217,7 @@ public class GameManager : MonoBehaviour
     private int GetTotalRoll_Defender(Character character)
     {
         //roll 2 dice if character is defending, i.e. they forfeit their chance to counterattack.
-        int dieResult = character.characterState == Character.CharacterState.Defending ? dice.RollDice() : dice.RollSingleDie();
+        int dieResult = character.characterState == Character.CharacterState.Guarding ? dice.RollDice() : dice.RollSingleDie();
 
 
         if (character.TryGetComponent<Hunter>(out Hunter hunter))
