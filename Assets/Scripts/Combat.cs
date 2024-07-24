@@ -23,6 +23,14 @@ public class Combat : MonoBehaviour
         damageColor = Color.red;
         reducedColor = Color.blue;
         healColor = Color.green;
+        damageText.gameObject.SetActive(false);
+        statusText.gameObject.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        damageText.gameObject.SetActive(false);
+        statusText.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -130,5 +138,36 @@ public class Combat : MonoBehaviour
         defenderDfp_total.text = "DFP\n+" + defender.dfp;
         defendRollResult += (int)defender.dfp;
         defenderTotalDefense.text = defendRollResult.ToString();
+
+        yield return ResolveDamage(attacker, defender);
+    }
+
+    private IEnumerator ResolveDamage(Character attacker, Character defender)
+    {
+        int damage = attackRollResult - defendRollResult;
+        if (damage < 0)
+            damage = 0;
+
+        defender.healthPoints -= damage;
+        damageText.color = damageColor;
+        damageText.text = damage.ToString();
+        damageText.gameObject.SetActive(true);
+
+        //animate damage
+        float duration = 1;
+        float currentTime = Time.time;
+        Vector3 textPos = damageText.transform.position;
+        Vector3 origPos = textPos;
+
+        while (Time.time < currentTime + duration)
+        {
+            textPos = new Vector3(textPos.x, textPos.y + 50 * Time.deltaTime, textPos.z);
+            damageText.transform.position = textPos;
+            yield return null;
+        }
+
+        damageText.transform.position = origPos;
+        damageText.gameObject.SetActive(false);
+
     }
 }

@@ -46,6 +46,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Singleton.instance.GameManager = this;      //master singleton captures 
+
         MonsterManager mm = MonsterManager.instance;
         CreateHunter();
         mm.SpawnMonster(monsterLevel:1);

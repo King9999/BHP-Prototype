@@ -3169,7 +3169,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7768645814908071600, guid: 2e07882434d631a4796f7ea21be3c228, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7808334199851746008, guid: 2e07882434d631a4796f7ea21be3c228, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -3177,7 +3177,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7938015418906397317, guid: 2e07882434d631a4796f7ea21be3c228, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8184973170632225628, guid: 2e07882434d631a4796f7ea21be3c228, type: 3}
       propertyPath: damageText

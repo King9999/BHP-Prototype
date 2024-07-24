@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Profiling;
+using UnityEngine.SceneManagement;
 
 public class Singleton : MonoBehaviour
 {
@@ -31,5 +33,8 @@ public class Singleton : MonoBehaviour
         //PlayerPrefs.DeleteAll();
 
         DontDestroyOnLoad(instance);
+
+        //move to game scene
+        SceneManager.LoadScene("Game");
     }
 }
