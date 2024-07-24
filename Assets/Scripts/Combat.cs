@@ -9,8 +9,11 @@ public class Combat : MonoBehaviour
 {
     public Dice attackerDice, defenderDice;
     public int attackRollResult, defendRollResult;
+    public bool defenderCounterattacking;
 
     [Header("---UI---")]
+    public TextMeshProUGUI attackerNameText, defenderNameText;
+    public TextMeshProUGUI attackerHealthPoints, defenderHealthPoints, attackerSkillPoints, defenderSkillPoints;
     public TextMeshProUGUI attackerDieOneGUI, attackerDieTwoGUI, attackerAtp_total, attackerTotalAttackDamage;
     public TextMeshProUGUI defenderDieOneGUI, defenderDieTwoGUI, defenderDfp_total, defenderTotalDefense;
     public TextMeshProUGUI damageText;      //displays damage dealt or amount healed.
@@ -50,6 +53,15 @@ public class Combat : MonoBehaviour
         //the attacker always attacks first since they began the combat.
         //after the attacker finishes their turn, the attacker and defender switch roles.
         //the defender counterattacks with a basic attack with reduced power.
+
+        //setup UI
+        attackerNameText.text = attacker.characterName;
+        attackerHealthPoints.text = attacker.healthPoints + "/" + attacker.maxHealthPoints;
+        attackerSkillPoints.text = attacker.skillPoints + "/" + attacker.maxSkillPoints;
+
+        defenderNameText.text = defender.characterName;
+        defenderHealthPoints.text = defender.healthPoints + "/" + defender.maxHealthPoints;
+        defenderSkillPoints.text = defender.skillPoints + "/" + defender.maxSkillPoints;
 
         //attacker
         StartCoroutine(SimulateDiceRoll(attackerDice, defenderDice, attacker, defender));
@@ -149,9 +161,16 @@ public class Combat : MonoBehaviour
             damage = 0;
 
         defender.healthPoints -= damage;
+        if (defender.healthPoints < 0)
+            defender.healthPoints = 0;
+
         damageText.color = damageColor;
         damageText.text = damage.ToString();
         damageText.gameObject.SetActive(true);
+
+        //update HP
+        GameManager gm = Singleton.instance.GameManager;
+        defenderHealthPoints.text = defender.healthPoints + "/" + defender.maxHealthPoints;
 
         //animate damage
         float duration = 1;
@@ -169,5 +188,7 @@ public class Combat : MonoBehaviour
         damageText.transform.position = origPos;
         damageText.gameObject.SetActive(false);
 
+        //if (defender.characterState != Character.CharacterState.Guarding)
+            //yield return SimulateDiceRoll()
     }
 }
