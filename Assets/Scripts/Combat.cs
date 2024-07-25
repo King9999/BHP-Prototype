@@ -37,11 +37,7 @@ public class Combat : MonoBehaviour
         statusText.gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+  
 
     /*public void OnRollDiceButton()
     {

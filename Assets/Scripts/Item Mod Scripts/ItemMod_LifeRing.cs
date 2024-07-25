@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //mod's value must be generated randomly when this object comes into existence.
-[CreateAssetMenu(menuName = "Item Mod/Life Ring", fileName = "itemMod_lifeRing")]
+[CreateAssetMenu(menuName = "Item Mod/Life Ring (Unique)", fileName = "itemMod_unique_lifeRing")]
 public class ItemMod_LifeRing : ItemMod
 {
     const float hpBonus = 1.15f;

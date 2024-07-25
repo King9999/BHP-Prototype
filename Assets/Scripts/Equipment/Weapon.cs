@@ -9,7 +9,7 @@ public class Weapon : Item
     public float atp, mnp;
     
     public List<ItemMod> itemMods;  //if there's a chip slot, there can only be 1 item mod.
-    //public Skill itemSkill;         //only available if item has an empty chip slot
+    public Skill itemSkill;         //the skill used if chip is inserted into the item.
     public bool hasChipSlot;        //if true, itemSkill is available.
     public bool isUniqueItem;       //if true, chip slot counts as 1 item mod instead of 2.
     public int modCount = 3;            //default is 3. If item is not unique and has a chip slot, this value is 1. If item is unique, this value is 2.
