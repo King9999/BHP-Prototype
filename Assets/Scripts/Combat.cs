@@ -9,7 +9,8 @@ public class Combat : MonoBehaviour
 {
     public Dice attackerDice, defenderDice;
     public int attackRollResult, defendRollResult;
-    public bool defenderCounterattacking;
+    public bool defenderCounterattacking, attackerTurnOver;
+    public byte perfectDefenseMod;
 
     [Header("---UI---")]
     public TextMeshProUGUI attackerNameText, defenderNameText;
@@ -63,7 +64,10 @@ public class Combat : MonoBehaviour
         defenderHealthPoints.text = defender.healthPoints + "/" + defender.maxHealthPoints;
         defenderSkillPoints.text = defender.skillPoints + "/" + defender.maxSkillPoints;
 
-        //attacker
+        perfectDefenseMod = 1;  //default value
+        //attacker takes their turn first
+        attackerTurnOver = false;
+        defenderCounterattacking = false;
         StartCoroutine(SimulateDiceRoll(attackerDice, defenderDice, attacker, defender));
         /*int totalAttackRoll = GetTotalRoll_Attacker(attacker);
         attackerDieOneGUI.text = attackerDice.die1.ToString();
@@ -120,43 +124,105 @@ public class Combat : MonoBehaviour
     /* State is used to determine how the defender's rolls are simulated. */
     private IEnumerator SimulateDiceRoll(Dice attackerDice, Dice defenderDice, Character attacker, Character defender)
     {
-        //show random values for a duration then get the rolled values
-        float rollDuration = 0.4f;
-        float currentTime = Time.time;
-        attackerTotalAttackDamage.text = "";
-        defenderTotalDefense.text = "";
-        //int attackRollResult = 0;
-        //int defendRollResult = 0;
-        while (Time.time < currentTime + rollDuration)
+        if (!attackerTurnOver && !defenderCounterattacking)
         {
-            attackRollResult = attackerDice.RollDice();
-            attackerDieOneGUI.text = attackerDice.die1.ToString();
-            attackerDieTwoGUI.text = attackerDice.die2.ToString();
+            //show random values for a duration then get the rolled values
+            float rollDuration = 0.4f;
+            float currentTime = Time.time;
+            attackerTotalAttackDamage.text = "";
+            defenderTotalDefense.text = "";
+            //int attackRollResult = 0;
+            //int defendRollResult = 0;
+            while (Time.time < currentTime + rollDuration)
+            {
+                attackRollResult = attackerDice.RollDice();
+                attackerDieOneGUI.text = attackerDice.die1.ToString();
+                attackerDieTwoGUI.text = attackerDice.die2.ToString();
 
-            //Debug.Log("state: " + state);
-            //state = Character.CharacterState.Guarding;
-            defendRollResult = defender.characterState == Character.CharacterState.Guarding ? defenderDice.RollDice() : defenderDice.RollSingleDie();
-            defenderDieOneGUI.text = defenderDice.die1.ToString();
-            defenderDieTwoGUI.text = defenderDice.die2.ToString();
+                //Debug.Log("state: " + state);
+                //state = Character.CharacterState.Guarding;
+                //defendRollResult = defender.characterState == Character.CharacterState.Guarding ? defenderDice.RollDice() : defenderDice.RollSingleDie();
 
-            yield return new WaitForSeconds(0.016f);    // 1/60 seconds
+                //roll dice for defender. check the defender's roll for perfect defense
+                if (defender.characterState == Character.CharacterState.Guarding)
+                {
+                    defenderCounterattacking = false;
+                    defendRollResult = defenderDice.RollDice();
+                    if (defenderDice.die1 + defenderDice.die2 >= 12)
+                    {
+                        //rolled a natural 12, all damage is blocked
+                        perfectDefenseMod = 0;
+                    }
+                    else
+                    {
+                        perfectDefenseMod = 1;
+                    }
+                }
+                else
+                {
+                    defendRollResult = defenderDice.RollSingleDie();
+                    defenderCounterattacking = true;
+                    perfectDefenseMod = 1;
+                }
+
+                defenderDieOneGUI.text = defenderDice.die1.ToString();
+                defenderDieTwoGUI.text = defenderDice.die2.ToString();
+
+                yield return new WaitForSeconds(0.016f);    // 1/60 seconds
+            }
+
+            //display the final result
+            attackerAtp_total.text = "ATP\n+" + attacker.atp;
+            attackRollResult += (int)attacker.atp;
+            attackerTotalAttackDamage.text = attackRollResult.ToString();
+
+            defenderDfp_total.text = "DFP\n+" + defender.dfp;
+            defendRollResult += (int)defender.dfp;
+            defenderTotalDefense.text = defendRollResult.ToString();
+
+            //attackerTurnOver = true;
+            yield return ResolveDamage(attacker, defender);
         }
+        else  //defender attacks their attacker
+        {
+            //show random values for a duration then get the rolled values
+            perfectDefenseMod = 1;          //attacker cannot get perfect defense
+            float rollDuration = 0.4f;
+            float currentTime = Time.time;
+            attackerTotalAttackDamage.text = "";
+            defenderTotalDefense.text = "";
+            while (Time.time < currentTime + rollDuration)
+            {
+                attackRollResult = defenderDice.RollDice();
+                defenderDieOneGUI.text = defenderDice.die1.ToString();
+                defenderDieTwoGUI.text = defenderDice.die2.ToString();
 
-        //display the final result
-        attackerAtp_total.text = "ATP\n+" + attacker.atp;
-        attackRollResult += (int)attacker.atp;
-        attackerTotalAttackDamage.text = attackRollResult.ToString();
+                //Debug.Log("state: " + state);
+                //state = Character.CharacterState.Guarding;
+                defendRollResult = attackerDice.RollSingleDie();
+                attackerDieOneGUI.text = attackerDice.die1.ToString();
+                attackerDieTwoGUI.text = attackerDice.die2.ToString();
 
-        defenderDfp_total.text = "DFP\n+" + defender.dfp;
-        defendRollResult += (int)defender.dfp;
-        defenderTotalDefense.text = defendRollResult.ToString();
+                yield return new WaitForSeconds(0.016f);    // 1/60 seconds
+            }
 
-        yield return ResolveDamage(attacker, defender);
+            //display the final result
+            defenderDfp_total.text = "ATP\n+" + defender.atp;   //ATP is shown here since defender is always on the right side
+            attackRollResult += (int)defender.atp;
+            defenderTotalDefense.text = attackRollResult.ToString();
+
+            attackerAtp_total.text = "DFP\n+" + attacker.dfp;
+            defendRollResult += (int)attacker.dfp;
+            attackerTotalAttackDamage.text = defendRollResult.ToString();
+
+            defenderCounterattacking = false;
+            yield return ResolveDamage(defender, attacker);
+        }
     }
 
     private IEnumerator ResolveDamage(Character attacker, Character defender)
     {
-        int damage = attackRollResult - defendRollResult;
+        int damage = (attackRollResult - defendRollResult) * perfectDefenseMod;
         if (damage < 0)
             damage = 0;
 
@@ -170,7 +236,12 @@ public class Combat : MonoBehaviour
 
         //update HP
         GameManager gm = Singleton.instance.GameManager;
-        defenderHealthPoints.text = defender.healthPoints + "/" + defender.maxHealthPoints;
+
+        if (!attackerTurnOver)
+            defenderHealthPoints.text = defender.healthPoints + "/" + defender.maxHealthPoints;
+        else
+            //updating attacker's HP since defender is counterattacking. defender is still referenced because the attacker is currently defending
+            attackerHealthPoints.text = defender.healthPoints + "/" + defender.maxHealthPoints;
 
         //animate damage
         float duration = 1;
@@ -188,7 +259,15 @@ public class Combat : MonoBehaviour
         damageText.transform.position = origPos;
         damageText.gameObject.SetActive(false);
 
-        //if (defender.characterState != Character.CharacterState.Guarding)
-            //yield return SimulateDiceRoll()
+        //check if defender counterattacks, otherwise combat is over.
+        
+        attackerTurnOver = true;
+        if (attackerTurnOver && defenderCounterattacking)
+        {
+            yield return new WaitForSeconds(1);
+            yield return SimulateDiceRoll(attackerDice, defenderDice, attacker, defender);
+        }
+
+        //if we get here, combat has ended.
     }
 }
