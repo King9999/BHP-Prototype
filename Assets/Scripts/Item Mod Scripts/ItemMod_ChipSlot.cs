@@ -9,17 +9,19 @@ public class ItemMod_ChipSlot : ItemMod
     private void Reset()
     {
         modName = "<CHIP SLOT>";
+        isChipSlot = true;
+        modID = "ItemMod_ChipSlot";
     }
 
     /*When equipped, the player will have access to a submenu to add a skill to the item. Once the skill is equipped, this mod must 
      be replaced. */
     public override void ActivateOnEquip(Hunter hunter)
     {
-        isChipSlot = true;
+        
     }
 
     public override void DeactivateOnUnequip(Hunter hunter)
     {
-        isChipSlot = false;
+        
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class ItemMod : ScriptableObject
 {
     public string modName;
-    public int modID;           //used for looking up mods in JSON file.
+    public string modID;           //used for looking up mods in JSON file.
     public bool isChipSlot;    //if true, this mod can be replaced with a skill.
 
     public virtual void ActivateOnEquip(Hunter hunter) { }

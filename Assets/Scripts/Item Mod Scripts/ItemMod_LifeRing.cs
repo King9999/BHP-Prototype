@@ -11,6 +11,7 @@ public class ItemMod_LifeRing : ItemMod
     private void Reset()
     {
         modName = "Max HP + 15%";
+        modID = "ItemMod_LifeRing";
     }
 
     public override void ActivateOnEquip(Hunter hunter)

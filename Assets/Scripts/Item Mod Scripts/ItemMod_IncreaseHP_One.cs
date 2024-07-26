@@ -21,6 +21,7 @@ public class ItemMod_IncreaseHP_One : ItemMod
     private void Reset()
     {
         modName = "HP + (3-5)";
+        modID = "ItemMod_IncreaseHP_One";
     }
 
     public override void ActivateOnEquip(Hunter hunter)

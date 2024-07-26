@@ -45,6 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   newMods: []
-  itemModTables:
+  itemModTable:
   - itemMods:
     - {fileID: 11400000, guid: ad72571b232fb5748badde5221e270f6, type: 2}
+    rarity: 1
+  - itemMods:
+    - {fileID: 11400000, guid: 288025e2e41965d4db9c89e5fce3538a, type: 2}
+    rarity: 0.25
+  - itemMods: []
+    rarity: 0.05

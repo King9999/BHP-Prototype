@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -100,7 +99,7 @@ public class ItemManager : MonoBehaviour
         bool chipSlotFound = false;
         while(!chipSlotFound && j < weapon.modCount) 
         {
-            ItemMod itemMod = im.GetItemMod(1);
+            ItemMod itemMod = im.GetItemMod(/*1*/);
 
             //if item mod is a chip slot, break the loop
             if (itemMod.isChipSlot)

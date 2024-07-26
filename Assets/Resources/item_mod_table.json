@@ -1,0 +1,33 @@
+{
+	"tables":
+	[
+		{
+			"tableRarity": 0,
+			"tableItems":
+			[
+				{"itemType":0, "itemName":"Axe", "chance": 0.35},
+				
+			]
+				
+		},
+
+		{
+			"tableRarity": 1,
+			"tableItems":
+			[
+				{"itemType":0, "itemName":"Golden Axe", "chance": 0.08},				
+			]
+				
+		},
+
+		{
+			"tableRarity": 2,
+			"tableItems":
+			[
+				
+			]
+				
+		}
+	
+	]
+}
