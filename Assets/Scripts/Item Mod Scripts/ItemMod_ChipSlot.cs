@@ -11,6 +11,7 @@ public class ItemMod_ChipSlot : ItemMod
         modName = "<CHIP SLOT>";
         isChipSlot = true;
         modID = "ItemMod_ChipSlot";
+        modLevel = 1;
     }
 
     /*When equipped, the player will have access to a submenu to add a skill to the item. Once the skill is equipped, this mod must 

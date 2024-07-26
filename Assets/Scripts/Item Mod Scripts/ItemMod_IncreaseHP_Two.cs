@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //mod's value must be generated randomly when this object comes into existence.
-[CreateAssetMenu(menuName = "Item Mod/Increase HP Lv 1", fileName = "itemMod_increaseHP_1")]
-public class ItemMod_IncreaseHP_One : ItemMod
+[CreateAssetMenu(menuName = "Item Mod/Increase HP Lv 2", fileName = "itemMod_increaseHP_2")]
+public class ItemMod_IncreaseHP_Two : ItemMod
 {
-    private float hp = 3;
+    private float hp = 8;
     
     //once the object is created, a random HP value is generated. Must use Awake(), not Start()!
     void Awake()
     {
-        hp = Random.Range(hp, hp * 1.53f);
+        hp = Random.Range(hp, hp * 1.5f);
         //Debug.Log("Item mod's HP value before rounded: " + hp);
         hp = Mathf.Round(hp);
         
@@ -20,9 +20,9 @@ public class ItemMod_IncreaseHP_One : ItemMod
 
     private void Reset()
     {
-        modName = "HP + (3-5)";
-        modID = "ItemMod_IncreaseHP_One";
-        modLevel = 1;
+        modName = "HP + (8-12)";
+        modID = "ItemMod_IncreaseHP_Two";
+        modLevel = 2;
     }
 
     public override void ActivateOnEquip(Hunter hunter)
