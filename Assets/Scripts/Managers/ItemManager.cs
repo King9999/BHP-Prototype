@@ -83,13 +83,7 @@ public class ItemManager : MonoBehaviour
                 weapon.modCount = Random.Range(0, 3);
             }
 
-            //modify the name of item with "+" depending on mod count
-            string rank = "";
-            for (int i = 0; i < weapon.modCount; i++)
-            {
-                rank += "+";
-            }
-            weapon.itemName += rank;
+            
         }
 
         //generate item mods
@@ -118,6 +112,14 @@ public class ItemManager : MonoBehaviour
                 j++;
             }
         }
+
+        //modify the name of item with "+" depending on mod count
+        string rank = "";
+        for (int i = 0; i < weapon.itemMods.Count; i++)
+        {
+            rank += "+";
+        }
+        weapon.itemName += rank;
 
         Debug.Log("Weapon mods for " + weapon.itemName + ":\n" + mods);
         return weapon;

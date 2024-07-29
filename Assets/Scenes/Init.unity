@@ -179,6 +179,22 @@ PrefabInstance:
       propertyPath: itemModTable.Array.data[1].rarity
       value: 0.25
       objectReference: {fileID: 0}
+    - target: {fileID: 9015067342448603834, guid: 1f78cd620070c1944a35440921ada4b3, type: 3}
+      propertyPath: itemModTable.Array.data[0].itemMods.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9015067342448603834, guid: 1f78cd620070c1944a35440921ada4b3, type: 3}
+      propertyPath: itemModTable.Array.data[2].itemMods.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9015067342448603834, guid: 1f78cd620070c1944a35440921ada4b3, type: 3}
+      propertyPath: itemModTable.Array.data[0].itemMods.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: d3cde2e15924d3740a5ac08a81d83600, type: 2}
+    - target: {fileID: 9015067342448603834, guid: 1f78cd620070c1944a35440921ada4b3, type: 3}
+      propertyPath: itemModTable.Array.data[2].itemMods.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: f10737f9b207a6843a9000b0f304e69c, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

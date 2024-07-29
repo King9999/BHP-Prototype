@@ -36,6 +36,11 @@ public class Hunter : Character
     public Armor equippedArmor;
     public Accessory equippedAccessory;
 
+    public List<Item> inventory;          //10 items max
+    public List<Item> stash;              //100 items max
+    public int maxInventoryCount { get; } = 10;
+    public int maxStashCount { get; } = 100;
+
     private void Start()
     {
         //InitializeStats();

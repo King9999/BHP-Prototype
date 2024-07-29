@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI attackerDieOneGUI, attackerDieTwoGUI, attackerAtp_total, attackerTotalAttackDamage;
     public TextMeshProUGUI defenderDieOneGUI, defenderDieTwoGUI, defenderDfp_total, defenderTotalDefense;
 
+    [Header("---Inventory---")]
+    public List<ItemObject> hunterInventory;
+
     [Header("---Combat---")]
     public Combat combatManager;
 
@@ -52,6 +55,14 @@ public class GameManager : MonoBehaviour
         CreateHunter();
         mm.SpawnMonster(monsterLevel:1);
         SetupMonsterUI(mm.activeMonsters[0]);
+
+        //populate hunter inventory
+        int currentItem = 0;
+        foreach(ItemObject item in hunterInventory)
+        {
+            item.GetItemData(hunters[0].inventory[currentItem]);
+            currentItem++;
+        }
     }
 
     // Update is called once per frame
@@ -92,6 +103,7 @@ public class GameManager : MonoBehaviour
         equippedWeaponText.text = hunter.equippedWeapon.itemName;
         hunterAtp.text = hunter.atp.ToString();
         hunters.Add(hunter);
+        hunters[0].inventory.Add(im.GenerateWeapon());  //adding weapon as a test
     }
 
     public void SetupMonsterUI(Monster monster)

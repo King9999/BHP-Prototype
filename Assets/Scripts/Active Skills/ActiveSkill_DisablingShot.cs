@@ -8,6 +8,7 @@ public class ActiveSkill_DisablingShot : ActiveSkill
     void Reset()
     {
         skillName = "Disabling Shot";
+        skillID = "ActiveSkill_DisablingShot";
         skillDetails = "Inflicts Disable Leg if damage dealt successfully";
         skillCost = 6;
         skillCooldown = 4;
