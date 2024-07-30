@@ -15,7 +15,7 @@ public class ActiveSkill_RiskyTackle : ActiveSkill
         skillCost = 5;
         //skillCooldown = 0;
         //skillEffectDuration = 3;
-        dmgEffectiveness = 3;
+        dmgMod = 3;
         minRange = 1;
         maxRange = 1;
         usageType = UsageType.Battle;
@@ -29,6 +29,6 @@ public class ActiveSkill_RiskyTackle : ActiveSkill
         //roll dice and add result to total damage
         int diceRoll = dice.RollDice(); 
         int singleDieRoll = dice.RollSingleDie();
-        float totalDamage = Mathf.Round(user.atp + diceRoll) * dmgEffectiveness - (target.dfp + singleDieRoll);
+        float totalDamage = Mathf.Round(user.atp + diceRoll) * dmgMod - (target.dfp + singleDieRoll);
     }
 }

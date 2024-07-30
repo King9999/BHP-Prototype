@@ -13,7 +13,7 @@ public class ActiveSkill_DisablingShot : ActiveSkill
         skillCost = 6;
         skillCooldown = 4;
         skillEffectDuration = 3;
-        dmgEffectiveness = 0.33f;
+        dmgMod = 0.33f;
         minRange = 2;
         maxRange = 4;
         usageType = UsageType.Field;
@@ -27,6 +27,6 @@ public class ActiveSkill_DisablingShot : ActiveSkill
         //roll dice and add result to total damage
         int diceRoll = dice.RollDice(); 
         int singleDieRoll = dice.RollSingleDie();
-        float totalDamage = Mathf.Round(user.atp * dmgEffectiveness) + diceRoll - (target.dfp + singleDieRoll);
+        float totalDamage = Mathf.Round(user.atp * dmgMod) + diceRoll - (target.dfp + singleDieRoll);
     }
 }

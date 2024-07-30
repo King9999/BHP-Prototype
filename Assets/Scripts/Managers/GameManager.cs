@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
+using static UnityEditor.Progress;
 
 /* handles the game state */
 public class GameManager : MonoBehaviour
@@ -28,10 +29,17 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI defenderDieOneGUI, defenderDieTwoGUI, defenderDfp_total, defenderTotalDefense;
 
     [Header("---Inventory---")]
+    public GameObject inventoryContainer;
+    public GameObject skillContainer;
     public List<ItemObject> hunterInventory;
+    public List<SkillObject> hunterSkills;
 
     [Header("---Combat---")]
     public Combat combatManager;
+
+    //states determine which UI is active
+    public enum GameState { Dungeon, Combat, Inventory}
+    public GameState gameState;
 
     public static GameManager instance;
 
@@ -57,12 +65,16 @@ public class GameManager : MonoBehaviour
         SetupMonsterUI(mm.activeMonsters[0]);
 
         //populate hunter inventory
-        int currentItem = 0;
-        foreach(ItemObject item in hunterInventory)
+        int i = 0;
+        while (i < hunters[0].inventory.Count)
         {
-            item.GetItemData(hunters[0].inventory[currentItem]);
-            currentItem++;
+            hunterInventory[i].GetItemData(hunters[0].inventory[i]);
+            i++;
         }
+
+        inventoryContainer.gameObject.SetActive(false);
+        skillContainer.gameObject.SetActive(false);
+        
     }
 
     // Update is called once per frame
@@ -103,7 +115,7 @@ public class GameManager : MonoBehaviour
         equippedWeaponText.text = hunter.equippedWeapon.itemName;
         hunterAtp.text = hunter.atp.ToString();
         hunters.Add(hunter);
-        hunters[0].inventory.Add(im.GenerateWeapon());  //adding weapon as a test
+        //hunters[0].inventory.Add(im.GenerateWeapon());  //adding weapon as a test
     }
 
     public void SetupMonsterUI(Monster monster)

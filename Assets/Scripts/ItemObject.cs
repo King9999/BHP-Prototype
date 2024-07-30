@@ -28,16 +28,18 @@ public class ItemObject : MonoBehaviour
         //sr.sprite = item.sprite;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+   
     public void GetItemData(Item item)
     {
         itemNameText.text = item.itemName;
         itemImage.sprite = item.sprite;
+    }
+
+    public void ClearItemData()
+    {
+        item = null;
+        itemNameText.text = "";
+        itemImage.sprite = null;
     }
 
 
