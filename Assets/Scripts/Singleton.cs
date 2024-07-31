@@ -13,6 +13,7 @@ public class Singleton : MonoBehaviour
     public ItemModManager ItemModManager { get; private set; }
     public ItemManager ItemManager { get; private set; }
     public MonsterManager MonsterManager { get; private set; }
+    public Dungeon Dungeon { get; private set; }
     //public UI UI { get; set; }
     //public AudioManager AudioManager { get; private set; }
     //public TitleManager TitleManager {get; private set;}
@@ -37,6 +38,7 @@ public class Singleton : MonoBehaviour
         ItemModManager = GetComponentInChildren<ItemModManager>();
         ItemManager = GetComponentInChildren<ItemManager>();
         MonsterManager = GetComponentInChildren<MonsterManager>();
+        Dungeon = GetComponentInChildren<Dungeon>();
 
         DontDestroyOnLoad(instance);
 
