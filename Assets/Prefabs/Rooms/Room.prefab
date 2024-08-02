@@ -663,14 +663,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connectPoints:
-  - {fileID: 4086765261075910699}
-  - {fileID: 6900401361051329249}
-  - {fileID: 2030325059544945068}
-  - {fileID: 5103695750981671993}
-  - {fileID: 2835008214751835956}
-  - {fileID: 2039968991124785431}
-  - {fileID: 3156831752761471775}
-  - {fileID: 5396357510371387736}
+  - point: {fileID: 4086765261075910699}
+    isConnected: 0
+  - point: {fileID: 6900401361051329249}
+    isConnected: 0
+  - point: {fileID: 2030325059544945068}
+    isConnected: 0
+  - point: {fileID: 5103695750981671993}
+    isConnected: 0
+  - point: {fileID: 2835008214751835956}
+    isConnected: 0
+  - point: {fileID: 2039968991124785431}
+    isConnected: 0
+  - point: {fileID: 3156831752761471775}
+    isConnected: 0
+  - point: {fileID: 5396357510371387736}
+    isConnected: 0
 --- !u!1 &8198283466456638509
 GameObject:
   m_ObjectHideFlags: 0

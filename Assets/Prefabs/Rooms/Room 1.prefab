@@ -292,8 +292,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connectPoints:
-  - {fileID: 2139220682846660652}
-  - {fileID: 3097707808254076589}
+  - point: {fileID: 2139220682846660652}
+    isConnected: 0
+  - point: {fileID: 3097707808254076589}
+    isConnected: 0
 --- !u!1 &5502479036307186908
 GameObject:
   m_ObjectHideFlags: 0
