@@ -1,6 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+
+/*AGGRO BEHAVIOUR
+-----
+* Always attacks hunters and monsters, whichever is closer
+* Ignores chests and terminals
+* 
+*/
 
 [CreateAssetMenu(menuName = "AI Behaviour/Hunter/Aggro", fileName = "ai_aggro")]
 public class Hunter_AI_Aggro : Hunter_AI

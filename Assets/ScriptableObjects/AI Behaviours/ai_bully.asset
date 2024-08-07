@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aacea7b94b4bb324b861d73148f4ead3, type: 3}
+  m_Name: ai_bully
+  m_EditorClassIdentifier: 
+  behaviourType: Bully
+  canAttackHunters: 1
+  canAttackMonsters: 0
+  canOpenChests: 0
+  canUseTerminals: 0
+  rollStr: 0.25
+  rollVit: 0.25
+  rollSpd: 0.25
+  rollMnt: 0.25

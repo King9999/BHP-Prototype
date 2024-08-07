@@ -120,7 +120,7 @@ GameObject:
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2039968991124785431
 Transform:
   m_ObjectHideFlags: 0
@@ -151,7 +151,7 @@ GameObject:
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5103695750981671993
 Transform:
   m_ObjectHideFlags: 0
@@ -182,7 +182,7 @@ GameObject:
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4086765261075910699
 Transform:
   m_ObjectHideFlags: 0
@@ -318,7 +318,7 @@ GameObject:
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5396357510371387736
 Transform:
   m_ObjectHideFlags: 0
@@ -454,7 +454,7 @@ GameObject:
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6900401361051329249
 Transform:
   m_ObjectHideFlags: 0
@@ -485,7 +485,7 @@ GameObject:
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2835008214751835956
 Transform:
   m_ObjectHideFlags: 0
@@ -665,20 +665,36 @@ MonoBehaviour:
   connectPoints:
   - point: {fileID: 4086765261075910699}
     isConnected: 0
+    isSelected: 0
+    direction: {x: 0, y: 0, z: 1}
   - point: {fileID: 6900401361051329249}
     isConnected: 0
+    isSelected: 0
+    direction: {x: 0, y: 0, z: 0}
   - point: {fileID: 2030325059544945068}
     isConnected: 0
+    isSelected: 0
+    direction: {x: 0, y: 0, z: 0}
   - point: {fileID: 5103695750981671993}
     isConnected: 0
+    isSelected: 0
+    direction: {x: 0, y: 0, z: 0}
   - point: {fileID: 2835008214751835956}
     isConnected: 0
+    isSelected: 0
+    direction: {x: 0, y: 0, z: 0}
   - point: {fileID: 2039968991124785431}
     isConnected: 0
+    isSelected: 0
+    direction: {x: 0, y: 0, z: 0}
   - point: {fileID: 3156831752761471775}
     isConnected: 0
+    isSelected: 0
+    direction: {x: 0, y: 0, z: 0}
   - point: {fileID: 5396357510371387736}
     isConnected: 0
+    isSelected: 0
+    direction: {x: 0, y: 0, z: 0}
 --- !u!1 &8198283466456638509
 GameObject:
   m_ObjectHideFlags: 0
@@ -694,7 +710,7 @@ GameObject:
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2030325059544945068
 Transform:
   m_ObjectHideFlags: 0
@@ -725,7 +741,7 @@ GameObject:
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3156831752761471775
 Transform:
   m_ObjectHideFlags: 0

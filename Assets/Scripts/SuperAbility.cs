@@ -7,6 +7,7 @@ public abstract class SuperAbility : Skill
 {
     public float superMeter;
     public float chargePentalty, chargeRate;    //chargePenalty reduces the amount of meter gained.
+
     // Start is called before the first frame update
     void Reset()
     {

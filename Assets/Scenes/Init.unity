@@ -647,6 +647,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1786605411}
     m_Modifications:
+    - target: {fileID: 250243693839612200, guid: 9a47b047162523a4c80cdaed4938af9e, type: 3}
+      propertyPath: roomPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 250243693839612200, guid: 9a47b047162523a4c80cdaed4938af9e, type: 3}
+      propertyPath: roomPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 4488165858551343332, guid: c20f33c859e16e346bb3db02b6eb8ef0, type: 3}
     - target: {fileID: 1889629079948391196, guid: 9a47b047162523a4c80cdaed4938af9e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -7,30 +7,26 @@ using UnityEngine;
 public class Room : MonoBehaviour
 {
     [System.Serializable]
-    public class ConnectPoint
+    public class Node
     {
-        public Transform point;
+        public Transform pos;
         public bool isConnected;        //if true, a room is attached to this point.
         public bool isSelected;         //if true, a room is going to be connected to this point.
+        //public Vector3 direction;       //the direction the node is facing. required for connecting other rooms.
     }
-    public List<ConnectPoint> connectPoints;
+    public Node[] nodes;
     // Start is called before the first frame update
     void Start()
     {
         ActivateConnectPoints();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     //when a room is instantiated, this method must be run
     private void ActivateConnectPoints()
     {
         List<bool> activePoints = new List<bool>();
-        foreach (ConnectPoint t in connectPoints)
+        foreach (Node t in nodes)
         {
             if (Random.value <= 0.35f)
                 activePoints.Add(true);
@@ -42,7 +38,7 @@ public class Room : MonoBehaviour
         {
             if (activePoints[i] == true)
             {
-                connectPoints[i].point.gameObject.SetActive(true);
+                nodes[i].pos.gameObject.SetActive(true);
             }
         }
         
@@ -50,23 +46,23 @@ public class Room : MonoBehaviour
 
     public void ActivateConnectPoint(int point)
     {
-        connectPoints[point].point.gameObject.SetActive(true);
+        nodes[point].pos.gameObject.SetActive(true);
     }
 
     //checks for rooms with no connect points. The first half number of rooms generated must have at least one connect point.
     public bool DeadEnd()
     {
         int inactivePointsCount = 0;
-        for(int i = 0; i < connectPoints.Count; i++)
+        for(int i = 0; i < nodes.Length; i++)
         {
-            if (!connectPoints[i].point.gameObject.activeSelf)
+            if (!nodes[i].pos.gameObject.activeSelf)
             {
                 inactivePointsCount++;
             }
            
         }
 
-        if (inactivePointsCount >= connectPoints.Count)
+        if (inactivePointsCount >= nodes.Length)
             return true;
         else
             return false;

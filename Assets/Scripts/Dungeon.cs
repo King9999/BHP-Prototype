@@ -10,6 +10,8 @@ public class Dungeon : MonoBehaviour
 {
     public List<Room> roomPrefabs;         //master list of room prefabs.
     public List<Room> dungeonRooms;
+
+    private Hashtable occupiedPositions = new();
     // Start is called before the first frame update
     void Start()
     {
@@ -44,9 +46,9 @@ public class Dungeon : MonoBehaviour
             //we don't want dead ends early on.
             if (dungeonRooms.Count < 1 /*&& room.DeadEnd()*/)
             {
-                int randPoint = Random.Range(0, room.connectPoints.Count);
+                int randPoint = Random.Range(0, room.nodes.Length);
                 room.ActivateConnectPoint(randPoint);
-                room.connectPoints[randPoint].isSelected = true;
+                room.nodes[randPoint].isSelected = true;
             }
             else
             {
@@ -54,13 +56,13 @@ public class Dungeon : MonoBehaviour
                 bool pointFound = false;
                 int i = 0;
                 int lastRoom = dungeonRooms.Count - 1;
-                while (!pointFound && i < dungeonRooms[lastRoom].connectPoints.Count)
+                while (!pointFound && i < dungeonRooms[lastRoom].nodes.Length)
                 {
-                    if (dungeonRooms[lastRoom].connectPoints[i].isSelected)
+                    if (dungeonRooms[lastRoom].nodes[i].isSelected)
                     {
                         //connect room to this point.
                         pointFound = true;
-                        room.gameObject.transform.position = dungeonRooms[lastRoom].connectPoints[i].point.position;
+                        room.gameObject.transform.position = dungeonRooms[lastRoom].nodes[i].pos.position;
                         //room.connectPoints[i].isSelected = true;
                     }
                     else
@@ -73,14 +75,14 @@ public class Dungeon : MonoBehaviour
                 pointFound = false;
                 i = 0;
 
-                while (!pointFound && i < room.connectPoints.Count)
+                while (!pointFound && i < room.nodes.Length)
                 {
                     //int randPoint = Random.Range(0, room.connectPoints.Count);
                     //room.connectPoints[randPoint].isSelected = true;
-                    if (room.connectPoints[i].point.gameObject.activeSelf)
+                    if (room.nodes[i].pos.gameObject.activeSelf)
                     {
                         pointFound = true;
-                        room.connectPoints[i].isSelected = true;
+                        room.nodes[i].isSelected = true;
                     }
                     else
                     {
