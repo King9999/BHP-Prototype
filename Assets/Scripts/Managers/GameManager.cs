@@ -37,6 +37,9 @@ public class GameManager : MonoBehaviour
     [Header("---Combat---")]
     public Combat combatManager;
 
+    [Header("---Loot Table---")]
+    public LootTable lootTable;
+
     //states determine which UI is active
     public enum GameState { Dungeon, Combat, Inventory}
     public GameState gameState;
@@ -74,6 +77,8 @@ public class GameManager : MonoBehaviour
 
         inventoryContainer.gameObject.SetActive(false);
         skillContainer.gameObject.SetActive(false);
+
+        
         
     }
 

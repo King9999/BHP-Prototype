@@ -8,6 +8,7 @@ public class ItemManager : MonoBehaviour
     public static ItemManager instance;
     public float maxItemModBaseChance;      //chance that a non-unique item has 3 mods 
     public float itemModBonusChance;        //dungeon mod can increase chance for 3 mods
+    public LootTable lootTable;
 
     void Awake()
     {
@@ -30,7 +31,10 @@ public class ItemManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        /*if (Input.GetKeyDown(KeyCode.Space))
+        {
+            int p = lootTable.GetTable();
+        }*/
     }
 
     public Weapon GenerateWeapon()

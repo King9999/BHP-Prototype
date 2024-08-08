@@ -46,3 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   masterWeaponList:
   - {fileID: 11400000, guid: 69200dac946673345ae4996fa0bb9883, type: 2}
+  maxItemModBaseChance: 0
+  itemModBonusChance: 0
+  lootTable: {fileID: 11400000, guid: a802310127d8dc945b654ec43566cb53, type: 2}
