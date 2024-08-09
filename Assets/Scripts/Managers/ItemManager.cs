@@ -31,10 +31,16 @@ public class ItemManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            int p = lootTable.GetTable();
-        }*/
+            List<LootItem> table = new List<LootItem>();
+            table = lootTable.GetTable();
+            Item item = lootTable.GetItem(table);
+            if (item != null)
+                Debug.Log("Generated " + item.itemName);
+            else
+                Debug.Log("No item found");
+        }
     }
 
     public Weapon GenerateWeapon()

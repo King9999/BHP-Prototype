@@ -12,4 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 442df380407f388418edb810c6174f5c, type: 3}
   m_Name: masterLootTable
   m_EditorClassIdentifier: 
-  tableWeight: 
+  tableWeight: 2c0100002c010000fa00000096000000
+  consumables: []
+  equipment:
+  - item: {fileID: 11400000, guid: bed211d3746c4534bbfceb0cfecfa57c, type: 2}
+    itemWeight: 333
+  - item: {fileID: 11400000, guid: 2ebce42063d6fcc4bad6ad946da8d33a, type: 2}
+    itemWeight: 333
+  - item: {fileID: 11400000, guid: a3da28955840cb044b22f8b26eafa129, type: 2}
+    itemWeight: 333
+  valuables:
+  - item: {fileID: 0}
+    itemWeight: 0
+  dungeonMods: []
+  dataLogs: []
