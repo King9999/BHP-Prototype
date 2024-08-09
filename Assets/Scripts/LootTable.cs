@@ -23,12 +23,7 @@ public class LootTable : ScriptableObject
     private const int DUNGEON_MODS = 3;
     private const int DATA_LOGS = 4;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
+   
     public List<LootItem> GetTable()
     {
         //check which table is going to be accessed

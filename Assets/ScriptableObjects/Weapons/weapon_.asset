@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09adf3f90b5a95e468f2b1aed56001f3, type: 3}
   m_Name: weapon_
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Init Weapon
   details: 
   itemID: 0
   itemLevel: 1

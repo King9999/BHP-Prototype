@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fec0eb33e5e4d664f968180be80e04e6, type: 3}
   m_Name: acc_
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Init Accessory
   details: 
   itemID: 0
   itemLevel: 1

@@ -12,4 +12,10 @@ public class CharacterEffect_Dizzy : CharacterEffect
         effectDetails = "Target cannot act. If target is damaged, dizzy is removed.";
         effectType = EffectType.Debuff;
     }
+
+    //remove dizzy status
+    public override void CleanupEffect(Character user)
+    {
+        base.CleanupEffect(user);
+    }
 }

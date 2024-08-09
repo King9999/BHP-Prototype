@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a120e160253578c489aa7f91b6a84d1f, type: 3}
   m_Name: armor_
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Init Armor
   details: 
   itemID: 0
   itemLevel: 1
   price: 0
-  salePrice: 0
   isKeyItem: 0
   isTargetItem: 0
   sprite: {fileID: 0}

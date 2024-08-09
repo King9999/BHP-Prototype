@@ -25,6 +25,7 @@ public abstract class CharacterEffect : ScriptableObject
         {
             //remove this effect
             currentDuration = 0;
+            CleanupEffect(user);
             if (effectType == EffectType.Buff) 
             {
                 user.buffs.Remove(this);
@@ -34,5 +35,16 @@ public abstract class CharacterEffect : ScriptableObject
                 user.debuffs.Remove(this);
             }
         }
+    }
+
+    public virtual void ApplyEffect(Character user)
+    {
+
+    }
+
+    //removes effect
+    public virtual void CleanupEffect(Character user)
+    {
+
     }
 }
