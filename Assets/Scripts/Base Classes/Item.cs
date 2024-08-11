@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 public abstract class Item : ScriptableObject
 {
     public string itemName, details;
-    public int itemID;          //used for looking up item in a table/JSON file
+    public string itemID;          //used for looking up item in a table/JSON file
     public int itemLevel;
     protected int maxItemLevel { get; } = 50;
     public int price;           //cost of an item when purchasing. Sell price is 75% of this value.

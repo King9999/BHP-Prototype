@@ -22,7 +22,7 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: a3da28955840cb044b22f8b26eafa129, type: 2}
     itemWeight: 333
   valuables:
-  - item: {fileID: 0}
+  - item: {fileID: 11400000, guid: a8b738d2379eeac47b4474853d27dcc7, type: 2}
     itemWeight: 0
   dungeonMods: []
   dataLogs: []

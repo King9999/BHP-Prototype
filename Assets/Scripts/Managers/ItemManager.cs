@@ -8,7 +8,10 @@ public class ItemManager : MonoBehaviour
     public static ItemManager instance;
     public float maxItemModBaseChance;      //chance that a non-unique item has 3 mods 
     public float itemModBonusChance;        //dungeon mod can increase chance for 3 mods
-    public LootTable lootTable;
+    public LootTable masterLootTable, lootTable;    //lootTable is instance 
+
+    [Header("---Dungeon Mods---")]
+    public List<DungeonMod> dungeonMods;
 
     void Awake()
     {
@@ -26,6 +29,11 @@ public class ItemManager : MonoBehaviour
     {
         itemModBonusChance = 0;
         maxItemModBaseChance = 0.2f;
+
+        lootTable = Instantiate(masterLootTable);
+
+        //testing dungeon mods
+        ActivateDungeonMods();
     }
 
     // Update is called once per frame
@@ -40,6 +48,14 @@ public class ItemManager : MonoBehaviour
                 Debug.Log("Generated " + item.itemName);
             else
                 Debug.Log("No item found");
+        }*/
+
+        /*if (Input.GetKeyDown(KeyCode.Space))
+        {
+            foreach(DungeonMod mod in dungeonMods)
+            {
+                mod.DeactivateMod();
+            }
         }*/
     }
 
@@ -133,5 +149,16 @@ public class ItemManager : MonoBehaviour
 
         Debug.Log("Weapon mods for " + weapon.itemName + ":\n" + mods);
         return weapon;
+    }
+
+    public void ActivateDungeonMods()
+    {
+        if (dungeonMods.Count <= 0)
+            return;
+
+        foreach (DungeonMod mod in dungeonMods)
+        {
+            mod.ActivateMod();
+        }
     }
 }
