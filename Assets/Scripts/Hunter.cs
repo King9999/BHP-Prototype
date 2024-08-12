@@ -73,54 +73,64 @@ public class Hunter : Character
         currentAllocationPoints += amount;
     }
 
-    public void AllocateToStr(int amount)
+    //newHunter = newly created hunter, don't apply HP or SP bonus since levels aren't gained during creation phase.
+    public void AllocateToStr(int amount, bool newHunter = false)
     {
+        if (strPoints + amount < 0)     //can't go below 0 in case of deallocation
+            return;
+
+        hunterLevel += newHunter == false ? amount : 0;
         strPoints += amount;
-        maxHealthPoints += amount * 2;
-        maxSkillPoints += amount;
+        maxHealthPoints += newHunter == false ? amount * 2 : 0;
+        maxSkillPoints += newHunter == false ? amount : 0;
         //Debug.Log("STR: " + strPoints / 2);
-        //str = Mathf.Floor(strPoints / 2);
-        //if (Mathf.Floor(strPoints % 2) == 0)
-        //{
-            str += amount;
-            atp = equippedWeapon == null ? baseAtp + Mathf.Floor(str / 2) : baseAtp + Mathf.Floor(str / 2) + equippedWeapon.atp;
+        
+        str += amount;
+        atp = equippedWeapon == null ? baseAtp + Mathf.Floor(str / 2) : baseAtp + Mathf.Floor(str / 2) + equippedWeapon.atp;
             //TODO: must apply any other bonuses, such as accessories.
-        //}
+       
     }
 
-    public void AllocateToSpd(int amount)
+    public void AllocateToSpd(int amount, bool newHunter = false)
     {
+        if (spdPoints + amount < 0)
+            return;
+
+        hunterLevel += newHunter == false ? amount : 0;
         spdPoints += amount;
-        maxHealthPoints += amount * 2;
-        maxSkillPoints += amount;
-        //spd = Mathf.FloorToInt(spdPoints / 3);
-        //if (Mathf.Floor(spdPoints % 3) == 0)
-        //{
+        maxHealthPoints += newHunter == false ? amount * 2 : 0;
+        maxSkillPoints += newHunter == false ? amount : 0;
         spd += amount;
 
-            mov = baseMov + Mathf.FloorToInt(spd / 5);
-            evd = baseEvd + spd * 0.01f;
-        //}
-
+        mov = baseMov + Mathf.FloorToInt(spd / 5);
+        evd = baseEvd + spd * 0.01f;
     }
 
-    public void AllocateToVit(int amount)
+    public void AllocateToVit(int amount, bool newHunter = false)
     {
+        if (vitPoints + amount < 0)
+            return;
+
+        hunterLevel += newHunter == false ? amount : 0;
         vitPoints += amount;
         vit += amount;
 
         dfp = equippedArmor == null ? baseDfp + Mathf.Floor(vit / 2) : baseDfp + Mathf.Floor(vit / 2) + equippedArmor.dfp;
-        maxHealthPoints += (amount * 2) + 1;    //regular increase + VIT bonus
-        maxSkillPoints += amount;
+        maxHealthPoints += newHunter == false ? (amount * 2) + 1 : amount;    //regular increase + VIT bonus
+        maxSkillPoints += newHunter == false ? amount : 0;
         //TODO: must apply any other bonuses, such as accessories.
     }
 
-    public void AllocateToMnt(int amount)
+    public void AllocateToMnt(int amount, bool newHunter = false)
     {
+        if (mntPoints + amount < 0)
+            return;
+
+        hunterLevel += newHunter == false ? amount : 0;
         mntPoints += amount;
         mnt += amount;
-        maxHealthPoints += amount * 2;
-        maxSkillPoints += amount * 2;   //regular increase + MNT bonus
+        maxHealthPoints += newHunter == false ? amount * 2 : 0;
+        maxSkillPoints += newHunter == false ? amount * 2 : amount;   //regular increase + MNT bonus
         mnp = equippedWeapon == null ? baseMnp + Mathf.Floor(mnt) : baseMnp + Mathf.Floor(mnt) + equippedWeapon.mnp;
         rst = equippedArmor == null ? baseRst + Mathf.Floor(mnt / 2) : baseRst + Mathf.Floor(mnt / 2) + equippedArmor.rst;
     }

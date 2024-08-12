@@ -65,10 +65,10 @@ public class GameManager : MonoBehaviour
         gameState = GameState.HunterSetup;
         ChangeGameState(gameState);
 
-        MonsterManager mm = MonsterManager.instance;
-        CreateHunter();
-        mm.SpawnMonster(monsterLevel:1);
-        SetupMonsterUI(mm.activeMonsters[0]);
+        //MonsterManager mm = MonsterManager.instance;
+        //CreateHunter();
+        //mm.SpawnMonster(monsterLevel:1);
+        //SetupMonsterUI(mm.activeMonsters[0]);
 
         //populate hunter inventory
         int i = 0;
@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void CreateHunter()
+    /*public void CreateHunter()
     {
         Hunter hunter = Instantiate(hunterPrefab);
         hunter.characterName = "King";
@@ -134,7 +134,7 @@ public class GameManager : MonoBehaviour
         hunterAtp.text = hunter.atp.ToString();
         hunters.Add(hunter);
         //hunters[0].inventory.Add(im.GenerateWeapon());  //adding weapon as a test
-    }
+    }*/
 
     public void SetupMonsterUI(Monster monster)
     {
@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour
     }
 
     //Allocates a point to STR when clicked
-    private void AllocatePoint_STR(Hunter hunter)
+    /*private void AllocatePoint_STR(Hunter hunter)
     {
         hunter.AllocateToStr(1);
         hunterStr.text = hunter.str.ToString();
@@ -197,9 +197,9 @@ public class GameManager : MonoBehaviour
         hunterMnp.text = hunter.mnp.ToString();
         hunterHp.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
         hunterSp.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
-    }
+    }*/
 
-    public void OnAllocateStrButtonPressed()
+    /*public void OnAllocateStrButtonPressed()
     {
         AllocatePoint_STR(hunters[0]);
     }
@@ -217,7 +217,7 @@ public class GameManager : MonoBehaviour
     public void OnAllocateMntButtonPressed()
     {
         AllocatePoint_MNT(hunters[0]);
-    }
+    }*/
 
     /* Rolls dice and displays results for hunter and monster */
     public void OnRollDiceButtonPressed()

@@ -568,9 +568,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnAllocateSpdButtonPressed
+      - m_Target: {fileID: 1417360396}
+        m_TargetAssemblyTypeName: HunterManager, Assembly-CSharp
+        m_MethodName: OnDeallocateSpdButtonPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4891,23 +4891,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b493a7532cba2419629da9d13fd778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hunterStrText: {fileID: 0}
-  hunterVitText: {fileID: 0}
-  hunterMntText: {fileID: 0}
-  hunterSpdText: {fileID: 0}
-  hunterAtpText: {fileID: 0}
-  hunterDfpText: {fileID: 0}
-  hunterMnpText: {fileID: 0}
-  hunterRstText: {fileID: 0}
-  hunterEvdText: {fileID: 0}
-  hunterMovText: {fileID: 0}
-  strPointsText: {fileID: 0}
-  spdPointsText: {fileID: 0}
-  vitPointsText: {fileID: 0}
-  mntPointsText: {fileID: 0}
-  equippedWeaponText: {fileID: 0}
-  equippedArmorText: {fileID: 0}
-  equippedAccText: {fileID: 0}
+  hunterStrText: {fileID: 122951503}
+  hunterVitText: {fileID: 1039598436}
+  hunterMntText: {fileID: 53588763}
+  hunterSpdText: {fileID: 287636863}
+  hunterAtpText: {fileID: 1879659037}
+  hunterDfpText: {fileID: 1241444551}
+  hunterMnpText: {fileID: 1847558941}
+  hunterRstText: {fileID: 1076116748}
+  hunterEvdText: {fileID: 736249222}
+  hunterMovText: {fileID: 457670711}
+  strPointsText: {fileID: 1281880195}
+  spdPointsText: {fileID: 1456867264}
+  vitPointsText: {fileID: 374161906}
+  mntPointsText: {fileID: 1475274030}
+  equippedWeaponText: {fileID: 754680701}
+  equippedArmorText: {fileID: 288730018}
+  equippedAccText: {fileID: 709405175}
   hunterHuds:
   - hunterNameText: {fileID: 690503844}
     hunterHpText: {fileID: 1276189869}
@@ -4925,9 +4925,16 @@ MonoBehaviour:
     hunterHpText: {fileID: 0}
     hunterSpText: {fileID: 0}
     superMeterUI: {fileID: 0}
+  allocationPointsText: {fileID: 25212198}
   pointAllocationMenuObject: {fileID: 776322005}
-  mainHunterHudObject: {fileID: 0}
-  hunterHudObjects: []
+  mainHunterHudObject: {fileID: 393161140}
+  equipmentMenuObject: {fileID: 581897195}
+  inventoryMenuObject: {fileID: 0}
+  hunterHudObjects:
+  - {fileID: 1778942886}
+  - {fileID: 918689227}
+  - {fileID: 1401685833}
+  - {fileID: 1402114824}
 --- !u!1 &988012808
 GameObject:
   m_ObjectHideFlags: 0
@@ -5145,9 +5152,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnAllocateStrButtonPressed
+      - m_Target: {fileID: 1417360396}
+        m_TargetAssemblyTypeName: HunterManager, Assembly-CSharp
+        m_MethodName: OnDeallocateStrButtonPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7047,9 +7054,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnAllocateVitButtonPressed
+      - m_Target: {fileID: 1417360396}
+        m_TargetAssemblyTypeName: HunterManager, Assembly-CSharp
+        m_MethodName: OnDeallocateVitButtonPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7153,11 +7160,26 @@ PrefabInstance:
       propertyPath: ui
       value: 
       objectReference: {fileID: 985624722}
+    - target: {fileID: 7410711329119191162, guid: 6a1e82c88e0aec94d94814febbddda2a, type: 3}
+      propertyPath: hunterPrefab
+      value: 
+      objectReference: {fileID: 7340040267651634088, guid: 08558392a7ae0144e86f499a769a72c7, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a1e82c88e0aec94d94814febbddda2a, type: 3}
+--- !u!114 &1417360396 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7410711329119191162, guid: 6a1e82c88e0aec94d94814febbddda2a, type: 3}
+  m_PrefabInstance: {fileID: 1417360395}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8394434b2952d545af1edfe6cddc34e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1456867262
 GameObject:
   m_ObjectHideFlags: 0
@@ -7771,8 +7793,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 1417360396}
+        m_TargetAssemblyTypeName: HunterManager, Assembly-CSharp
         m_MethodName: OnAllocateStrButtonPressed
         m_Mode: 1
         m_Arguments:
@@ -8856,8 +8878,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 1417360396}
+        m_TargetAssemblyTypeName: HunterManager, Assembly-CSharp
         m_MethodName: OnAllocateVitButtonPressed
         m_Mode: 1
         m_Arguments:
@@ -9191,8 +9213,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 1417360396}
+        m_TargetAssemblyTypeName: HunterManager, Assembly-CSharp
         m_MethodName: OnAllocateSpdButtonPressed
         m_Mode: 1
         m_Arguments:
@@ -9324,8 +9346,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 1417360396}
+        m_TargetAssemblyTypeName: HunterManager, Assembly-CSharp
         m_MethodName: OnAllocateMntButtonPressed
         m_Mode: 1
         m_Arguments:
@@ -9761,9 +9783,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnAllocateMntButtonPressed
+      - m_Target: {fileID: 1417360396}
+        m_TargetAssemblyTypeName: HunterManager, Assembly-CSharp
+        m_MethodName: OnDeallocateMntButtonPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

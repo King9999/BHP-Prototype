@@ -17,10 +17,14 @@ public class HunterUI : MonoBehaviour
     public TextMeshProUGUI strPointsText, spdPointsText, vitPointsText, mntPointsText;
     public TextMeshProUGUI equippedWeaponText, equippedArmorText, equippedAccText;
     public HunterHUD[] hunterHuds;
+    public TextMeshProUGUI allocationPointsText;
 
     //UI game objects.
+    [Header("---Menu & HUD---")]
     public GameObject pointAllocationMenuObject;
     public GameObject mainHunterHudObject;
+    public GameObject equipmentMenuObject;
+    public GameObject inventoryMenuObject;
     public GameObject[] hunterHudObjects;
 
     // Start is called before the first frame update
