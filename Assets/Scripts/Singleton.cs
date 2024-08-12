@@ -14,7 +14,7 @@ public class Singleton : MonoBehaviour
     public ItemManager ItemManager { get; private set; }
     public MonsterManager MonsterManager { get; private set; }
     public CardManager CardManager { get; private set; }
-    public HunterManager HunterManager { get; private set; }
+    public HunterManager HunterManager { get; set; }
     public Dungeon Dungeon { get; private set; }
     //public UI UI { get; set; }
     //public AudioManager AudioManager { get; private set; }
@@ -42,11 +42,11 @@ public class Singleton : MonoBehaviour
         MonsterManager = GetComponentInChildren<MonsterManager>();
         Dungeon = GetComponentInChildren<Dungeon>();
         CardManager = GetComponentInChildren<CardManager>();
-        HunterManager = GetComponentInChildren<HunterManager>();
+        //HunterManager = GetComponentInChildren<HunterManager>();
 
         DontDestroyOnLoad(instance);
 
         //move to game scene
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Hunter Setup");
     }
 }
