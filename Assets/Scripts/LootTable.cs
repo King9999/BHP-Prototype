@@ -35,7 +35,7 @@ public class LootTable : ScriptableObject
         }
 
         int randValue = UnityEngine.Random.Range(0, totalWeight);
-        Debug.Log("randValue: " + randValue);
+        //Debug.Log("Total Weight: " + totalWeight);
 
         int j = 0;
         bool tableFound = false;
@@ -53,7 +53,7 @@ public class LootTable : ScriptableObject
             else
             {
                 randValue -= tableWeight[j];
-                Debug.Log("Rand value is now " + randValue);
+                //Debug.Log("Rand value is now " + randValue);
                 j++;
             }
         }
@@ -101,7 +101,7 @@ public class LootTable : ScriptableObject
 
         Debug.Log("---Getting random value from GetItem---");
         int randValue = UnityEngine.Random.Range(0, totalWeight);
-        Debug.Log("randValue: " + randValue);
+        Debug.Log("total weight: " + totalWeight);
 
         int j = 0;
         bool itemFound = false;

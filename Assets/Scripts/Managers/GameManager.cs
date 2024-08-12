@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static GameManager;
 using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 using static UnityEditor.Progress;
 
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviour
     public LootTable lootTable;
 
     //states determine which UI is active
-    public enum GameState { Dungeon, Combat, Inventory}
+    public enum GameState { HunterSetup, Dungeon, Combat, Inventory}
     public GameState gameState;
 
     public static GameManager instance;
@@ -60,7 +61,9 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Singleton.instance.GameManager = this;      //master singleton captures 
+        Singleton.instance.GameManager = this;      //master singleton captures
+        gameState = GameState.HunterSetup;
+        ChangeGameState(gameState);
 
         MonsterManager mm = MonsterManager.instance;
         CreateHunter();
@@ -86,6 +89,16 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void ChangeGameState(GameState gameState)
+    {
+        switch(gameState)
+        {
+            case GameState.HunterSetup:
+                //show the setup screen where player allocates points.
+                break;
+        }
     }
 
     public void CreateHunter()
