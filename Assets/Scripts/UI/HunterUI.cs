@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 //using UnityEngine.UIElements;
@@ -13,16 +14,18 @@ public class HunterUI : MonoBehaviour
     //public List<TextMeshProUGUI> hunterHpText, hunterSpText;    //shows both current and max values
     //public List<Slider> superMeterUI;
     public TextMeshProUGUI hunterStrText, hunterVitText, hunterMntText, hunterSpdText, hunterAtpText, 
-        hunterDfpText, hunterMnpText, hunterRstText, hunterEvdText, hunterMovText;
+        hunterDfpText, hunterMnpText, hunterRstText, hunterEvdText, hunterMovText, hunterHpText, hunterSpText;
     public TextMeshProUGUI strPointsText, spdPointsText, vitPointsText, mntPointsText;
     public TextMeshProUGUI equippedWeaponText, equippedArmorText, equippedAccText;
     public HunterHUD[] hunterHuds;
     public TextMeshProUGUI allocationPointsText;
     public TextMeshProUGUI weaponDetailsText;
     [TextArea]public string[] weaponDetailsStr;           //contains info about starter weapons
+    public TMP_InputField nameEntryField;
 
     //UI game objects.
     [Header("---Menu & HUD---")]
+    public GameObject nameEntryMenuObject;
     public GameObject pointAllocationMenuObject;
     public GameObject mainHunterHudObject;
     public GameObject equipmentMenuObject;
@@ -56,6 +59,11 @@ public class HunterUI : MonoBehaviour
             TMP_Dropdown weaponDropdown = weaponSelectMenuObject.GetComponentInChildren<TMP_Dropdown>();
             weaponDetailsText.text = weaponDetailsStr[weaponDropdown.value];
         }
+    }
+
+    public void ShowNameEntryMenu(bool toggle)
+    {
+        nameEntryMenuObject.SetActive(toggle);
     }
 
     public void OnWeaponDropdownValueChanged()

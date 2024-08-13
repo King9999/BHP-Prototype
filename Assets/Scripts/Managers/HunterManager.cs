@@ -18,7 +18,7 @@ public class HunterManager : MonoBehaviour
     public int startingAllocationPoints;
     public bool newHunter;  //if true, hunter was just created. The starting AP don't raise hunter level, so no bonus HP/SP
 
-    public enum MenuState { PointAlloc, ChooseWeapon }
+    public enum MenuState { NameEntry, PointAlloc, ChooseWeapon }
     public MenuState state;
 
     public static HunterManager instance;
@@ -39,7 +39,7 @@ public class HunterManager : MonoBehaviour
     {
         //Singleton.instance.HunterManager = this;
         //state = MenuState.PointAlloc;
-        ChangeState(state = MenuState.PointAlloc);
+        ChangeState(state = MenuState.NameEntry);
         CreateHunter();
     }
 
@@ -53,7 +53,14 @@ public class HunterManager : MonoBehaviour
     {
         switch(state)
         {
+            case MenuState.NameEntry:
+                ui.ShowNameEntryMenu(true);
+                ui.ShowPointAllocationMenu(false);
+                ui.ShowWeaponSelectionMenu(false);
+                break;
+
             case MenuState.PointAlloc:
+                ui.ShowNameEntryMenu(false);
                 ui.ShowPointAllocationMenu(true);
                 ui.ShowWeaponSelectionMenu(false);
                 break;
@@ -87,8 +94,10 @@ public class HunterManager : MonoBehaviour
         ui.hunterRstText.text = hunter.rst.ToString();
         ui.hunterEvdText.text = (hunter.evd * 100) + "%";
         ui.hunterMovText.text = hunter.mov.ToString();
-        ui.hunterHuds[newestHunter].hunterHpText.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
-        ui.hunterHuds[newestHunter].hunterSpText.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
+        ui.hunterHpText.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
+        ui.hunterSpText.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
+        //ui.hunterHuds[newestHunter].hunterHpText.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
+        //ui.hunterHuds[newestHunter].hunterSpText.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
 
         //point allocation values
         ui.strPointsText.text = hunter.strPoints.ToString();
@@ -120,8 +129,8 @@ public class HunterManager : MonoBehaviour
         ui.hunterStrText.text = hunter.str.ToString();
         ui.strPointsText.text = hunter.strPoints.ToString();
         ui.hunterAtpText.text = hunter.atp.ToString();
-        ui.hunterHuds[currentHunter].hunterHpText.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
-        ui.hunterHuds[currentHunter].hunterSpText.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
+        ui.hunterHpText.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
+        ui.hunterSpText.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
 
         
         ui.allocationPointsText.text = startingAllocationPoints + " Allocation Points Remaining";
@@ -139,8 +148,8 @@ public class HunterManager : MonoBehaviour
         ui.spdPointsText.text = hunter.spdPoints.ToString();
         ui.hunterMovText.text = hunter.mov.ToString();
         ui.hunterEvdText.text = (hunter.evd * 100) + "%";
-        ui.hunterHuds[currentHunter].hunterHpText.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
-        ui.hunterHuds[currentHunter].hunterSpText.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
+        ui.hunterHpText.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
+        ui.hunterSpText.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
 
         ui.allocationPointsText.text = startingAllocationPoints + " Allocation Points Remaining";
     }
@@ -155,8 +164,8 @@ public class HunterManager : MonoBehaviour
         ui.hunterVitText.text = hunter.vit.ToString();
         ui.vitPointsText.text = hunter.vitPoints.ToString();
         ui.hunterDfpText.text = hunter.dfp.ToString();
-        ui.hunterHuds[currentHunter].hunterHpText.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
-        ui.hunterHuds[currentHunter].hunterSpText.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
+        ui.hunterHpText.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
+        ui.hunterSpText.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
 
         ui.allocationPointsText.text = startingAllocationPoints + " Allocation Points Remaining";
     }
@@ -171,8 +180,8 @@ public class HunterManager : MonoBehaviour
         ui.mntPointsText.text = hunter.mntPoints.ToString();
         ui.hunterRstText.text = hunter.rst.ToString();
         ui.hunterMnpText.text = hunter.mnp.ToString();
-        ui.hunterHuds[currentHunter].hunterHpText.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
-        ui.hunterHuds[currentHunter].hunterSpText.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
+        ui.hunterHpText.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
+        ui.hunterSpText.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
 
         ui.allocationPointsText.text = startingAllocationPoints + " Allocation Points Remaining";
     }
@@ -240,6 +249,29 @@ public class HunterManager : MonoBehaviour
     {
         //state = MenuState.ChooseWeapon;
         ChangeState(state = MenuState.ChooseWeapon);
+    }
+
+    public void OnAllocationButtonPressed()
+    {
+        if (state == HunterManager.MenuState.NameEntry)
+        {
+            if(ui.nameEntryField.text == "")
+            {
+                Debug.Log("Name cannot be empty!");
+                return;
+            }
+            else
+            {
+                hunters[hunters.Count - 1].characterName = ui.nameEntryField.text;
+            }
+        }
+            
+        ChangeState(state = MenuState.PointAlloc);
+    }
+
+    public void OnNameEntryButtonPressed()
+    {
+        ChangeState(state = MenuState.NameEntry);
     }
     #endregion
 }
