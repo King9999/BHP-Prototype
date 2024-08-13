@@ -18,12 +18,15 @@ public class HunterUI : MonoBehaviour
     public TextMeshProUGUI equippedWeaponText, equippedArmorText, equippedAccText;
     public HunterHUD[] hunterHuds;
     public TextMeshProUGUI allocationPointsText;
+    public TextMeshProUGUI weaponDetailsText;
+    [TextArea]public string[] weaponDetailsStr;           //contains info about starter weapons
 
     //UI game objects.
     [Header("---Menu & HUD---")]
     public GameObject pointAllocationMenuObject;
     public GameObject mainHunterHudObject;
     public GameObject equipmentMenuObject;
+    public GameObject weaponSelectMenuObject;
     public GameObject inventoryMenuObject;
     public GameObject[] hunterHudObjects;
 
@@ -42,6 +45,23 @@ public class HunterUI : MonoBehaviour
     public void ShowPointAllocationMenu(bool toggle)
     {
         pointAllocationMenuObject.SetActive(toggle);
+    }
+
+    public void ShowWeaponSelectionMenu(bool toggle)
+    {
+        weaponSelectMenuObject.SetActive(toggle);
+        if (toggle == true)
+        {
+            //set the weapon details field to default weapon
+            TMP_Dropdown weaponDropdown = weaponSelectMenuObject.GetComponentInChildren<TMP_Dropdown>();
+            weaponDetailsText.text = weaponDetailsStr[weaponDropdown.value];
+        }
+    }
+
+    public void OnWeaponDropdownValueChanged()
+    {
+        TMP_Dropdown weaponDropdown = weaponSelectMenuObject.GetComponentInChildren<TMP_Dropdown>();
+        weaponDetailsText.text = weaponDetailsStr[weaponDropdown.value];
     }
 
     public void ShowHunterHuds(bool toggle)

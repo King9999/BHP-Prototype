@@ -38,8 +38,8 @@ public class HunterManager : MonoBehaviour
     void Start()
     {
         //Singleton.instance.HunterManager = this;
-        state = MenuState.PointAlloc;
-        ChangeState(state);
+        //state = MenuState.PointAlloc;
+        ChangeState(state = MenuState.PointAlloc);
         CreateHunter();
     }
 
@@ -54,12 +54,13 @@ public class HunterManager : MonoBehaviour
         switch(state)
         {
             case MenuState.PointAlloc:
-                
+                ui.ShowPointAllocationMenu(true);
+                ui.ShowWeaponSelectionMenu(false);
                 break;
 
             case MenuState.ChooseWeapon:
                 ui.ShowPointAllocationMenu(false);
-                
+                ui.ShowWeaponSelectionMenu(true);
                 break;
         }
     }
@@ -233,6 +234,12 @@ public class HunterManager : MonoBehaviour
         if (hunters[currentHunter].mntPoints <= 0 || startingAllocationPoints >= 16)
             return;
         AllocatePoint_MNT(hunters[currentHunter], -allocationPoint);
+    }
+
+    public void OnEquipmentSelectButtonPressed()
+    {
+        //state = MenuState.ChooseWeapon;
+        ChangeState(state = MenuState.ChooseWeapon);
     }
     #endregion
 }

@@ -17,14 +17,14 @@ MonoBehaviour:
   itemID: 0
   itemLevel: 1
   price: 50
-  salePrice: 30
   isKeyItem: 0
   isTargetItem: 0
   sprite: {fileID: 0}
   itemType: 1
-  atp: 5
+  atp: 1
   mnp: 0
   itemMods: []
+  itemSkill: {fileID: 0}
   hasChipSlot: 0
   isUniqueItem: 0
   modCount: 0
