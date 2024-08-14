@@ -48,9 +48,11 @@ MonoBehaviour:
   itemModTable:
   - itemMods:
     - {fileID: 11400000, guid: ad72571b232fb5748badde5221e270f6, type: 2}
-    rarity: 1
+    - {fileID: 11400000, guid: d3cde2e15924d3740a5ac08a81d83600, type: 2}
+    weight: 700
   - itemMods:
     - {fileID: 11400000, guid: 288025e2e41965d4db9c89e5fce3538a, type: 2}
-    rarity: 0.25
-  - itemMods: []
-    rarity: 0.05
+    weight: 250
+  - itemMods:
+    - {fileID: 11400000, guid: f10737f9b207a6843a9000b0f304e69c, type: 2}
+    weight: 50
