@@ -40,7 +40,7 @@ public class ItemManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        /*if (Input.GetKeyDown(KeyCode.Space))
         {
             List<LootItem> table = new List<LootItem>();
             table = lootTable.GetTable();
@@ -49,7 +49,7 @@ public class ItemManager : MonoBehaviour
                 Debug.Log("Generated " + item.itemName);
             else
                 Debug.Log("No item found");
-        }
+        }*/
 
         /*if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -58,11 +58,16 @@ public class ItemManager : MonoBehaviour
                 mod.DeactivateMod();
             }
         }*/
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GenerateWeapon();
+        }
     }
 
     public Weapon GenerateWeapon()
     {
-        Weapon weapon = Instantiate(masterWeaponList[0]);
+        Weapon weapon = Instantiate((Weapon)lootTable.weapons[0]);
 
         /*  RULES FOR GENERATING MODS ON ITEM
          *  -----
@@ -87,59 +92,78 @@ public class ItemManager : MonoBehaviour
             averageLevel /= hm.hunters.Count;
         }
 
-        weapon.itemLevel = averageLevel >= 5 ? averageLevel : 1;
-
-        //is item unique?
-        if (weapon.isUniqueItem)
+        //weapon.itemLevel = averageLevel >= 5 ? averageLevel : 1;
+        if (averageLevel >= 5)
         {
-            weapon.modCount = 2;
-            //add item's unique mod
+            weapon.itemLevel = averageLevel;
         }
-        /*else if (weapon.hasChipSlot)
-        {
-            weapon.modCount = Random.Range(0, 2);
-        }*/
         else
         {
-            //3 mods is rare
-            if (Random.value <= maxItemModBaseChance + itemModBonusChance)
-            {
-                weapon.modCount = 3;
-            }
-            else
-            {
-                weapon.modCount = Random.Range(0, 3);
-            }
-
-            
+            weapon.itemLevel = 1;
+            weapon.modCount = 0;
         }
 
-        //generate item mods
-        ItemModManager im = Singleton.instance.ItemModManager;
-        string mods = "";
-        int j = 0;
-        bool chipSlotFound = false;
-        while(!chipSlotFound && j < weapon.modCount) 
-        {
-            ItemMod itemMod = im.GetItemMod(/*1*/);
-
-            //if item mod is a chip slot, break the loop
-            if (itemMod.isChipSlot)
+        //weapon's level must be at least 5 to have mods on it.
+        //if (weapon.itemLevel >= 5)        //REMEMBER TO UNCOMMENT THIS WHEN READY
+        //{
+            //is item unique?
+            if (weapon.isUniqueItem)
             {
-                if (weapon.itemMods.Count <= 1 && !weapon.isUniqueItem)
+                weapon.modCount = 2;
+                //add item's unique mod
+            }
+            /*else if (weapon.hasChipSlot)
+            {
+                weapon.modCount = Random.Range(0, 2);
+            }*/
+            else
+            {
+                //3 mods is rare
+                if (Random.value <= maxItemModBaseChance + itemModBonusChance)
+                {
+                    weapon.modCount = 3;
+                }
+                else
+                {
+                    weapon.modCount = Random.Range(0, 3);
+                }
+
+
+            }
+            
+
+            //generate item mods
+            ItemModManager im = Singleton.instance.ItemModManager;
+            string mods = "";
+            int j = 0;
+            //bool chipSlotFound = false;
+            while (/*!chipSlotFound &&*/ j < weapon.modCount)
+            {
+                ItemMod itemMod = im.GetItemMod(/*1*/);
+
+                //if item mod is a chip slot, break the loop
+                if (itemMod.isChipSlot)
+                {
+                    if (weapon.itemMods.Count <= 1 && !weapon.isUniqueItem)
+                    {
+                        weapon.itemMods.Add(itemMod);
+                        mods += itemMod.modName + "\n";
+                    //chipSlotFound = true;
+                        j += 2;     //chip slot takes up 2 mod slots
+                    }
+                }
+                else
                 {
                     weapon.itemMods.Add(itemMod);
                     mods += itemMod.modName + "\n";
-                    chipSlotFound = true;
+                    j++;
                 }
             }
-            else
-            {
-                weapon.itemMods.Add(itemMod);
-                mods += itemMod.modName + "\n";
-                j++;
-            }
-        }
+        //}
+        //else
+        //{
+        //weapon.modCount = 0;
+        //}
 
         //modify the name of item with "+" depending on mod count
         string rank = "";
