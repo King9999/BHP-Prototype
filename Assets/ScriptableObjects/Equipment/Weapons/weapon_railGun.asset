@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09adf3f90b5a95e468f2b1aed56001f3, type: 3}
-  m_Name: weapon_beamSword
+  m_Name: weapon_railGun
   m_EditorClassIdentifier: 
-  itemName: Beam Sword
-  details: Standard melee weapon
-  itemID: 0
+  itemName: Rail Gun
+  details: Long-range weapon
+  itemID: weapon_railGun
   itemLevel: 1
   price: 50
   isKeyItem: 0
@@ -28,3 +28,4 @@ MonoBehaviour:
   hasChipSlot: 0
   isUniqueItem: 0
   modCount: 0
+  isEquipped: 0

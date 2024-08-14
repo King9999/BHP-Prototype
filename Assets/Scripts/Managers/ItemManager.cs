@@ -74,16 +74,17 @@ public class ItemManager : MonoBehaviour
          * */
 
         //get item level
-        GameManager gm = Singleton.instance.GameManager;
+       //GameManager gm = Singleton.instance.GameManager;
+        HunterManager hm = Singleton.instance.HunterManager;
         int averageLevel = 0;
-        if (gm.hunters.Count > 0)
+        if (hm.hunters.Count > 0)
         {
-            foreach (Hunter hunter in gm.hunters)
+            foreach (Hunter hunter in hm.hunters)
             {
                 averageLevel += hunter.hunterLevel;
             }
 
-            averageLevel /= gm.hunters.Count;
+            averageLevel /= hm.hunters.Count;
         }
 
         weapon.itemLevel = averageLevel >= 5 ? averageLevel : 1;

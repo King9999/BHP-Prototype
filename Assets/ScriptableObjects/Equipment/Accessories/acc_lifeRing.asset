@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Life Ring
   details: Increases Max HP
-  itemID: 0
+  itemID: acc_lifeRing
   itemLevel: 5
   price: 1000
   isKeyItem: 0

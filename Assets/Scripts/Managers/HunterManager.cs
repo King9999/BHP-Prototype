@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.XR;
+using static UnityEditor.Progress;
 
 /* This script handles hunter creation. The UI for hunter setup is here. */
 public class HunterManager : MonoBehaviour
@@ -18,8 +19,10 @@ public class HunterManager : MonoBehaviour
     public int startingAllocationPoints;
     public bool newHunter;  //if true, hunter was just created. The starting AP don't raise hunter level, so no bonus HP/SP
 
-    public enum MenuState { NameEntry, PointAlloc, ChooseWeapon }
+    public enum MenuState { NameEntry, PointAlloc, ChooseWeapon, ShowHunterHuds }
     public MenuState state;
+
+    GameObject hunterContainer;         //hunters are stored here for organization
 
     public static HunterManager instance;
 
@@ -33,6 +36,14 @@ public class HunterManager : MonoBehaviour
 
         instance = this;
         Singleton.instance.HunterManager = this;
+
+        //create container for hunters
+        hunterContainer = new GameObject();
+        hunterContainer.transform.SetParent(this.transform);
+        hunterContainer.name = "Hunters";
+        transform.SetParent(Singleton.instance.transform);
+        ui.transform.SetParent(GetComponentInChildren<Canvas>().transform);     //Hunter UI must persist when scene changes.
+        //DontDestroyOnLoad(instance);
     }
     // Start is called before the first frame update
     void Start()
@@ -43,11 +54,6 @@ public class HunterManager : MonoBehaviour
         CreateHunter();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void ChangeState(MenuState state)
     {
@@ -78,8 +84,9 @@ public class HunterManager : MonoBehaviour
             return;
 
         Hunter hunter = Instantiate(hunterPrefab);
-        hunter.characterName = "King";
-        hunter.name = "Test Hunter";
+        hunter.transform.SetParent(hunterContainer.transform);     //doing this will make the hunter object persist when scene changes.
+        //hunter.characterName = "King";
+        //hunter.name = "Test Hunter";
         hunter.InitializeStats();
         newHunter = true;
         int newestHunter = hunters.Count;   //the new hunter will be added to the end of the list.
@@ -263,6 +270,7 @@ public class HunterManager : MonoBehaviour
             else
             {
                 hunters[hunters.Count - 1].characterName = ui.nameEntryField.text;
+                hunters[hunters.Count - 1].name = "Hunter - " + ui.nameEntryField.text; //object name
             }
         }
             
@@ -272,6 +280,37 @@ public class HunterManager : MonoBehaviour
     public void OnNameEntryButtonPressed()
     {
         ChangeState(state = MenuState.NameEntry);
+    }
+
+    public void OnFinishHunterButtonPressed()
+    {
+        //create an instance of the weapon the player chose
+        ItemManager im = Singleton.instance.ItemManager;
+        Item item = null;
+
+        switch (ui.WeaponDropdownValue())
+        {
+            case 0:
+                item = im.lootTable.GetItem(im.lootTable.weapons, "weapon_beamSword");
+                Debug.Log("Item is " + item);
+                break;
+
+            case 1:
+                item = im.lootTable.GetItem(im.lootTable.weapons, "weapon_railGun");
+                Debug.Log("Item is " + item);
+                break;
+
+            case 2:
+                item = im.lootTable.GetItem(im.lootTable.weapons, "weapon_augmenter");
+                Debug.Log("Item is " + item);
+                break;
+        }
+
+        hunters[hunters.Count - 1].Equip((Weapon)item);
+        ui.ShowWeaponSelectionMenu(false);
+
+        //move to game scene
+        SceneManager.LoadScene("Game");
     }
     #endregion
 }

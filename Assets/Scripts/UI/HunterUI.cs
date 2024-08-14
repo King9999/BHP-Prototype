@@ -33,16 +33,21 @@ public class HunterUI : MonoBehaviour
     public GameObject inventoryMenuObject;
     public GameObject[] hunterHudObjects;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //ShowHunterHuds(false);
-    }
+    public static HunterUI instance;
 
-    // Update is called once per frame
-    void Update()
+    // Start is called before the first frame update
+    private void Awake()
     {
-        
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+        //Singleton.instance.HunterUI = this;
+        //transform.SetParent(Singleton.instance.transform);
+        //DontDestroyOnLoad(instance);
     }
 
     public void ShowPointAllocationMenu(bool toggle)
@@ -70,6 +75,12 @@ public class HunterUI : MonoBehaviour
     {
         TMP_Dropdown weaponDropdown = weaponSelectMenuObject.GetComponentInChildren<TMP_Dropdown>();
         weaponDetailsText.text = weaponDetailsStr[weaponDropdown.value];
+    }
+
+    public int WeaponDropdownValue()
+    {
+        TMP_Dropdown weaponDropdown = weaponSelectMenuObject.GetComponentInChildren<TMP_Dropdown>();
+        return weaponDropdown.value;
     }
 
     public void ShowHunterHuds(bool toggle)

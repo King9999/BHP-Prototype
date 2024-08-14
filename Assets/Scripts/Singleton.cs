@@ -15,6 +15,7 @@ public class Singleton : MonoBehaviour
     public MonsterManager MonsterManager { get; private set; }
     public CardManager CardManager { get; private set; }
     public HunterManager HunterManager { get; set; }
+    public HunterUI HunterUI { get; set; }
     public Dungeon Dungeon { get; private set; }
     //public UI UI { get; set; }
     //public AudioManager AudioManager { get; private set; }

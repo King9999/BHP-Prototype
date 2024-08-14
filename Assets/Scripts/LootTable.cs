@@ -15,6 +15,9 @@ public class LootTable : ScriptableObject
     public List<LootItem> valuables;        //items that are sold
     public List<LootItem> dungeonMods;      //rarest items
     public List<LootItem> dataLogs;         //single player item only
+    public List<Item> weapons;
+    public List<Item> armor;                /* These contain specific equipment */
+    public List<Item> accessories;
 
     //table indexes
     private const int VALUABLES = 0;
@@ -87,6 +90,7 @@ public class LootTable : ScriptableObject
         
     }
 
+    //gets a random item from the given table
     public Item GetItem(List<LootItem> table)
     {
         if (table.Count <= 0)
@@ -105,14 +109,12 @@ public class LootTable : ScriptableObject
 
         int j = 0;
         bool itemFound = false;
-        int itemIndex = 0;
 
         while (!itemFound && j < table.Count)
         {
             if (randValue <= table[j].itemWeight)
             {
                 //create this item
-                itemIndex = j;
                 itemFound = true;
                 Debug.Log("Acessing item " + j + ", rand value is " + randValue);
             }
@@ -125,7 +127,37 @@ public class LootTable : ScriptableObject
         }
 
         if (itemFound)
-            return table[itemIndex].item;
+            return table[j].item;
+        else
+            return null;
+
+    }
+
+    //gets a specific item from the given table
+    public Item GetItem(List<Item> table, string itemID)
+    {
+        if (table.Count <= 0)
+            return null;
+
+        int j = 0;
+        bool itemFound = false;
+
+        while (!itemFound && j < table.Count)
+        {
+            if (table[j].itemID.Equals(itemID))
+            {
+                //create this item
+                itemFound = true;
+                Debug.Log("Acessing item " + j);
+            }
+            else
+            {
+                j++;
+            }
+        }
+
+        if (itemFound)
+            return table[j];
         else
             return null;
 

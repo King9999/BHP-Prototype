@@ -10,9 +10,9 @@ using static UnityEditor.Progress;
 public class GameManager : MonoBehaviour
 {
     //hunter stats
-    [Header("---Hunter---")]
-    public Hunter hunterPrefab;
-    public List<Hunter> hunters;
+    //[Header("---Hunter---")]
+    //public Hunter hunterPrefab;
+    //public List<Hunter> hunters;
 
     [Header("---Dice---")]
     public Dice dice;
@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Singleton.instance.GameManager = this;      //master singleton captures
+        Debug.Log("Hunter Manager status: " + Singleton.instance.HunterManager);
         gameState = GameState.HunterSetup;
         ChangeGameState(gameState);
 
@@ -71,10 +72,11 @@ public class GameManager : MonoBehaviour
         //SetupMonsterUI(mm.activeMonsters[0]);
 
         //populate hunter inventory
+        HunterManager hm = Singleton.instance.HunterManager;
         int i = 0;
-        while (i < hunters[0].inventory.Count)
+        while (i < hm.hunters[0].inventory.Count)
         {
-            hunterInventory[i].GetItemData(hunters[0].inventory[i]);
+            hunterInventory[i].GetItemData(hm.hunters[0].inventory[i]);
             i++;
         }
 
@@ -222,8 +224,9 @@ public class GameManager : MonoBehaviour
     /* Rolls dice and displays results for hunter and monster */
     public void OnRollDiceButtonPressed()
     {
-        MonsterManager mm = MonsterManager.instance;
-        combatManager.StartCombat(hunters[0], mm.activeMonsters[0]);
+        MonsterManager mm = Singleton.instance.MonsterManager;
+        HunterManager hm = Singleton.instance.HunterManager;
+        combatManager.StartCombat(hm.hunters[0], mm.activeMonsters[0]);
         //get rolls from both attacker and defender
         /*MonsterManager mm = MonsterManager.instance;
         //int diceResult = dice.RollDice();
