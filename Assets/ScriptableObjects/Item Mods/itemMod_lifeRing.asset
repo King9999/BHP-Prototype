@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: itemMod_lifeRing
   m_EditorClassIdentifier: 
   modName: Max HP + 15%
-  modID: 0
+  modID: itemMod_lifeRing
+  modLevel: 0
+  isChipSlot: 0

@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 811eda42cdbc9df48aebd236d08efef2, type: 3}
   m_Name: itemMod_increaseHP_1
   m_EditorClassIdentifier: 
-  modName: HP + (3-5)
-  modID: 0
+  modName: HP + 4
+  modID: itemMod_increaseHP_1
+  modLevel: 1
+  isChipSlot: 0

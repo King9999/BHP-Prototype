@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
     [Header("---Loot Table---")]
     public LootTable lootTable;
 
+    
+
     //states determine which UI is active
     public enum GameState { HunterSetup, Dungeon, Combat, Inventory}
     public GameState gameState;
@@ -63,8 +65,12 @@ public class GameManager : MonoBehaviour
     {
         Singleton.instance.GameManager = this;      //master singleton captures
         Debug.Log("Hunter Manager status: " + Singleton.instance.HunterManager);
-        gameState = GameState.HunterSetup;
+        gameState = GameState.Dungeon;
         ChangeGameState(gameState);
+
+        //create dungeon
+        Dungeon dungeon = Singleton.instance.Dungeon;
+        dungeon.CreateDungeon();
 
         //MonsterManager mm = MonsterManager.instance;
         //CreateHunter();
