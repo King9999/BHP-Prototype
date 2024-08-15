@@ -27,24 +27,16 @@ public class Dungeon : MonoBehaviour
 
     public void CreateDungeon()
     {
-        int roomCount = 10;
+        int roomCount = 150;
+        GameObject roomContainer = new GameObject();
+        roomContainer.name = "Dungeon Rooms";
 
         while (dungeonRooms.Count < roomCount)
         {
             Room room = Instantiate(roomPrefabs[0]);
+            room.transform.SetParent(roomContainer.transform);
 
-            //room.connectPoints[0].gameObject.SetActive(true);
-            //if this room has no active connect points, activate a random one
-            /*if (dungeonRooms.Count <= 1 && room.DeadEnd())
-            {
-                int randPoint = Random.Range(0, room.connectPoints.Count);
-                room.ActivateConnectPoint(randPoint);
-                room.connectPoints[randPoint].isSelected = true;
-            }
-            else
-            {*/
-            //we don't want dead ends early on.
-            if (dungeonRooms.Count < 1 /*&& room.DeadEnd()*/)
+            if (dungeonRooms.Count < 1)
             {
                 bool pointFound = false;
                 while (!pointFound)
@@ -52,7 +44,6 @@ public class Dungeon : MonoBehaviour
                     int randPoint = Random.Range(0, room.nodes.Length);
                     if (room.nodes[randPoint].pos.gameObject.activeSelf)
                     {
-                        //room.ActivateConnectPoint(randPoint);
                         pointFound = true;
                         room.nodes[randPoint].isSelected = true;
                     }
@@ -103,10 +94,12 @@ public class Dungeon : MonoBehaviour
                             room.nodes[room.FORWARD].isConnected = true;
                         }
                         Vector3 nodePos = dungeonRooms[lastRoom].nodes[i].pos.transform.position;
-                        Debug.Log("Node Pos " + nodePos);
+                        
                         Vector3 roomScale = dungeonRooms[lastRoom].transform.localScale;
                         Vector3 newPos = new Vector3(nodePos.x + (xDir * roomScale.x / 2), nodePos.y, 
                             nodePos.z + (zDir * roomScale.z / 2));
+
+                        Debug.Log("Adding room " + (dungeonRooms.Count - 1) + "at position " + newPos);
 
                         room.gameObject.transform.position = newPos;
                        
@@ -123,7 +116,17 @@ public class Dungeon : MonoBehaviour
                 pointFound = false;
                 i = 0;
 
-                while (!pointFound && i < room.nodes.Length)
+                while(!pointFound)
+                {
+                    int randPoint = Random.Range(0, room.nodes.Length);
+                    if (room.nodes[randPoint].pos.gameObject.activeSelf && !room.nodes[randPoint].isConnected)
+                    {
+                        pointFound = true;
+                        room.nodes[randPoint].isSelected = true;
+                    }
+                }
+
+                /*while (!pointFound && i < room.nodes.Length)
                 {
                     //int randPoint = Random.Range(0, room.connectPoints.Count);
                     //room.connectPoints[randPoint].isSelected = true;
@@ -141,7 +144,7 @@ public class Dungeon : MonoBehaviour
                 if (!pointFound)
                 {
                     Debug.Log("error: no connect point found");
-                }
+                }*/
             }
 
             //}
