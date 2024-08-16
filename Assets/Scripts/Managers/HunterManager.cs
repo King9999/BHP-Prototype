@@ -54,6 +54,12 @@ public class HunterManager : MonoBehaviour
         CreateHunter();
     }
 
+    //this is used to enable hunters when ready to be placed in the dungeon.
+    public void ToggleHunter(Hunter hunter, bool toggle)
+    {
+        hunter.gameObject.SetActive(toggle);
+    }
+
 
     public void ChangeState(MenuState state)
     {
@@ -119,6 +125,7 @@ public class HunterManager : MonoBehaviour
         hunter.Equip(im.GenerateWeapon());
         ui.equippedWeaponText.text = hunter.equippedWeapon.itemName;
         ui.hunterAtpText.text = hunter.atp.ToString();*/
+        ToggleHunter(hunter, false);    //disable hunter for now
         hunters.Add(hunter);
         //hunters[0].inventory.Add(im.GenerateWeapon());  //adding weapon as a test
     }

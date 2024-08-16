@@ -9,9 +9,9 @@ using UnityEngine;
 public class Dungeon : MonoBehaviour
 {
     public List<Room> roomPrefabs;         //master list of room prefabs.
-    public List<Room> dungeonRooms;
+    public List<Room> dungeonRooms, roomBin;    //roomBin is used to reuse already instantiated rooms.
 
-    private Hashtable occupiedPositions = new();
+    private readonly Hashtable occupiedPositions = new();
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +27,10 @@ public class Dungeon : MonoBehaviour
 
     public void CreateDungeon()
     {
-        int roomCount = 150;
+        //TODO: Room count scales up depending on hunter count. Need to figure out a good minimum room count for 2 hunters.
+        //TODO 2: Need a way to recycle rooms, and only instantiate more rooms when necessary.
+
+        int roomCount = 200;
         GameObject roomContainer = new GameObject();
         roomContainer.name = "Dungeon Rooms";
 
@@ -99,7 +102,7 @@ public class Dungeon : MonoBehaviour
                         Vector3 newPos = new Vector3(nodePos.x + (xDir * roomScale.x / 2), nodePos.y, 
                             nodePos.z + (zDir * roomScale.z / 2));
 
-                        Debug.Log("Adding room " + (dungeonRooms.Count - 1) + "at position " + newPos);
+                        Debug.Log("Adding room " + (dungeonRooms.Count - 1) + " at position " + newPos);
 
                         room.gameObject.transform.position = newPos;
                        
@@ -151,6 +154,32 @@ public class Dungeon : MonoBehaviour
 
             dungeonRooms.Add(room);
             //i++;
+        }
+
+        /* populate the dungeon with objects, including hunters. */
+        List<int> occupiedLocations = new List<int>();  //dungeon rooms that have an object in them.
+
+        HunterManager hm = Singleton.instance.HunterManager;
+
+        foreach(Hunter hunter in hm.hunters)
+        {
+            //pick a random room and place hunter there. Hunters should be placed in a way so that they aren't too close 
+            //to each other.
+            bool roomFound = false;
+            while (!roomFound)
+            {
+                int randRoom = Random.Range(0, dungeonRooms.Count);
+
+                if (!occupiedLocations.Contains(randRoom))
+                {
+                    roomFound = true;
+                    hm.ToggleHunter(hunter, true);
+                    Vector3 room = dungeonRooms[randRoom].transform.position;
+                    //2 is added to Y so hunter is above the room and not falling through it
+                    hunter.transform.position = new Vector3(room.x, room.y + 2, room.z);
+                    occupiedLocations.Add(randRoom);
+                }
+            }
         }
     }
 }

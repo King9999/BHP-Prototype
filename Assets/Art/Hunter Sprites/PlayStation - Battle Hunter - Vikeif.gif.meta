@@ -1,0 +1,2230 @@
+fileFormatVersion: 2
+guid: 4aca974a0ea82d0409eace5f3da55c36
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_0
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 170
+        width: 21
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0510df564a1e4b43bda3272c0b3993f
+      internalID: 1317809963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_1
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 170
+        width: 20
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9f5370b20390a948a04a1ea225becf6
+      internalID: -1888311346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_2
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 170
+        width: 24
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 120406e33ec2d7345b05686782ec3b9a
+      internalID: 1032439375
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_3
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 169
+        width: 25
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd2ebbc6fda960c4292259d5cd62aef9
+      internalID: -1526558614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_4
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 169
+        width: 26
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb667c43cff84b24fa96a87397e725f7
+      internalID: 1882864608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_5
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 169
+        width: 23
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebb46419ce5cab14d990346c4896992f
+      internalID: 332327895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_6
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 169
+        width: 24
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94fce4985cae4d94f97673240f7fd8d6
+      internalID: 956170131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_7
+      rect:
+        serializedVersion: 2
+        x: 179
+        y: 169
+        width: 25
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec6582dd0609c4447939c24126d16e34
+      internalID: -623914729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_8
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 169
+        width: 26
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bef1415f2b5c7e34ea281a321904b0fb
+      internalID: 1440720186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_9
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 169
+        width: 26
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf62dde3240802f48b34633528a6f897
+      internalID: -113710668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_10
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 169
+        width: 26
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57d978e17a971e442a09772dbda7a8aa
+      internalID: 1646089367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_11
+      rect:
+        serializedVersion: 2
+        x: 290
+        y: 169
+        width: 24
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27b550e69586fe844b8f06f0694a05f3
+      internalID: -1835273871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_12
+      rect:
+        serializedVersion: 2
+        x: 316
+        y: 169
+        width: 23
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8bb0dc720636c96429287a15ed6aeaab
+      internalID: -145148132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_13
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 169
+        width: 23
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f24e95749ef0614eb84a1e0cbab6755
+      internalID: -1820245063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_14
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 129
+        width: 27
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b95ae9cfefa9b874f98678b42bd15dda
+      internalID: 1973678136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_15
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 129
+        width: 26
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68864a3dae116714495e02b891bfc815
+      internalID: 1646704729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_16
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 129
+        width: 28
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: efbe6d6dcf061454f8bd4aa5d763a333
+      internalID: 925623236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_17
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 129
+        width: 28
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1785b5f0df0546444b78bf3469b74e36
+      internalID: 1753330034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_18
+      rect:
+        serializedVersion: 2
+        x: 118
+        y: 129
+        width: 28
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91a8118f893e378428435eb77f1948bc
+      internalID: 640254216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_19
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 129
+        width: 25
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67b40158422f397478f0ac6ca679635a
+      internalID: -1020098949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_20
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 129
+        width: 28
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8505d1e7c2569954583b79d81977a431
+      internalID: -850197284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_21
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 129
+        width: 25
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc27da5550ab5944eaaed08a5b8e8f16
+      internalID: -390367671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_22
+      rect:
+        serializedVersion: 2
+        x: 232
+        y: 129
+        width: 28
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf78d4ad21edafd4a9342d1023234f69
+      internalID: -154813819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_23
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 129
+        width: 30
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4055684b961c73246bd1ac3432195564
+      internalID: -994187808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_24
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 129
+        width: 28
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72b9b59bb12c57d4db8a1451c8820268
+      internalID: -2138724939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_25
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 129
+        width: 26
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d0f39399360c0045944aad9c31d9bef
+      internalID: 864898492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_26
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 88
+        width: 24
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6218b1ce886fde2479057de8ea11734a
+      internalID: 1555594315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_27
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 88
+        width: 21
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b205cdad8c86b44c8cc86b27c9638f4
+      internalID: -367112909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_28
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 88
+        width: 27
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de963b09bbe7db14ab48a84b338f19dc
+      internalID: -1563578045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_29
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 88
+        width: 22
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c1655c6e85f05b47a3b8e542a7f8c3d
+      internalID: -244988905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_30
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 88
+        width: 24
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0fa4111903eb464cb3a5dadfb0ec2c0
+      internalID: -848094474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_31
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 88
+        width: 22
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af7f2045750901a4786cfb6a9a7c9bc8
+      internalID: -1228528697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_32
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 88
+        width: 29
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 80d9dcfbe25bd704f99074362c5c9701
+      internalID: 860073631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_33
+      rect:
+        serializedVersion: 2
+        x: 185
+        y: 88
+        width: 22
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9f8d2260fdc8b9469259b8d290a82b3
+      internalID: 696171808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_34
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 88
+        width: 23
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 07e8894f953a02e46965d878adc9dabc
+      internalID: -1864352323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_35
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 88
+        width: 21
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9cbe8fc9cb269cc4291ab175f8b8bddf
+      internalID: -151505868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_36
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 88
+        width: 23
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26f549af608ee5343a6bcc4e95e75943
+      internalID: -729369478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_37
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 88
+        width: 21
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f3671f9da67a1243b4e9495aac8e484
+      internalID: -357389549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_38
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 42
+        width: 22
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 618de99d0ab1b5245958d613cef75a52
+      internalID: -1140821253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_39
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 42
+        width: 31
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebf55744cbef9124fb76d4b031cf0760
+      internalID: -1536950374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_40
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 42
+        width: 30
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce309d8928a4a4f4aa268e01f5b6afa1
+      internalID: -1371357181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_41
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 42
+        width: 28
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46299a3781541d74fbeab47b31d8e575
+      internalID: 1379962708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_42
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 42
+        width: 39
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2bb150a44ff5cea40a70d498e7f0858d
+      internalID: -548353552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_43
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 42
+        width: 36
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ddd0c0a56786b004ebc9d224dd3aa770
+      internalID: -1479051580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_44
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 42
+        width: 33
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de5ea48bc8424bb4c94a5867a7c3f3ae
+      internalID: 1160605507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_45
+      rect:
+        serializedVersion: 2
+        x: 219
+        y: 45
+        width: 21
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e100cb24a6c479841ab27dddefdd3a50
+      internalID: -663047737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_46
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 42
+        width: 28
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 922ce34b22281d5408f55b08466ffcfa
+      internalID: 1301291819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_47
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 42
+        width: 31
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7051f8bcb82d724a8197c985fa721d9
+      internalID: 1015779661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_48
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 2
+        width: 32
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f6f86b3650df7043a68956077befc33
+      internalID: -171764904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_49
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 2
+        width: 25
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 928221fe553e9c84e8c5d7a413a0a7e1
+      internalID: -2056605753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_50
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 2
+        width: 31
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8b453f2c0d41dc42b6d5bcdc46d9c9b
+      internalID: -1001007109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_51
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 2
+        width: 32
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7002dc861a9372049b3fc3875659f364
+      internalID: -1341888534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_52
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 2
+        width: 31
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 683fc325bd6bae1489d8643c6f90bdbb
+      internalID: 1195503363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_53
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 2
+        width: 26
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69a106dcf97f8594cbe5e7c8408d7804
+      internalID: 1089255417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_54
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 29
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06919ff726fe94b49b756a7ef7550f60
+      internalID: 1952322360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_55
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 29
+        width: 4
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ca2872a64d4be5458f239ae493eab02
+      internalID: -848638371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_56
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 29
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61227395978a24f4fb05555e177b9705
+      internalID: -419001787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_57
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 29
+        width: 11
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e65027ad04c46e44bb033ed7ea484ce7
+      internalID: -178479601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_58
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 29
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3956ec11d651a6f459f7a0c4754fce76
+      internalID: -1679858100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_59
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 29
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 774cd928b60159943b8c745c16ad9e3e
+      internalID: 658305110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_60
+      rect:
+        serializedVersion: 2
+        x: 248
+        y: 29
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9b285e3275402f45b1e2021d4583a8f
+      internalID: 1762389055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_61
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 29
+        width: 4
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8073859c9805e8439151cdd8a21d656
+      internalID: 391790421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_62
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 29
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce889ed64c2295144aeba585d2bbb428
+      internalID: -1403672479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_63
+      rect:
+        serializedVersion: 2
+        x: 268
+        y: 29
+        width: 7
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 185fb8c63c97dee46a3c043ea3ed1744
+      internalID: -1553493846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_64
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 27
+        width: 14
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31e6b1dc106426649b06d0c4dcff804c
+      internalID: -336857386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_65
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 27
+        width: 4
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bbc7964c0b9a5004095b30b89e56d444
+      internalID: -1670719074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_66
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 29
+        width: 4
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ae7e1f32c4d59a45b11bd7a64561068
+      internalID: 687042520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_67
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 29
+        width: 4
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ab73d0520278c0488e319f49317237b
+      internalID: -1378374221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_68
+      rect:
+        serializedVersion: 2
+        x: 310
+        y: 27
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 628b7581626565e4c900bd90687a6b97
+      internalID: -389505374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_69
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 29
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b60d82bb2aa97d49b2898e2db2e136a
+      internalID: -614541041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_70
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 29
+        width: 4
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31667cada8b08674ca300f01d7702545
+      internalID: 1487621516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_71
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 27
+        width: 4
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cca42d60e156d1b43a57a1cb7f560cdc
+      internalID: 1127487442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_72
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 27
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5dff58d8f08633942a98ecda743cbf2e
+      internalID: 158812499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_73
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 18
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ed2feaef5e0aeb41814cd0c95025be8
+      internalID: 617446472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_74
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 18
+        width: 4
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7254385114a3e4459448df9a5e9b715
+      internalID: 388029916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_75
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 18
+        width: 4
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e26f6f35ee1e2ea448f094919645d4ab
+      internalID: -1562218683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_76
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 18
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c93816ff088b95b46939e1b4e4dfe3f3
+      internalID: -139504724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_77
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 18
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2674495b4274fe54f9c262f325f76e59
+      internalID: -1689547049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_78
+      rect:
+        serializedVersion: 2
+        x: 222
+        y: 18
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 776285d2a30a9504da78c3987503da2c
+      internalID: -77967929
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_79
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 18
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1317214fa055c334aab1e82f15103ed6
+      internalID: -2082389508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_80
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 18
+        width: 6
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02cf83144007cbd478b08b64ca7f1e01
+      internalID: 1299510427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_81
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 18
+        width: 4
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3347958c634ee5043a80b4fbecaf478f
+      internalID: 488931576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_82
+      rect:
+        serializedVersion: 2
+        x: 248
+        y: 18
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8af4a052c8a7f9245bfd9b27727b74b4
+      internalID: -1308491990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_83
+      rect:
+        serializedVersion: 2
+        x: 254
+        y: 18
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: abfde8e2742c22845b0c1a09b578c211
+      internalID: 2009401583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_84
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 18
+        width: 7
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96ee0dc1643f4f843b5fdc565c5560c0
+      internalID: 1264734641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_85
+      rect:
+        serializedVersion: 2
+        x: 273
+        y: 16
+        width: 4
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 751f287c51b71d540b07e356605ab486
+      internalID: -214808744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_86
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 16
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de30fd22f33397344a7bcaec3b174aeb
+      internalID: 840907617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_87
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 18
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ad4c1681ce48fa4daa3a8505749de39
+      internalID: 1883918339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_88
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 18
+        width: 4
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44c656a6bce9e334b865b2716793adfe
+      internalID: -1033133266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_89
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 18
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aae551e470514474b92ec6f2f6cb20b7
+      internalID: -548539811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_90
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 18
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93e3d63e219f3124e93578a9828daf50
+      internalID: 812693689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_91
+      rect:
+        serializedVersion: 2
+        x: 317
+        y: 18
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8fbf2c3b331308740a562bb49651988f
+      internalID: 264665770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_92
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 18
+        width: 6
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3c7c0417b0b8df428d0d89b0edb2329
+      internalID: 1282588226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_93
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 18
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11f38dd028aec1b4db35d5d330ccec67
+      internalID: -1147680363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayStation - Battle Hunter - Vikeif_94
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 18
+        width: 7
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba724aba019adb74b8e7002ce0223d97
+      internalID: -1479558954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 09cfde67d8d3af545878d73f347019da
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      PlayStation - Battle Hunter - Vikeif_0: 1317809963
+      PlayStation - Battle Hunter - Vikeif_1: -1888311346
+      PlayStation - Battle Hunter - Vikeif_10: 1646089367
+      PlayStation - Battle Hunter - Vikeif_11: -1835273871
+      PlayStation - Battle Hunter - Vikeif_12: -145148132
+      PlayStation - Battle Hunter - Vikeif_13: -1820245063
+      PlayStation - Battle Hunter - Vikeif_14: 1973678136
+      PlayStation - Battle Hunter - Vikeif_15: 1646704729
+      PlayStation - Battle Hunter - Vikeif_16: 925623236
+      PlayStation - Battle Hunter - Vikeif_17: 1753330034
+      PlayStation - Battle Hunter - Vikeif_18: 640254216
+      PlayStation - Battle Hunter - Vikeif_19: -1020098949
+      PlayStation - Battle Hunter - Vikeif_2: 1032439375
+      PlayStation - Battle Hunter - Vikeif_20: -850197284
+      PlayStation - Battle Hunter - Vikeif_21: -390367671
+      PlayStation - Battle Hunter - Vikeif_22: -154813819
+      PlayStation - Battle Hunter - Vikeif_23: -994187808
+      PlayStation - Battle Hunter - Vikeif_24: -2138724939
+      PlayStation - Battle Hunter - Vikeif_25: 864898492
+      PlayStation - Battle Hunter - Vikeif_26: 1555594315
+      PlayStation - Battle Hunter - Vikeif_27: -367112909
+      PlayStation - Battle Hunter - Vikeif_28: -1563578045
+      PlayStation - Battle Hunter - Vikeif_29: -244988905
+      PlayStation - Battle Hunter - Vikeif_3: -1526558614
+      PlayStation - Battle Hunter - Vikeif_30: -848094474
+      PlayStation - Battle Hunter - Vikeif_31: -1228528697
+      PlayStation - Battle Hunter - Vikeif_32: 860073631
+      PlayStation - Battle Hunter - Vikeif_33: 696171808
+      PlayStation - Battle Hunter - Vikeif_34: -1864352323
+      PlayStation - Battle Hunter - Vikeif_35: -151505868
+      PlayStation - Battle Hunter - Vikeif_36: -729369478
+      PlayStation - Battle Hunter - Vikeif_37: -357389549
+      PlayStation - Battle Hunter - Vikeif_38: -1140821253
+      PlayStation - Battle Hunter - Vikeif_39: -1536950374
+      PlayStation - Battle Hunter - Vikeif_4: 1882864608
+      PlayStation - Battle Hunter - Vikeif_40: -1371357181
+      PlayStation - Battle Hunter - Vikeif_41: 1379962708
+      PlayStation - Battle Hunter - Vikeif_42: -548353552
+      PlayStation - Battle Hunter - Vikeif_43: -1479051580
+      PlayStation - Battle Hunter - Vikeif_44: 1160605507
+      PlayStation - Battle Hunter - Vikeif_45: -663047737
+      PlayStation - Battle Hunter - Vikeif_46: 1301291819
+      PlayStation - Battle Hunter - Vikeif_47: 1015779661
+      PlayStation - Battle Hunter - Vikeif_48: -171764904
+      PlayStation - Battle Hunter - Vikeif_49: -2056605753
+      PlayStation - Battle Hunter - Vikeif_5: 332327895
+      PlayStation - Battle Hunter - Vikeif_50: -1001007109
+      PlayStation - Battle Hunter - Vikeif_51: -1341888534
+      PlayStation - Battle Hunter - Vikeif_52: 1195503363
+      PlayStation - Battle Hunter - Vikeif_53: 1089255417
+      PlayStation - Battle Hunter - Vikeif_54: 1952322360
+      PlayStation - Battle Hunter - Vikeif_55: -848638371
+      PlayStation - Battle Hunter - Vikeif_56: -419001787
+      PlayStation - Battle Hunter - Vikeif_57: -178479601
+      PlayStation - Battle Hunter - Vikeif_58: -1679858100
+      PlayStation - Battle Hunter - Vikeif_59: 658305110
+      PlayStation - Battle Hunter - Vikeif_6: 956170131
+      PlayStation - Battle Hunter - Vikeif_60: 1762389055
+      PlayStation - Battle Hunter - Vikeif_61: 391790421
+      PlayStation - Battle Hunter - Vikeif_62: -1403672479
+      PlayStation - Battle Hunter - Vikeif_63: -1553493846
+      PlayStation - Battle Hunter - Vikeif_64: -336857386
+      PlayStation - Battle Hunter - Vikeif_65: -1670719074
+      PlayStation - Battle Hunter - Vikeif_66: 687042520
+      PlayStation - Battle Hunter - Vikeif_67: -1378374221
+      PlayStation - Battle Hunter - Vikeif_68: -389505374
+      PlayStation - Battle Hunter - Vikeif_69: -614541041
+      PlayStation - Battle Hunter - Vikeif_7: -623914729
+      PlayStation - Battle Hunter - Vikeif_70: 1487621516
+      PlayStation - Battle Hunter - Vikeif_71: 1127487442
+      PlayStation - Battle Hunter - Vikeif_72: 158812499
+      PlayStation - Battle Hunter - Vikeif_73: 617446472
+      PlayStation - Battle Hunter - Vikeif_74: 388029916
+      PlayStation - Battle Hunter - Vikeif_75: -1562218683
+      PlayStation - Battle Hunter - Vikeif_76: -139504724
+      PlayStation - Battle Hunter - Vikeif_77: -1689547049
+      PlayStation - Battle Hunter - Vikeif_78: -77967929
+      PlayStation - Battle Hunter - Vikeif_79: -2082389508
+      PlayStation - Battle Hunter - Vikeif_8: 1440720186
+      PlayStation - Battle Hunter - Vikeif_80: 1299510427
+      PlayStation - Battle Hunter - Vikeif_81: 488931576
+      PlayStation - Battle Hunter - Vikeif_82: -1308491990
+      PlayStation - Battle Hunter - Vikeif_83: 2009401583
+      PlayStation - Battle Hunter - Vikeif_84: 1264734641
+      PlayStation - Battle Hunter - Vikeif_85: -214808744
+      PlayStation - Battle Hunter - Vikeif_86: 840907617
+      PlayStation - Battle Hunter - Vikeif_87: 1883918339
+      PlayStation - Battle Hunter - Vikeif_88: -1033133266
+      PlayStation - Battle Hunter - Vikeif_89: -548539811
+      PlayStation - Battle Hunter - Vikeif_9: -113710668
+      PlayStation - Battle Hunter - Vikeif_90: 812693689
+      PlayStation - Battle Hunter - Vikeif_91: 264665770
+      PlayStation - Battle Hunter - Vikeif_92: 1282588226
+      PlayStation - Battle Hunter - Vikeif_93: -1147680363
+      PlayStation - Battle Hunter - Vikeif_94: -1479558954
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
