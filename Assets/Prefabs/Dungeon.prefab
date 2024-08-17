@@ -48,3 +48,7 @@ MonoBehaviour:
   - {fileID: 4488165858551343332, guid: 7de4d52e97e3b2745b88a85ba00aa947, type: 3}
   - {fileID: 8051038483525043625, guid: 12958950ac7abe74eacf22c204413faf, type: 3}
   dungeonRooms: []
+  roomBin: []
+  chestPrefab: {fileID: 8108700228875914378, guid: 1d79c1cd00478164d9f0fa5d00b752e3, type: 3}
+  treasureChests: []
+  chestCount: 0

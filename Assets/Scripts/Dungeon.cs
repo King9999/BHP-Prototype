@@ -2,16 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 /* A dungeon consists of procedurally generated rooms. The creation of dungeons occurs in this script. 
  Any mods that affect the dungeon's objects are handled here.
  */
 public class Dungeon : MonoBehaviour
 {
-    public List<Room> roomPrefabs;         //master list of room prefabs.
+    public List<Room> roomPrefabs;              //master list of room prefabs.
     public List<Room> dungeonRooms, roomBin;    //roomBin is used to reuse already instantiated rooms.
 
-    private readonly Hashtable occupiedPositions = new();
+    [Header("---Treasure Chests---")]
+    public Entity_TreasureChest chestPrefab;
+    public List<Entity_TreasureChest> treasureChests;
+    public int chestCount;
+
+    //private readonly Hashtable occupiedPositions = new();
     // Start is called before the first frame update
     void Start()
     {
@@ -178,6 +184,40 @@ public class Dungeon : MonoBehaviour
                     //2 is added to Y so hunter is above the room and not falling through it
                     hunter.transform.position = new Vector3(room.x, room.y + 2, room.z);
                     occupiedLocations.Add(randRoom);
+                }
+            }
+            
+        }
+
+        //add chests
+        chestCount = hm.hunters.Count * 2;
+        ItemManager im = Singleton.instance.ItemManager;
+        GameObject chestContainer = new GameObject();
+        chestContainer.name = "Treasure Chests";
+
+        for (int i = 0; i < chestCount; i++)
+        {
+            bool roomFound = false;
+            while (!roomFound)
+            {
+                int randRoom = Random.Range(0, dungeonRooms.Count);
+
+                if (!occupiedLocations.Contains(randRoom))
+                {
+                    roomFound = true;
+                    Entity_TreasureChest chest = Instantiate(chestPrefab);
+                    chest.transform.SetParent(chestContainer.transform);
+
+                    //TODO: If this is the first chest to be generated, it must contain the target item.
+
+                    Vector3 room = dungeonRooms[randRoom].transform.position;
+                    //1 is added to Y so chest is above the room
+                    chest.transform.position = new Vector3(room.x, room.y + 1, room.z);
+                    occupiedLocations.Add(randRoom);
+
+                    //generate item
+                    im.GenerateChestItem(chest);
+                    treasureChests.Add(chest);
                 }
             }
         }
