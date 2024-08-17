@@ -8,7 +8,7 @@ public abstract class Consumable : Item
     {
         itemType = ItemType.Consumable;
     }
-    public virtual void ActivateEffect() 
+    public virtual void ActivateEffect(Hunter user) 
     { 
 
     }

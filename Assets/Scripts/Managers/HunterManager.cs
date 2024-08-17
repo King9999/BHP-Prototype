@@ -315,6 +315,11 @@ public class HunterManager : MonoBehaviour
 
         hunters[hunters.Count - 1].Equip((Weapon)item);
         ui.ShowWeaponSelectionMenu(false);
+        /*item = im.lootTable.GetItem(im.lootTable.consumables); //only has medispray
+        if (item is Consumable medispray)       //This is how to get the type of a scriptable object!
+        {
+            medispray.ActivateEffect(hunters[hunters.Count - 1]);
+        }*/
 
         //move to game scene
         SceneManager.LoadScene("Game");

@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: masterLootTable
   m_EditorClassIdentifier: 
   tableWeight: 2c0100002c010000fa00000096000000
-  consumables: []
+  consumables:
+  - item: {fileID: 11400000, guid: f9bfc8beb1db3ee4fad5169cada3d201, type: 2}
+    itemWeight: 1000
   equipment:
   - item: {fileID: 11400000, guid: bed211d3746c4534bbfceb0cfecfa57c, type: 2}
     itemWeight: 333
