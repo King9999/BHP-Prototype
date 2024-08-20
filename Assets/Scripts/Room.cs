@@ -63,14 +63,14 @@ public class Room : MonoBehaviour
             }
         }
 
-        Debug.Log("got here");
+        //Debug.Log("got here");
 
         //check for any more points
         for (int i = 0; i < nodes.Length; i++)
         {
             if (!nodes[i].pos.gameObject.activeSelf)
             {
-                if (Random.value <= 0.15f)
+                if (Random.value <= 0.5f)
                     nodes[i].pos.gameObject.SetActive(true);
             }
         }
