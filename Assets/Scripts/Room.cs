@@ -25,7 +25,7 @@ public class Room : MonoBehaviour
 
     void Awake()
     {
-        ActivateConnectPoints();
+        //ActivateConnectPoints();
     }
 
 
@@ -78,9 +78,9 @@ public class Room : MonoBehaviour
         
     }
 
-    public void ActivateConnectPoint(int point)
+    public void ActivateConnectPoint(int point, bool toggle)
     {
-        nodes[point].pos.gameObject.SetActive(true);
+        nodes[point].pos.gameObject.SetActive(toggle);
     }
 
     public bool ConnectPointActive(int point)

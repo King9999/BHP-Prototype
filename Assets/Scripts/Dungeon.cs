@@ -17,7 +17,7 @@ public class Dungeon : MonoBehaviour
     public List<Entity_TreasureChest> treasureChests;
     public int chestCount;
 
-    //private readonly Hashtable occupiedPositions = new();
+    private readonly Hashtable occupiedPositions = new();
     // Start is called before the first frame update
     void Start()
     {
@@ -36,11 +36,12 @@ public class Dungeon : MonoBehaviour
         //TODO: Room count scales up depending on hunter count. Need to figure out a good minimum room count for 2 hunters.
         //TODO 2: Need a way to recycle rooms, and only instantiate more rooms when necessary.
 
-        int roomCount = 200;
+        int roomCount = 100;
+        bool loopBreak = false;
         GameObject roomContainer = new GameObject();
         roomContainer.name = "Dungeon Rooms";
 
-        while (dungeonRooms.Count < roomCount)
+        while (!loopBreak && dungeonRooms.Count < roomCount)
         {
             Room room = Instantiate(roomPrefabs[0]);
             room.transform.SetParent(roomContainer.transform);
@@ -48,25 +49,83 @@ public class Dungeon : MonoBehaviour
 
             if (dungeonRooms.Count < 1)
             {
-                bool pointFound = false;
-                while (!pointFound)
-                {
-                    int randPoint = Random.Range(0, room.nodes.Length);
-                    if (room.nodes[randPoint].pos.gameObject.activeSelf)
-                    {
-                        pointFound = true;
-                        room.nodes[randPoint].isSelected = true;
-                    }
-                }
+                //bool pointFound = false;
+                //while (!pointFound)
+                //{
+                //int randPoint = Random.Range(0, room.nodes.Length);
+                //if (room.nodes[randPoint].pos.gameObject.activeSelf)
+                //{
+                //pointFound = true;
+                //room.nodes[randPoint].isSelected = true;
+                dungeonRooms.Add(room);
+                occupiedPositions.Add(room.transform.position, room.roomID);
+                //}
+                //}
                 Debug.Log("Added 1 dungeon room");
             }
             else
             {
+                //find a random point and add new room there. Must check for occupiped positions.
+
+
                 //check the last room that was added for a connect point, then add the new room there.
                 bool pointFound = false;
                 int i = 0;
                 int lastRoom = dungeonRooms.Count - 1;
-                while (!pointFound && i < dungeonRooms[lastRoom].nodes.Length)
+
+
+                //check for occupied positions
+                int breakCount = 0;
+                while (breakCount < 100 && !pointFound)
+                {
+                    int randPoint = Random.Range(0, dungeonRooms[lastRoom].nodes.Length);
+                    float xDir = 1;
+                    float zDir = 1;
+                    if (dungeonRooms[lastRoom].nodes[randPoint].direction == Vector3.right)
+                    {
+                        zDir = 0;
+                    }
+                    else if (dungeonRooms[lastRoom].nodes[randPoint].direction == Vector3.left)
+                    {
+                        zDir = 0;
+                        xDir = -1;
+                    }
+                    else if (dungeonRooms[lastRoom].nodes[randPoint].direction == Vector3.forward)
+                    {
+                        xDir = 0;
+                    }
+                    else if (dungeonRooms[lastRoom].nodes[randPoint].direction == Vector3.back)
+                    {
+                        xDir = 0;
+                        zDir = -1;      //z is negative when going towards screen.
+                    }
+                    Vector3 nodePos = dungeonRooms[lastRoom].nodes[randPoint].pos.transform.position;
+                    Vector3 roomScale = dungeonRooms[lastRoom].transform.localScale;
+                    Vector3 newPos = new Vector3(nodePos.x + (xDir * roomScale.x / 2), nodePos.y,
+                            nodePos.z + (zDir * roomScale.z / 2));
+
+                    if (!occupiedPositions.ContainsKey(newPos))
+                    {
+                        pointFound = true;
+                        room.transform.position = newPos;
+                        dungeonRooms.Add(room);
+                        occupiedPositions.Add(room.transform.position, room.roomID);
+                        breakCount = 0;
+                    }
+                    else
+                    {
+                        breakCount++;
+                    }
+                }
+
+                if (breakCount >= 100)
+                {
+                    Debug.Log("Hit an infinite loop");
+                    loopBreak = true;
+                }
+            }
+
+                /*while (!pointFound && i < dungeonRooms[lastRoom].nodes.Length)
                 {
                     if (dungeonRooms[lastRoom].nodes[i].isSelected && !dungeonRooms[lastRoom].nodes[i].isConnected)
                     {
@@ -80,27 +139,27 @@ public class Dungeon : MonoBehaviour
                         if (dungeonRooms[lastRoom].nodes[i].direction == Vector3.right) 
                         {
                             zDir = 0;
-                            room.ActivateConnectPoint(room.LEFT);
+                            room.ActivateConnectPoint(room.LEFT, true);
                             room.nodes[room.LEFT].isConnected = true;   //this is done to prevent new rooms from conneting here
                         }
                         else if (dungeonRooms[lastRoom].nodes[i].direction == Vector3.left)
                         {
                             zDir = 0;
                             xDir = -1;
-                            room.ActivateConnectPoint(room.RIGHT);
+                            room.ActivateConnectPoint(room.RIGHT, true);
                             room.nodes[room.RIGHT].isConnected = true;
                         }
                         else if (dungeonRooms[lastRoom].nodes[i].direction == Vector3.forward)
                         {
                             xDir = 0;
-                            room.ActivateConnectPoint(room.BACK);
+                            room.ActivateConnectPoint(room.BACK, true);
                             room.nodes[room.BACK].isConnected = true;
                         }
                         else if (dungeonRooms[lastRoom].nodes[i].direction == Vector3.back)
                         {
                             xDir = 0;
                             zDir = -1;      //z is negative when going towards screen.
-                            room.ActivateConnectPoint(room.FORWARD);
+                            room.ActivateConnectPoint(room.FORWARD, true);
                             room.nodes[room.FORWARD].isConnected = true;
                         }
                         Vector3 nodePos = dungeonRooms[lastRoom].nodes[i].pos.transform.position;
@@ -112,9 +171,6 @@ public class Dungeon : MonoBehaviour
                         Debug.Log("Adding room " + (dungeonRooms.Count - 1) + " at position " + newPos);
 
                         room.gameObject.transform.position = newPos;
-                       
-                        
-                        //room.connectPoints[i].isSelected = true;
                     }
                     else
                     {
@@ -136,8 +192,8 @@ public class Dungeon : MonoBehaviour
                     }
                 }
 
-            }
-            dungeonRooms.Add(room);
+            }*/
+            //dungeonRooms.Add(room);
         }
 
         /* populate the dungeon with objects, including hunters. */
@@ -158,9 +214,9 @@ public class Dungeon : MonoBehaviour
                 {
                     roomFound = true;
                     hm.ToggleHunter(hunter, true);
-                    Vector3 room = dungeonRooms[randRoom].transform.position;
+                    Vector3 roomPos = dungeonRooms[randRoom].transform.position;
                     //2 is added to Y so hunter is above the room and not falling through it
-                    hunter.transform.position = new Vector3(room.x, room.y + 2, room.z);
+                    hunter.transform.position = new Vector3(roomPos.x, roomPos.y + 2, roomPos.z);
                     hunter.room = dungeonRooms[randRoom];
                     occupiedLocations.Add(randRoom);
                 }
@@ -189,9 +245,9 @@ public class Dungeon : MonoBehaviour
 
                     //TODO: If this is the first chest to be generated, it must contain the target item.
 
-                    Vector3 room = dungeonRooms[randRoom].transform.position;
+                    Vector3 roomPos = dungeonRooms[randRoom].transform.position;
                     //1 is added to Y so chest is above the room
-                    chest.transform.position = new Vector3(room.x, room.y + 1, room.z);
+                    chest.transform.position = new Vector3(roomPos.x, roomPos.y + 1, roomPos.z);
                     occupiedLocations.Add(randRoom);
 
                     //generate item
