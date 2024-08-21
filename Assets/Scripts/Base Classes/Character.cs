@@ -66,6 +66,8 @@ public abstract class Character : MonoBehaviour
 
     public CharacterState characterState;
 
+    [Header("---Room Location---")]
+    public Room room;           //the room in the dungeon this character is currently occupying. Fast way to get a refernce to a room.
     /* DEBUFF DETAILS
         -------------
         Poisoned = Target loses (5% * duration count) of HP each turn. Lasts 3 turns.
@@ -78,6 +80,8 @@ public abstract class Character : MonoBehaviour
         Disable Super = Cannot gain super meter. 
         Weak = Roll 1 die for attacks/skills 
         Unlucky = when attacking or defending, all rolls for the afflicted user occur twice, and the worst of the two results is applied.*/
+
+  
     public enum Debuff
     {
         Poisoned, Dizzy, Blind, Injured, Berserk, DisableLeg, DisableSkill, DisableSuper, Weak, Unlucky
@@ -98,6 +102,7 @@ public abstract class Character : MonoBehaviour
     }
     public List<CharacterEffect> debuffs;     //Characters can have up to 3 buffs and debuffs. Adding a 4th overwrites the oldest effect.
     public List<CharacterEffect> buffs;
+    protected int maxEffects { get; } = 3;
 
     public void Attack() { }
     public void Defend() { }

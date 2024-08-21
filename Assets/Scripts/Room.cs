@@ -15,6 +15,7 @@ public class Room : MonoBehaviour
         public Vector3 direction;       //the direction the node is facing. required for connecting other rooms.
     }
     public Node[] nodes;
+    public int roomID;                  //easy way to identify a room
 
     //constants for node direction
     public int FORWARD { get; } = 0;        //this is "up"
@@ -80,6 +81,11 @@ public class Room : MonoBehaviour
     public void ActivateConnectPoint(int point)
     {
         nodes[point].pos.gameObject.SetActive(true);
+    }
+
+    public bool ConnectPointActive(int point)
+    {
+        return nodes[point].pos.gameObject.activeSelf;
     }
 
     //checks for rooms with no connect points. The first half number of rooms generated must have at least one connect point.

@@ -89,8 +89,9 @@ public class GameManager : MonoBehaviour
         inventoryContainer.gameObject.SetActive(false);
         skillContainer.gameObject.SetActive(false);
 
-        
-        
+        ShowMovementRange(hm.hunters[0], 1);
+
+
     }
 
     // Update is called once per frame
@@ -255,11 +256,11 @@ public class GameManager : MonoBehaviour
 
         int diceResult = dice.RollDice();
 
-        if (character.TryGetComponent<Hunter>(out Hunter hunter))
+        if (character is Hunter hunter /*character.TryGetComponent<Hunter>(out Hunter hunter)*/)
         {
             return diceResult + (int)hunter.atp;
         }
-        else if (character.TryGetComponent<Monster>(out Monster monster))
+        else if (character is Monster monster /*character.TryGetComponent<Monster>(out Monster monster)*/)
         {
             return diceResult + (int)monster.atp;
         }
@@ -272,16 +273,53 @@ public class GameManager : MonoBehaviour
         //roll 2 dice if character is defending, i.e. they forfeit their chance to counterattack.
         int dieResult = character.characterState == Character.CharacterState.Guarding ? dice.RollDice() : dice.RollSingleDie();
 
-
-        if (character.TryGetComponent<Hunter>(out Hunter hunter))
+        if (character is Hunter hunter /*character.TryGetComponent<Hunter>(out Hunter hunter)*/)
         {
             return dieResult + (int)hunter.dfp;
         }
-        else if (character.TryGetComponent<Monster>(out Monster monster))
+        else if (character is Monster monster /*character.TryGetComponent<Monster>(out Monster monster)*/)
         {
             return dieResult + (int)monster.dfp;
         }
         else
             return 0;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="character">The hunter or monster who is going to move.</param>
+    /// <param name="spaceCount">The number of spaces the character can move.</param>
+    /// <returns>The valid positions the character can move to.</returns>
+    public List<Vector3> ShowMovementRange(Character character, int spaceCount)
+    {
+        List<Vector3> validPositions = new List<Vector3>();
+        //search surrounding rooms for valid spaces, starting from character's location.
+        Room currentRoom = character.room;
+        Vector3 currentPos = currentRoom.transform.position;
+        Vector3 leftRoomPos = new Vector3(currentPos.x - 2, currentPos.y, currentPos.z);
+        Vector3 rightRoomPos = new Vector3(currentPos.x + 2, currentPos.y, currentPos.z);
+        Vector3 backRoomPos = new Vector3(currentPos.x, currentPos.y, currentPos.z + 2);
+        Vector3 frontRoomPos = new Vector3(currentPos.x, currentPos.y, currentPos.z - 2);
+        Ray leftRay = new Ray(currentPos, Vector3.left);
+        Ray rightRay = new Ray(currentPos, new Vector3(currentPos.x + 2, currentPos.y, currentPos.z));
+        Ray backRay = new Ray(currentPos, new Vector3(currentPos.x, currentPos.y, currentPos.z + 2));
+        Ray forwardRay = new Ray(currentPos, new Vector3(currentPos.x, currentPos.y, currentPos.z - 2));
+        bool leftPos = Physics.Raycast(currentPos, new Vector3(currentPos.x - 2,currentPos.y, currentPos.z));
+        bool rightPos = Physics.Raycast(currentPos, new Vector3(currentPos.x + 2, currentPos.y, currentPos.z));
+        bool backPos = Physics.Raycast(currentPos, new Vector3(currentPos.x, currentPos.y, currentPos.z + 2));
+        bool frontPos = Physics.Raycast(currentPos, new Vector3(currentPos.x, currentPos.y, currentPos.z - 2));
+
+        //does a room exist at these locations?
+        //Debug.Log("Current Location: " + currentRoom.transform.position);
+        Debug.DrawRay(currentPos, Vector3.left, Color.blue);
+        if (Physics.Raycast(leftRay, out RaycastHit hit))
+        {
+            Debug.Log("hit left");
+        }
+        Debug.Log("left hit: " + leftPos + "\nright hit: " + rightPos + "\nback hit: " + backPos + "\nfront hit: " + frontPos);
+
+        //display a blue tile to indicate where character can move.
+        return validPositions;
     }
 }

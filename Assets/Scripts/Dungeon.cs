@@ -44,6 +44,7 @@ public class Dungeon : MonoBehaviour
         {
             Room room = Instantiate(roomPrefabs[0]);
             room.transform.SetParent(roomContainer.transform);
+            room.roomID = dungeonRooms.Count;
 
             if (dungeonRooms.Count < 1)
             {
@@ -135,31 +136,8 @@ public class Dungeon : MonoBehaviour
                     }
                 }
 
-                /*while (!pointFound && i < room.nodes.Length)
-                {
-                    //int randPoint = Random.Range(0, room.connectPoints.Count);
-                    //room.connectPoints[randPoint].isSelected = true;
-                    if (room.nodes[i].pos.gameObject.activeSelf && !room.nodes[i].isConnected)
-                    {
-                        pointFound = true;
-                        room.nodes[i].isSelected = true;
-                    }
-                    else
-                    {
-                        i++;
-                    }
-                }
-
-                if (!pointFound)
-                {
-                    Debug.Log("error: no connect point found");
-                }*/
             }
-
-            //}
-
             dungeonRooms.Add(room);
-            //i++;
         }
 
         /* populate the dungeon with objects, including hunters. */
@@ -183,6 +161,7 @@ public class Dungeon : MonoBehaviour
                     Vector3 room = dungeonRooms[randRoom].transform.position;
                     //2 is added to Y so hunter is above the room and not falling through it
                     hunter.transform.position = new Vector3(room.x, room.y + 2, room.z);
+                    hunter.room = dungeonRooms[randRoom];
                     occupiedLocations.Add(randRoom);
                 }
             }
