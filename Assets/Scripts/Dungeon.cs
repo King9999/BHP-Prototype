@@ -30,6 +30,41 @@ public class Dungeon : MonoBehaviour
     {
         
     }
+    /// <summary>
+    /// Adds an adjacent room to the room specified.
+    /// </summary>
+    /// <param name="room">The room that will have an adjacent room generated.</param>
+    Vector3 GenerateRoomPosition(Room room)
+    {
+        int randPoint = Random.Range(0, room.nodes.Length);
+        float xDir = 1;
+        float zDir = 1;
+        if (room.nodes[randPoint].direction == Vector3.right)
+        {
+            zDir = 0;
+        }
+        else if (room.nodes[randPoint].direction == Vector3.left)
+        {
+            zDir = 0;
+            xDir = -1;
+        }
+        else if (room.nodes[randPoint].direction == Vector3.forward)
+        {
+            xDir = 0;
+        }
+        else if (room.nodes[randPoint].direction == Vector3.back)
+        {
+            xDir = 0;
+            zDir = -1;      //z is negative when going towards screen.
+        }
+        Vector3 nodePos = room.nodes[randPoint].pos.transform.position;
+        Vector3 roomScale = room.transform.localScale;
+        Vector3 newPos = new Vector3(nodePos.x + (xDir * roomScale.x / 2), nodePos.y,
+                nodePos.z + (zDir * roomScale.z / 2));
+
+        return new Vector3(nodePos.x + (xDir * roomScale.x / 2), nodePos.y,
+                nodePos.z + (zDir * roomScale.z / 2));
+    }
 
     public void CreateDungeon()
     {
@@ -75,10 +110,10 @@ public class Dungeon : MonoBehaviour
 
 
                 //check for occupied positions
-                int breakCount = 0;
-                while (breakCount < 100 && !pointFound)
+                int loopCount = 0;
+                while (loopCount < 100 && !pointFound)
                 {
-                    int randPoint = Random.Range(0, dungeonRooms[lastRoom].nodes.Length);
+                    /*int randPoint = Random.Range(0, dungeonRooms[lastRoom].nodes.Length);
                     float xDir = 1;
                     float zDir = 1;
                     if (dungeonRooms[lastRoom].nodes[randPoint].direction == Vector3.right)
@@ -102,7 +137,9 @@ public class Dungeon : MonoBehaviour
                     Vector3 nodePos = dungeonRooms[lastRoom].nodes[randPoint].pos.transform.position;
                     Vector3 roomScale = dungeonRooms[lastRoom].transform.localScale;
                     Vector3 newPos = new Vector3(nodePos.x + (xDir * roomScale.x / 2), nodePos.y,
-                            nodePos.z + (zDir * roomScale.z / 2));
+                            nodePos.z + (zDir * roomScale.z / 2));*/
+
+                    Vector3 newPos = GenerateRoomPosition(dungeonRooms[lastRoom]);
 
                     if (!occupiedPositions.ContainsKey(newPos))
                     {
@@ -110,18 +147,44 @@ public class Dungeon : MonoBehaviour
                         room.transform.position = newPos;
                         dungeonRooms.Add(room);
                         occupiedPositions.Add(room.transform.position, room.roomID);
-                        breakCount = 0;
+                        loopCount = 0;
                     }
                     else
                     {
-                        breakCount++;
+                        loopCount++;
                     }
                 }
 
-                if (breakCount >= 100)
+                if (loopCount >= 100)
                 {
+                    //if we get here, that means we ran into a situation where a room couldn't find available
+                    //space. Now we much search elsewhere to add new room.
                     Debug.Log("Hit an infinite loop");
-                    loopBreak = true;
+                    loopCount = 0;
+                    //search for a random room that can accomodate a new room.
+                    while (loopCount < 100 && !pointFound)
+                    {
+                        int randRoom = Random.Range(0, dungeonRooms.Count);
+                        Vector3 newPos = GenerateRoomPosition(dungeonRooms[randRoom]);
+                        if (!occupiedPositions.ContainsKey(newPos))
+                        {
+                            pointFound = true;
+                            room.transform.position = newPos;
+                            dungeonRooms.Add(room);
+                            occupiedPositions.Add(room.transform.position, room.roomID);
+                            loopCount = 0;
+                        }
+                        else
+                        {
+                            loopCount++;
+                        }
+                    }
+                    if (loopCount >= 100)
+                    {
+                        loopBreak = true;   //if we get here, then something is seriously wrong
+                        Debug.Log("Main loop broken");
+                    }
+                    //loopBreak = true;
                 }
             }
 
