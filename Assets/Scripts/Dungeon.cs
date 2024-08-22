@@ -71,12 +71,13 @@ public class Dungeon : MonoBehaviour
         //TODO: Room count scales up depending on hunter count. Need to figure out a good minimum room count for 2 hunters.
         //TODO 2: Need a way to recycle rooms, and only instantiate more rooms when necessary.
 
-        int roomCount = 100;
-        bool loopBreak = false;
+        HunterManager hm = Singleton.instance.HunterManager;
+        int roomCount = 50 * hm.hunters.Count;
+        //bool loopBreak = false;
         GameObject roomContainer = new GameObject();
         roomContainer.name = "Dungeon Rooms";
 
-        while (!loopBreak && dungeonRooms.Count < roomCount)
+        while (/*!loopBreak &&*/ dungeonRooms.Count < roomCount)
         {
             Room room = Instantiate(roomPrefabs[0]);
             room.transform.SetParent(roomContainer.transform);
@@ -105,9 +106,9 @@ public class Dungeon : MonoBehaviour
 
                 //check the last room that was added for a connect point, then add the new room there.
                 bool pointFound = false;
-                int i = 0;
-                int lastRoom = dungeonRooms.Count - 1;
-
+                //int i = 0;
+                //int lastRoom = dungeonRooms.Count - 1;
+                
 
                 //check for occupied positions
                 int loopCount = 0;
@@ -138,8 +139,8 @@ public class Dungeon : MonoBehaviour
                     Vector3 roomScale = dungeonRooms[lastRoom].transform.localScale;
                     Vector3 newPos = new Vector3(nodePos.x + (xDir * roomScale.x / 2), nodePos.y,
                             nodePos.z + (zDir * roomScale.z / 2));*/
-
-                    Vector3 newPos = GenerateRoomPosition(dungeonRooms[lastRoom]);
+                    int randRoom = Random.Range(0, dungeonRooms.Count);
+                    Vector3 newPos = GenerateRoomPosition(dungeonRooms[randRoom]);
 
                     if (!occupiedPositions.ContainsKey(newPos))
                     {
@@ -149,13 +150,13 @@ public class Dungeon : MonoBehaviour
                         occupiedPositions.Add(room.transform.position, room.roomID);
                         loopCount = 0;
                     }
-                    else
+                    /*else
                     {
                         loopCount++;
-                    }
+                    }*/
                 }
 
-                if (loopCount >= 100)
+                /*if (loopCount >= 100)
                 {
                     //if we get here, that means we ran into a situation where a room couldn't find available
                     //space. Now we much search elsewhere to add new room.
@@ -185,7 +186,7 @@ public class Dungeon : MonoBehaviour
                         Debug.Log("Main loop broken");
                     }
                     //loopBreak = true;
-                }
+                }*/
             }
 
                 /*while (!pointFound && i < dungeonRooms[lastRoom].nodes.Length)
@@ -262,7 +263,7 @@ public class Dungeon : MonoBehaviour
         /* populate the dungeon with objects, including hunters. */
         List<int> occupiedLocations = new List<int>();  //dungeon rooms that have an object in them.
 
-        HunterManager hm = Singleton.instance.HunterManager;
+        //HunterManager hm = Singleton.instance.HunterManager;
 
         foreach(Hunter hunter in hm.hunters)
         {
