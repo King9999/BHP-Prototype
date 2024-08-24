@@ -111,8 +111,8 @@ public class Dungeon : MonoBehaviour
                 
 
                 //check for occupied positions
-                int loopCount = 0;
-                while (loopCount < 100 && !pointFound)
+                //int loopCount = 0;
+                while (/*loopCount < 100 &&*/ !pointFound)
                 {
                     /*int randPoint = Random.Range(0, dungeonRooms[lastRoom].nodes.Length);
                     float xDir = 1;
@@ -148,7 +148,7 @@ public class Dungeon : MonoBehaviour
                         room.transform.position = newPos;
                         dungeonRooms.Add(room);
                         occupiedPositions.Add(room.transform.position, room.roomID);
-                        loopCount = 0;
+                        //loopCount = 0;
                     }
                     /*else
                     {

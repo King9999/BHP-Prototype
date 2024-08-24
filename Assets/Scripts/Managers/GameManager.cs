@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
         inventoryContainer.gameObject.SetActive(false);
         skillContainer.gameObject.SetActive(false);
 
-        ShowMovementRange(hm.hunters[0], 1);
+       //ShowMovementRange(hm.hunters[0], 1);
 
 
     }
@@ -97,8 +97,16 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        HunterManager hm = Singleton.instance.HunterManager;
+        ShowMovementRange(hm.hunters[0], 1);
     }
+
+    private void FixedUpdate()
+    {
+        //HunterManager hm = Singleton.instance.HunterManager;
+        //  ShowMovementRange(hm.hunters[0], 1);
+    }
+
 
     public void ChangeGameState(GameState gameState)
     {
@@ -297,27 +305,53 @@ public class GameManager : MonoBehaviour
         //search surrounding rooms for valid spaces, starting from character's location.
         Room currentRoom = character.room;
         Vector3 currentPos = currentRoom.transform.position;
-        Vector3 leftRoomPos = new Vector3(currentPos.x - 2, currentPos.y, currentPos.z);
-        Vector3 rightRoomPos = new Vector3(currentPos.x + 2, currentPos.y, currentPos.z);
-        Vector3 backRoomPos = new Vector3(currentPos.x, currentPos.y, currentPos.z + 2);
-        Vector3 frontRoomPos = new Vector3(currentPos.x, currentPos.y, currentPos.z - 2);
-        Ray leftRay = new Ray(currentPos, Vector3.left);
-        Ray rightRay = new Ray(currentPos, new Vector3(currentPos.x + 2, currentPos.y, currentPos.z));
-        Ray backRay = new Ray(currentPos, new Vector3(currentPos.x, currentPos.y, currentPos.z + 2));
-        Ray forwardRay = new Ray(currentPos, new Vector3(currentPos.x, currentPos.y, currentPos.z - 2));
-        bool leftPos = Physics.Raycast(currentPos, new Vector3(currentPos.x - 2,currentPos.y, currentPos.z));
-        bool rightPos = Physics.Raycast(currentPos, new Vector3(currentPos.x + 2, currentPos.y, currentPos.z));
-        bool backPos = Physics.Raycast(currentPos, new Vector3(currentPos.x, currentPos.y, currentPos.z + 2));
-        bool frontPos = Physics.Raycast(currentPos, new Vector3(currentPos.x, currentPos.y, currentPos.z - 2));
+        //Debug.Log("Current room pos: " + currentPos);
+        //Vector3 leftRoomPos = new Vector3(currentPos.x - 2, currentPos.y, currentPos.z);
+        //Vector3 rightRoomPos = new Vector3(currentPos.x + 2, currentPos.y, currentPos.z);
+        //Vector3 backRoomPos = new Vector3(currentPos.x, currentPos.y, currentPos.z + 2);
+        //Vector3 frontRoomPos = new Vector3(currentPos.x, currentPos.y, currentPos.z - 2);
+        float distance = 1.9f;
+        Vector3 xOffset = new Vector3 (0.1f, 0, 0);
+        Vector3 zOffset = new Vector3(0, 0, 0.1f);
+        Ray leftRay = new Ray(currentPos, /*currentRoom.nodes[currentRoom.LEFT].pos.transform.position - xOffset,*/ Vector3.left);
+        //Debug.Log("Left Ray: " + leftRay);
+        Ray rightRay = new Ray(currentPos, /*currentRoom.nodes[currentRoom.RIGHT].pos.transform.position + xOffset,*/ Vector3.right);
+        Ray backRay = new Ray(currentPos, /*currentRoom.nodes[currentRoom.BACK].pos.transform.position - zOffset,*/ Vector3.back);
+        Ray frontRay = new Ray(currentPos, /*currentRoom.nodes[currentRoom.FORWARD].pos.transform.position + zOffset,*/ Vector3.forward);
+        //Collider[] rooms = Physics.OverlapSphere(currentPos, 1f, LayerMask.GetMask("Room"));
+        //Debug.Log("rooms: " + rooms.Length);
+        
 
         //does a room exist at these locations?
         //Debug.Log("Current Location: " + currentRoom.transform.position);
-        Debug.DrawRay(currentPos, Vector3.left, Color.blue);
-        if (Physics.Raycast(leftRay, out RaycastHit hit))
+        //Debug.DrawRay(character.transform.position, Vector3.left, Color.blue, 10000000, false);
+        
+        Debug.DrawRay(currentPos, /*currentRoom.nodes[currentRoom.LEFT].pos.transform.position - xOffset,*/ Vector3.left * distance, Color.blue, 10000000);
+        Debug.DrawRay(currentPos, Vector3.right * distance, Color.blue, 10000000);
+        Debug.DrawRay(currentPos, Vector3.back * distance, Color.blue, 10000000);
+        Debug.DrawRay(currentPos, Vector3.forward * distance, Color.blue, 10000000);
+        int layerMask = 1 << 3;
+        //Debug.Log("Layer Mask: " + LayerMask.GetMask("Room") + layerMask);
+        if (Physics.Raycast(leftRay, out RaycastHit leftRoom, distance, LayerMask.GetMask("Room")))
         {
-            Debug.Log("hit left");
+            Debug.Log("hit left " + leftRoom.collider + " at pos " + leftRoom.transform.position);
         }
-        Debug.Log("left hit: " + leftPos + "\nright hit: " + rightPos + "\nback hit: " + backPos + "\nfront hit: " + frontPos);
+
+        if (Physics.Raycast(rightRay, out RaycastHit rightRoom, distance, LayerMask.GetMask("Room")))
+        {
+            Debug.Log("hit right " + rightRoom.collider + " at pos " + rightRoom.transform.position);
+        }
+
+        if (Physics.Raycast(backRay, out RaycastHit backRoom, distance, LayerMask.GetMask("Room")))
+        {
+            Debug.Log("hit back" + backRoom.collider + " at pos " + backRoom.transform.position);
+        }
+
+        if (Physics.Raycast(frontRay, out RaycastHit frontRoom, distance, LayerMask.GetMask("Room")))
+        {
+            Debug.Log("hit front" + frontRoom.collider + " at pos " + frontRoom.transform.position);
+        }
+        //Debug.Log("left hit: " + leftPos + "\nright hit: " + rightPos + "\nback hit: " + backPos + "\nfront hit: " + frontPos);
 
         //display a blue tile to indicate where character can move.
         return validPositions;
