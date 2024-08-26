@@ -44,6 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d7ebf531f1e99b4aa98064c022f8203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dice: {fileID: 0}
+  attackerTotalRoll: 0
+  defenderTotalRoll: 0
   hunterName: {fileID: 0}
   hunterStr: {fileID: 0}
   hunterVit: {fileID: 0}
@@ -61,5 +64,33 @@ MonoBehaviour:
   spdPointsGUI: {fileID: 0}
   vitPointsGUI: {fileID: 0}
   mntPointsGUI: {fileID: 0}
-  hunterPrefab: {fileID: 7340040267651634088, guid: 08558392a7ae0144e86f499a769a72c7, type: 3}
-  hunter: {fileID: 0}
+  equippedWeaponText: {fileID: 0}
+  equippedArmorText: {fileID: 0}
+  equippedAccText: {fileID: 0}
+  monsterName: {fileID: 0}
+  monsterAtp: {fileID: 0}
+  monsterDfp: {fileID: 0}
+  monsterMnp: {fileID: 0}
+  monsterRst: {fileID: 0}
+  monsterEvd: {fileID: 0}
+  monsterHp: {fileID: 0}
+  monsterSp: {fileID: 0}
+  monsterMov: {fileID: 0}
+  monsterSpd: {fileID: 0}
+  attackerDieOneGUI: {fileID: 0}
+  attackerDieTwoGUI: {fileID: 0}
+  attackerAtp_total: {fileID: 0}
+  attackerTotalAttackDamage: {fileID: 0}
+  defenderDieOneGUI: {fileID: 0}
+  defenderDieTwoGUI: {fileID: 0}
+  defenderDfp_total: {fileID: 0}
+  defenderTotalDefense: {fileID: 0}
+  inventoryContainer: {fileID: 0}
+  skillContainer: {fileID: 0}
+  hunterInventory:
+  - {fileID: 0}
+  hunterSkills: []
+  combatManager: {fileID: 0}
+  lootTable: {fileID: 0}
+  moveTilePrefab: {fileID: 2232471571221434396, guid: e69e9613ba75b3f4ba68d01559754911, type: 3}
+  gameState: 0

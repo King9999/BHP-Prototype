@@ -1189,10 +1189,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 695533110}
     - target: {fileID: 7881919487199102850, guid: 7a14108267b04c14ebccaeb32f62a5ca, type: 3}
-      propertyPath: hunterATP
-      value: 
-      objectReference: {fileID: 909680971}
-    - target: {fileID: 7881919487199102850, guid: 7a14108267b04c14ebccaeb32f62a5ca, type: 3}
       propertyPath: hunterAtp
       value: 
       objectReference: {fileID: 1066350624}
@@ -1297,6 +1293,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 936551760}
     - target: {fileID: 7881919487199102850, guid: 7a14108267b04c14ebccaeb32f62a5ca, type: 3}
+      propertyPath: moveTilePrefab
+      value: 
+      objectReference: {fileID: 2232471571221434396, guid: e69e9613ba75b3f4ba68d01559754911, type: 3}
+    - target: {fileID: 7881919487199102850, guid: 7a14108267b04c14ebccaeb32f62a5ca, type: 3}
       propertyPath: skillContainer
       value: 
       objectReference: {fileID: 1157711908}
@@ -1304,18 +1304,6 @@ PrefabInstance:
       propertyPath: equippedAccText
       value: 
       objectReference: {fileID: 697317791}
-    - target: {fileID: 7881919487199102850, guid: 7a14108267b04c14ebccaeb32f62a5ca, type: 3}
-      propertyPath: hunterAtp_total
-      value: 
-      objectReference: {fileID: 909680971}
-    - target: {fileID: 7881919487199102850, guid: 7a14108267b04c14ebccaeb32f62a5ca, type: 3}
-      propertyPath: hunterDieOneGUI
-      value: 
-      objectReference: {fileID: 1129485324}
-    - target: {fileID: 7881919487199102850, guid: 7a14108267b04c14ebccaeb32f62a5ca, type: 3}
-      propertyPath: hunterDieTwoGUI
-      value: 
-      objectReference: {fileID: 344080214}
     - target: {fileID: 7881919487199102850, guid: 7a14108267b04c14ebccaeb32f62a5ca, type: 3}
       propertyPath: attackerAtp_total
       value: 
@@ -1357,17 +1345,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1970615008}
     - target: {fileID: 7881919487199102850, guid: 7a14108267b04c14ebccaeb32f62a5ca, type: 3}
-      propertyPath: hunterTotalAttackDamage
-      value: 
-      objectReference: {fileID: 1571758943}
-    - target: {fileID: 7881919487199102850, guid: 7a14108267b04c14ebccaeb32f62a5ca, type: 3}
       propertyPath: attackerTotalAttackDamage
       value: 
       objectReference: {fileID: 1571758943}
-    - target: {fileID: 7881919487199102850, guid: 7a14108267b04c14ebccaeb32f62a5ca, type: 3}
-      propertyPath: hunterInventory.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7881919487199102850, guid: 7a14108267b04c14ebccaeb32f62a5ca, type: 3}
       propertyPath: hunterInventory.Array.data[0]
       value: 

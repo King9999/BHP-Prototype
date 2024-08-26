@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using static GameManager;
 using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
+using static UnityEditor.PlayerSettings;
 using static UnityEditor.Progress;
 
 /* handles the game state */
@@ -41,7 +43,10 @@ public class GameManager : MonoBehaviour
     [Header("---Loot Table---")]
     public LootTable lootTable;
 
-    
+    [Header("---Movement & Attack Tile---")]
+    public GameObject moveTilePrefab;
+
+    bool runMovementCheck;
 
     //states determine which UI is active
     public enum GameState { HunterSetup, Dungeon, Combat, Inventory}
@@ -89,22 +94,30 @@ public class GameManager : MonoBehaviour
         inventoryContainer.gameObject.SetActive(false);
         skillContainer.gameObject.SetActive(false);
 
-       //ShowMovementRange(hm.hunters[0], 1);
-
+        //ShowMovementRange(hm.hunters[0], 1);
+        runMovementCheck = true;
 
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        HunterManager hm = Singleton.instance.HunterManager;
-        ShowMovementRange(hm.hunters[0], 1);
+        if (runMovementCheck)
+        {
+            runMovementCheck = false;
+            HunterManager hm = Singleton.instance.HunterManager;
+            ShowMovementRange(hm.hunters[0], 4);
+        }
     }
 
     private void FixedUpdate()
     {
-        //HunterManager hm = Singleton.instance.HunterManager;
-        //  ShowMovementRange(hm.hunters[0], 1);
+        /*if (runMovementCheck)
+        {
+            runMovementCheck = false;
+            HunterManager hm = Singleton.instance.HunterManager;
+            ShowMovementRange(hm.hunters[0], 4);
+        }*/
     }
 
 
@@ -311,8 +324,8 @@ public class GameManager : MonoBehaviour
         //Vector3 backRoomPos = new Vector3(currentPos.x, currentPos.y, currentPos.z + 2);
         //Vector3 frontRoomPos = new Vector3(currentPos.x, currentPos.y, currentPos.z - 2);
         float distance = 1.9f;
-        Vector3 xOffset = new Vector3 (0.1f, 0, 0);
-        Vector3 zOffset = new Vector3(0, 0, 0.1f);
+        //Vector3 xOffset = new Vector3 (0.1f, 0, 0);
+        //Vector3 zOffset = new Vector3(0, 0, 0.1f);
         Ray leftRay = new Ray(currentPos, /*currentRoom.nodes[currentRoom.LEFT].pos.transform.position - xOffset,*/ Vector3.left);
         //Debug.Log("Left Ray: " + leftRay);
         Ray rightRay = new Ray(currentPos, /*currentRoom.nodes[currentRoom.RIGHT].pos.transform.position + xOffset,*/ Vector3.right);
@@ -330,30 +343,103 @@ public class GameManager : MonoBehaviour
         Debug.DrawRay(currentPos, Vector3.right * distance, Color.blue, 10000000);
         Debug.DrawRay(currentPos, Vector3.back * distance, Color.blue, 10000000);
         Debug.DrawRay(currentPos, Vector3.forward * distance, Color.blue, 10000000);
-        int layerMask = 1 << 3;
+        //int layerMask = 1 << 3;
         //Debug.Log("Layer Mask: " + LayerMask.GetMask("Room") + layerMask);
-        if (Physics.Raycast(leftRay, out RaycastHit leftRoom, distance, LayerMask.GetMask("Room")))
+
+        //check each direction and highlight all spaces the hunter can move in. For diagonal spaces
+        //we advance the iterator by 2 because it takes 2 moves to reach a diagonal space.
+        /*for (int i = 0; i < spaceCount; i++)
+        {
+            bool hitDeadEnd = false;    //if true, we found an invalid space before reaching space count.
+            int j = 0;
+            while (!hitDeadEnd && j < spaceCount)
+            {
+                Physics.RaycastAll()
+            }
+        }*/
+
+        RaycastHit[] rightCast = Physics.RaycastAll(rightRay, spaceCount * distance);
+        RaycastHit[] leftCast = Physics.RaycastAll(leftRay, spaceCount * distance);
+        RaycastHit[] backCast = Physics.RaycastAll(backRay, spaceCount * distance);
+        RaycastHit[] frontCast = Physics.RaycastAll(frontRay, spaceCount * distance);
+
+        for (int i = 0; i < rightCast.Length; i++)
+            validPositions.Add(GetRoomsInDirection(rightCast[i]));
+
+        for (int i = 0; i < leftCast.Length; i++)
+            validPositions.Add(GetRoomsInDirection(leftCast[i]));
+
+        for (int i = 0; i < backCast.Length; i++)
+            validPositions.Add(GetRoomsInDirection(backCast[i]));
+
+        for (int i = 0; i < frontCast.Length; i++)
+            validPositions.Add(GetRoomsInDirection(frontCast[i]));
+
+        Debug.Log("list size: " + validPositions.Count);
+        /*for (int i = 0; i < rightCast.Length; i++)
+        {
+            Vector3 roomPos = rightCast[i].transform.position;
+            validPositions.Add(roomPos);
+            Debug.Log("rightCast Room " + i + " pos: " + roomPos + "\n");
+            GameObject tile = Instantiate(moveTilePrefab);
+            tile.transform.position = new Vector3(roomPos.x, 0.6f, roomPos.z);
+        }
+
+        for (int i = 0; i < leftCast.Length; i++)
+        {
+            Vector3 roomPos = leftCast[i].transform.position;
+            validPositions.Add(roomPos);
+            Debug.Log("leftCast Room " + i + " pos: " + roomPos + "\n");
+            GameObject tile = Instantiate(moveTilePrefab);
+            tile.transform.position = new Vector3(roomPos.x, 0.6f, roomPos.z);
+        }*/
+        /*if (Physics.Raycast(leftRay, out RaycastHit leftRoom, distance, LayerMask.GetMask("Room")))
         {
             Debug.Log("hit left " + leftRoom.collider + " at pos " + leftRoom.transform.position);
+            //show a blue tile
+            validPositions.Add(leftRoom.transform.position);
         }
 
         if (Physics.Raycast(rightRay, out RaycastHit rightRoom, distance, LayerMask.GetMask("Room")))
         {
             Debug.Log("hit right " + rightRoom.collider + " at pos " + rightRoom.transform.position);
+            validPositions.Add(rightRoom.transform.position);
         }
 
         if (Physics.Raycast(backRay, out RaycastHit backRoom, distance, LayerMask.GetMask("Room")))
         {
             Debug.Log("hit back" + backRoom.collider + " at pos " + backRoom.transform.position);
+            validPositions.Add(backRoom.transform.position);
         }
 
         if (Physics.Raycast(frontRay, out RaycastHit frontRoom, distance, LayerMask.GetMask("Room")))
         {
             Debug.Log("hit front" + frontRoom.collider + " at pos " + frontRoom.transform.position);
+            validPositions.Add(frontRoom.transform.position);
         }
         //Debug.Log("left hit: " + leftPos + "\nright hit: " + rightPos + "\nback hit: " + backPos + "\nfront hit: " + frontPos);
 
         //display a blue tile to indicate where character can move.
+        foreach (Vector3 pos in validPositions)
+        {
+            GameObject tile = Instantiate(moveTilePrefab);
+            tile.transform.position = new Vector3(pos.x, 0.6f, pos.z); //1 is added so tile appears above room
+        }*/
         return validPositions;
+    }
+
+    Vector3 GetRoomsInDirection(RaycastHit hit)
+    {
+        //List<Vector3> positions = new List<Vector3>();
+       // for (int i = 0; i < hit.Length; i++)
+        //{
+            Vector3 roomPos = hit.transform.position;
+            //positions.Add(roomPos);
+            //Debug.Log("leftCast Room " + i + " pos: " + roomPos + "\n");
+            GameObject tile = Instantiate(moveTilePrefab);
+            tile.transform.position = new Vector3(roomPos.x, 0.6f, roomPos.z);
+       //}
+
+        return roomPos;
     }
 }

@@ -11,6 +11,7 @@ public class Dungeon : MonoBehaviour
 {
     public List<Room> roomPrefabs;              //master list of room prefabs.
     public List<Room> dungeonRooms, roomBin;    //roomBin is used to reuse already instantiated rooms.
+    public char[,] dungeonGrid;                  //used for various things such as determining movement range
 
     [Header("---Treasure Chests---")]
     public Entity_TreasureChest chestPrefab;
@@ -62,8 +63,8 @@ public class Dungeon : MonoBehaviour
         Vector3 newPos = new Vector3(nodePos.x + (xDir * roomScale.x / 2), nodePos.y,
                 nodePos.z + (zDir * roomScale.z / 2));
 
-        return new Vector3(nodePos.x + (xDir * roomScale.x / 2), nodePos.y,
-                nodePos.z + (zDir * roomScale.z / 2));
+        return newPos;  /*new Vector3(nodePos.x + (xDir * roomScale.x / 2), nodePos.y,
+                nodePos.z + (zDir * roomScale.z / 2));*/
     }
 
     public void CreateDungeon()
@@ -259,6 +260,64 @@ public class Dungeon : MonoBehaviour
             }*/
             //dungeonRooms.Add(room);
         }
+
+        /* Create a grid that will be used for various things. We search for the highest and lowest Z values for
+         * the rows, then the highest and lowest X values for the columns. */
+        float highestZ = 0;
+        float lowestZ = 0;
+        float highestX = 0;
+        float lowestX = 0;
+        for (int i = 0; i < dungeonRooms.Count; i++)
+        {
+            Vector3 currentPos = dungeonRooms[i].transform.position;
+            if (currentPos.z > highestZ)
+                highestZ = currentPos.z;
+            if (currentPos.z < lowestZ)
+                lowestZ = currentPos.z;
+            if (currentPos.x > highestX)
+                highestX = currentPos.x;
+            if (currentPos.x < lowestX)
+                lowestX = currentPos.x;
+        }
+
+        //the number of rows and columns is determined by adding the highest and lowest, then dividing by 2.
+        //negative sign is ignored.
+        Debug.Log("Highest X: " + highestX + "\nLowestX: " + lowestX + "\nHighest Z: " + highestZ + "\nLowest Z: "
+            + lowestZ);
+
+        int row = ((int)(Mathf.Abs(highestZ) + Mathf.Abs(lowestZ)) / 2) + 1; //unsure why I must add 1, otherwise the grid is inaccurate
+        int col = ((int)(Mathf.Abs(highestX) + Mathf.Abs(lowestX)) / 2) + 1;
+        dungeonGrid = new char[row, col];
+        Debug.Log("Row: " + row + " col: " + col);
+
+        //populate the grid with the dungeon rooms. We start from row 0, col 0, which in world space would be 
+        //the lowest X position and the highest Z position.
+        float currentZ, currentX;  //used to find the rooms in world space.
+        string gridStr = "";
+        int roomCounter = 0;
+        for (int i = 0; i < row; i++)
+        {
+            currentZ = highestZ - (i * 2);    //this is the Z coordinate in world space.
+            for (int j = 0; j < col; j++)
+            {
+                currentX = lowestX + (j * 2);
+                if (occupiedPositions.Contains(new Vector3(currentX, 0, currentZ)))
+                {
+                    //found a room
+                    dungeonGrid[i, j] = '1';
+                    roomCounter++;
+                }
+                else
+                {
+                    dungeonGrid[i, j] = '0';
+                }
+                gridStr += dungeonGrid[i, j] + ", ";
+            }
+            gridStr += "\n";
+        }
+
+        Debug.Log("Dungeon Grid\n--------\n" + gridStr);
+        Debug.Log("Room counter: " + roomCounter);
 
         /* populate the dungeon with objects, including hunters. */
         List<int> occupiedLocations = new List<int>();  //dungeon rooms that have an object in them.
