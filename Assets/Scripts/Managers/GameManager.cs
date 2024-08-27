@@ -444,34 +444,145 @@ public class GameManager : MonoBehaviour
         int startCol = character.room.col;
 
         //search in the cardinal directions. At each point in the grid, search surrounding points for walkable space.
-        //search right
-        bool deadEnd = false;
+        /*****search right******/
         int currentCol = startCol;
         int currentRow = startRow;
+        int currentSpaceCount = 0;
 
-        while (!deadEnd && currentCol < startCol + spaceCount)
+        //the first condition checks if we're at the edge of the grid. If true, we can't move in that direction
+        //and must check the next direction.
+        while (currentCol + 1 < grid.GetLength(0) && currentSpaceCount < spaceCount)
         {
             currentCol++;
+            currentSpaceCount++;
             //add new position
-            validPositions.Add(GetRoomPosition(startRow, currentCol));
+            if (grid[currentRow, currentCol] == '1')
+                validPositions.Add(GetRoomPosition(currentRow, currentCol));
 
             //check surrounding spaces and record their equivalent positions in world space
-            if (currentCol < startCol + spaceCount)
+            if (currentSpaceCount < spaceCount)
             {
-                if (startRow - 1 >= 0 && grid[startRow - 1, currentCol] == '1')  //search up
+                if (currentRow - 1 >= 0 && grid[currentRow - 1, currentCol] == '1')  //search up
                 {
                     //add this position
-                    validPositions.Add(GetRoomPosition(startRow - 1, currentCol));
+                    validPositions.Add(GetRoomPosition(currentRow - 1, currentCol));
                 }
-                if (startRow + 1 < grid.GetLength(1) && grid[startRow + 1, currentCol] == '1')  //search down
+                if (currentRow + 1 < grid.GetLength(1) && grid[currentRow + 1, currentCol] == '1')  //search down
                 {
                     //add this location
-                    validPositions.Add(GetRoomPosition(startRow + 1, currentCol));
+                    validPositions.Add(GetRoomPosition(currentRow + 1, currentCol));
                 }
             }
-
         }
-        
+
+        /*****check left*****/
+        currentCol = startCol;
+        currentRow = startRow;
+        currentSpaceCount = 0;
+        while (currentCol - 1 >= 0 && currentSpaceCount < spaceCount)
+        {
+            currentCol--;
+            currentSpaceCount++;
+            //add new position
+            if (grid[currentRow, currentCol] == '1')
+            {
+                Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                if (!validPositions.Contains(newPos))
+                    validPositions.Add(newPos);
+            }
+
+            //check surrounding spaces and record their equivalent positions in world space
+            if (currentSpaceCount < spaceCount)
+            {
+                if (currentRow - 1 >= 0 && grid[currentRow - 1, currentCol] == '1')  //search up
+                {
+                    //add this position
+                    Vector3 newPos = GetRoomPosition(currentRow - 1, currentCol);
+                    if (!validPositions.Contains(newPos))
+                        validPositions.Add(newPos);
+                }
+                if (currentRow + 1 < grid.GetLength(1) && grid[currentRow + 1, currentCol] == '1')  //search down
+                {
+                    //add this location
+                    Vector3 newPos = GetRoomPosition(currentRow + 1, currentCol);
+                    if (!validPositions.Contains(newPos))
+                        validPositions.Add(newPos);
+                }
+            }
+        }
+
+        /******check up (back)******/
+        currentCol = startCol;
+        currentRow = startRow;
+        currentSpaceCount = 0;
+        while (currentRow - 1 >= 0 && currentSpaceCount < spaceCount)
+        {
+            currentRow--;
+            currentSpaceCount++;
+            //add new position
+            if (grid[currentRow, currentCol] == '1')
+            {
+                Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                if (!validPositions.Contains(newPos))
+                    validPositions.Add(newPos);
+            }
+
+            //check surrounding spaces and record their equivalent positions in world space
+            if (currentSpaceCount < spaceCount)
+            {
+                if (currentCol + 1 < grid.GetLength(0) && grid[currentRow, currentCol + 1] == '1')  //search right
+                {
+                    //add this position
+                    Vector3 newPos = GetRoomPosition(currentRow, currentCol + 1);
+                    if (!validPositions.Contains(newPos))
+                        validPositions.Add(newPos);
+                }
+                if (currentCol - 1 >= 0 && grid[currentRow, currentCol - 1] == '1')  //search left
+                {
+                    //add this location
+                    Vector3 newPos = GetRoomPosition(currentRow, currentCol - 1);
+                    if (!validPositions.Contains(newPos))
+                        validPositions.Add(newPos);
+                }
+            }
+        }
+
+        /******check down (front)******/
+        currentCol = startCol;
+        currentRow = startRow;
+        currentSpaceCount = 0;
+        while (currentRow + 1 < grid.GetLength(1) && currentSpaceCount < spaceCount)
+        {
+            currentRow++;
+            currentSpaceCount++;
+            //add new position
+            if (grid[currentRow, currentCol] == '1')
+            {
+                Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                if (!validPositions.Contains(newPos))
+                    validPositions.Add(newPos);
+            }
+
+            //check surrounding spaces and record their equivalent positions in world space
+            if (currentSpaceCount < spaceCount)
+            {
+                if (currentCol + 1 < grid.GetLength(0) && grid[currentRow, currentCol + 1] == '1')  //search right
+                {
+                    //add this position
+                    Vector3 newPos = GetRoomPosition(currentRow, currentCol + 1);
+                    if (!validPositions.Contains(newPos))
+                        validPositions.Add(newPos);
+                }
+                if (currentCol - 1 >= 0 && grid[currentRow, currentCol - 1] == '1')  //search left
+                {
+                    //add this location
+                    Vector3 newPos = GetRoomPosition(currentRow, currentCol - 1);
+                    if (!validPositions.Contains(newPos))
+                        validPositions.Add(newPos);
+                }
+            }
+        }
+
         return validPositions;
     }
 
