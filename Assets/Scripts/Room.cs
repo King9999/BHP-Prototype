@@ -16,6 +16,7 @@ public class Room : MonoBehaviour
     }
     public Node[] nodes;
     public int roomID;                  //easy way to identify a room
+    public int row, col;                //room's position in 2D array
 
     //constants for node direction
     public int FORWARD { get; } = 0;        //this is "up"

@@ -12,13 +12,16 @@ public class Dungeon : MonoBehaviour
     public List<Room> roomPrefabs;              //master list of room prefabs.
     public List<Room> dungeonRooms, roomBin;    //roomBin is used to reuse already instantiated rooms.
     public char[,] dungeonGrid;                  //used for various things such as determining movement range
+    public int totalRows { get; set; }
+    public int totalCols { get; set; }
 
     [Header("---Treasure Chests---")]
     public Entity_TreasureChest chestPrefab;
     public List<Entity_TreasureChest> treasureChests;
     public int chestCount;
 
-    private readonly Hashtable occupiedPositions = new();
+    //private readonly Hashtable occupiedPositions = new();
+    private Dictionary<Vector3, Room> occupiedPositions = new Dictionary<Vector3, Room>();
     // Start is called before the first frame update
     void Start()
     {
@@ -95,7 +98,7 @@ public class Dungeon : MonoBehaviour
                 //pointFound = true;
                 //room.nodes[randPoint].isSelected = true;
                 dungeonRooms.Add(room);
-                occupiedPositions.Add(room.transform.position, room.roomID);
+                occupiedPositions.Add(room.transform.position, room);//, room.roomID);
                 //}
                 //}
                 Debug.Log("Added 1 dungeon room");
@@ -148,7 +151,7 @@ public class Dungeon : MonoBehaviour
                         pointFound = true;
                         room.transform.position = newPos;
                         dungeonRooms.Add(room);
-                        occupiedPositions.Add(room.transform.position, room.roomID);
+                        occupiedPositions.Add(room.transform.position, room); //, room.roomID);
                         //loopCount = 0;
                     }
                     /*else
@@ -285,27 +288,28 @@ public class Dungeon : MonoBehaviour
         Debug.Log("Highest X: " + highestX + "\nLowestX: " + lowestX + "\nHighest Z: " + highestZ + "\nLowest Z: "
             + lowestZ);
 
-        int row = ((int)(Mathf.Abs(highestZ) + Mathf.Abs(lowestZ)) / 2) + 1; //unsure why I must add 1, otherwise the grid is inaccurate
-        int col = ((int)(Mathf.Abs(highestX) + Mathf.Abs(lowestX)) / 2) + 1;
-        dungeonGrid = new char[row, col];
-        Debug.Log("Row: " + row + " col: " + col);
+        totalRows = 1 + ((int)(Mathf.Abs(highestZ) + Mathf.Abs(lowestZ)) / 2); //1 is added to get an accurate grid
+        totalCols = 1 + ((int)(Mathf.Abs(highestX) + Mathf.Abs(lowestX)) / 2);
+        dungeonGrid = new char[totalRows, totalCols];
+        Debug.Log("Total Rows: " + totalRows + " total cols: " + totalCols);
 
         //populate the grid with the dungeon rooms. We start from row 0, col 0, which in world space would be 
         //the lowest X position and the highest Z position.
         float currentZ, currentX;  //used to find the rooms in world space.
         string gridStr = "";
-        int roomCounter = 0;
-        for (int i = 0; i < row; i++)
+        for (int i = 0; i < totalRows; i++)
         {
             currentZ = highestZ - (i * 2);    //this is the Z coordinate in world space.
-            for (int j = 0; j < col; j++)
+            for (int j = 0; j < totalCols; j++)
             {
                 currentX = lowestX + (j * 2);
-                if (occupiedPositions.Contains(new Vector3(currentX, 0, currentZ)))
+                if (occupiedPositions.ContainsKey(new Vector3(currentX, 0, currentZ)))
                 {
                     //found a room
                     dungeonGrid[i, j] = '1';
-                    roomCounter++;
+                    Room room = occupiedPositions[new Vector3(currentX, 0, currentZ)];  //returns the room located at this position
+                    room.row = i;
+                    room.col = j;
                 }
                 else
                 {
@@ -317,7 +321,6 @@ public class Dungeon : MonoBehaviour
         }
 
         Debug.Log("Dungeon Grid\n--------\n" + gridStr);
-        Debug.Log("Room counter: " + roomCounter);
 
         /* populate the dungeon with objects, including hunters. */
         List<int> occupiedLocations = new List<int>();  //dungeon rooms that have an object in them.

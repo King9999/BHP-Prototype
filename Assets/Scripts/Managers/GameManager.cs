@@ -106,7 +106,15 @@ public class GameManager : MonoBehaviour
         {
             runMovementCheck = false;
             HunterManager hm = Singleton.instance.HunterManager;
-            ShowMovementRange(hm.hunters[0], 4);
+            //ShowMovementRange(hm.hunters[0], 4);
+
+            Dungeon dun = Singleton.instance.Dungeon;
+            List<Vector3> moveRange = ShowMoveRange(dun.dungeonGrid, hm.hunters[0], 4);
+            foreach (Vector3 pos in moveRange)
+            {
+                GameObject tile = Instantiate(moveTilePrefab);
+                tile.transform.position = new Vector3(pos.x, 0.6f, pos.z);
+            }
         }
     }
 
@@ -426,6 +434,67 @@ public class GameManager : MonoBehaviour
             tile.transform.position = new Vector3(pos.x, 0.6f, pos.z); //1 is added so tile appears above room
         }*/
         return validPositions;
+    }
+    
+    public List<Vector3> ShowMoveRange(char[,] grid, Character character, int spaceCount)
+    {
+        List<Vector3>  validPositions = new List<Vector3>();
+
+        int startRow = character.room.row;
+        int startCol = character.room.col;
+
+        //search in the cardinal directions. At each point in the grid, search surrounding points for walkable space.
+        //search right
+        bool deadEnd = false;
+        int currentCol = startCol;
+        int currentRow = startRow;
+
+        while (!deadEnd && currentCol < startCol + spaceCount)
+        {
+            currentCol++;
+            //add new position
+            validPositions.Add(GetRoomPosition(startRow, currentCol));
+
+            //check surrounding spaces and record their equivalent positions in world space
+            if (currentCol < startCol + spaceCount)
+            {
+                if (startRow - 1 >= 0 && grid[startRow - 1, currentCol] == '1')  //search up
+                {
+                    //add this position
+                    validPositions.Add(GetRoomPosition(startRow - 1, currentCol));
+                }
+                if (startRow + 1 < grid.GetLength(1) && grid[startRow + 1, currentCol] == '1')  //search down
+                {
+                    //add this location
+                    validPositions.Add(GetRoomPosition(startRow + 1, currentCol));
+                }
+            }
+
+        }
+        
+        return validPositions;
+    }
+
+    Vector3 GetRoomPosition(int row, int col)
+    {
+        bool roomFound = false;
+        int i = 0;
+        Room room = null;
+        Dungeon dungeon = Singleton.instance.Dungeon;
+        while (!roomFound && i < dungeon.dungeonRooms.Count)
+        {
+            room = dungeon.dungeonRooms[i];
+            if (room.row == row && room.col == col)
+            {
+                roomFound = true;
+            }
+            else
+            {
+                i++;
+            }
+        }
+
+        return room.transform.position;
     }
 
     Vector3 GetRoomsInDirection(RaycastHit hit)
