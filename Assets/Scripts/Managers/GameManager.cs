@@ -73,6 +73,12 @@ public class GameManager : MonoBehaviour
         gameState = GameState.Dungeon;
         ChangeGameState(gameState);
 
+        /**** USE THE NEXT 4 LINES TO GET SEED FOR BUG TESTING*****/
+        //System.Random random = new System.Random();
+        //int seed = random.Next();//1854018154; 
+        //Random.InitState(seed);
+        //Debug.Log("Seed: " + seed);
+
         //create dungeon
         Dungeon dungeon = Singleton.instance.Dungeon;
         dungeon.CreateDungeon();
@@ -98,7 +104,6 @@ public class GameManager : MonoBehaviour
 
         //ShowMovementRange(hm.hunters[0], 1);
         runMovementCheck = true;
-
     }
 
     // Update is called once per frame
@@ -442,6 +447,7 @@ public class GameManager : MonoBehaviour
     public List<Vector3> ShowMoveRange(char[,] grid, Character character, int spaceCount)
     {
         List<Vector3>  validPositions = new List<Vector3>();
+        int spaceToCrossGap = 1;    //used to check if a gap can be crossed before max move distance is reached.
 
         int startRow = character.room.row;
         int startCol = character.room.col;
@@ -464,7 +470,7 @@ public class GameManager : MonoBehaviour
             //add new position
             if (grid[currentRow, currentCol] == '1')
                 validPositions.Add(GetRoomPosition(currentRow, currentCol));
-
+           
             //check surrounding spaces and record their equivalent positions in world space
             if (currentSpaceCount < spaceCount)
             {
@@ -477,6 +483,13 @@ public class GameManager : MonoBehaviour
                 {
                     //add this location
                     validPositions.Add(GetRoomPosition(currentRow + 1, currentCol));
+                }
+
+                //if we're on an invalid space, check to see if the space ahead is reachable; if not, we end the check here.
+                if (grid[currentRow, currentCol] == '0' && currentSpaceCount + spaceToCrossGap >= spaceCount)
+                {
+                    //can't clear the gap, stop here
+                    currentSpaceCount = spaceCount;
                 }
             }
         }
@@ -514,6 +527,13 @@ public class GameManager : MonoBehaviour
                     if (!validPositions.Contains(newPos))
                         validPositions.Add(newPos);
                 }
+
+                //if we're on an invalid space, check to see if the space ahead is reachable; if not, we end the check here.
+                if (grid[currentRow, currentCol] == '0' && currentSpaceCount + spaceToCrossGap >= spaceCount)
+                {
+                    //can't clear the gap, stop here
+                    currentSpaceCount = spaceCount;
+                }
             }
         }
 
@@ -550,6 +570,13 @@ public class GameManager : MonoBehaviour
                     if (!validPositions.Contains(newPos))
                         validPositions.Add(newPos);
                 }
+
+                //if we're on an invalid space, check to see if the space ahead is reachable; if not, we end the check here.
+                if (grid[currentRow, currentCol] == '0' && currentSpaceCount + spaceToCrossGap >= spaceCount)
+                {
+                    //can't clear the gap, stop here
+                    currentSpaceCount = spaceCount;
+                }
             }
         }
 
@@ -585,6 +612,13 @@ public class GameManager : MonoBehaviour
                     Vector3 newPos = GetRoomPosition(currentRow, currentCol - 1);
                     if (!validPositions.Contains(newPos))
                         validPositions.Add(newPos);
+                }
+
+                //if we're on an invalid space, check to see if the space ahead is reachable; if not, we end the check here.
+                if (grid[currentRow, currentCol] == '0' && currentSpaceCount + spaceToCrossGap >= spaceCount)
+                {
+                    //can't clear the gap, stop here
+                    currentSpaceCount = spaceCount;
                 }
             }
         }
