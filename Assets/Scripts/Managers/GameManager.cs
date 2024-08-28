@@ -109,10 +109,11 @@ public class GameManager : MonoBehaviour
             //ShowMovementRange(hm.hunters[0], 4);
 
             Dungeon dun = Singleton.instance.Dungeon;
-            List<Vector3> moveRange = ShowMoveRange(dun.dungeonGrid, hm.hunters[0], 4);
+            List<Vector3> moveRange = ShowMoveRange(dun.dungeonGrid, hm.hunters[0], 3);
+            GameObject moveTileContainer = new GameObject("Move Tiles");
             foreach (Vector3 pos in moveRange)
             {
-                GameObject tile = Instantiate(moveTilePrefab);
+                GameObject tile = Instantiate(moveTilePrefab, moveTileContainer.transform);
                 tile.transform.position = new Vector3(pos.x, 0.6f, pos.z);
             }
         }
@@ -443,6 +444,9 @@ public class GameManager : MonoBehaviour
         int startRow = character.room.row;
         int startCol = character.room.col;
 
+        Debug.Log("Max Rows " + grid.GetLength(0));
+        Debug.Log("Max Cols " + grid.GetLength(1));
+
         //search in the cardinal directions. At each point in the grid, search surrounding points for walkable space.
         /*****search right******/
         int currentCol = startCol;
@@ -451,7 +455,7 @@ public class GameManager : MonoBehaviour
 
         //the first condition checks if we're at the edge of the grid. If true, we can't move in that direction
         //and must check the next direction.
-        while (currentCol + 1 < grid.GetLength(0) && currentSpaceCount < spaceCount)
+        while (currentCol + 1 < grid.GetLength(1) && currentSpaceCount < spaceCount)
         {
             currentCol++;
             currentSpaceCount++;
@@ -467,7 +471,7 @@ public class GameManager : MonoBehaviour
                     //add this position
                     validPositions.Add(GetRoomPosition(currentRow - 1, currentCol));
                 }
-                if (currentRow + 1 < grid.GetLength(1) && grid[currentRow + 1, currentCol] == '1')  //search down
+                if (currentRow + 1 < grid.GetLength(0) && grid[currentRow + 1, currentCol] == '1')  //search down
                 {
                     //add this location
                     validPositions.Add(GetRoomPosition(currentRow + 1, currentCol));
@@ -501,7 +505,7 @@ public class GameManager : MonoBehaviour
                     if (!validPositions.Contains(newPos))
                         validPositions.Add(newPos);
                 }
-                if (currentRow + 1 < grid.GetLength(1) && grid[currentRow + 1, currentCol] == '1')  //search down
+                if (currentRow + 1 < grid.GetLength(0) && grid[currentRow + 1, currentCol] == '1')  //search down
                 {
                     //add this location
                     Vector3 newPos = GetRoomPosition(currentRow + 1, currentCol);
@@ -530,7 +534,7 @@ public class GameManager : MonoBehaviour
             //check surrounding spaces and record their equivalent positions in world space
             if (currentSpaceCount < spaceCount)
             {
-                if (currentCol + 1 < grid.GetLength(0) && grid[currentRow, currentCol + 1] == '1')  //search right
+                if (currentCol + 1 < grid.GetLength(1) && grid[currentRow, currentCol + 1] == '1')  //search right
                 {
                     //add this position
                     Vector3 newPos = GetRoomPosition(currentRow, currentCol + 1);
@@ -551,7 +555,7 @@ public class GameManager : MonoBehaviour
         currentCol = startCol;
         currentRow = startRow;
         currentSpaceCount = 0;
-        while (currentRow + 1 < grid.GetLength(1) && currentSpaceCount < spaceCount)
+        while (currentRow + 1 < grid.GetLength(0) && currentSpaceCount < spaceCount)
         {
             currentRow++;
             currentSpaceCount++;
@@ -566,7 +570,7 @@ public class GameManager : MonoBehaviour
             //check surrounding spaces and record their equivalent positions in world space
             if (currentSpaceCount < spaceCount)
             {
-                if (currentCol + 1 < grid.GetLength(0) && grid[currentRow, currentCol + 1] == '1')  //search right
+                if (currentCol + 1 < grid.GetLength(1) && grid[currentRow, currentCol + 1] == '1')  //search right
                 {
                     //add this position
                     Vector3 newPos = GetRoomPosition(currentRow, currentCol + 1);
@@ -580,6 +584,79 @@ public class GameManager : MonoBehaviour
                     if (!validPositions.Contains(newPos))
                         validPositions.Add(newPos);
                 }
+            }
+        }
+
+        // Next, we do diagonal checks to find any remaining available spaces.
+        /*****check right & up*****/
+        currentCol = startCol;
+        currentRow = startRow;
+        currentSpaceCount = 0;
+        while (currentRow - 1 >= 0 && currentCol + 1 < grid.GetLength(1) && currentSpaceCount < spaceCount)
+        {
+            currentRow--;
+            currentCol++;
+            currentSpaceCount += 2;     //2 is added because it takes 2 spaces to move diagonally.
+            //add new position
+            if (grid[currentRow, currentCol] == '1')
+            {
+                Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                if (!validPositions.Contains(newPos))
+                    validPositions.Add(newPos);
+            }
+        }
+
+        /*****check right & down*****/
+        currentCol = startCol;
+        currentRow = startRow;
+        currentSpaceCount = 0;
+        while (currentRow + 1 < grid.GetLength(0) && currentCol + 1 < grid.GetLength(1) && currentSpaceCount < spaceCount)
+        {
+            currentRow++;
+            currentCol++;
+            currentSpaceCount += 2;     //2 is added because it takes 2 spaces to move diagonally.
+            //add new position
+            if (grid[currentRow, currentCol] == '1')
+            {
+                Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                if (!validPositions.Contains(newPos))
+                    validPositions.Add(newPos);
+            }
+        }
+
+        /*****check left & up*****/
+        currentCol = startCol;
+        currentRow = startRow;
+        currentSpaceCount = 0;
+        while (currentRow - 1 >= 0 && currentCol - 1 >= 0 && currentSpaceCount < spaceCount)
+        {
+            currentRow--;
+            currentCol--;
+            currentSpaceCount += 2;     //2 is added because it takes 2 spaces to move diagonally.
+            //add new position
+            if (grid[currentRow, currentCol] == '1')
+            {
+                Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                if (!validPositions.Contains(newPos))
+                    validPositions.Add(newPos);
+            }
+        }
+
+        /*****check left & down*****/
+        currentCol = startCol;
+        currentRow = startRow;
+        currentSpaceCount = 0;
+        while (currentRow + 1 < grid.GetLength(0) && currentCol - 1 >= 0 && currentSpaceCount < spaceCount)
+        {
+            currentRow++;
+            currentCol--;
+            currentSpaceCount += 2;     //2 is added because it takes 2 spaces to move diagonally.
+            //add new position
+            if (grid[currentRow, currentCol] == '1')
+            {
+                Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                if (!validPositions.Contains(newPos))
+                    validPositions.Add(newPos);
             }
         }
 
