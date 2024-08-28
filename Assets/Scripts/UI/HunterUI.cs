@@ -31,6 +31,7 @@ public class HunterUI : MonoBehaviour
     public GameObject equipmentMenuObject;
     public GameObject weaponSelectMenuObject;
     public GameObject inventoryMenuObject;
+    public GameObject rivalHunterMenuObject;            //screen for choosing number of opponents.
     public GameObject[] hunterHudObjects;
 
     public static HunterUI instance;
@@ -69,6 +70,16 @@ public class HunterUI : MonoBehaviour
     public void ShowNameEntryMenu(bool toggle)
     {
         nameEntryMenuObject.SetActive(toggle);
+    }
+
+    public void ShowRivalHunterMenu(bool toggle)
+    {
+        rivalHunterMenuObject.SetActive(toggle);
+    }
+    public int RivalDropdownValue()
+    {
+        TMP_Dropdown rivalDropdown = rivalHunterMenuObject.GetComponentInChildren<TMP_Dropdown>();
+        return rivalDropdown.value;
     }
 
     public void OnWeaponDropdownValueChanged()

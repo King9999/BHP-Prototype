@@ -77,6 +77,8 @@ public class GameManager : MonoBehaviour
         Dungeon dungeon = Singleton.instance.Dungeon;
         dungeon.CreateDungeon();
 
+        //TODO: Set up turn order based on characters' SPD.
+
         //MonsterManager mm = MonsterManager.instance;
         //CreateHunter();
         //mm.SpawnMonster(monsterLevel:1);
@@ -592,7 +594,7 @@ public class GameManager : MonoBehaviour
         currentCol = startCol;
         currentRow = startRow;
         currentSpaceCount = 0;
-        while (currentRow - 1 >= 0 && currentCol + 1 < grid.GetLength(1) && currentSpaceCount < spaceCount)
+        while (currentRow - 1 >= 0 && currentCol + 1 < grid.GetLength(1) && currentSpaceCount + 2 < spaceCount)
         {
             currentRow--;
             currentCol++;
@@ -610,7 +612,7 @@ public class GameManager : MonoBehaviour
         currentCol = startCol;
         currentRow = startRow;
         currentSpaceCount = 0;
-        while (currentRow + 1 < grid.GetLength(0) && currentCol + 1 < grid.GetLength(1) && currentSpaceCount < spaceCount)
+        while (currentRow + 1 < grid.GetLength(0) && currentCol + 1 < grid.GetLength(1) && currentSpaceCount + 2 < spaceCount)
         {
             currentRow++;
             currentCol++;
@@ -628,7 +630,7 @@ public class GameManager : MonoBehaviour
         currentCol = startCol;
         currentRow = startRow;
         currentSpaceCount = 0;
-        while (currentRow - 1 >= 0 && currentCol - 1 >= 0 && currentSpaceCount < spaceCount)
+        while (currentRow - 1 >= 0 && currentCol - 1 >= 0 && currentSpaceCount + 2 < spaceCount)
         {
             currentRow--;
             currentCol--;
@@ -646,7 +648,7 @@ public class GameManager : MonoBehaviour
         currentCol = startCol;
         currentRow = startRow;
         currentSpaceCount = 0;
-        while (currentRow + 1 < grid.GetLength(0) && currentCol - 1 >= 0 && currentSpaceCount < spaceCount)
+        while (currentRow + 1 < grid.GetLength(0) && currentCol - 1 >= 0 && currentSpaceCount + 2 < spaceCount)
         {
             currentRow++;
             currentCol--;

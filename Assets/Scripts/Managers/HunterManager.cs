@@ -19,7 +19,7 @@ public class HunterManager : MonoBehaviour
     public int startingAllocationPoints;
     public bool newHunter;  //if true, hunter was just created. The starting AP don't raise hunter level, so no bonus HP/SP
 
-    public enum MenuState { NameEntry, PointAlloc, ChooseWeapon, ShowHunterHuds }
+    public enum MenuState { NameEntry, PointAlloc, ChooseWeapon, RivalHunter, ShowHunterHuds }
     public MenuState state;
 
     GameObject hunterContainer;         //hunters are stored here for organization
@@ -69,6 +69,7 @@ public class HunterManager : MonoBehaviour
                 ui.ShowNameEntryMenu(true);
                 ui.ShowPointAllocationMenu(false);
                 ui.ShowWeaponSelectionMenu(false);
+                ui.ShowRivalHunterMenu(false);
                 break;
 
             case MenuState.PointAlloc:
@@ -80,6 +81,17 @@ public class HunterManager : MonoBehaviour
             case MenuState.ChooseWeapon:
                 ui.ShowPointAllocationMenu(false);
                 ui.ShowWeaponSelectionMenu(true);
+                ui.ShowRivalHunterMenu(false);
+                break;
+
+            case MenuState.RivalHunter:
+                ui.ShowWeaponSelectionMenu(false);
+                ui.ShowRivalHunterMenu(true);
+                break;
+
+            case MenuState.ShowHunterHuds:
+                ui.ShowRivalHunterMenu(false);
+                ui.ShowHunterHuds(true);
                 break;
         }
     }
@@ -292,6 +304,45 @@ public class HunterManager : MonoBehaviour
     public void OnFinishHunterButtonPressed()
     {
         //create an instance of the weapon the player chose
+        /*ItemManager im = Singleton.instance.ItemManager;
+        Item item = null;
+
+        switch (ui.WeaponDropdownValue())
+        {
+            case 0:
+                item = im.lootTable.GetItem(im.lootTable.weapons, "weapon_beamSword");
+                Debug.Log("Item is " + item);
+                break;
+
+            case 1:
+                item = im.lootTable.GetItem(im.lootTable.weapons, "weapon_railGun");
+                Debug.Log("Item is " + item);
+                break;
+
+            case 2:
+                item = im.lootTable.GetItem(im.lootTable.weapons, "weapon_augmenter");
+                Debug.Log("Item is " + item);
+                break;
+        }
+
+        hunters[hunters.Count - 1].Equip((Weapon)item);*/
+
+        //ui.ShowWeaponSelectionMenu(false);
+        /*item = im.lootTable.GetItem(im.lootTable.consumables); //only has medispray
+        if (item is Consumable medispray)       //This is how to get the type of a scriptable object!
+        {
+            medispray.ActivateEffect(hunters[hunters.Count - 1]);
+        }*/
+
+        //move to game scene
+        //SceneManager.LoadScene("Game");
+        ChangeState(state = MenuState.RivalHunter);
+    }
+
+    public void OnFinishRivalHunterButtonPressed()
+    {
+        //equip the selected weapon here
+        //create an instance of the weapon the player chose
         ItemManager im = Singleton.instance.ItemManager;
         Item item = null;
 
@@ -314,13 +365,8 @@ public class HunterManager : MonoBehaviour
         }
 
         hunters[hunters.Count - 1].Equip((Weapon)item);
-        ui.ShowWeaponSelectionMenu(false);
-        /*item = im.lootTable.GetItem(im.lootTable.consumables); //only has medispray
-        if (item is Consumable medispray)       //This is how to get the type of a scriptable object!
-        {
-            medispray.ActivateEffect(hunters[hunters.Count - 1]);
-        }*/
 
+        ChangeState(state = MenuState.ShowHunterHuds);
         //move to game scene
         SceneManager.LoadScene("Game");
     }

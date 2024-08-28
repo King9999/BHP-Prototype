@@ -157,7 +157,7 @@ public class LootTable : ScriptableObject
         }
 
         if (itemFound)
-            return table[j];
+            return Instantiate(table[j]);
         else
             return null;
 
