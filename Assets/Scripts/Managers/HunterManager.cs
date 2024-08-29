@@ -18,6 +18,7 @@ public class HunterManager : MonoBehaviour
     private int allocationPoint { get; } = 1;
     public int startingAllocationPoints;
     public bool newHunter;  //if true, hunter was just created. The starting AP don't raise hunter level, so no bonus HP/SP
+    public int rivalCount;  //used to generate CPU hunters during dungeon generation.
 
     public enum MenuState { NameEntry, PointAlloc, ChooseWeapon, RivalHunter, ShowHunterHuds }
     public MenuState state;
@@ -365,6 +366,11 @@ public class HunterManager : MonoBehaviour
         }
 
         hunters[hunters.Count - 1].Equip((Weapon)item);
+        newHunter = false;      //level will start going up now when allocating points
+
+        //save the number of rivals, it will be needed during dungeon generation.
+        rivalCount = ui.RivalDropdownValue() + 1;   //we add 1 due to zero indexing
+        Debug.Log("rival count: " + rivalCount);
 
         ChangeState(state = MenuState.ShowHunterHuds);
         //move to game scene
