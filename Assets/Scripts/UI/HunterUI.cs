@@ -119,6 +119,7 @@ public class HunterUI : MonoBehaviour
                 hunterHuds[i].hunterHpText.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
                 hunterHuds[i].hunterSpText.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
                 //TODO: Add super meter slider here
+                hunterHuds[i].superMeterUI.value = 0;
                 i++;
             }
         }
