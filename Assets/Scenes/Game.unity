@@ -1330,6 +1330,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2085308537}
     - target: {fileID: 7881919487199102850, guid: 7a14108267b04c14ebccaeb32f62a5ca, type: 3}
+      propertyPath: gameCamera
+      value: 
+      objectReference: {fileID: 727745704}
+    - target: {fileID: 7881919487199102850, guid: 7a14108267b04c14ebccaeb32f62a5ca, type: 3}
       propertyPath: hunterName
       value: 
       objectReference: {fileID: 570229317}

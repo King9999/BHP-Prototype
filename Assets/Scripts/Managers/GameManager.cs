@@ -15,6 +15,10 @@ public class GameManager : MonoBehaviour
     //[Header("---Hunter---")]
     //public Hunter hunterPrefab;
     //public List<Hunter> hunters;
+    [Header("---Camera---")]
+    public Camera gameCamera;       //isometric camera. Use this to move camera around the scene.
+    Vector3 defaultCameraPos { get; } = new Vector3(0, 5, 0);
+    bool moveCameraToCharacter = false;
 
     [Header("---Dice---")]
     public Dice dice;
@@ -103,7 +107,12 @@ public class GameManager : MonoBehaviour
         skillContainer.gameObject.SetActive(false);
 
         //ShowMovementRange(hm.hunters[0], 1);
-        runMovementCheck = true;
+        //runMovementCheck = true;
+
+        //focus camera on the first active character.
+        gameCamera.transform.position = defaultCameraPos;
+        //moveCameraToCharacter = true;
+        //gameCamera.transform.position = new Vector3(newCamPos.x - 4, 5, newCamPos.z + 4);
     }
 
     // Update is called once per frame
@@ -126,14 +135,32 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        /*if (runMovementCheck)
+        if (moveCameraToCharacter == true)
         {
-            runMovementCheck = false;
             HunterManager hm = Singleton.instance.HunterManager;
-            ShowMovementRange(hm.hunters[0], 4);
-        }*/
+            MoveCameraToCharacter(hm.hunters[0]);
+        }
+    }
+
+    /// <summary>
+    /// Moves isometric camera to the active character (hunter or monster).
+    /// </summary>
+    /// <param name="character">The character the camera will focus on.</param>
+    void MoveCameraToCharacter(Character character)
+    {
+        if (moveCameraToCharacter == false)
+            return;
+        
+        Vector3 newCamPos = new Vector3(character.transform.position.x - 4, 5, character.transform.position.z - 6);
+        gameCamera.transform.position = Vector3.MoveTowards(gameCamera.transform.position, newCamPos, 8 * Time.deltaTime);
+
+        if (gameCamera.transform.position == newCamPos)
+        {
+            moveCameraToCharacter = false;
+        }
+       
     }
 
 
