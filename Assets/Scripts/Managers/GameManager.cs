@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour
 
     [Header("---Movement & Attack Tile---")]
     public GameObject moveTilePrefab;
+    public List<Character> turnOrder;
+    int currentCharacter;
 
     bool runMovementCheck;
 
@@ -88,20 +90,29 @@ public class GameManager : MonoBehaviour
         dungeon.CreateDungeon();
 
         //TODO: Set up turn order based on characters' SPD.
+        HunterManager hm = Singleton.instance.HunterManager;
+        
+        //add all hunters to turn order, then sort.
+        foreach(Character hunter in hm.hunters)
+        {
+            turnOrder.Add(hunter);
+        }
 
+        turnOrder.OrderByDescending(x => x.spd);    //TODO: Check to make sure this worked
+        
         //MonsterManager mm = MonsterManager.instance;
         //CreateHunter();
         //mm.SpawnMonster(monsterLevel:1);
         //SetupMonsterUI(mm.activeMonsters[0]);
 
         //populate hunter inventory
-        HunterManager hm = Singleton.instance.HunterManager;
-        int i = 0;
+        //HunterManager hm = Singleton.instance.HunterManager;
+        /*int i = 0;
         while (i < hm.hunters[0].inventory.Count)
         {
             hunterInventory[i].GetItemData(hm.hunters[0].inventory[i]);
             i++;
-        }
+        }*/
 
         inventoryContainer.gameObject.SetActive(false);
         skillContainer.gameObject.SetActive(false);
@@ -111,7 +122,9 @@ public class GameManager : MonoBehaviour
 
         //focus camera on the first active character.
         gameCamera.transform.position = defaultCameraPos;
-        //moveCameraToCharacter = true;
+        moveCameraToCharacter = true;
+        currentCharacter = 0;
+        StartCoroutine(TakeAction(turnOrder[currentCharacter]));
         //gameCamera.transform.position = new Vector3(newCamPos.x - 4, 5, newCamPos.z + 4);
     }
 
@@ -137,29 +150,36 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (moveCameraToCharacter == true)
+        /*if (moveCameraToCharacter == true)
         {
             HunterManager hm = Singleton.instance.HunterManager;
             MoveCameraToCharacter(hm.hunters[0]);
-        }
+        }*/
     }
 
     /// <summary>
     /// Moves isometric camera to the active character (hunter or monster).
     /// </summary>
     /// <param name="character">The character the camera will focus on.</param>
-    void MoveCameraToCharacter(Character character)
+    IEnumerator MoveCameraToCharacter(Character character)
     {
-        if (moveCameraToCharacter == false)
-            return;
+        //if (moveCameraToCharacter == false)
+            //return null;
         
         Vector3 newCamPos = new Vector3(character.transform.position.x - 4, 5, character.transform.position.z - 6);
-        gameCamera.transform.position = Vector3.MoveTowards(gameCamera.transform.position, newCamPos, 8 * Time.deltaTime);
 
-        if (gameCamera.transform.position == newCamPos)
+        while (gameCamera.transform.position != newCamPos)
+        {
+            gameCamera.transform.position = Vector3.MoveTowards(gameCamera.transform.position, newCamPos, 8 * Time.deltaTime);
+            yield return null;
+        }
+
+        moveCameraToCharacter = false;
+
+        /*if (gameCamera.transform.position == newCamPos)
         {
             moveCameraToCharacter = false;
-        }
+        }*/
        
     }
 
@@ -761,5 +781,17 @@ public class GameManager : MonoBehaviour
        //}
 
         return roomPos;
+    }
+
+    //Next character in the turn order takes action. The camera is centered on the active character and 
+    //a menu is displayed if the character is controlled by a player. Otherwise, CPU takes action.
+    IEnumerator TakeAction(Character character)
+    {
+        //move camera to the active character
+        yield return MoveCameraToCharacter(character);
+
+        //once complete, show the menu if the active character is a player. Otherwise, CPU takes action.
+        HunterManager hm = Singleton.instance.HunterManager;
+        hm.ui.ShowHunterMenu(true, character);
     }
 }

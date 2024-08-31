@@ -32,7 +32,11 @@ public class HunterUI : MonoBehaviour
     public GameObject weaponSelectMenuObject;
     public GameObject inventoryMenuObject;
     public GameObject rivalHunterMenuObject;            //screen for choosing number of opponents.
+    public GameObject hunterMenuObject;                 //displays Move, attack, rest
+    public TextMeshProUGUI hunterMenu_hunterNameText;
     public GameObject[] hunterHudObjects;
+    
+
 
     public static HunterUI instance;
 
@@ -125,7 +129,15 @@ public class HunterUI : MonoBehaviour
         }
     }
 
-    //public void Show
+    public void ShowHunterMenu(bool toggle, Character character = null)
+    {
+        hunterMenuObject.SetActive(toggle);
+        if (toggle == true)
+        {
+            //get character info
+            hunterMenu_hunterNameText.text = character.characterName + "'s Turn";
+        }
+    }
 }
 
 [System.Serializable]

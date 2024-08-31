@@ -72,6 +72,7 @@ public class HunterManager : MonoBehaviour
                 ui.ShowWeaponSelectionMenu(false);
                 ui.ShowRivalHunterMenu(false);
                 ui.ShowHunterHuds(false);
+                ui.ShowHunterMenu(false);
                 break;
 
             case MenuState.PointAlloc:
