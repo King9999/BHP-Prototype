@@ -379,4 +379,5 @@ public class HunterManager : MonoBehaviour
         SceneManager.LoadScene("Game");
     }
     #endregion
+
 }

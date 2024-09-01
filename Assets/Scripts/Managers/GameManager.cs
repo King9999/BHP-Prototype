@@ -167,10 +167,11 @@ public class GameManager : MonoBehaviour
             //return null;
         
         Vector3 newCamPos = new Vector3(character.transform.position.x - 4, 5, character.transform.position.z - 6);
+        float speed = 16;
 
         while (gameCamera.transform.position != newCamPos)
         {
-            gameCamera.transform.position = Vector3.MoveTowards(gameCamera.transform.position, newCamPos, 8 * Time.deltaTime);
+            gameCamera.transform.position = Vector3.MoveTowards(gameCamera.transform.position, newCamPos, speed * Time.deltaTime);
             yield return null;
         }
 

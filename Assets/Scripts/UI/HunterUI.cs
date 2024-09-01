@@ -134,8 +134,14 @@ public class HunterUI : MonoBehaviour
         hunterMenuObject.SetActive(toggle);
         if (toggle == true)
         {
+            //display menu above character
+            //float yPos = character.GetComponent<SpriteRenderer>().size.y / 2;
+            Vector3 menuPos = new Vector3(character.transform.position.x, character.transform.position.y + 6, character.transform.position.z);
+            hunterMenuObject.transform.position = Camera.main.WorldToScreenPoint(menuPos);
+
             //get character info
             hunterMenu_hunterNameText.text = character.characterName + "'s Turn";
+
         }
     }
 }
