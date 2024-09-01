@@ -378,6 +378,13 @@ public class HunterManager : MonoBehaviour
         //move to game scene
         SceneManager.LoadScene("Game");
     }
+
+    //move button in hunter menu. Allows selecting card, and then rolling dice to move.
+    public void OnMoveButtonPressed()
+    {
+        GameManager gm = Singleton.instance.GameManager;
+        gm.dice.ShowSingleDieUI(true);
+    }
     #endregion
 
 }

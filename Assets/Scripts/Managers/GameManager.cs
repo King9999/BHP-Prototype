@@ -125,6 +125,8 @@ public class GameManager : MonoBehaviour
         moveCameraToCharacter = true;
         currentCharacter = 0;
         StartCoroutine(TakeAction(turnOrder[currentCharacter]));
+        dice.dieImages[0].sprite = dice.diceSprites[0];
+        dice.dieImages[1].sprite = dice.diceSprites[0];
         //gameCamera.transform.position = new Vector3(newCamPos.x - 4, 5, newCamPos.z + 4);
     }
 
@@ -195,40 +197,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /*public void CreateHunter()
-    {
-        Hunter hunter = Instantiate(hunterPrefab);
-        hunter.characterName = "King";
-        hunter.name = "Test Hunter";
-        hunter.InitializeStats();
-        hunterStr.text = hunter.str.ToString();
-        hunterSpd.text = hunter.spd.ToString();
-        hunterVit.text = hunter.vit.ToString();
-        hunterMnt.text = hunter.mnt.ToString();
-        hunterName.text = hunter.characterName.ToString();
-        hunterAtp.text = hunter.atp.ToString();
-        hunterDfp.text = hunter.dfp.ToString();
-        hunterMnp.text = hunter.mnp.ToString();
-        hunterRst.text = hunter.rst.ToString();
-        hunterEvd.text = (hunter.evd * 100) + "%";
-        hunterMov.text = hunter.mov.ToString();
-        hunterHp.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
-        hunterSp.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
-
-        //point allocation values
-        strPointsGUI.text = hunter.strPoints.ToString();
-        vitPointsGUI.text = hunter.vitPoints.ToString();
-        mntPointsGUI.text = hunter.mntPoints.ToString();
-        spdPointsGUI.text = hunter.spdPoints.ToString();
-
-        //give hunter a weapon
-        ItemManager im = ItemManager.instance;
-        hunter.Equip(im.GenerateWeapon());
-        equippedWeaponText.text = hunter.equippedWeapon.itemName;
-        hunterAtp.text = hunter.atp.ToString();
-        hunters.Add(hunter);
-        //hunters[0].inventory.Add(im.GenerateWeapon());  //adding weapon as a test
-    }*/
 
     public void SetupMonsterUI(Monster monster)
     {
@@ -250,68 +218,6 @@ public class GameManager : MonoBehaviour
         monsterSp.text = monster.skillPoints + "/" + monster.maxSkillPoints;
     }
 
-    //Allocates a point to STR when clicked
-    /*private void AllocatePoint_STR(Hunter hunter)
-    {
-        hunter.AllocateToStr(1);
-        hunterStr.text = hunter.str.ToString();
-        strPointsGUI.text = hunter.strPoints.ToString();
-        hunterAtp.text = hunter.atp.ToString();
-        hunterHp.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
-        hunterSp.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
-    }
-
-    private void AllocatePoint_SPD(Hunter hunter)
-    {
-        hunter.AllocateToSpd(1);
-        hunterSpd.text = hunter.spd.ToString();
-        spdPointsGUI.text = hunter.spdPoints.ToString();
-        hunterMov.text = hunter.mov.ToString();
-        hunterEvd.text = (hunter.evd * 100) + "%";
-        hunterHp.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
-        hunterSp.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
-    }
-
-    private void AllocatePoint_VIT(Hunter hunter)
-    {
-        hunter.AllocateToVit(1);
-        hunterVit.text = hunter.vit.ToString();
-        vitPointsGUI.text = hunter.vitPoints.ToString();
-        hunterDfp.text = hunter.dfp.ToString();
-        hunterHp.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
-        hunterSp.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
-    }
-
-    private void AllocatePoint_MNT(Hunter hunter)
-    {
-        hunter.AllocateToMnt(1);
-        hunterMnt.text = hunter.mnt.ToString();
-        mntPointsGUI.text = hunter.mntPoints.ToString();
-        hunterRst.text = hunter.rst.ToString();
-        hunterMnp.text = hunter.mnp.ToString();
-        hunterHp.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
-        hunterSp.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
-    }*/
-
-    /*public void OnAllocateStrButtonPressed()
-    {
-        AllocatePoint_STR(hunters[0]);
-    }
-
-    public void OnAllocateVitButtonPressed()
-    {
-        AllocatePoint_VIT(hunters[0]);
-    }
-
-    public void OnAllocateSpdButtonPressed()
-    {
-        AllocatePoint_SPD(hunters[0]);
-    }
-
-    public void OnAllocateMntButtonPressed()
-    {
-        AllocatePoint_MNT(hunters[0]);
-    }*/
 
     /* Rolls dice and displays results for hunter and monster */
     public void OnRollDiceButtonPressed()
@@ -370,127 +276,6 @@ public class GameManager : MonoBehaviour
             return 0;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="character">The hunter or monster who is going to move.</param>
-    /// <param name="spaceCount">The number of spaces the character can move.</param>
-    /// <returns>The valid positions the character can move to.</returns>
-    public List<Vector3> ShowMovementRange(Character character, int spaceCount)
-    {
-        List<Vector3> validPositions = new List<Vector3>();
-        //search surrounding rooms for valid spaces, starting from character's location.
-        Room currentRoom = character.room;
-        Vector3 currentPos = currentRoom.transform.position;
-        //Debug.Log("Current room pos: " + currentPos);
-        //Vector3 leftRoomPos = new Vector3(currentPos.x - 2, currentPos.y, currentPos.z);
-        //Vector3 rightRoomPos = new Vector3(currentPos.x + 2, currentPos.y, currentPos.z);
-        //Vector3 backRoomPos = new Vector3(currentPos.x, currentPos.y, currentPos.z + 2);
-        //Vector3 frontRoomPos = new Vector3(currentPos.x, currentPos.y, currentPos.z - 2);
-        float distance = 1.9f;
-        //Vector3 xOffset = new Vector3 (0.1f, 0, 0);
-        //Vector3 zOffset = new Vector3(0, 0, 0.1f);
-        Ray leftRay = new Ray(currentPos, /*currentRoom.nodes[currentRoom.LEFT].pos.transform.position - xOffset,*/ Vector3.left);
-        //Debug.Log("Left Ray: " + leftRay);
-        Ray rightRay = new Ray(currentPos, /*currentRoom.nodes[currentRoom.RIGHT].pos.transform.position + xOffset,*/ Vector3.right);
-        Ray backRay = new Ray(currentPos, /*currentRoom.nodes[currentRoom.BACK].pos.transform.position - zOffset,*/ Vector3.back);
-        Ray frontRay = new Ray(currentPos, /*currentRoom.nodes[currentRoom.FORWARD].pos.transform.position + zOffset,*/ Vector3.forward);
-        //Collider[] rooms = Physics.OverlapSphere(currentPos, 1f, LayerMask.GetMask("Room"));
-        //Debug.Log("rooms: " + rooms.Length);
-        
-
-        //does a room exist at these locations?
-        //Debug.Log("Current Location: " + currentRoom.transform.position);
-        //Debug.DrawRay(character.transform.position, Vector3.left, Color.blue, 10000000, false);
-        
-        Debug.DrawRay(currentPos, /*currentRoom.nodes[currentRoom.LEFT].pos.transform.position - xOffset,*/ Vector3.left * distance, Color.blue, 10000000);
-        Debug.DrawRay(currentPos, Vector3.right * distance, Color.blue, 10000000);
-        Debug.DrawRay(currentPos, Vector3.back * distance, Color.blue, 10000000);
-        Debug.DrawRay(currentPos, Vector3.forward * distance, Color.blue, 10000000);
-        //int layerMask = 1 << 3;
-        //Debug.Log("Layer Mask: " + LayerMask.GetMask("Room") + layerMask);
-
-        //check each direction and highlight all spaces the hunter can move in. For diagonal spaces
-        //we advance the iterator by 2 because it takes 2 moves to reach a diagonal space.
-        /*for (int i = 0; i < spaceCount; i++)
-        {
-            bool hitDeadEnd = false;    //if true, we found an invalid space before reaching space count.
-            int j = 0;
-            while (!hitDeadEnd && j < spaceCount)
-            {
-                Physics.RaycastAll()
-            }
-        }*/
-
-        RaycastHit[] rightCast = Physics.RaycastAll(rightRay, spaceCount * distance);
-        RaycastHit[] leftCast = Physics.RaycastAll(leftRay, spaceCount * distance);
-        RaycastHit[] backCast = Physics.RaycastAll(backRay, spaceCount * distance);
-        RaycastHit[] frontCast = Physics.RaycastAll(frontRay, spaceCount * distance);
-
-        for (int i = 0; i < rightCast.Length; i++)
-            validPositions.Add(GetRoomsInDirection(rightCast[i]));
-
-        for (int i = 0; i < leftCast.Length; i++)
-            validPositions.Add(GetRoomsInDirection(leftCast[i]));
-
-        for (int i = 0; i < backCast.Length; i++)
-            validPositions.Add(GetRoomsInDirection(backCast[i]));
-
-        for (int i = 0; i < frontCast.Length; i++)
-            validPositions.Add(GetRoomsInDirection(frontCast[i]));
-
-        Debug.Log("list size: " + validPositions.Count);
-        /*for (int i = 0; i < rightCast.Length; i++)
-        {
-            Vector3 roomPos = rightCast[i].transform.position;
-            validPositions.Add(roomPos);
-            Debug.Log("rightCast Room " + i + " pos: " + roomPos + "\n");
-            GameObject tile = Instantiate(moveTilePrefab);
-            tile.transform.position = new Vector3(roomPos.x, 0.6f, roomPos.z);
-        }
-
-        for (int i = 0; i < leftCast.Length; i++)
-        {
-            Vector3 roomPos = leftCast[i].transform.position;
-            validPositions.Add(roomPos);
-            Debug.Log("leftCast Room " + i + " pos: " + roomPos + "\n");
-            GameObject tile = Instantiate(moveTilePrefab);
-            tile.transform.position = new Vector3(roomPos.x, 0.6f, roomPos.z);
-        }*/
-        /*if (Physics.Raycast(leftRay, out RaycastHit leftRoom, distance, LayerMask.GetMask("Room")))
-        {
-            Debug.Log("hit left " + leftRoom.collider + " at pos " + leftRoom.transform.position);
-            //show a blue tile
-            validPositions.Add(leftRoom.transform.position);
-        }
-
-        if (Physics.Raycast(rightRay, out RaycastHit rightRoom, distance, LayerMask.GetMask("Room")))
-        {
-            Debug.Log("hit right " + rightRoom.collider + " at pos " + rightRoom.transform.position);
-            validPositions.Add(rightRoom.transform.position);
-        }
-
-        if (Physics.Raycast(backRay, out RaycastHit backRoom, distance, LayerMask.GetMask("Room")))
-        {
-            Debug.Log("hit back" + backRoom.collider + " at pos " + backRoom.transform.position);
-            validPositions.Add(backRoom.transform.position);
-        }
-
-        if (Physics.Raycast(frontRay, out RaycastHit frontRoom, distance, LayerMask.GetMask("Room")))
-        {
-            Debug.Log("hit front" + frontRoom.collider + " at pos " + frontRoom.transform.position);
-            validPositions.Add(frontRoom.transform.position);
-        }
-        //Debug.Log("left hit: " + leftPos + "\nright hit: " + rightPos + "\nback hit: " + backPos + "\nfront hit: " + frontPos);
-
-        //display a blue tile to indicate where character can move.
-        foreach (Vector3 pos in validPositions)
-        {
-            GameObject tile = Instantiate(moveTilePrefab);
-            tile.transform.position = new Vector3(pos.x, 0.6f, pos.z); //1 is added so tile appears above room
-        }*/
-        return validPositions;
-    }
     
     public List<Vector3> ShowMoveRange(char[,] grid, Character character, int spaceCount)
     {
