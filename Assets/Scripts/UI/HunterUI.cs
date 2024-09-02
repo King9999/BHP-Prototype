@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 //using UnityEngine.UIElements;
 
@@ -32,7 +33,10 @@ public class HunterUI : MonoBehaviour
     public GameObject weaponSelectMenuObject;
     public GameObject inventoryMenuObject;
     public GameObject rivalHunterMenuObject;            //screen for choosing number of opponents.
-    public GameObject hunterMenuObject;                 //displays Move, attack, rest
+    public GameObject hunterMenuContainer;                 //used to show the other menus
+    public GameObject hunterMenuObject_main;            //displays Move, attack, rest
+    public GameObject hunterMenuObject_rollDiceToMove;
+    public GameObject hunterMenuObject_showCards;
     public TextMeshProUGUI hunterMenu_hunterNameText;
     public GameObject[] hunterHudObjects;
     
@@ -129,19 +133,49 @@ public class HunterUI : MonoBehaviour
         }
     }
 
-    public void ShowHunterMenu(bool toggle, Character character = null)
+    public void ShowHunterMenuContainer(bool toggle)
     {
-        hunterMenuObject.SetActive(toggle);
+        hunterMenuContainer.SetActive(toggle);
+        hunterMenuObject_main.SetActive(true);  //default menu to appear
+        hunterMenuObject_showCards.SetActive(false);
+        hunterMenuObject_rollDiceToMove.SetActive(false);
+    }
+
+    public void ShowHunterMenu_Main(bool toggle, Character character = null)
+    {
+        //hunterMenuContainer.SetActive(toggle);
+        hunterMenuObject_main.SetActive(toggle);
         if (toggle == true)
-        {
+        {      
             //display menu above character
             //float yPos = character.GetComponent<SpriteRenderer>().size.y / 2;
             Vector3 menuPos = new Vector3(character.transform.position.x, character.transform.position.y + 6, character.transform.position.z);
-            hunterMenuObject.transform.position = Camera.main.WorldToScreenPoint(menuPos);
+            hunterMenuObject_main.transform.position = Camera.main.WorldToScreenPoint(menuPos);
 
             //get character info
             hunterMenu_hunterNameText.text = character.characterName + "'s Turn";
 
+        }
+
+    }
+
+    public void ShowHunterMenu_RollDiceToMove(bool toggle, Character character = null)
+    {
+        hunterMenuObject_rollDiceToMove.SetActive(toggle);
+        if (toggle == true)
+        {
+            Vector3 menuPos = new Vector3(character.transform.position.x, character.transform.position.y + 6, character.transform.position.z);
+            hunterMenuObject_rollDiceToMove.transform.position = Camera.main.WorldToScreenPoint(menuPos);
+        }
+    }
+
+    public void ShowHunterMenu_DisplayCards(bool toggle, Character character = null)
+    {
+        hunterMenuObject_showCards.SetActive(toggle);
+        if (toggle == true)
+        {
+            Vector3 menuPos = new Vector3(character.transform.position.x, character.transform.position.y + 6, character.transform.position.z);
+            hunterMenuObject_showCards.transform.position = Camera.main.WorldToScreenPoint(menuPos);
         }
     }
 }

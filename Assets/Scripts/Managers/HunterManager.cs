@@ -23,6 +23,9 @@ public class HunterManager : MonoBehaviour
     public enum MenuState { NameEntry, PointAlloc, ChooseWeapon, RivalHunter, ShowHunterHuds }
     public MenuState state;
 
+    public enum HunterMenuState { Default, SelectCard, RollDiceToMove, Rest, ChooseAttackTarget}
+    public HunterMenuState hunterMenuState;
+
     GameObject hunterContainer;         //hunters are stored here for organization
 
     public static HunterManager instance;
@@ -72,7 +75,7 @@ public class HunterManager : MonoBehaviour
                 ui.ShowWeaponSelectionMenu(false);
                 ui.ShowRivalHunterMenu(false);
                 ui.ShowHunterHuds(false);
-                ui.ShowHunterMenu(false);
+                ui.ShowHunterMenuContainer(false);
                 break;
 
             case MenuState.PointAlloc:
@@ -96,6 +99,35 @@ public class HunterManager : MonoBehaviour
                 ui.ShowRivalHunterMenu(false);
                 ui.ShowHunterHuds(true);
                 break;
+        }
+    }
+
+    public void ChangeHunterMenuState(HunterMenuState state)
+    {
+        GameManager gm = Singleton.instance.GameManager;
+        switch(state)
+        {
+            case HunterMenuState.Default:
+                ui.ShowHunterMenuContainer(true);
+                ui.ShowHunterMenu_Main(true, gm.ActiveCharacter());
+                //hide all other UI
+                ui.ShowHunterMenu_DisplayCards(false);
+                ui.ShowHunterMenu_RollDiceToMove(false);
+                break;
+
+            case HunterMenuState.SelectCard:
+                ui.ShowHunterMenu_Main(false);
+                ui.ShowHunterMenu_DisplayCards(true, gm.ActiveCharacter());
+                ui.ShowHunterMenu_RollDiceToMove(false);
+                break;
+
+            case HunterMenuState.RollDiceToMove:
+                ui.ShowHunterMenu_Main(false);
+                ui.ShowHunterMenu_DisplayCards(false);
+                ui.ShowHunterMenu_RollDiceToMove(true, gm.ActiveCharacter());
+                break;
+
+
         }
     }
 
@@ -384,6 +416,23 @@ public class HunterManager : MonoBehaviour
     {
         GameManager gm = Singleton.instance.GameManager;
         gm.dice.ShowSingleDieUI(true);
+        ChangeHunterMenuState(hunterMenuState = HunterMenuState.RollDiceToMove);    //TODO: change to SelectCard when ready
+
+    }
+
+    //different UI is closed/opened depending on hunter menu state
+    public void OnHunterMenuBackButtonPressed()
+    {
+        switch(hunterMenuState)
+        {
+            case HunterMenuState.SelectCard:
+                ChangeHunterMenuState(hunterMenuState = HunterMenuState.Default);
+                break;
+
+            case HunterMenuState.RollDiceToMove:
+                ChangeHunterMenuState(hunterMenuState = HunterMenuState.Default); //TODO: Change state to SelectCard when ready
+                break;
+        }
     }
     #endregion
 

@@ -159,6 +159,11 @@ public class GameManager : MonoBehaviour
         }*/
     }
 
+    public Character ActiveCharacter()
+    {
+        return turnOrder[currentCharacter];
+    }
+
     /// <summary>
     /// Moves isometric camera to the active character (hunter or monster).
     /// </summary>
@@ -578,6 +583,7 @@ public class GameManager : MonoBehaviour
 
         //once complete, show the menu if the active character is a player. Otherwise, CPU takes action.
         HunterManager hm = Singleton.instance.HunterManager;
-        hm.ui.ShowHunterMenu(true, character);
+        hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Default);
+        //hm.ui.ShowHunterMenu(true, character);
     }
 }
