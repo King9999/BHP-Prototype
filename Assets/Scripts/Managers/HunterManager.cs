@@ -122,9 +122,9 @@ public class HunterManager : MonoBehaviour
                 break;
 
             case HunterMenuState.RollDiceToMove:
+                ui.ShowHunterMenu_RollDiceToMove(true, gm.ActiveCharacter());
                 ui.ShowHunterMenu_Main(false);
                 ui.ShowHunterMenu_DisplayCards(false);
-                ui.ShowHunterMenu_RollDiceToMove(true, gm.ActiveCharacter());
                 break;
 
 
@@ -430,6 +430,8 @@ public class HunterManager : MonoBehaviour
                 break;
 
             case HunterMenuState.RollDiceToMove:
+                GameManager gm = Singleton.instance.GameManager;
+                gm.dice.ShowSingleDieUI(false);
                 ChangeHunterMenuState(hunterMenuState = HunterMenuState.Default); //TODO: Change state to SelectCard when ready
                 break;
         }
