@@ -45,16 +45,20 @@ public class Dice : MonoBehaviour
 
     public int RollDice(/*int die1, int die2*/)
     {
+        showDice = false;
         die1 = Random.Range(1, 7);
         die2 = Random.Range(1, 7);
-
+        dieImages[0].sprite = diceSprites[die1 - 1];
+        dieImages[1].sprite = diceSprites[die2 - 1];
         return die1 + die2;
     }
 
     public int RollSingleDie()
     {
+        showSingleDie = false;
         die1 = Random.Range(1, 7);
         die2 = 0;
+        dieImages[0].sprite = diceSprites[die1 - 1];
         return die1;
     }
 

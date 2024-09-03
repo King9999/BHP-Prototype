@@ -48,9 +48,12 @@ public class GameManager : MonoBehaviour
     public LootTable lootTable;
 
     [Header("---Movement & Attack Tile---")]
+    public GameObject moveTileContainer;
     public GameObject moveTilePrefab;
     public List<Character> turnOrder;
     int currentCharacter;
+    public List<Vector3> movementPositions, attackPositions;     //holds valid positions for moving and attacking
+    public List<GameObject> moveTileList, moveTileBin;          //bin is used for recycling instantiated move tiles
 
     bool runMovementCheck;
 
@@ -116,6 +119,7 @@ public class GameManager : MonoBehaviour
 
         inventoryContainer.gameObject.SetActive(false);
         skillContainer.gameObject.SetActive(false);
+        moveTileContainer.name = "Move Tiles";
 
         //ShowMovementRange(hm.hunters[0], 1);
         //runMovementCheck = true;
@@ -133,21 +137,21 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        if (runMovementCheck)
+        /*if (runMovementCheck)
         {
             runMovementCheck = false;
             HunterManager hm = Singleton.instance.HunterManager;
             //ShowMovementRange(hm.hunters[0], 4);
 
             Dungeon dun = Singleton.instance.Dungeon;
-            List<Vector3> moveRange = ShowMoveRange(dun.dungeonGrid, hm.hunters[0], 3);
+            List<Vector3> moveRange = ShowMoveRange(dun.dungeonGrid, ActiveCharacter(), 3);
             GameObject moveTileContainer = new GameObject("Move Tiles");
             foreach (Vector3 pos in moveRange)
             {
                 GameObject tile = Instantiate(moveTilePrefab, moveTileContainer.transform);
                 tile.transform.position = new Vector3(pos.x, 0.6f, pos.z);
             }
-        }
+        }*/
     }
 
     private void Update()
@@ -157,11 +161,47 @@ public class GameManager : MonoBehaviour
             HunterManager hm = Singleton.instance.HunterManager;
             MoveCameraToCharacter(hm.hunters[0]);
         }*/
+        if (runMovementCheck)
+        {
+            runMovementCheck = false;
+            HunterManager hm = Singleton.instance.HunterManager;
+
+            Dungeon dun = Singleton.instance.Dungeon;
+            int totalMove = ActiveCharacter().mov + dice.RollSingleDie();
+            List<Vector3> moveRange = ShowMoveRange(dun.dungeonGrid, ActiveCharacter(), totalMove);
+            Debug.Log("Total Move: " + totalMove);
+
+            moveTileList.Clear();
+            foreach (Vector3 pos in moveRange)
+            {
+                //if there are existing move tile objects, activate those first before instantiating new ones.
+                if (moveTileBin.Count > 0)
+                {
+                    GameObject lastTile = moveTileBin[moveTileBin.Count - 1];
+                    lastTile.SetActive(true);
+                    lastTile.transform.position = new Vector3(pos.x, 0.6f, pos.z);
+                    moveTileList.Add(lastTile);
+                    moveTileBin.Remove(lastTile);
+                }
+                else
+                {
+                    GameObject tile = Instantiate(moveTilePrefab, moveTileContainer.transform);
+                    tile.transform.position = new Vector3(pos.x, 0.6f, pos.z);
+                    moveTileList.Add(tile);
+                }
+                
+            }
+        }
     }
 
     public Character ActiveCharacter()
     {
         return turnOrder[currentCharacter];
+    }
+
+    public void GetMoveRange()
+    {
+        runMovementCheck = true;
     }
 
     /// <summary>

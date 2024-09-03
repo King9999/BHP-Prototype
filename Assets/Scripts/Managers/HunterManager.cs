@@ -420,6 +420,16 @@ public class HunterManager : MonoBehaviour
 
     }
 
+    public void OnRollDiceButtonPressed()
+    {
+        GameManager gm = Singleton.instance.GameManager;
+        gm.GetMoveRange();
+        /*Dungeon dungeon = Singleton.instance.Dungeon;
+        int totalMove = gm.dice.RollSingleDie() + gm.ActiveCharacter().mov;
+        gm.movementPositions = gm.ShowMoveRange(dungeon.dungeonGrid, gm.ActiveCharacter(), totalMove);
+        Debug.Log("Total Move: " + totalMove);*/
+    }
+
     //different UI is closed/opened depending on hunter menu state
     public void OnHunterMenuBackButtonPressed()
     {
