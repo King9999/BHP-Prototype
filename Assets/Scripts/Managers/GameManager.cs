@@ -83,10 +83,10 @@ public class GameManager : MonoBehaviour
         ChangeGameState(gameState);
 
         /**** USE THE NEXT 4 LINES TO GET SEED FOR BUG TESTING*****/
-        //System.Random random = new System.Random();
-        //int seed = random.Next();//1854018154; 
-        //Random.InitState(seed);
-        //Debug.Log("Seed: " + seed);
+        System.Random random = new System.Random();
+        int seed = 337974671;  random.Next();//1854018154; 
+        Random.InitState(seed);
+        Debug.Log("Seed: " + seed);
 
         //create dungeon
         Dungeon dungeon = Singleton.instance.Dungeon;

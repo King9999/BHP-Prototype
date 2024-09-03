@@ -43,7 +43,7 @@ public class Dice : MonoBehaviour
         }
     }
 
-    public int RollDice(/*int die1, int die2*/)
+    public int RollDice()
     {
         showDice = false;
         die1 = Random.Range(1, 7);
