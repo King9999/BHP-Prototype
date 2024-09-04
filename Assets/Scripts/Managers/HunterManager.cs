@@ -23,7 +23,7 @@ public class HunterManager : MonoBehaviour
     public enum MenuState { NameEntry, PointAlloc, ChooseWeapon, RivalHunter, ShowHunterHuds }
     public MenuState state;
 
-    public enum HunterMenuState { Default, SelectCard, RollDiceToMove, Rest, ChooseAttackTarget}
+    public enum HunterMenuState { Default, SelectCard, RollDiceToMove, SelectMoveTile, Rest, ChooseAttackTarget}
     public HunterMenuState hunterMenuState;
 
     GameObject hunterContainer;         //hunters are stored here for organization
@@ -433,16 +433,28 @@ public class HunterManager : MonoBehaviour
     //different UI is closed/opened depending on hunter menu state
     public void OnHunterMenuBackButtonPressed()
     {
-        switch(hunterMenuState)
+        GameManager gm = Singleton.instance.GameManager;
+        switch (hunterMenuState)
         {
             case HunterMenuState.SelectCard:
                 ChangeHunterMenuState(hunterMenuState = HunterMenuState.Default);
                 break;
 
             case HunterMenuState.RollDiceToMove:
-                GameManager gm = Singleton.instance.GameManager;
+                
                 gm.dice.ShowSingleDieUI(false);
                 ChangeHunterMenuState(hunterMenuState = HunterMenuState.Default); //TODO: Change state to SelectCard when ready
+                break;
+
+            case HunterMenuState.SelectMoveTile:
+                //deactivate move tiles and send them to bin
+                /*for (int i = 0; i < gm.moveTileList.Count; i++)
+                {
+                    gm.moveTileList[i].SetActive(false);
+                    gm.moveTileBin.Add(gm.moveTileList[i]);
+                    gm.moveTileList.Remove(gm.moveTileList[i]);
+                }*/
+
                 break;
         }
     }

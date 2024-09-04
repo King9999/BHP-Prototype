@@ -127,7 +127,11 @@ MonoBehaviour:
   lootTable: {fileID: 0}
   moveTileContainer: {fileID: 231463923363974374}
   moveTilePrefab: {fileID: 2232471571221434396, guid: e69e9613ba75b3f4ba68d01559754911, type: 3}
+  selectTilePrefab: {fileID: 2232471571221434396, guid: 4a54d9051261c7c4db8e837f447d17ca, type: 3}
+  selectTile: {fileID: 0}
   turnOrder: []
   movementPositions: []
   attackPositions: []
+  moveTileList: []
+  moveTileBin: []
   gameState: 0

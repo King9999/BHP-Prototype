@@ -50,12 +50,14 @@ public class GameManager : MonoBehaviour
     [Header("---Movement & Attack Tile---")]
     public GameObject moveTileContainer;
     public GameObject moveTilePrefab;
+    public GameObject selectTilePrefab;               //used to highligh move or attack tile.
+    public GameObject selectTile;
     public List<Character> turnOrder;
     int currentCharacter;
     public List<Vector3> movementPositions, attackPositions;     //holds valid positions for moving and attacking
     public List<GameObject> moveTileList, moveTileBin;          //bin is used for recycling instantiated move tiles
 
-    bool runMovementCheck;
+    bool runMovementCheck, moveTilesActive;
 
     //states determine which UI is active
     public enum GameState { HunterSetup, Dungeon, Combat, Inventory}
@@ -83,10 +85,10 @@ public class GameManager : MonoBehaviour
         ChangeGameState(gameState);
 
         /**** USE THE NEXT 4 LINES TO GET SEED FOR BUG TESTING*****/
-        System.Random random = new System.Random();
-        int seed = 337974671;  random.Next();//1854018154; 
-        Random.InitState(seed);
-        Debug.Log("Seed: " + seed);
+        //System.Random random = new System.Random();
+        //int seed = random.Next();
+        //Random.InitState(seed);
+        //Debug.Log("Seed: " + seed);
 
         //create dungeon
         Dungeon dungeon = Singleton.instance.Dungeon;
@@ -120,7 +122,8 @@ public class GameManager : MonoBehaviour
         inventoryContainer.gameObject.SetActive(false);
         skillContainer.gameObject.SetActive(false);
         moveTileContainer.name = "Move Tiles";
-
+        selectTile = Instantiate(selectTilePrefab);
+        selectTile.SetActive(false);
         //ShowMovementRange(hm.hunters[0], 1);
         //runMovementCheck = true;
 
@@ -167,7 +170,7 @@ public class GameManager : MonoBehaviour
             HunterManager hm = Singleton.instance.HunterManager;
 
             Dungeon dun = Singleton.instance.Dungeon;
-            int totalMove = 4;// ActiveCharacter().mov + dice.RollSingleDie();
+            int totalMove = ActiveCharacter().mov + dice.RollSingleDie();
             List<Vector3> moveRange = ShowMoveRange(dun.dungeonGrid, ActiveCharacter(), totalMove);
             Debug.Log("Total Move: " + totalMove);
 
@@ -191,6 +194,39 @@ public class GameManager : MonoBehaviour
                 }
                 
             }
+            moveTilesActive = true;
+            selectTile.SetActive(true);
+        }
+
+        //use mouse to check for move/attack tiles.
+        if (moveTilesActive)
+        {
+            //Debug.Log(gameCamera.ScreenToWorldPoint(Input.mousePosition));
+            Vector3 mousePos = gameCamera.ScreenToWorldPoint(Input.mousePosition);
+            Ray mouseRay = new Ray(mousePos, Vector3.forward);
+            //foreach (GameObject tile in moveTileList)
+            //{
+                if (Physics.Raycast(mouseRay, out RaycastHit hitTile, Mathf.Infinity))
+                    
+                /*if (mousePos.x >= (tile.transform.position.x - tile.transform.localScale.x / 2) &&
+                    mousePos.x <= (tile.transform.position.x + tile.transform.localScale.x / 2) &&
+                    mousePos.z >= (tile.transform.position.z - tile.transform.localScale.z / 2) &&
+                    mousePos.z <= (tile.transform.position.z + tile.transform.localScale.z / 2))*/
+                {
+                    foreach (GameObject tile in moveTileList)
+                    {
+                        if (hitTile.collider == tile)
+                        {
+                            //change colour of tile
+                            Vector3 tilePos = tile.transform.position;
+
+                            selectTile.transform.position = new Vector3(tilePos.x, 0.7f, tilePos.z);
+                        }
+                    
+                    }
+                        
+                }
+            //}
         }
     }
 
