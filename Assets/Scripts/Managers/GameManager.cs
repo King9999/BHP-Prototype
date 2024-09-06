@@ -203,7 +203,7 @@ public class GameManager : MonoBehaviour
         if (moveTilesActive)
         {
             //Debug.Log(gameCamera.ScreenToWorldPoint(Input.mousePosition));
-            Vector3 mousePos = gameCamera.ScreenToWorldPoint(Input.mousePosition);
+            //Vector3 mousePos = gameCamera.ScreenToWorldPoint(Input.mousePosition);
             Ray mouseRay = gameCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(mouseRay, out RaycastHit hitTile) && hitTile.collider.CompareTag("Move Tile"))
             {
@@ -211,6 +211,13 @@ public class GameManager : MonoBehaviour
                 selectTile.transform.position = new Vector3(tilePos.x, 0.61f, tilePos.z);
                 Debug.Log("Select Tile at position " + selectTile.transform.position);
                         
+            }
+
+            //if mouse button is clicked, move hunter to chosen tile.
+            if (Input.GetMouseButtonDown(0))
+            {
+                moveTilesActive = false;
+                StartCoroutine(MoveCharacter(ActiveCharacter()));
             }
         }
     }
@@ -223,6 +230,11 @@ public class GameManager : MonoBehaviour
     public void GetMoveRange()
     {
         runMovementCheck = true;
+    }
+
+    IEnumerator MoveCharacter(Character character)
+    {
+        yield return null;
     }
 
     /// <summary>

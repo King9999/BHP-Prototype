@@ -50,6 +50,8 @@ public class Dice : MonoBehaviour
         die2 = Random.Range(1, 7);
         dieImages[0].sprite = diceSprites[die1 - 1];
         dieImages[1].sprite = diceSprites[die2 - 1];
+        die1_text.text = die1.ToString();
+        die2_text.text = die2.ToString();
         return die1 + die2;
     }
 
@@ -59,6 +61,7 @@ public class Dice : MonoBehaviour
         die1 = Random.Range(1, 7);
         die2 = 0;
         dieImages[0].sprite = diceSprites[die1 - 1];
+        die1_text.text = die1.ToString();
         return die1;
     }
 

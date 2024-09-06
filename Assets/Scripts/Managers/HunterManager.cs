@@ -127,6 +127,10 @@ public class HunterManager : MonoBehaviour
                 ui.ShowHunterMenu_DisplayCards(false);
                 break;
 
+            case HunterMenuState.SelectMoveTile:
+                ui.ShowHunterMenu_RollDiceToMove(false);
+                break;
+
 
         }
     }
@@ -424,6 +428,7 @@ public class HunterManager : MonoBehaviour
     {
         GameManager gm = Singleton.instance.GameManager;
         gm.GetMoveRange();
+        ChangeHunterMenuState(hunterMenuState = HunterMenuState.SelectMoveTile);
         /*Dungeon dungeon = Singleton.instance.Dungeon;
         int totalMove = gm.dice.RollSingleDie() + gm.ActiveCharacter().mov;
         gm.movementPositions = gm.ShowMoveRange(dungeon.dungeonGrid, gm.ActiveCharacter(), totalMove);
