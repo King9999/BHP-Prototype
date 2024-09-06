@@ -204,28 +204,14 @@ public class GameManager : MonoBehaviour
         {
             //Debug.Log(gameCamera.ScreenToWorldPoint(Input.mousePosition));
             Vector3 mousePos = gameCamera.ScreenToWorldPoint(Input.mousePosition);
-            Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-            //foreach (GameObject tile in moveTileList)
-            //{
+            Ray mouseRay = gameCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(mouseRay, out RaycastHit hitTile) && hitTile.collider.CompareTag("Move Tile"))
             {
                 Vector3 tilePos = hitTile.transform.position;
-                selectTile.transform.position = new Vector3(tilePos.x, 0.7f, tilePos.z);
-
-                /*foreach (GameObject tile in moveTileList)
-                {
-                    if (hitTile.collider == tile)
-                    {
-                        //change colour of tile
-                        Vector3 tilePos = tile.transform.position;
-
-                        selectTile.transform.position = new Vector3(tilePos.x, 0.7f, tilePos.z);
-                    }
-                    
-                }*/
+                selectTile.transform.position = new Vector3(tilePos.x, 0.61f, tilePos.z);
+                Debug.Log("Select Tile at position " + selectTile.transform.position);
                         
             }
-            //}
         }
     }
 
