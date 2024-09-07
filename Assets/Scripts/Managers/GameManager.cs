@@ -170,9 +170,9 @@ public class GameManager : MonoBehaviour
             runMovementCheck = false;
             HunterManager hm = Singleton.instance.HunterManager;
 
-            Dungeon dun = Singleton.instance.Dungeon;
+            //Dungeon dun = Singleton.instance.Dungeon;
             int totalMove = ActiveCharacter().mov + dice.RollSingleDie();
-            List<Vector3> moveRange = ShowMoveRange(dun.dungeonGrid, ActiveCharacter(), totalMove);
+            List<Vector3> moveRange = ShowMoveRange(/*dun.dungeonGrid,*/ ActiveCharacter(), totalMove);
             Debug.Log("Total Move: " + totalMove);
 
             moveTileList.Clear();
@@ -209,7 +209,7 @@ public class GameManager : MonoBehaviour
             {
                 Vector3 tilePos = hitTile.transform.position;
                 selectTile.transform.position = new Vector3(tilePos.x, 0.61f, tilePos.z);
-                Debug.Log("Select Tile at position " + selectTile.transform.position);
+                //Debug.Log("Select Tile at position " + selectTile.transform.position);
                         
             }
 
@@ -217,7 +217,15 @@ public class GameManager : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 moveTilesActive = false;
-                StartCoroutine(MoveCharacter(ActiveCharacter()));
+                //clear move tiles
+                for (int i = 0; i < moveTileList.Count; i++)
+                {
+                    moveTileList[i].SetActive(false);
+                    moveTileBin.Add(moveTileList[i]);
+                }
+                moveTileList.Clear();
+                Debug.Log("New destination: " + selectTile.transform.position);
+                StartCoroutine(MoveCharacter(ActiveCharacter(), selectTile.transform.position));
             }
         }
     }
@@ -232,37 +240,7 @@ public class GameManager : MonoBehaviour
         runMovementCheck = true;
     }
 
-    IEnumerator MoveCharacter(Character character)
-    {
-        yield return null;
-    }
 
-    /// <summary>
-    /// Moves isometric camera to the active character (hunter or monster).
-    /// </summary>
-    /// <param name="character">The character the camera will focus on.</param>
-    IEnumerator MoveCameraToCharacter(Character character)
-    {
-        //if (moveCameraToCharacter == false)
-            //return null;
-        
-        Vector3 newCamPos = new Vector3(character.transform.position.x - 4, 5, character.transform.position.z - 6);
-        float speed = 16;
-
-        while (gameCamera.transform.position != newCamPos)
-        {
-            gameCamera.transform.position = Vector3.MoveTowards(gameCamera.transform.position, newCamPos, speed * Time.deltaTime);
-            yield return null;
-        }
-
-        moveCameraToCharacter = false;
-
-        /*if (gameCamera.transform.position == newCamPos)
-        {
-            moveCameraToCharacter = false;
-        }*/
-       
-    }
 
 
     public void ChangeGameState(GameState gameState)
@@ -354,11 +332,17 @@ public class GameManager : MonoBehaviour
             return 0;
     }
 
-    
-    public List<Vector3> ShowMoveRange(char[,] grid, Character character, int spaceCount)
+    /// <summary>
+    /// Displays the active character's movement range. This method takes into account any invalid spaces.
+    /// </summary>
+    /// <param name="character">The active character.</param>
+    /// <param name="spaceCount">The total number of spaces the character can move.</param>
+    /// <returns>The list of valid spaces the character can move.</returns>
+    public List<Vector3> ShowMoveRange(/*char[,] grid,*/ Character character, int spaceCount)
     {
         List<Vector3>  validPositions = new List<Vector3>();
-        int spaceCost = 1;    //value changes if a gap needs to be crossed.
+        Dungeon dungeon = Singleton.instance.Dungeon;
+        char[,] grid = dungeon.dungeonGrid;
 
         int startRow = character.room.row;
         int startCol = character.room.col;
@@ -401,7 +385,6 @@ public class GameManager : MonoBehaviour
                 //skip this space
                 consecutiveGaps++;
                 continue;
-                //currentSpaceCount += 1;
             }
 
             /* search up and down until we reach total moves or we go out of bounds */
@@ -774,125 +757,6 @@ public class GameManager : MonoBehaviour
             consecutiveGaps = 0;
         }
 
-        /* Next, we do diagonal checks to find any remaining available spaces. Iterate through cardinal directions
-         * like before, except there's no extra cost for moving into invalid spaces. Also, we must check the character's
-         starting position. */
-        /*****check right & up*****/
-        /*currentCol = startCol;
-        currentRow = startRow;
-        currentSpaceCount = 0;
-        int nextCol = 0;  //tracks which column to start on after every loop.
-        int nextSpace = 0;
-        while (currentCol < grid.GetLength(1) && currentSpaceCount < spaceCount)
-        {
-            while (currentRow - 1 >= 0 && currentCol + 1 < grid.GetLength(1) && currentSpaceCount + 2 <= spaceCount)
-            {
-                currentRow--;
-                currentCol++;
-                currentSpaceCount += 2;     //2 is added because it takes 2 spaces to move diagonally.
-                                            //add new position
-                if (grid[currentRow, currentCol] == '1')
-                {
-                    Vector3 newPos = GetRoomPosition(currentRow, currentCol);
-                    if (!validPositions.Contains(newPos))
-                        validPositions.Add(newPos);
-                }
-            }
-            //start over from the next column
-            nextCol++;
-            nextSpace++;
-            currentSpaceCount = nextSpace;
-            currentCol = startCol + nextCol;
-            currentRow = startRow;
-        }*/
-
-        /*****check right & down*****/
-        /*currentCol = startCol;
-        currentRow = startRow;
-        currentSpaceCount = 0;
-        nextCol = 0;
-        nextSpace = 0;
-        while (currentCol < grid.GetLength(1) && currentSpaceCount < spaceCount)
-        {
-            while (currentRow + 1 < grid.GetLength(0) && currentCol + 1 < grid.GetLength(1) && currentSpaceCount + 2 <= spaceCount)
-            {
-                currentRow++;
-                currentCol++;
-                currentSpaceCount += 2;     //2 is added because it takes 2 spaces to move diagonally.
-                                            //add new position
-                if (grid[currentRow, currentCol] == '1')
-                {
-                    Vector3 newPos = GetRoomPosition(currentRow, currentCol);
-                    if (!validPositions.Contains(newPos))
-                        validPositions.Add(newPos);
-                }
-            }
-            //start over from the next column
-            nextCol++;
-            nextSpace++;
-            currentSpaceCount = nextSpace;
-            currentCol = startCol + nextCol;
-            currentRow = startRow;
-        }*/
-
-        /*****check left & up*****/
-        /*currentCol = startCol;
-        currentRow = startRow;
-        currentSpaceCount = 0;
-        nextCol = 0;
-        nextSpace = 0;
-        while (currentCol > 0 && currentSpaceCount < spaceCount)
-        {
-            while (currentRow - 1 >= 0 && currentCol - 1 >= 0 && currentSpaceCount + 2 <= spaceCount)
-            {
-                currentRow--;
-                currentCol--;
-                currentSpaceCount += 2;     //2 is added because it takes 2 spaces to move diagonally.
-                                            //add new position
-                if (grid[currentRow, currentCol] == '1')
-                {
-                    Vector3 newPos = GetRoomPosition(currentRow, currentCol);
-                    if (!validPositions.Contains(newPos))
-                        validPositions.Add(newPos);
-                }
-            }
-            //start over from the next column
-            nextCol--;
-            nextSpace++;
-            currentSpaceCount = nextSpace;
-            currentCol = startCol + nextCol;
-            currentRow = startRow;
-        }*/
-
-        /*****check left & down*****/
-        /*currentCol = startCol;
-        currentRow = startRow;
-        currentSpaceCount = 0;
-        nextCol = 0;
-        nextSpace = 0;
-        while (currentCol > 0 && currentSpaceCount < spaceCount)
-        {
-            while (currentRow + 1 < grid.GetLength(0) && currentCol - 1 >= 0 && currentSpaceCount + 2 <= spaceCount)
-            {
-                currentRow++;
-                currentCol--;
-                currentSpaceCount += 2;     //2 is added because it takes 2 spaces to move diagonally.
-                                            //add new position
-                if (grid[currentRow, currentCol] == '1')
-                {
-                    Vector3 newPos = GetRoomPosition(currentRow, currentCol);
-                    if (!validPositions.Contains(newPos))
-                        validPositions.Add(newPos);
-                }
-            }
-            //start over from the next column
-            nextCol--;
-            nextSpace++;
-            currentSpaceCount = nextSpace;
-            currentCol = startCol + nextCol;
-            currentRow = startRow;
-        }*/
-
         return validPositions;
     }
 
@@ -933,6 +797,8 @@ public class GameManager : MonoBehaviour
         return roomPos;
     }
 
+    #region Coroutines
+
     //Next character in the turn order takes action. The camera is centered on the active character and 
     //a menu is displayed if the character is controlled by a player. Otherwise, CPU takes action.
     IEnumerator TakeAction(Character character)
@@ -941,8 +807,101 @@ public class GameManager : MonoBehaviour
         yield return MoveCameraToCharacter(character);
 
         //once complete, show the menu if the active character is a player. Otherwise, CPU takes action.
-        HunterManager hm = Singleton.instance.HunterManager;
-        hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Default);
+        if (!character.cpuControlled)
+        {
+            HunterManager hm = Singleton.instance.HunterManager;
+            hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Default);
+        }
+        else
+        {
+            //CPU takes action.
+        }
         //hm.ui.ShowHunterMenu(true, character);
     }
+
+    IEnumerator MoveCharacter(Character character, Vector3 destination)
+    {
+        //get character's current position and search adjacent rooms.
+        //find the room whose position is closest to the destination and record it.
+        //if there are two or more rooms with the same distance to the destination, pick a random room and discard the others.
+        //if the room is the destination, move the player using MoveTowards. Must move from one room to the next until
+        //destination is reached.
+        List<Vector3> closestPoint = new List<Vector3>();
+        List<Vector3> destinationPoints = new List<Vector3>();
+        Dungeon dungeon = Singleton.instance.Dungeon;
+        char[,] grid = dungeon.dungeonGrid;
+        int currentRow = character.room.row;
+        int currentCol = character.room.col;
+        bool destinationFound = false;
+
+        while(!destinationFound)
+        {
+            destinationFound = true;
+            //search up
+            if (currentRow - 1 >= 0 && grid[currentRow - 1, currentCol] == '1')
+                closestPoint.Add(GetRoomPosition(currentRow - 1, currentCol));
+
+            //search down
+            if (currentRow + 1 < grid.GetLength(0) && grid[currentRow + 1, currentCol] == '1')
+                closestPoint.Add(GetRoomPosition(currentRow + 1, currentCol));
+
+            //search left
+            if (currentCol - 1 >= 0 && grid[currentRow, currentCol - 1] == '1')
+                closestPoint.Add(GetRoomPosition(currentRow, currentCol - 1));
+
+            //search right
+            if (currentRow + 1 < grid.GetLength(1) && grid[currentRow, currentCol + 1] == '1')
+                closestPoint.Add(GetRoomPosition(currentRow, currentCol + 1));
+
+            //if we haven't found the destination, find the highest point
+            int i = 0;
+            bool closestPointFound = false;
+            while (!closestPointFound && i < closestPoint.Count)
+            {
+                if (destination == closestPoint[i])
+                {
+                    destinationPoints.Add(closestPoint[i]);
+                    closestPointFound = true;
+                    destinationFound = true;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+
+            if (!closestPointFound && !destinationFound)
+            {
+                //get the point closest to destination
+                float closestX = 0;
+                float closestZ = 0;
+
+            }
+
+            
+        }
+
+
+        yield return null;
+    }
+
+    /// <summary>
+    /// Moves isometric camera to the active character (hunter or monster).
+    /// </summary>
+    /// <param name="character">The character the camera will focus on.</param>
+    IEnumerator MoveCameraToCharacter(Character character)
+    {
+        Vector3 newCamPos = new Vector3(character.transform.position.x - 4, 5, character.transform.position.z - 6);
+        float speed = 16;
+
+        while (gameCamera.transform.position != newCamPos)
+        {
+            gameCamera.transform.position = Vector3.MoveTowards(gameCamera.transform.position, newCamPos, speed * Time.deltaTime);
+            yield return null;
+        }
+
+        moveCameraToCharacter = false;
+    }
+
+    #endregion
 }

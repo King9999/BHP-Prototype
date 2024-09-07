@@ -22,6 +22,7 @@ public abstract class Character : MonoBehaviour
     public float evd;           //evade chance. 
     protected bool isTheirTurn; //if true, avatar can perform actions.
     protected bool turnTaken;
+    public bool cpuControlled;
 
     //stat modifiers. 1 = 100% effectiveness, < 1 = lower effectiveness, > 1 = high effectiveness.
     public float hpMod = 1;
