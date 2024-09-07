@@ -70,6 +70,27 @@ public class Dungeon : MonoBehaviour
                 nodePos.z + (zDir * roomScale.z / 2));*/
     }
 
+    public Room GetRoom(int row, int col)
+    {
+        bool roomFound = false;
+        int i = 0;
+        Room room = null;
+        while (!roomFound && i < dungeonRooms.Count)
+        {
+            room = dungeonRooms[i];
+            if (room.row == row && room.col == col)
+            {
+                roomFound = true;
+            }
+            else
+            {
+                i++;
+            }
+        }
+
+        return room;
+    }
+
     public void CreateDungeon()
     {
         //TODO: Room count scales up depending on hunter count. Need to figure out a good minimum room count for 2 hunters.
