@@ -88,10 +88,10 @@ public class GameManager : MonoBehaviour
         ChangeGameState(gameState);
 
         /**** USE THE NEXT 4 LINES TO GET SEED FOR BUG TESTING*****/
-        System.Random random = new System.Random();
-        int seed = 1232703070; // random.Next();
-        Random.InitState(seed);
-        Debug.Log("Seed: " + seed);
+        //System.Random random = new System.Random();
+        //int seed = 1232703070; // random.Next();
+        //Random.InitState(seed);
+        //Debug.Log("Seed: " + seed);
 
         //create dungeon
         Dungeon dungeon = Singleton.instance.Dungeon;
@@ -173,7 +173,7 @@ public class GameManager : MonoBehaviour
             HunterManager hm = Singleton.instance.HunterManager;
 
             //Dungeon dun = Singleton.instance.Dungeon;
-            int totalMove = 6;// ActiveCharacter().mov + dice.RollSingleDie();
+            int totalMove = ActiveCharacter().mov + dice.RollSingleDie();
             List<Vector3> moveRange = ShowMoveRange(/*dun.dungeonGrid,*/ ActiveCharacter(), totalMove);
             Debug.Log("Total Move: " + totalMove);
 
@@ -855,24 +855,17 @@ public class GameManager : MonoBehaviour
                 adjacentRooms.Add(dungeon.GetRoom(currentRow, currentCol - 1));
 
             //search right
-            if (currentRow + 1 < grid.GetLength(1) && grid[currentRow, currentCol + 1] == '1')
+            if (currentCol + 1 < grid.GetLength(1) && grid[currentRow, currentCol + 1] == '1')
                 adjacentRooms.Add(dungeon.GetRoom(currentRow, currentCol + 1));
 
             //if we haven't found the destination, find the room closest to the destination
             int i = 0;
             bool adjacentRoomsFound = false;
-            float closestX = 0;
-            float closestZ = 0;
             Room closestRoom = adjacentRooms[0];
             float shortestDistance = Vector3.Distance(destination, adjacentRooms[0].transform.position);
 
             while (!adjacentRoomsFound && i < adjacentRooms.Count)
             {
-                //get direction for X and Z
-                float xDir = destination.x - adjacentRooms[i].transform.position.x;
-                float zDir = destination.z - adjacentRooms[i].transform.position.z;
-               
-                
 
                 Vector3 roomPos = new Vector3(adjacentRooms[i].transform.position.x, 0, adjacentRooms[i].transform.position.z);
                 if (destination == roomPos)
@@ -898,36 +891,6 @@ public class GameManager : MonoBehaviour
                             shortestDistance = distance;
                             closestRoom = adjacentRooms[i];
                         }
-                        //get the point closest to the destination
-                        /*if (xDir > 0)
-                        {
-                            if (roomPos.x > closestX)
-                            {
-                                closestX = roomPos.x;
-                            }
-                        }
-                        else
-                        {
-                            if (roomPos.x < closestX)
-                            {
-                                closestX = roomPos.x;
-                            }
-                        }
-
-                        if (zDir > 0)
-                        {
-                            if (roomPos.z > closestZ)
-                            {
-                                closestZ = roomPos.z;
-                            }
-                        }
-                        else
-                        {
-                            if (roomPos.z < closestZ)
-                            {
-                                closestZ = roomPos.z;
-                            }
-                        }*/
                     }
 
                     i++;
@@ -940,46 +903,44 @@ public class GameManager : MonoBehaviour
                 destinationRooms.Add(closestRoom);
                 currentRow = closestRoom.row;
                 currentCol = closestRoom.col;
-                //find the point that matches the closest X and Z
-                /*List<Room> nextRoom = new List<Room>();
-                foreach (Room room in adjacentRooms)
-                {
-                    if (room.transform.position.x == closestX || room.transform.position.z == closestZ)
-                    {
-                        nextRoom.Add(room);
-                    }
-                }
-
-                //if nextPoint has more than one point, choose a random one and move to next room.
-                if (nextRoom.Count > 1)
-                {
-                    int randPoint = Random.Range(0, nextRoom.Count);
-                    destinationRooms.Add(nextRoom[randPoint]);
-                    currentRow = nextRoom[randPoint].row;
-                    currentCol = nextRoom[randPoint].col;
-                    adjacentRoomsFound = true;
-                }
-                else
-                {
-                    destinationRooms.Add(nextRoom[0]);
-                    currentRow = nextRoom[0].row;
-                    currentCol = nextRoom[0].col;
-                    adjacentRoomsFound = true;
-                }*/
             }
 
         }
 
         //display path here as a test
-        Debug.Log("Destination path:\n");
+        /*Debug.Log("Destination path:\n");
         foreach (Room room in destinationRooms)
         {
             GameObject tile = Instantiate(moveTilePrefab);
             tile.transform.position = new Vector3(room.transform.position.x, 0.61f, room.transform.position.z);
             Debug.Log(room.transform.position + "\n");
+        }*/
+
+        //start moving character TODO: MUST UPDATE CODE TO INCLUDE FOG OF WAR CONDITIONS
+        int j = 0;
+        float speed = 8;
+        while(j < destinationRooms.Count && character.transform.position != destination)
+        {
+            //the room's Y position must match the character's since the character is above the room
+            Vector3 nextPos = new Vector3(destinationRooms[j].transform.position.x, character.transform.position.y,
+                destinationRooms[j].transform.position.z);
+            
+            while (character.transform.position != nextPos)
+            {
+                character.transform.position = Vector3.MoveTowards(character.transform.position,
+                    nextPos, speed * Time.deltaTime);
+                yield return null;
+            }
+            character.room.row = destinationRooms[j].row;
+            character.room.col = destinationRooms[j].col;
+            j++;
         }
 
-        yield return null;
+        //hide select tile and dice UI
+        selectTile.SetActive(false);
+        dice.ShowSingleDieUI(false);
+
+        //if character can still act, do so if necessary
 
     }
 

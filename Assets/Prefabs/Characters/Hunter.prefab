@@ -62,6 +62,7 @@ MonoBehaviour:
   rst: 0
   mov: 0
   evd: 0
+  cpuControlled: 0
   hpMod: 1
   spMod: 1
   atpMod: 1
@@ -84,6 +85,7 @@ MonoBehaviour:
   resistDisableSuper: 0
   resistWeak: 0
   characterState: 0
+  room: {fileID: 0}
   debuffs: []
   buffs: []
   currentAllocationPoints: 0
