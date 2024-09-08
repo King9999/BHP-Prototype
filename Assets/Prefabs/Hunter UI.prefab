@@ -5361,6 +5361,7 @@ GameObject:
   - component: {fileID: 3781330091521572782}
   - component: {fileID: 4297770961070129797}
   - component: {fileID: 6866900070581304179}
+  - component: {fileID: 8945214595306479697}
   m_Layer: 5
   m_Name: Move Button
   m_TagString: Untagged
@@ -5482,6 +5483,51 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8945214595306479697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2593456209575470945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1236555206199445109}
+          m_TargetAssemblyTypeName: HunterUI, Assembly-CSharp
+          m_MethodName: OnMoveButtonHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1236555206199445109}
+          m_TargetAssemblyTypeName: HunterUI, Assembly-CSharp
+          m_MethodName: OnExitHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &2604036285031216276
 GameObject:
   m_ObjectHideFlags: 0
@@ -12488,8 +12534,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -102}
-  m_SizeDelta: {x: 286.5828, y: 50}
+  m_AnchoredPosition: {x: 0.6585, y: -102}
+  m_SizeDelta: {x: 517.0737, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3869271843843714612
 CanvasRenderer:
@@ -12546,8 +12592,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -12582,7 +12628,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -1.3170776, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -21181,6 +21227,7 @@ MonoBehaviour:
   hunterMenuObject_rollDiceToMove: {fileID: 6309227965581770478}
   hunterMenuObject_showCards: {fileID: 8149693703172298687}
   hunterMenu_hunterNameText: {fileID: 5777656710414106733}
+  hunterMenu_actionText: {fileID: 8935721466375359568}
   hunterHudObjects:
   - {fileID: 2700133277839847214}
   - {fileID: 7768300475474932894}

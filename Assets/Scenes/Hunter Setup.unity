@@ -1063,6 +1063,34 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7807166995601250570, guid: f2826a0453d34ff45b1b51f7e1ab4f6a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7807166995601250570, guid: f2826a0453d34ff45b1b51f7e1ab4f6a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7807166995601250570, guid: f2826a0453d34ff45b1b51f7e1ab4f6a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1417360396}
+    - target: {fileID: 7807166995601250570, guid: f2826a0453d34ff45b1b51f7e1ab4f6a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7807166995601250570, guid: f2826a0453d34ff45b1b51f7e1ab4f6a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnRestButtonPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 7807166995601250570, guid: f2826a0453d34ff45b1b51f7e1ab4f6a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: HunterManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7807166995601250570, guid: f2826a0453d34ff45b1b51f7e1ab4f6a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8225203379551493729, guid: f2826a0453d34ff45b1b51f7e1ab4f6a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1099,6 +1127,34 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8832567278329157642, guid: f2826a0453d34ff45b1b51f7e1ab4f6a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8832567278329157642, guid: f2826a0453d34ff45b1b51f7e1ab4f6a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8832567278329157642, guid: f2826a0453d34ff45b1b51f7e1ab4f6a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1417360396}
+    - target: {fileID: 8832567278329157642, guid: f2826a0453d34ff45b1b51f7e1ab4f6a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8832567278329157642, guid: f2826a0453d34ff45b1b51f7e1ab4f6a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnActionButtonPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 8832567278329157642, guid: f2826a0453d34ff45b1b51f7e1ab4f6a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: HunterManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8832567278329157642, guid: f2826a0453d34ff45b1b51f7e1ab4f6a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8858079652309225186, guid: f2826a0453d34ff45b1b51f7e1ab4f6a, type: 3}
       propertyPath: m_Name
       value: Hunter UI
@@ -1127,7 +1183,8 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1417360396}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8945214595306479697, guid: f2826a0453d34ff45b1b51f7e1ab4f6a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

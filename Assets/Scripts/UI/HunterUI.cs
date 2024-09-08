@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 //using UnityEngine.UIElements;
@@ -38,6 +39,7 @@ public class HunterUI : MonoBehaviour
     public GameObject hunterMenuObject_rollDiceToMove;
     public GameObject hunterMenuObject_showCards;
     public TextMeshProUGUI hunterMenu_hunterNameText;
+    public TextMeshProUGUI hunterMenu_actionText;
     public GameObject[] hunterHudObjects;
 
     [Header("---Buttons---")]
@@ -212,6 +214,23 @@ public class HunterUI : MonoBehaviour
             button.image.color = button.colors.normalColor;
         }    
     }
+
+    /*public void OnMoveButtonHover()
+    {
+        hunterMenu_actionText.text = "Roll a die to move to a new space";
+    }
+    public void OnActionButtonHover()
+    {
+        hunterMenu_actionText.text = "Use a skill or an item";
+    }
+    public void OnRestButtonHover()
+    {
+        hunterMenu_actionText.text = "Restore 25% HP & SP. Draw a card. This must be your first action";
+    }
+    public void OnExitHover()
+    {
+        hunterMenu_actionText.text = "";
+    }*/
 }
 
 [System.Serializable]
