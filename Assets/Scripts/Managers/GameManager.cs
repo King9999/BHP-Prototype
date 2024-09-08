@@ -863,12 +863,16 @@ public class GameManager : MonoBehaviour
             bool adjacentRoomsFound = false;
             float closestX = 0;
             float closestZ = 0;
+            Room closestRoom = adjacentRooms[0];
+            float shortestDistance = Vector3.Distance(destination, adjacentRooms[0].transform.position);
 
             while (!adjacentRoomsFound && i < adjacentRooms.Count)
             {
                 //get direction for X and Z
                 float xDir = destination.x - adjacentRooms[i].transform.position.x;
                 float zDir = destination.z - adjacentRooms[i].transform.position.z;
+               
+                
 
                 Vector3 roomPos = new Vector3(adjacentRooms[i].transform.position.x, 0, adjacentRooms[i].transform.position.z);
                 if (destination == roomPos)
@@ -887,8 +891,15 @@ public class GameManager : MonoBehaviour
                     }
                     else
                     {
+                        //find the room closest to the destination
+                        float distance = Vector3.Distance(destination, adjacentRooms[i].transform.position);
+                        if (distance < shortestDistance)
+                        {
+                            shortestDistance = distance;
+                            closestRoom = adjacentRooms[i];
+                        }
                         //get the point closest to the destination
-                        if (xDir > 0)
+                        /*if (xDir > 0)
                         {
                             if (roomPos.x > closestX)
                             {
@@ -916,7 +927,7 @@ public class GameManager : MonoBehaviour
                             {
                                 closestZ = roomPos.z;
                             }
-                        }
+                        }*/
                     }
 
                     i++;
@@ -926,8 +937,11 @@ public class GameManager : MonoBehaviour
 
             if (!adjacentRoomsFound && !destinationFound)
             {
+                destinationRooms.Add(closestRoom);
+                currentRow = closestRoom.row;
+                currentCol = closestRoom.col;
                 //find the point that matches the closest X and Z
-                List<Room> nextRoom = new List<Room>();
+                /*List<Room> nextRoom = new List<Room>();
                 foreach (Room room in adjacentRooms)
                 {
                     if (room.transform.position.x == closestX || room.transform.position.z == closestZ)
@@ -951,7 +965,7 @@ public class GameManager : MonoBehaviour
                     currentRow = nextRoom[0].row;
                     currentCol = nextRoom[0].col;
                     adjacentRoomsFound = true;
-                }
+                }*/
             }
 
         }
