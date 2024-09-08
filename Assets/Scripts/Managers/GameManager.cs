@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> moveTileList, moveTileBin;          //bin is used for recycling instantiated move tiles
 
     bool runMovementCheck, moveTilesActive;
+    public bool characterMoved, characterActed;    //acted includes attacking, using a skill or item.
 
     //states determine which UI is active
     public enum GameState { HunterSetup, Dungeon, Combat, Inventory}
@@ -134,7 +135,7 @@ public class GameManager : MonoBehaviour
         gameCamera.transform.position = defaultCameraPos;
         moveCameraToCharacter = true;
         currentCharacter = 0;
-        StartCoroutine(TakeAction(turnOrder[currentCharacter]));
+        StartCoroutine(TakeTurn(ActiveCharacter()));
         dice.dieImages[0].sprite = dice.diceSprites[0];
         dice.dieImages[1].sprite = dice.diceSprites[0];
         //gameCamera.transform.position = new Vector3(newCamPos.x - 4, 5, newCamPos.z + 4);
@@ -242,9 +243,6 @@ public class GameManager : MonoBehaviour
     {
         runMovementCheck = true;
     }
-
-
-
 
     public void ChangeGameState(GameState gameState)
     {
@@ -800,12 +798,37 @@ public class GameManager : MonoBehaviour
         return roomPos;
     }
 
+    void CheckCharacterState(Character character)
+    {
+        if (characterActed && characterMoved)
+        {
+            //end turn
+            currentCharacter = currentCharacter >= turnOrder.Count ? 0 : currentCharacter++;
+            TakeTurn(ActiveCharacter());
+        }
+        else
+        {
+            //disable move button if moved, or other buttons if character took action.
+            if (characterMoved)
+            {
+                if (!character.cpuControlled)
+                {
+                    HunterManager hm = Singleton.instance.HunterManager;
+                    hm.ui.EnableButton(hm.ui.moveButton, false);
+                    hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Default);
+                }
+            }
+        }
+    }
+
     #region Coroutines
 
     //Next character in the turn order takes action. The camera is centered on the active character and 
     //a menu is displayed if the character is controlled by a player. Otherwise, CPU takes action.
-    IEnumerator TakeAction(Character character)
+    IEnumerator TakeTurn(Character character)
     {
+        characterActed = false;
+        characterMoved = false;
         //move camera to the active character
         yield return MoveCameraToCharacter(character);
 
@@ -941,7 +964,8 @@ public class GameManager : MonoBehaviour
         dice.ShowSingleDieUI(false);
 
         //if character can still act, do so if necessary
-
+        characterMoved = true;
+        CheckCharacterState(ActiveCharacter());
     }
 
     /// <summary>

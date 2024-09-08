@@ -107,6 +107,6 @@ public abstract class Character : MonoBehaviour
 
     public void Attack() { }
     public void Defend() { }
-    public void Rest() { }
+    
     
 }

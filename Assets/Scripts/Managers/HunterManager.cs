@@ -419,8 +419,42 @@ public class HunterManager : MonoBehaviour
     public void OnMoveButtonPressed()
     {
         GameManager gm = Singleton.instance.GameManager;
+        if (gm.characterMoved)
+            return;
+
         gm.dice.ShowSingleDieUI(true);
         ChangeHunterMenuState(hunterMenuState = HunterMenuState.RollDiceToMove);    //TODO: change to SelectCard when ready
+
+    }
+
+    //show a sub-menu to attack or use an item
+    public void OnActionButtonPressed()
+    {
+        GameManager gm = Singleton.instance.GameManager;
+        if (gm.characterActed)
+            return;
+
+        //show submenu here
+    }
+
+    public void OnRestButtonPressed()
+    {
+        GameManager gm = Singleton.instance.GameManager;
+        if (gm.characterActed || gm.characterMoved)
+            return;
+
+        if (gm.ActiveCharacter() is Hunter hunter)
+            hunter.Rest();
+    }
+
+    //using a skill includes attacking with equipped weapon, and using field skills.
+    public void OnSkillButtonPressed()
+    {
+
+    }
+
+    public void OnItemButtonPressed()
+    {
 
     }
 

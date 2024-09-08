@@ -202,4 +202,16 @@ public class Hunter : Character
     {
 
     }
+
+    public void Rest() 
+    {
+        //restore 25% HP and SP, and draw a card
+        float hpAmount = Mathf.Round(maxHealthPoints * 0.25f);
+        float spAmount = Mathf.Round(maxSkillPoints * 0.25f);
+
+        healthPoints = healthPoints + hpAmount > maxHealthPoints ? maxHealthPoints : healthPoints + hpAmount;
+        skillPoints = skillPoints + spAmount > maxSkillPoints ? maxSkillPoints : skillPoints + spAmount;
+
+        //TODO: draw a card
+    }
 }

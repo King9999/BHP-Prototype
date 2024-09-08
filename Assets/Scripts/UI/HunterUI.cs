@@ -39,7 +39,12 @@ public class HunterUI : MonoBehaviour
     public GameObject hunterMenuObject_showCards;
     public TextMeshProUGUI hunterMenu_hunterNameText;
     public GameObject[] hunterHudObjects;
-    
+
+    [Header("---Buttons---")]
+    public Button moveButton;
+    public Button actionButton;     //includes attacking and using item.
+    public Button inventoryButton;  //used to access consumable items
+    public Button restButton;  //used to access consumable items
 
 
     public static HunterUI instance;
@@ -146,15 +151,31 @@ public class HunterUI : MonoBehaviour
         //hunterMenuContainer.SetActive(toggle);
         hunterMenuObject_main.SetActive(toggle);
         if (toggle == true)
-        {      
+        {
             //display menu above character
-            //float yPos = character.GetComponent<SpriteRenderer>().size.y / 2;
             Vector3 menuPos = new Vector3(character.transform.position.x, character.transform.position.y + 6, character.transform.position.z);
             hunterMenuObject_main.transform.position = Camera.main.WorldToScreenPoint(menuPos);
 
             //get character info
             hunterMenu_hunterNameText.text = character.characterName + "'s Turn";
 
+            //check if any buttons need to be disabled
+            GameManager gm = Singleton.instance.GameManager;
+            if (gm.characterActed)
+                EnableButton(actionButton, false);
+            else
+                EnableButton(actionButton, true);
+
+            if (gm.characterMoved)
+                EnableButton(moveButton, false);
+            else
+                EnableButton(moveButton, true);
+
+            //did character rest?
+            if (gm.characterActed || gm.characterMoved)
+                EnableButton(restButton, false);
+            else
+                EnableButton(restButton, true);
         }
 
     }
@@ -177,6 +198,19 @@ public class HunterUI : MonoBehaviour
             Vector3 menuPos = new Vector3(character.transform.position.x, character.transform.position.y + 6, character.transform.position.z);
             hunterMenuObject_showCards.transform.position = Camera.main.WorldToScreenPoint(menuPos);
         }
+    }
+
+    public void EnableButton(Button button, bool toggle)
+    {
+        button.enabled = toggle;
+        if (toggle == false)
+        {
+            button.image.color = button.colors.disabledColor;
+        }
+        else
+        {
+            button.image.color = button.colors.normalColor;
+        }    
     }
 }
 
