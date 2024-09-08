@@ -802,9 +802,7 @@ public class GameManager : MonoBehaviour
     {
         if (characterActed && characterMoved)
         {
-            //end turn
-            currentCharacter = currentCharacter >= turnOrder.Count ? 0 : currentCharacter++;
-            TakeTurn(ActiveCharacter());
+            EndTurn();
         }
         else
         {
@@ -819,6 +817,14 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void EndTurn()
+    {
+        HunterManager hm = Singleton.instance.HunterManager;
+        hm.ui.ShowHunterMenuContainer(false);
+        currentCharacter = currentCharacter >= turnOrder.Count ? 0 : currentCharacter++;
+        StartCoroutine(TakeTurn(ActiveCharacter()));
     }
 
     #region Coroutines
@@ -903,6 +909,8 @@ public class GameManager : MonoBehaviour
                     if (adjacentRooms.Count == 1)
                     {
                         destinationRooms.Add(adjacentRooms[i]);
+                        currentRow = adjacentRooms[i].row;
+                        currentCol = adjacentRooms[i].col;
                         adjacentRoomsFound = true;
                     }
                     else

@@ -445,6 +445,7 @@ public class HunterManager : MonoBehaviour
 
         if (gm.ActiveCharacter() is Hunter hunter)
             hunter.Rest();
+        gm.EndTurn();
     }
 
     //using a skill includes attacking with equipped weapon, and using field skills.
@@ -456,6 +457,12 @@ public class HunterManager : MonoBehaviour
     public void OnItemButtonPressed()
     {
 
+    }
+
+    public void OnEndTurnButtonPressed()
+    {
+        GameManager gm = Singleton.instance.GameManager;
+        gm.EndTurn();
     }
 
     public void OnRollDiceButtonPressed()

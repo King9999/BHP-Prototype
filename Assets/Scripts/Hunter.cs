@@ -211,6 +211,7 @@ public class Hunter : Character
 
         healthPoints = healthPoints + hpAmount > maxHealthPoints ? maxHealthPoints : healthPoints + hpAmount;
         skillPoints = skillPoints + spAmount > maxSkillPoints ? maxSkillPoints : skillPoints + spAmount;
+        Debug.Log(characterName + " is resting! Restored " + hpAmount + " HP and " + spAmount + "SP.");
 
         //TODO: draw a card
     }
