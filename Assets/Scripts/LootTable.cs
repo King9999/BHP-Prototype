@@ -18,6 +18,7 @@ public class LootTable : ScriptableObject
     public List<Item> weapons;
     public List<Item> armor;                /* These contain specific equipment */
     public List<Item> accessories;
+    public List<Table> equipmentTable;
 
     //table indexes
     private const int VALUABLES = 0;
@@ -170,7 +171,14 @@ public class LootItem
 {
     public Item item;
     public int itemWeight;
+}
 
+[Serializable]
+public class Table
+{
+    public int tableWeight;
+    public List<LootItem> item;  //int is item weight
+    
     public enum ItemType
     {
         Consumable, Valuable, Weapon, Armor, Accessory, DungeonMod
