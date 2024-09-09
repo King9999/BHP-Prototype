@@ -144,30 +144,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        /*if (runMovementCheck)
-        {
-            runMovementCheck = false;
-            HunterManager hm = Singleton.instance.HunterManager;
-            //ShowMovementRange(hm.hunters[0], 4);
-
-            Dungeon dun = Singleton.instance.Dungeon;
-            List<Vector3> moveRange = ShowMoveRange(dun.dungeonGrid, ActiveCharacter(), 3);
-            GameObject moveTileContainer = new GameObject("Move Tiles");
-            foreach (Vector3 pos in moveRange)
-            {
-                GameObject tile = Instantiate(moveTilePrefab, moveTileContainer.transform);
-                tile.transform.position = new Vector3(pos.x, 0.6f, pos.z);
-            }
-        }*/
     }
 
     private void Update()
     {
-        /*if (moveCameraToCharacter == true)
-        {
-            HunterManager hm = Singleton.instance.HunterManager;
-            MoveCameraToCharacter(hm.hunters[0]);
-        }*/
         if (runMovementCheck)
         {
             runMovementCheck = false;
@@ -336,6 +316,34 @@ public class GameManager : MonoBehaviour
         }
         else
             return 0;
+    }
+
+    void CheckForEntities(Room room, Character character)
+    {
+        if (room.entity == null)
+            return;
+
+        if (room.entity is Entity_TreasureChest chest && character is Hunter hunter)
+        {
+            //if it hasn't been opened, then character takes it.
+            chest.OpenChest(hunter);
+
+            //TODO: if item is target item, show some feedback.
+            /*if (!chest.playerInteracted)
+            {
+                hunter.inventory.Add(chest.item);
+                
+                chest.item = null;  //make sure by doing this, the item in inventory isn't also null
+                chest.playerInteracted = true;
+                
+                
+            }*/
+        }
+
+        //terminal check
+
+        //exit check
+
     }
 
     /// <summary>
@@ -969,7 +977,6 @@ public class GameManager : MonoBehaviour
                 yield return null;
             }
             character.room = destinationRooms[j];
-            character.room = destinationRooms[j];
             j++;
         }
 
@@ -977,9 +984,12 @@ public class GameManager : MonoBehaviour
         selectTile.SetActive(false);
         dice.ShowSingleDieUI(false);
 
+        //check if anything is on the space the hunter landed on
+        CheckForEntities(character.room, character);
+
         //if character can still act, do so if necessary
         characterMoved = true;
-        StartCoroutine(CheckCharacterState(ActiveCharacter()));
+        StartCoroutine(CheckCharacterState(character));
     }
 
     /// <summary>

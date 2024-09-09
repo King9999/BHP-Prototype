@@ -6,7 +6,8 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour
 {
     public bool playerInteracted;       //a player interacted with object, so no other players can interact.
-    public EntityEffect effect;       //scriptable object
+    public EntityEffect effect;         //scriptable object
+    //public Room room;                   //reference to the room the object is on.
 
     // Start is called before the first frame update
     void Start()

@@ -16,9 +16,16 @@ public class Entity_TreasureChest : Entity
         sr.sprite = closedChest;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OpenChest(Hunter hunter)
     {
-        
+        if (playerInteracted)
+            return;
+
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        sr.sprite = openChest;
+        hunter.inventory.Add(item);
+        Debug.Log(hunter.characterName + " obtained " + item.itemName);
+        item = null;
+        playerInteracted = true;
     }
 }
