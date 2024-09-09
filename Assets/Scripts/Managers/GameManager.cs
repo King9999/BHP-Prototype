@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
 
         /**** USE THE NEXT 4 LINES TO GET SEED FOR BUG TESTING*****/
         //System.Random random = new System.Random();
-        //int seed = 1232703070; // random.Next();
+        //int seed = 1154674388;// random.Next();
         //Random.InitState(seed);
         //Debug.Log("Seed: " + seed);
 
@@ -175,16 +175,15 @@ public class GameManager : MonoBehaviour
 
             //Dungeon dun = Singleton.instance.Dungeon;
             int totalMove = ActiveCharacter().mov + dice.RollSingleDie();
-            List<Vector3> moveRange = ShowMoveRange(/*dun.dungeonGrid,*/ ActiveCharacter(), totalMove);
+            List<Vector3> moveRange = ShowMoveRange(ActiveCharacter(), totalMove);
             Debug.Log("Total Move: " + totalMove);
 
-            moveTileList.Clear();
             foreach (Vector3 pos in moveRange)
             {
                 //if there are existing move tile objects, activate those first before instantiating new ones.
                 if (moveTileBin.Count > 0)
                 {
-                    GameObject lastTile = moveTileBin[moveTileBin.Count - 1];
+                    GameObject lastTile = moveTileBin[0];
                     lastTile.SetActive(true);
                     lastTile.transform.position = new Vector3(pos.x, 0.6f, pos.z);
                     moveTileList.Add(lastTile);
@@ -197,6 +196,11 @@ public class GameManager : MonoBehaviour
                     moveTileList.Add(tile);
                 }
                 
+            }
+
+            if (moveTileBin.Count <= 0)
+            {
+                moveTileBin.TrimExcess();
             }
             moveTilesActive = true;
             selectTile.SetActive(true);
@@ -227,6 +231,7 @@ public class GameManager : MonoBehaviour
                     moveTileBin.Add(moveTileList[i]);
                 }
                 moveTileList.Clear();
+                moveTileList.TrimExcess();
                 Debug.Log("New destination: " + selectTile.transform.position);
                 Vector3 destinationPos = new Vector3(selectTile.transform.position.x, 0, selectTile.transform.position.z);
                 StartCoroutine(MoveCharacter(ActiveCharacter(), destinationPos));
@@ -798,7 +803,7 @@ public class GameManager : MonoBehaviour
         return roomPos;
     }
 
-    void CheckCharacterState(Character character)
+    IEnumerator CheckCharacterState(Character character)
     {
         if (characterActed && characterMoved)
         {
@@ -809,6 +814,7 @@ public class GameManager : MonoBehaviour
             //disable move button if moved, or other buttons if character took action.
             if (characterMoved)
             {
+                yield return MoveCameraToCharacter(character);
                 if (!character.cpuControlled)
                 {
                     HunterManager hm = Singleton.instance.HunterManager;
@@ -962,8 +968,8 @@ public class GameManager : MonoBehaviour
                     nextPos, speed * Time.deltaTime);
                 yield return null;
             }
-            character.room.row = destinationRooms[j].row;
-            character.room.col = destinationRooms[j].col;
+            character.room = destinationRooms[j];
+            character.room = destinationRooms[j];
             j++;
         }
 
@@ -973,7 +979,7 @@ public class GameManager : MonoBehaviour
 
         //if character can still act, do so if necessary
         characterMoved = true;
-        CheckCharacterState(ActiveCharacter());
+        StartCoroutine(CheckCharacterState(ActiveCharacter()));
     }
 
     /// <summary>
