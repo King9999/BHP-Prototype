@@ -9,15 +9,15 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Loot Table", fileName = "masterLootTable")]
 public class LootTable : ScriptableObject
 {
-    public int[] tableWeight;               //determines which category of items to access
-    public List<LootItem> consumables;      //single-use items
-    public List<LootItem> equipment;        //only contains equipment types since more checks have to be done.
-    public List<LootItem> valuables;        //items that are sold
-    public List<LootItem> dungeonMods;      //rarest items
+    //public int[] tableWeight;               //determines which category of items to access
+    //public List<LootItem> consumables;      //single-use items
+    //public List<LootItem> equipment;        //only contains equipment types since more checks have to be done.
+    //public List<LootItem> valuables;        //items that are sold
+    //public List<LootItem> dungeonMods;      //rarest items
     public List<LootItem> dataLogs;         //single player item only
-    public List<Item> weapons;
-    public List<Item> armor;                /* These contain specific equipment */
-    public List<Item> accessories;
+    //public List<Item> weapons;
+    //public List<Item> armor;                /* These contain specific equipment */
+    //public List<Item> accessories;
     public List<Table> itemTables;      // table 0 is weapons, 1 is armor, 2 is accessories
 
     //table indexes

@@ -33,7 +33,7 @@ public class ItemManager : MonoBehaviour
         lootTable = Instantiate(masterLootTable);
 
         //testing dungeon mods
-        ActivateDungeonMods();
+        //ActivateDungeonMods();
 
     }
 
@@ -59,15 +59,18 @@ public class ItemManager : MonoBehaviour
             }
         }*/
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        //Genereate weapon test
+        /*if (Input.GetKeyDown(KeyCode.Space))
         {
-            GenerateWeapon();
-        }
+            int weaponIndex = (int)Table.ItemType.Weapon;
+            int randWeapon = Random.Range(0, lootTable.itemTables[weaponIndex].item.Count);
+            GenerateWeaponMods(Instantiate((Weapon)lootTable.itemTables[weaponIndex].item[randWeapon].item));
+        }*/
     }
 
-    public Weapon GenerateWeapon()
+    public Weapon GenerateWeaponMods(Weapon weapon)
     {
-        Weapon weapon = Instantiate((Weapon)lootTable.weapons[0]);
+        //Weapon weapon = Instantiate((Weapon)lootTable.itemTables[2].item[0].item);
 
         /*  RULES FOR GENERATING MODS ON ITEM
          *  -----
