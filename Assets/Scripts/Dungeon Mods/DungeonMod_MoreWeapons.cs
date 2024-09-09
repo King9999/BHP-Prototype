@@ -23,16 +23,18 @@ public class DungeonMod_MoreWeapons : DungeonMod
     {
         //modify the weapon weight so that weapons are more common.
         ItemManager im = Singleton.instance.ItemManager;
-        originalWeight = im.lootTable.equipment[0].itemWeight;
+        int weaponIndex = (int)Table.ItemType.Weapon;
+        originalWeight = im.lootTable.itemTables[weaponIndex].tableWeight;
         Debug.Log("Orig. Weight " + originalWeight);
         weightMod = (originalWeight * 3) / 2;       //50% more weight
-        im.lootTable.equipment[0].itemWeight = weightMod;
-        Debug.Log("New Weight " + im.lootTable.equipment[0].itemWeight);
+        im.lootTable.itemTables[weaponIndex].tableWeight = weightMod;
+        Debug.Log("New Weight " + im.lootTable.itemTables[weaponIndex].tableWeight);
     }
 
     public override void DeactivateMod()
     {
         ItemManager im = Singleton.instance.ItemManager;
-        im.lootTable.equipment[0].itemWeight = originalWeight;
+        int weaponIndex = (int)Table.ItemType.Weapon;
+        im.lootTable.itemTables[weaponIndex].tableWeight = originalWeight;
     }
 }

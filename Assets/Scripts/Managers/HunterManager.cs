@@ -384,21 +384,21 @@ public class HunterManager : MonoBehaviour
         //create an instance of the weapon the player chose
         ItemManager im = Singleton.instance.ItemManager;
         Item item = null;
-
+        int weaponIndex = (int)Table.ItemType.Weapon;
         switch (ui.WeaponDropdownValue())
         {
             case 0:
-                item = im.lootTable.GetItem(im.lootTable.weapons, "weapon_beamSword");
+                item = im.lootTable.GetItem(im.lootTable.itemTables[weaponIndex], "weapon_beamSword");
                 Debug.Log("Item is " + item);
                 break;
 
             case 1:
-                item = im.lootTable.GetItem(im.lootTable.weapons, "weapon_railGun");
+                item = im.lootTable.GetItem(im.lootTable.itemTables[weaponIndex], "weapon_railGun");
                 Debug.Log("Item is " + item);
                 break;
 
             case 2:
-                item = im.lootTable.GetItem(im.lootTable.weapons, "weapon_augmenter");
+                item = im.lootTable.GetItem(im.lootTable.itemTables[weaponIndex], "weapon_augmenter");
                 Debug.Log("Item is " + item);
                 break;
         }

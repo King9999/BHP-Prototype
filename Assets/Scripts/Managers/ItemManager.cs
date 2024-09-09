@@ -191,7 +191,7 @@ public class ItemManager : MonoBehaviour
     //adds random item to given chest
     public void GenerateChestItem(Entity_TreasureChest chest)
     {
-        List<LootItem> table = new List<LootItem>();
+        Table table = new Table();
         table = lootTable.GetTable();
         Item item = lootTable.GetItem(table);
         chest.item = item;

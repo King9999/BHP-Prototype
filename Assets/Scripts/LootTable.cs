@@ -28,14 +28,14 @@ public class LootTable : ScriptableObject
     private const int DATA_LOGS = 4;
 
    
-    public List<LootItem> GetTable()
+    public Table GetTable()
     {
         //check which table is going to be accessed
         int totalWeight = 0;
         int tableIndex = 0;
-        for (int i = 0; i < tableWeight.Length; i++)
+        for (int i = 0; i < itemTables.Count; i++)
         {
-            totalWeight += tableWeight[i];
+            totalWeight += itemTables[i].tableWeight;
         }
 
         int randValue = UnityEngine.Random.Range(0, totalWeight);
@@ -44,10 +44,10 @@ public class LootTable : ScriptableObject
         int j = 0;
         bool tableFound = false;
 
-        while(!tableFound && j < tableWeight.Length) 
+        while(!tableFound && j < itemTables.Count) 
         //for (int i = 0; i < tableWeight.Length; i++)
         {
-            if (randValue <= tableWeight[j])
+            if (randValue <= itemTables[j].tableWeight)
             {
                 //create this item
                 tableIndex = j;
@@ -56,14 +56,14 @@ public class LootTable : ScriptableObject
             }
             else
             {
-                randValue -= tableWeight[j];
+                randValue -= itemTables[j].tableWeight;
                 //Debug.Log("Rand value is now " + randValue);
                 j++;
             }
         }
 
         //access list of items based on tableIndex
-        List<LootItem> chosenTable = new List<LootItem>();
+        /*Table chosenTable = new Table();
         switch (tableIndex)
         {
             case VALUABLES:
@@ -85,23 +85,23 @@ public class LootTable : ScriptableObject
             case DATA_LOGS:
                 chosenTable = dataLogs;
                 break;
-        }
+        }*/
 
-        return chosenTable;
+        return itemTables[j];
         
     }
 
     //gets a random item from the given table
-    public Item GetItem(List<LootItem> table)
+    public Item GetItem(/*List<LootItem> table*/ Table table)
     {
-        if (table.Count <= 0)
+        if (table.item.Count <= 0)
             return null;
 
         //get total weight of all items in the table
         int totalWeight = 0;
-        for (int i = 0; i < table.Count; i++)
+        for (int i = 0; i < table.item.Count; i++)
         {
-            totalWeight += table[i].itemWeight;
+            totalWeight += table.item[i].itemWeight;
         }
 
         Debug.Log("---Getting random value from GetItem---");
@@ -111,9 +111,9 @@ public class LootTable : ScriptableObject
         int j = 0;
         bool itemFound = false;
 
-        while (!itemFound && j < table.Count)
+        while (!itemFound && j < table.item.Count)
         {
-            if (randValue <= table[j].itemWeight)
+            if (randValue <= table.item[j].itemWeight)
             {
                 //create this item
                 itemFound = true;
@@ -121,31 +121,31 @@ public class LootTable : ScriptableObject
             }
             else
             {
-                randValue -= table[j].itemWeight;
+                randValue -= table.item[j].itemWeight;
                 Debug.Log("Rand value is now " + randValue);
                 j++;
             }
         }
 
         if (itemFound)
-            return Instantiate(table[j].item);
+            return Instantiate(table.item[j].item);
         else
             return null;
 
     }
 
     //gets a specific item from the given table
-    public Item GetItem(List<Item> table, string itemID)
+    public Item GetItem(/*List<Item> table*/ Table table, string itemID)
     {
-        if (table.Count <= 0)
+        if (table.item.Count <= 0)
             return null;
 
         int j = 0;
         bool itemFound = false;
 
-        while (!itemFound && j < table.Count)
+        while (!itemFound && j < table.item.Count)
         {
-            if (table[j].itemID.Equals(itemID))
+            if (table.item[j].item.itemID.Equals(itemID))
             {
                 //create this item
                 itemFound = true;
@@ -158,7 +158,7 @@ public class LootTable : ScriptableObject
         }
 
         if (itemFound)
-            return Instantiate(table[j]);
+            return Instantiate(table.item[j].item);
         else
             return null;
 
@@ -178,7 +178,7 @@ public class Table
 {
     public ItemType itemType;
     public int tableWeight;
-    public List<LootItem> item;  //int is item weight
+    public List<LootItem> item;
     
     
     public enum ItemType
