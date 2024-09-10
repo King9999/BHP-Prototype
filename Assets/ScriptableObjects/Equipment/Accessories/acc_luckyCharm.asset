@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fec0eb33e5e4d664f968180be80e04e6, type: 3}
-  m_Name: acc_
+  m_Name: acc_luckyCharm
   m_EditorClassIdentifier: 
-  itemName: Init Accessory
+  itemName: 
   details: 
-  itemID: 0
+  itemID: 
   itemLevel: 1
   price: 0
   isKeyItem: 0
@@ -32,6 +32,7 @@ MonoBehaviour:
   evd: 0
   mov: 0
   itemMods: []
+  itemSkill: {fileID: 0}
   hasChipSlot: 0
   isUniqueItem: 0
   modCount: 3
