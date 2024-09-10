@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a120e160253578c489aa7f91b6a84d1f, type: 3}
   m_Name: armor_cloak
   m_EditorClassIdentifier: 
-  itemName: Vest
-  details: Basic protective wear
-  itemID: armor_vest
+  itemName: Cloak
+  details: Provides minimal protection vs. psychic attacks
+  itemID: armor_cloak
   itemLevel: 1
   price: 200
   isKeyItem: 0
   isTargetItem: 0
   sprite: {fileID: 0}
   itemType: 2
-  dfp: 1
-  rst: 0
+  dfp: 0
+  rst: 1
   itemMods: []
   hasChipSlot: 0
   isUniqueItem: 0

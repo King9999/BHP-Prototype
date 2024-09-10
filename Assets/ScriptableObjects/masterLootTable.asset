@@ -12,28 +12,89 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 442df380407f388418edb810c6174f5c, type: 3}
   m_Name: masterLootTable
   m_EditorClassIdentifier: 
-  tableWeight: 2c0100002c010000fa00000096000000
-  consumables:
-  - item: {fileID: 11400000, guid: f9bfc8beb1db3ee4fad5169cada3d201, type: 2}
-    itemWeight: 1000
-  equipment:
-  - item: {fileID: 11400000, guid: bed211d3746c4534bbfceb0cfecfa57c, type: 2}
-    itemWeight: 333
-  - item: {fileID: 11400000, guid: 2ebce42063d6fcc4bad6ad946da8d33a, type: 2}
-    itemWeight: 333
-  - item: {fileID: 11400000, guid: a3da28955840cb044b22f8b26eafa129, type: 2}
-    itemWeight: 333
-  valuables:
-  - item: {fileID: 11400000, guid: a8b738d2379eeac47b4474853d27dcc7, type: 2}
-    itemWeight: 1000
-  dungeonMods:
-  - item: {fileID: 11400000, guid: 613bfe3903f617943a71c96a15a73d5b, type: 2}
-    itemWeight: 1000
   dataLogs: []
-  weapons:
-  - {fileID: 11400000, guid: 69200dac946673345ae4996fa0bb9883, type: 2}
-  - {fileID: 11400000, guid: 2da26484cede06140b4b1c0f81ccb2b5, type: 2}
-  - {fileID: 11400000, guid: 7d4a8c2fca115964baaf68ae613a7ed3, type: 2}
-  armor: []
-  accessories:
-  - {fileID: 11400000, guid: b78b1e865359e694ba2b35f39be71dec, type: 2}
+  itemTables:
+  - tableWeight: 900
+    items:
+    - item: {fileID: 11400000, guid: a8b738d2379eeac47b4474853d27dcc7, type: 2}
+      itemWeight: 1000
+      requiredLevel: 0
+  - tableWeight: 650
+    items:
+    - item: {fileID: 11400000, guid: f9bfc8beb1db3ee4fad5169cada3d201, type: 2}
+      itemWeight: 1000
+      requiredLevel: 0
+  - tableWeight: 450
+    items:
+    - item: {fileID: 11400000, guid: 69200dac946673345ae4996fa0bb9883, type: 2}
+      itemWeight: 333
+      requiredLevel: 0
+    - item: {fileID: 11400000, guid: 2da26484cede06140b4b1c0f81ccb2b5, type: 2}
+      itemWeight: 333
+      requiredLevel: 0
+    - item: {fileID: 11400000, guid: 7d4a8c2fca115964baaf68ae613a7ed3, type: 2}
+      itemWeight: 333
+      requiredLevel: 0
+  - tableWeight: 450
+    items:
+    - item: {fileID: 11400000, guid: 7a7ae08e17439ca498999306e33e0fd1, type: 2}
+      itemWeight: 500
+      requiredLevel: 0
+    - item: {fileID: 11400000, guid: 8e6738a7b3c27854794cc87b5206aa3b, type: 2}
+      itemWeight: 500
+      requiredLevel: 0
+  - tableWeight: 450
+    items:
+    - item: {fileID: 11400000, guid: b78b1e865359e694ba2b35f39be71dec, type: 2}
+      itemWeight: 1000
+      requiredLevel: 0
+  - tableWeight: 100
+    items:
+    - item: {fileID: 11400000, guid: 613bfe3903f617943a71c96a15a73d5b, type: 2}
+      itemWeight: 1000
+      requiredLevel: 0
+  valuablesTable:
+    tableWeight: 900
+    items:
+    - item: {fileID: 11400000, guid: a8b738d2379eeac47b4474853d27dcc7, type: 2}
+      itemWeight: 1000
+      requiredLevel: 0
+  consumablesTable:
+    tableWeight: 650
+    items:
+    - item: {fileID: 11400000, guid: f9bfc8beb1db3ee4fad5169cada3d201, type: 2}
+      itemWeight: 1000
+      requiredLevel: 0
+  weaponTable:
+    tableWeight: 450
+    items:
+    - item: {fileID: 11400000, guid: 69200dac946673345ae4996fa0bb9883, type: 2}
+      itemWeight: 333
+      requiredLevel: 0
+    - item: {fileID: 11400000, guid: 2da26484cede06140b4b1c0f81ccb2b5, type: 2}
+      itemWeight: 333
+      requiredLevel: 0
+    - item: {fileID: 11400000, guid: 7d4a8c2fca115964baaf68ae613a7ed3, type: 2}
+      itemWeight: 333
+      requiredLevel: 0
+  armorTable:
+    tableWeight: 450
+    items:
+    - item: {fileID: 11400000, guid: 7a7ae08e17439ca498999306e33e0fd1, type: 2}
+      itemWeight: 500
+      requiredLevel: 0
+    - item: {fileID: 11400000, guid: 8e6738a7b3c27854794cc87b5206aa3b, type: 2}
+      itemWeight: 500
+      requiredLevel: 0
+  accessoriesTable:
+    tableWeight: 450
+    items:
+    - item: {fileID: 11400000, guid: b78b1e865359e694ba2b35f39be71dec, type: 2}
+      itemWeight: 1000
+      requiredLevel: 0
+  dungeonModTable:
+    tableWeight: 100
+    items:
+    - item: {fileID: 11400000, guid: 613bfe3903f617943a71c96a15a73d5b, type: 2}
+      itemWeight: 1000
+      requiredLevel: 0
