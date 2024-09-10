@@ -12,13 +12,13 @@ public class Accessory : Item
     public int mov;
 
     public List<ItemMod> itemMods;  //if there's a chip slot, there can only be 1 item mod.
-    //public Skill itemSkill;         //only available if item has an empty chip slot
+    public Skill itemSkill;         //only available if item has an empty chip slot
     public bool hasChipSlot;        //if true, itemSkill is available.
     public bool isUniqueItem;       //if true, item has a fixed mod that it will always have.
     public int modCount = 3;            //default is 3. If item is not unique and has a chip slot, this value is 1. If item is unique, this value is 2.
 
 
-    [System.NonSerialized] protected bool isEquipped = false;     //NonSerialized means Unity will reset the variable state
+    protected bool isEquipped = false;     
 
     private void Awake()
     {

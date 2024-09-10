@@ -14,11 +14,11 @@ public class LootTable : ScriptableObject
     //public List<LootItem> equipment;        //only contains equipment types since more checks have to be done.
     //public List<LootItem> valuables;        //items that are sold
     //public List<LootItem> dungeonMods;      //rarest items
-    public List<LootItem> dataLogs;         //single player item only
+    public List<TableItem> dataLogs;         //single player item only
     //public List<Item> weapons;
     //public List<Item> armor;                /* These contain specific equipment */
     //public List<Item> accessories;
-    public List<Table> itemTables;      // table 0 is weapons, 1 is armor, 2 is accessories
+    public List<Table> itemTables;      // table 0 is valuables, 1 is consumables, 2 is weapons, 3 is armor
 
     //table indexes
     private const int VALUABLES = 0;
@@ -92,7 +92,7 @@ public class LootTable : ScriptableObject
     }
 
     //gets a random item from the given table
-    public Item GetItem(/*List<LootItem> table*/ Table table)
+    public Item GetItem(Table table)
     {
         if (table.item.Count <= 0)
             return null;
@@ -104,9 +104,9 @@ public class LootTable : ScriptableObject
             totalWeight += table.item[i].itemWeight;
         }
 
-        Debug.Log("---Getting random value from GetItem---");
+        //Debug.Log("---Getting random value from GetItem---");
         int randValue = UnityEngine.Random.Range(0, totalWeight);
-        Debug.Log("total weight: " + totalWeight);
+        //Debug.Log("total weight: " + totalWeight);
 
         int j = 0;
         bool itemFound = false;
@@ -117,25 +117,28 @@ public class LootTable : ScriptableObject
             {
                 //create this item
                 itemFound = true;
-                Debug.Log("Acessing item " + j + ", rand value is " + randValue);
+                //Debug.Log("Acessing item " + j + ", rand value is " + randValue);
             }
             else
             {
                 randValue -= table.item[j].itemWeight;
-                Debug.Log("Rand value is now " + randValue);
+                //Debug.Log("Rand value is now " + randValue);
                 j++;
             }
         }
 
         if (itemFound)
+        {
+            Debug.Log("Generating random item " + table.item[j].item.itemName);
             return Instantiate(table.item[j].item);
+        }
         else
             return null;
 
     }
 
     //gets a specific item from the given table
-    public Item GetItem(/*List<Item> table*/ Table table, string itemID)
+    public Item GetItem(Table table, string itemID)
     {
         if (table.item.Count <= 0)
             return null;
@@ -149,7 +152,7 @@ public class LootTable : ScriptableObject
             {
                 //create this item
                 itemFound = true;
-                Debug.Log("Acessing item " + j);
+                //Debug.Log("Acessing item " + j);
             }
             else
             {
@@ -158,7 +161,10 @@ public class LootTable : ScriptableObject
         }
 
         if (itemFound)
+        {
+            Debug.Log("Generating specific item " + table.item[j].item.itemName);
             return Instantiate(table.item[j].item);
+        }
         else
             return null;
 
@@ -167,10 +173,11 @@ public class LootTable : ScriptableObject
 }
 
 [Serializable]
-public class LootItem
+public class TableItem
 {
     public Item item;
     public int itemWeight;
+    public int requiredLevel;
 }
 
 [Serializable]
@@ -178,7 +185,7 @@ public class Table
 {
     public ItemType itemType;
     public int tableWeight;
-    public List<LootItem> item;
+    public List<TableItem> item;
     
     
     public enum ItemType

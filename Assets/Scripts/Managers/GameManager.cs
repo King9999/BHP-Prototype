@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
 
         /**** USE THE NEXT 4 LINES TO GET SEED FOR BUG TESTING*****/
         //System.Random random = new System.Random();
-        //int seed = 1154674388;// random.Next();
+        //int seed = random.Next();
         //Random.InitState(seed);
         //Debug.Log("Seed: " + seed);
 

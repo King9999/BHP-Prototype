@@ -19,8 +19,11 @@ public class ItemModManager : MonoBehaviour
     [System.Serializable]
     public struct ItemModTable
     {
+        public ModRarity rarity;
         public List<ItemMod> itemMods;
         public int weight;            //the chance that the game pulls a mod from a table.
+
+        public enum ModRarity { Common, Rare, SuperRare }
     }
 
     public List<ItemModTable> itemModTable;             //3 tables, each with different rarity

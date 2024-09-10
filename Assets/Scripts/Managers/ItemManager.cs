@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 /* Manages all items in the game. Used to generate items dynamically */
@@ -28,7 +29,7 @@ public class ItemManager : MonoBehaviour
     void Start()
     {
         itemModBonusChance = 0;
-        maxItemModBaseChance = 0.2f;
+        maxItemModBaseChance = 0.15f;
 
         lootTable = Instantiate(masterLootTable);
 
@@ -68,10 +69,8 @@ public class ItemManager : MonoBehaviour
         }*/
     }
 
-    public Weapon GenerateWeaponMods(Weapon weapon)
+    public void GenerateMods(Weapon weapon)
     {
-        //Weapon weapon = Instantiate((Weapon)lootTable.itemTables[2].item[0].item);
-
         /*  RULES FOR GENERATING MODS ON ITEM
          *  -----
          *  Item level must be at least 5
@@ -82,7 +81,6 @@ public class ItemManager : MonoBehaviour
          * */
 
         //get item level
-       //GameManager gm = Singleton.instance.GameManager;
         HunterManager hm = Singleton.instance.HunterManager;
         int averageLevel = 0;
         if (hm.hunters.Count > 0)
@@ -107,18 +105,14 @@ public class ItemManager : MonoBehaviour
         }
 
         //weapon's level must be at least 5 to have mods on it.
-        //if (weapon.itemLevel >= 5)        //REMEMBER TO UNCOMMENT THIS WHEN READY
-        //{
+        string mods = "";
+        if (weapon.itemLevel >= 5)        
+        {
             //is item unique?
             if (weapon.isUniqueItem)
             {
                 weapon.modCount = 2;
-                //add item's unique mod
             }
-            /*else if (weapon.hasChipSlot)
-            {
-                weapon.modCount = Random.Range(0, 2);
-            }*/
             else
             {
                 //3 mods is rare
@@ -130,19 +124,16 @@ public class ItemManager : MonoBehaviour
                 {
                     weapon.modCount = Random.Range(0, 3);
                 }
-
-
             }
             
 
             //generate item mods
             ItemModManager im = Singleton.instance.ItemModManager;
-            string mods = "";
+            
             int j = 0;
-            //bool chipSlotFound = false;
-            while (/*!chipSlotFound &&*/ j < weapon.modCount)
+            while (j < weapon.modCount)
             {
-                ItemMod itemMod = im.GetItemMod(/*1*/);
+                ItemMod itemMod = im.GetItemMod();
 
                 //if item mod is a chip slot, break the loop
                 if (itemMod.isChipSlot)
@@ -151,7 +142,6 @@ public class ItemManager : MonoBehaviour
                     {
                         weapon.itemMods.Add(itemMod);
                         mods += itemMod.modName + "\n";
-                    //chipSlotFound = true;
                         j += 2;     //chip slot takes up 2 mod slots
                     }
                 }
@@ -162,11 +152,11 @@ public class ItemManager : MonoBehaviour
                     j++;
                 }
             }
-        //}
-        //else
-        //{
-        //weapon.modCount = 0;
-        //}
+        }
+        else
+        {
+            weapon.modCount = 0;
+        }
 
         //modify the name of item with "+" depending on mod count
         string rank = "";
@@ -177,7 +167,189 @@ public class ItemManager : MonoBehaviour
         weapon.itemName += rank;
 
         Debug.Log("Weapon mods for " + weapon.itemName + ":\n" + mods);
-        return weapon;
+        //return weapon;
+    }
+
+    public void GenerateMods(Armor armor)
+    {
+        //get item level
+        HunterManager hm = Singleton.instance.HunterManager;
+        int averageLevel = 0;
+        if (hm.hunters.Count > 0)
+        {
+            foreach (Hunter hunter in hm.hunters)
+            {
+                averageLevel += hunter.hunterLevel;
+            }
+
+            averageLevel /= hm.hunters.Count;
+        }
+
+        //armor.itemLevel = averageLevel >= 5 ? averageLevel : 1;
+        if (averageLevel >= 5)
+        {
+            armor.itemLevel = averageLevel;
+        }
+        else
+        {
+            armor.itemLevel = 1;
+            armor.modCount = 0;
+        }
+
+        //armor's level must be at least 5 to have mods on it.
+        string mods = "";
+        if (armor.itemLevel >= 5)        
+        {
+            //is item unique?
+            if (armor.isUniqueItem)
+            {
+                armor.modCount = 2;
+            }
+            else
+            {
+                //3 mods is rare
+                if (Random.value <= maxItemModBaseChance + itemModBonusChance)
+                {
+                    armor.modCount = 3;
+                }
+                else
+                {
+                    armor.modCount = Random.Range(0, 3);
+                }
+            }
+
+
+            //generate item mods
+            ItemModManager im = Singleton.instance.ItemModManager;
+
+            int j = 0;
+            while (j < armor.modCount)
+            {
+                ItemMod itemMod = im.GetItemMod();
+
+                //if item mod is a chip slot, break the loop
+                if (itemMod.isChipSlot)
+                {
+                    if (armor.itemMods.Count <= 1 && !armor.isUniqueItem)
+                    {
+                        armor.itemMods.Add(itemMod);
+                        mods += itemMod.modName + "\n";
+                        j += 2;     //chip slot takes up 2 mod slots
+                    }
+                }
+                else
+                {
+                    armor.itemMods.Add(itemMod);
+                    mods += itemMod.modName + "\n";
+                    j++;
+                }
+            }
+        }
+        else
+        {
+            armor.modCount = 0;
+        }
+
+        //modify the name of item with "+" depending on mod count
+        string rank = "";
+        for (int i = 0; i < armor.itemMods.Count; i++)
+        {
+            rank += "+";
+        }
+        armor.itemName += rank;
+
+        Debug.Log("armor mods for " + armor.itemName + ":\n" + mods);
+    }
+
+    public void GenerateMods(Accessory acc)
+    {
+        //get item level
+        HunterManager hm = Singleton.instance.HunterManager;
+        int averageLevel = 0;
+        if (hm.hunters.Count > 0)
+        {
+            foreach (Hunter hunter in hm.hunters)
+            {
+                averageLevel += hunter.hunterLevel;
+            }
+
+            averageLevel /= hm.hunters.Count;
+        }
+
+        if (averageLevel >= 5)
+        {
+            acc.itemLevel = averageLevel;
+        }
+        else
+        {
+            acc.itemLevel = 1;
+            acc.modCount = 0;
+        }
+
+        //acc's level must be at least 5 to have mods on it.
+        string mods = "";
+        if (acc.itemLevel >= 5)
+        {
+            //is item unique?
+            if (acc.isUniqueItem)
+            {
+                acc.modCount = 2;
+            }
+            else
+            {
+                //3 mods is rare
+                if (Random.value <= maxItemModBaseChance + itemModBonusChance)
+                {
+                    acc.modCount = 3;
+                }
+                else
+                {
+                    acc.modCount = Random.Range(0, 3);
+                }
+            }
+
+
+            //generate item mods
+            ItemModManager im = Singleton.instance.ItemModManager;
+
+            int j = 0;
+            while (j < acc.modCount)
+            {
+                ItemMod itemMod = im.GetItemMod();
+
+                //if item mod is a chip slot, break the loop
+                if (itemMod.isChipSlot)
+                {
+                    if (acc.itemMods.Count <= 1 && !acc.isUniqueItem)
+                    {
+                        acc.itemMods.Add(itemMod);
+                        mods += itemMod.modName + "\n";
+                        j += 2;     //chip slot takes up 2 mod slots
+                    }
+                }
+                else
+                {
+                    acc.itemMods.Add(itemMod);
+                    mods += itemMod.modName + "\n";
+                    j++;
+                }
+            }
+        }
+        else
+        {
+            acc.modCount = 0;
+        }
+
+        //modify the name of item with "+" depending on mod count
+        string rank = "";
+        for (int i = 0; i < acc.itemMods.Count; i++)
+        {
+            rank += "+";
+        }
+        acc.itemName += rank;
+
+        Debug.Log("acc mods for " + acc.itemName + ":\n" + mods);
+
     }
 
     public void ActivateDungeonMods()
@@ -197,6 +369,15 @@ public class ItemManager : MonoBehaviour
         Table table = new Table();
         table = lootTable.GetTable();
         Item item = lootTable.GetItem(table);
+
+        //if item can have mods on it, add them now
+        if (item is Weapon wpn)
+            GenerateMods(wpn);
+        else if (item is Armor armor)
+            GenerateMods(armor);
+        else if (item is Accessory acc)
+            GenerateMods(acc);
+
         chest.item = item;
     }
 
