@@ -42,6 +42,7 @@ public class HunterUI : MonoBehaviour
     public TextMeshProUGUI hunterMenu_hunterNameText;
     public TextMeshProUGUI hunterMenu_actionText;
     public GameObject[] hunterHudObjects;
+    public List<ItemObject> inventory;                  //shows a hunter's collected items.
 
     [Header("---Buttons---")]
     public Button moveButton;
@@ -226,6 +227,26 @@ public class HunterUI : MonoBehaviour
         {
             button.image.color = button.colors.normalColor;
         }    
+    }
+
+    public void ShowInventory(bool toggle)
+    {
+        inventoryMenuObject.SetActive(toggle);
+        if (toggle == true)
+        {
+            //populate inventory
+            GameManager gm = Singleton.instance.GameManager;
+            if (gm.ActiveCharacter() is Hunter hunter)
+            {
+                for (int i = 0; i < hunter.inventory.Count; i++)
+                {
+                    inventory[i].GetDetails(hunter.inventory[i]);
+                    //inventory[i].item = hunter.inventory[i];
+                    //inventory[i].itemNameText.text = hunter.inventory[i].itemName;
+                }
+            }
+            
+        }
     }
 
     /*public void OnMoveButtonHover()

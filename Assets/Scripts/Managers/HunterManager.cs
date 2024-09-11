@@ -23,7 +23,8 @@ public class HunterManager : MonoBehaviour
     public enum MenuState { NameEntry, PointAlloc, ChooseWeapon, RivalHunter, ShowHunterHuds }
     public MenuState state;
 
-    public enum HunterMenuState { Default, SelectCard, RollDiceToMove, SelectMoveTile, Rest, ActionSubmenu, ChooseAttackTarget}
+    public enum HunterMenuState { Default, SelectCard, RollDiceToMove, SelectMoveTile, Rest, ActionSubmenu, Inventory, 
+        ChooseAttackTarget}
     public HunterMenuState hunterMenuState;
 
     GameObject hunterContainer;         //hunters are stored here for organization
@@ -114,6 +115,7 @@ public class HunterManager : MonoBehaviour
                 ui.ShowHunterMenu_DisplayCards(false);
                 ui.ShowHunterMenu_RollDiceToMove(false);
                 ui.ShowHunterMenu_ActionSubmenu(false);
+                ui.ShowInventory(false);
                 break;
 
             case HunterMenuState.SelectCard:
@@ -135,6 +137,11 @@ public class HunterManager : MonoBehaviour
             case HunterMenuState.ActionSubmenu:
                 ui.ShowHunterMenu_Main(false);
                 ui.ShowHunterMenu_ActionSubmenu(true, gm.ActiveCharacter());
+                ui.ShowInventory(false);
+                break;
+
+            case HunterMenuState.Inventory:
+                ui.ShowInventory(true);
                 break;
 
 
@@ -463,7 +470,7 @@ public class HunterManager : MonoBehaviour
 
     public void OnItemButtonPressed()
     {
-
+        ChangeHunterMenuState(hunterMenuState = HunterMenuState.Inventory);
     }
 
     public void OnEndTurnButtonPressed()
@@ -499,15 +506,8 @@ public class HunterManager : MonoBehaviour
                 ChangeHunterMenuState(hunterMenuState = HunterMenuState.Default); //TODO: Change state to SelectCard when ready
                 break;
 
-            case HunterMenuState.SelectMoveTile:
-                //deactivate move tiles and send them to bin
-                /*for (int i = 0; i < gm.moveTileList.Count; i++)
-                {
-                    gm.moveTileList[i].SetActive(false);
-                    gm.moveTileBin.Add(gm.moveTileList[i]);
-                    gm.moveTileList.Remove(gm.moveTileList[i]);
-                }*/
-
+            case HunterMenuState.Inventory:
+                ChangeHunterMenuState(hunterMenuState = HunterMenuState.ActionSubmenu);
                 break;
 
             
