@@ -7,6 +7,7 @@ using UnityEngine;
 public class Entity_TreasureChest : Entity
 {
     public Item item;       //the item the chest holds
+    public int credits;     //money
     public Sprite openChest, closedChest;
 
     // Start is called before the first frame update
@@ -23,9 +24,19 @@ public class Entity_TreasureChest : Entity
 
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         sr.sprite = openChest;
-        hunter.inventory.Add(item);
-        Debug.Log(hunter.characterName + " obtained " + item.itemName);
-        item = null;
+
+        if (item != null)
+        {
+            hunter.inventory.Add(item);
+            Debug.Log(hunter.characterName + " obtained " + item.itemName);
+            item = null;
+        }
+        else  //chest contains money
+        {
+            hunter.credits += credits;
+            Debug.Log(hunter.characterName + " obtained " + credits + "CR");
+            credits = 0;
+        }
         playerInteracted = true;
     }
 }

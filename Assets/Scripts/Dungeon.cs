@@ -19,13 +19,14 @@ public class Dungeon : MonoBehaviour
     public Entity_TreasureChest chestPrefab;
     public List<Entity_TreasureChest> treasureChests;
     public int chestCount;
+    public float baseCreditsChance;             //determines whether a chest contains credits or an item
 
     //private readonly Hashtable occupiedPositions = new();
     private Dictionary<Vector3, Room> occupiedPositions = new Dictionary<Vector3, Room>();
     // Start is called before the first frame update
     void Start()
     {
-        
+        baseCreditsChance = 0.5f;
         //CreateDungeon();
     }
 
@@ -200,9 +201,10 @@ public class Dungeon : MonoBehaviour
 
         /* populate the dungeon with objects, including hunters. */
         List<int> occupiedLocations = new List<int>();  //dungeon rooms that have an object in them.
-
+        int averageHunterLevel = 0;                         //used for different calculations.
         foreach(Hunter hunter in hm.hunters)
         {
+            averageHunterLevel += hunter.hunterLevel;
             //pick a random room and place hunter there. Hunters should be placed in a way so that they aren't too close 
             //to each other.
             bool roomFound = false;
@@ -223,6 +225,13 @@ public class Dungeon : MonoBehaviour
             }
             
         }
+
+        //get average
+        averageHunterLevel /= hm.hunters.Count;
+
+        //should never happen, but just in case
+        if (averageHunterLevel <= 0)
+            averageHunterLevel = 1; 
 
         //add chests. Number of chests = hunter count * 2 + random number between 0 and 3.
         chestCount = hm.hunters.Count * 2 + Random.Range(0, 4);
@@ -255,7 +264,17 @@ public class Dungeon : MonoBehaviour
                     {
                         //add target item
                     }*/
-                    im.GenerateChestItem(chest);
+
+                    if (Random.value <= baseCreditsChance)
+                    {
+                        chest.credits = 50 * averageHunterLevel;
+                        chest.credits += Random.Range(0, (chest.credits / 2) + 1);
+                        Debug.Log("Adding " +  chest.credits + "CR to chest");
+                    }
+                    else
+                    {
+                        im.GenerateChestItem(chest);
+                    }
                     //chest.room = dungeonRooms[randRoom];
                     dungeonRooms[randRoom].entity = chest;
                     treasureChests.Add(chest);

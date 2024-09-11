@@ -38,6 +38,7 @@ public class Hunter : Character
 
     public List<Item> inventory;          //10 items max
     public List<Item> stash;              //100 items max
+    public int credits;                     //money on hand
     public int maxInventoryCount { get; } = 10;
     public int maxStashCount { get; } = 100;
 
