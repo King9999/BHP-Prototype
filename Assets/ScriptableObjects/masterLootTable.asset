@@ -18,7 +18,13 @@ MonoBehaviour:
     tableWeight: 900
     item:
     - item: {fileID: 11400000, guid: a8b738d2379eeac47b4474853d27dcc7, type: 2}
-      itemWeight: 1000
+      itemWeight: 200
+      requiredLevel: 0
+    - item: {fileID: 11400000, guid: d02642b5983312241b68ab733af45fcd, type: 2}
+      itemWeight: 500
+      requiredLevel: 0
+    - item: {fileID: 11400000, guid: 686e146c397610643af0cc0dc91bfa68, type: 2}
+      itemWeight: 300
       requiredLevel: 0
   - itemType: 0
     tableWeight: 650
@@ -51,7 +57,10 @@ MonoBehaviour:
     tableWeight: 450
     item:
     - item: {fileID: 11400000, guid: b78b1e865359e694ba2b35f39be71dec, type: 2}
-      itemWeight: 1000
+      itemWeight: 400
+      requiredLevel: 0
+    - item: {fileID: 11400000, guid: a7827ab0d9aeac64fa508e7975726041, type: 2}
+      itemWeight: 600
       requiredLevel: 0
   - itemType: 5
     tableWeight: 100

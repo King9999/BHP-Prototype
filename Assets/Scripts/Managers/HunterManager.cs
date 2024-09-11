@@ -23,7 +23,7 @@ public class HunterManager : MonoBehaviour
     public enum MenuState { NameEntry, PointAlloc, ChooseWeapon, RivalHunter, ShowHunterHuds }
     public MenuState state;
 
-    public enum HunterMenuState { Default, SelectCard, RollDiceToMove, SelectMoveTile, Rest, ChooseAttackTarget}
+    public enum HunterMenuState { Default, SelectCard, RollDiceToMove, SelectMoveTile, Rest, ActionSubmenu, ChooseAttackTarget}
     public HunterMenuState hunterMenuState;
 
     GameObject hunterContainer;         //hunters are stored here for organization
@@ -113,6 +113,7 @@ public class HunterManager : MonoBehaviour
                 //hide all other UI
                 ui.ShowHunterMenu_DisplayCards(false);
                 ui.ShowHunterMenu_RollDiceToMove(false);
+                ui.ShowHunterMenu_ActionSubmenu(false);
                 break;
 
             case HunterMenuState.SelectCard:
@@ -129,6 +130,11 @@ public class HunterManager : MonoBehaviour
 
             case HunterMenuState.SelectMoveTile:
                 ui.ShowHunterMenu_RollDiceToMove(false);
+                break;
+
+            case HunterMenuState.ActionSubmenu:
+                ui.ShowHunterMenu_Main(false);
+                ui.ShowHunterMenu_ActionSubmenu(true, gm.ActiveCharacter());
                 break;
 
 
@@ -435,6 +441,7 @@ public class HunterManager : MonoBehaviour
             return;
 
         //show submenu here
+        ChangeHunterMenuState(hunterMenuState = HunterMenuState.ActionSubmenu);
     }
 
     public void OnRestButtonPressed()
@@ -483,11 +490,11 @@ public class HunterManager : MonoBehaviour
         switch (hunterMenuState)
         {
             case HunterMenuState.SelectCard:
+            case HunterMenuState.ActionSubmenu:
                 ChangeHunterMenuState(hunterMenuState = HunterMenuState.Default);
                 break;
 
             case HunterMenuState.RollDiceToMove:
-                
                 gm.dice.ShowSingleDieUI(false);
                 ChangeHunterMenuState(hunterMenuState = HunterMenuState.Default); //TODO: Change state to SelectCard when ready
                 break;
@@ -502,6 +509,8 @@ public class HunterManager : MonoBehaviour
                 }*/
 
                 break;
+
+            
         }
     }
     #endregion

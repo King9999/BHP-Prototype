@@ -38,6 +38,7 @@ public class HunterUI : MonoBehaviour
     public GameObject hunterMenuObject_main;            //displays Move, attack, rest
     public GameObject hunterMenuObject_rollDiceToMove;
     public GameObject hunterMenuObject_showCards;
+    public GameObject hunterMenuObject_actionSubmenu;
     public TextMeshProUGUI hunterMenu_hunterNameText;
     public TextMeshProUGUI hunterMenu_actionText;
     public GameObject[] hunterHudObjects;
@@ -143,14 +144,16 @@ public class HunterUI : MonoBehaviour
     public void ShowHunterMenuContainer(bool toggle)
     {
         hunterMenuContainer.SetActive(toggle);
-        hunterMenuObject_main.SetActive(true);  //default menu to appear
-        hunterMenuObject_showCards.SetActive(false);
-        hunterMenuObject_rollDiceToMove.SetActive(false);
+        //hunterMenuObject_main.SetActive(true);  //default menu to appear
+        //hunterMenuObject_showCards.SetActive(false);
+        //hunterMenuObject_rollDiceToMove.SetActive(false);
     }
 
     public void ShowHunterMenu_Main(bool toggle, Character character = null)
     {
-        //hunterMenuContainer.SetActive(toggle);
+        if (!hunterMenuContainer.activeSelf)
+            return;
+
         hunterMenuObject_main.SetActive(toggle);
         if (toggle == true)
         {
@@ -189,6 +192,16 @@ public class HunterUI : MonoBehaviour
         {
             Vector3 menuPos = new Vector3(character.transform.position.x, character.transform.position.y + 6, character.transform.position.z);
             hunterMenuObject_rollDiceToMove.transform.position = Camera.main.WorldToScreenPoint(menuPos);
+        }
+    }
+
+    public void ShowHunterMenu_ActionSubmenu(bool toggle, Character character = null)
+    {
+        hunterMenuObject_actionSubmenu.SetActive(toggle);
+        if (toggle == true)
+        {
+            Vector3 menuPos = new Vector3(character.transform.position.x, character.transform.position.y + 6, character.transform.position.z);
+            hunterMenuObject_actionSubmenu.transform.position = Camera.main.WorldToScreenPoint(menuPos);
         }
     }
 

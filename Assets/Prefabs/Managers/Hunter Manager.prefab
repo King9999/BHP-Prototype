@@ -148,8 +148,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ui: {fileID: 0}
   hunters: []
-  hunterPrefab: {fileID: 0}
+  hunterPrefab: {fileID: 7340040267651634088, guid: 08558392a7ae0144e86f499a769a72c7, type: 3}
   currentHunter: 0
   startingAllocationPoints: 0
   newHunter: 0
+  rivalCount: 0
   state: 0
+  hunterMenuState: 0
