@@ -7,6 +7,7 @@ using UnityEngine;
 public abstract class DungeonMod : Item
 {
     //public DungeonModEffect modEffect;
+    public string modUpside, modDownside;       //these will be displayed in-game somewhere
     
     void Reset()
     {

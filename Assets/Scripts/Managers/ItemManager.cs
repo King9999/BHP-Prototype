@@ -374,6 +374,11 @@ public class ItemManager : MonoBehaviour
     //adds random item to given chest
     public void GenerateChestItem(Entity_TreasureChest chest)
     {
+        if (chest == null)
+        {
+            Debug.Log("Chest doesn't exist!");
+            return;
+        }
         Table table = new Table();
         table = lootTable.GetTable();
         Item item = lootTable.GetItem(table);
@@ -390,8 +395,21 @@ public class ItemManager : MonoBehaviour
     }
 
     //adds a specific item, such as target item
-    public void GenerateChestItem(Entity_TreasureChest chest, string itemID)
+    public void GenerateChestItem(Entity_TreasureChest chest, Table table, string itemID)
     {
+        if (table == null || itemID.Equals(""))
+            return;
 
+        Item item = lootTable.GetItem(table, itemID);
+
+        //if item can have mods on it, add them now
+        if (item is Weapon wpn)
+            GenerateMods(wpn);
+        else if (item is Armor armor)
+            GenerateMods(armor);
+        else if (item is Accessory acc)
+            GenerateMods(acc);
+
+        chest.item = item;
     }
 }

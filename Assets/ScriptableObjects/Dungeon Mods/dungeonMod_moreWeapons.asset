@@ -21,3 +21,5 @@ MonoBehaviour:
   isTargetItem: 0
   sprite: {fileID: 0}
   itemType: 5
+  modUpside: 
+  modDownside: 
