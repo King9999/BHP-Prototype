@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adc2481b33662c4eaa916f0dcab7b97, type: 3}
   m_Name: loot_scrap
   m_EditorClassIdentifier: 
-  itemName: 
-  details: 
-  itemID: 
+  itemName: Scrap
+  details: Useless junk
+  itemID: loot_scrap
   itemLevel: 0
-  price: 0
+  price: 10
   isKeyItem: 0
   isTargetItem: 0
   sprite: {fileID: 0}

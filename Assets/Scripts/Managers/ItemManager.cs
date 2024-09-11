@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEditor.PackageManager;
 using UnityEngine;
 
@@ -9,7 +11,7 @@ public class ItemManager : MonoBehaviour
     public static ItemManager instance;
     public float maxItemModBaseChance;      //chance that a non-unique item has 3 mods 
     public float itemModBonusChance;        //dungeon mod can increase chance for 3 mods
-    public LootTable masterLootTable, lootTable;    //lootTable is instance 
+    public LootTable masterLootTable, lootTable;    //lootTable is instance of masterLootTable. masterLootTable is never accessed.
 
     [Header("---Dungeon Mods---")]
     public List<DungeonMod> dungeonMods;
@@ -32,6 +34,12 @@ public class ItemManager : MonoBehaviour
         maxItemModBaseChance = 0.15f;
 
         lootTable = Instantiate(masterLootTable);
+
+        //sort all table items by weight in case they're not sorted already.
+        for (int i = 0; i < lootTable.itemTables.Count; i++)
+        {
+            lootTable.itemTables[i].item = lootTable.itemTables[i].item.OrderByDescending(x => x.itemWeight).ToList();
+        }
 
         //testing dungeon mods
         //ActivateDungeonMods();

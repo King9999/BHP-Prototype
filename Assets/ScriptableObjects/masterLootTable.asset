@@ -14,60 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dataLogs: []
   itemTables:
-  - tableWeight: 900
-    items:
-    - item: {fileID: 11400000, guid: a8b738d2379eeac47b4474853d27dcc7, type: 2}
-      itemWeight: 1000
-      requiredLevel: 0
-  - tableWeight: 650
-    items:
-    - item: {fileID: 11400000, guid: f9bfc8beb1db3ee4fad5169cada3d201, type: 2}
-      itemWeight: 1000
-      requiredLevel: 0
-  - tableWeight: 450
-    items:
-    - item: {fileID: 11400000, guid: 69200dac946673345ae4996fa0bb9883, type: 2}
-      itemWeight: 333
-      requiredLevel: 0
-    - item: {fileID: 11400000, guid: 2da26484cede06140b4b1c0f81ccb2b5, type: 2}
-      itemWeight: 333
-      requiredLevel: 0
-    - item: {fileID: 11400000, guid: 7d4a8c2fca115964baaf68ae613a7ed3, type: 2}
-      itemWeight: 333
-      requiredLevel: 0
-  - tableWeight: 450
-    items:
-    - item: {fileID: 11400000, guid: 7a7ae08e17439ca498999306e33e0fd1, type: 2}
-      itemWeight: 500
-      requiredLevel: 0
-    - item: {fileID: 11400000, guid: 8e6738a7b3c27854794cc87b5206aa3b, type: 2}
-      itemWeight: 500
-      requiredLevel: 0
-  - tableWeight: 450
-    items:
-    - item: {fileID: 11400000, guid: b78b1e865359e694ba2b35f39be71dec, type: 2}
-      itemWeight: 1000
-      requiredLevel: 0
-  - tableWeight: 100
-    items:
-    - item: {fileID: 11400000, guid: 613bfe3903f617943a71c96a15a73d5b, type: 2}
-      itemWeight: 1000
-      requiredLevel: 0
-  valuablesTable:
+  - itemType: 1
     tableWeight: 900
-    items:
+    item:
     - item: {fileID: 11400000, guid: a8b738d2379eeac47b4474853d27dcc7, type: 2}
       itemWeight: 1000
       requiredLevel: 0
-  consumablesTable:
+  - itemType: 0
     tableWeight: 650
-    items:
+    item:
     - item: {fileID: 11400000, guid: f9bfc8beb1db3ee4fad5169cada3d201, type: 2}
       itemWeight: 1000
       requiredLevel: 0
-  weaponTable:
+  - itemType: 2
     tableWeight: 450
-    items:
+    item:
     - item: {fileID: 11400000, guid: 69200dac946673345ae4996fa0bb9883, type: 2}
       itemWeight: 333
       requiredLevel: 0
@@ -77,24 +38,24 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: 7d4a8c2fca115964baaf68ae613a7ed3, type: 2}
       itemWeight: 333
       requiredLevel: 0
-  armorTable:
+  - itemType: 3
     tableWeight: 450
-    items:
+    item:
     - item: {fileID: 11400000, guid: 7a7ae08e17439ca498999306e33e0fd1, type: 2}
       itemWeight: 500
       requiredLevel: 0
     - item: {fileID: 11400000, guid: 8e6738a7b3c27854794cc87b5206aa3b, type: 2}
       itemWeight: 500
       requiredLevel: 0
-  accessoriesTable:
+  - itemType: 4
     tableWeight: 450
-    items:
+    item:
     - item: {fileID: 11400000, guid: b78b1e865359e694ba2b35f39be71dec, type: 2}
       itemWeight: 1000
       requiredLevel: 0
-  dungeonModTable:
+  - itemType: 5
     tableWeight: 100
-    items:
+    item:
     - item: {fileID: 11400000, guid: 613bfe3903f617943a71c96a15a73d5b, type: 2}
       itemWeight: 1000
       requiredLevel: 0

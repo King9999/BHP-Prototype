@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fec0eb33e5e4d664f968180be80e04e6, type: 3}
   m_Name: acc_luckyCharm
   m_EditorClassIdentifier: 
-  itemName: 
-  details: 
-  itemID: 
+  itemName: Lucky Charm
+  details: Raises EVD
+  itemID: acc_luckyCharm
   itemLevel: 1
-  price: 0
+  price: 600
   isKeyItem: 0
   isTargetItem: 0
   sprite: {fileID: 0}
@@ -29,7 +29,7 @@ MonoBehaviour:
   vit: 0
   mnt: 0
   spd: 0
-  evd: 0
+  evd: 0.05
   mov: 0
   itemMods: []
   itemSkill: {fileID: 0}
