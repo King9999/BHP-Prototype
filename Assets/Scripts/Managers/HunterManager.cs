@@ -142,6 +142,7 @@ public class HunterManager : MonoBehaviour
 
             case HunterMenuState.Inventory:
                 ui.ShowInventory(true);
+                ui.ShowHunterMenu_ActionSubmenu(false);
                 break;
 
 
