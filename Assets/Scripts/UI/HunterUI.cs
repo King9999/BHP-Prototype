@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 //using UnityEngine.UIElements;
 
 /* script for all UI relating to Hunters. Is utilized by Hunter Manager */
@@ -246,17 +247,29 @@ public class HunterUI : MonoBehaviour
             {
                 for (int i = 0; i < hunter.inventory.Count; i++)
                 {
-                    inventory[i].GetDetails(hunter.inventory[i]);
-                    //inventory[i].item = hunter.inventory[i];
-                    //inventory[i].itemNameText.text = hunter.inventory[i].itemName;
+                    inventory[i].gameObject.SetActive(true);
+                    inventory[i].item = hunter.inventory[i];
+                    inventory[i].itemNameText.text = hunter.inventory[i].itemName;
+                    //inventory[i].GetDetails(hunter.inventory[i]);
                 }
             }
-            
+        }
+        else
+        {
+            for (int i = 0; i < inventory.Count; i++)
+            {
+                inventory[i].gameObject.SetActive(false);
+            }
         }
     }
 
     public void ShowDetailsWindow(bool toggle)
     {
+        /*if (toggle == false)
+        {
+            itemDetailsText.text = "";
+            itemTypeText.text = "";
+        }*/
         detailsWindow.SetActive(toggle);
         
     }
