@@ -42,7 +42,7 @@ public class ItemManager : MonoBehaviour
         }
 
         //testing dungeon mods
-        //ActivateDungeonMods();
+        ActivateDungeonMods();
 
     }
 

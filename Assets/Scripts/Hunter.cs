@@ -49,6 +49,7 @@ public class Hunter : Character
 
     public void InitializeStats()
     {
+        hunterLevel = 5;
         str = 1;
         vit = 1;
         spd = 1;

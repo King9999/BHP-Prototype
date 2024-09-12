@@ -43,6 +43,9 @@ public class HunterUI : MonoBehaviour
     public TextMeshProUGUI hunterMenu_actionText;
     public GameObject[] hunterHudObjects;
     public List<ItemObject> inventory;                  //shows a hunter's collected items.
+    public GameObject detailsWindow;
+    public TextMeshProUGUI itemTypeText, itemDetailsText; 
+
 
     [Header("---Buttons---")]
     public Button moveButton;
@@ -232,6 +235,9 @@ public class HunterUI : MonoBehaviour
     public void ShowInventory(bool toggle)
     {
         inventoryMenuObject.SetActive(toggle);
+        ShowDetailsWindow(false);
+        itemDetailsText.text = "";
+        itemTypeText.text = "";
         if (toggle == true)
         {
             //populate inventory
@@ -247,6 +253,12 @@ public class HunterUI : MonoBehaviour
             }
             
         }
+    }
+
+    public void ShowDetailsWindow(bool toggle)
+    {
+        detailsWindow.SetActive(toggle);
+        
     }
 
     /*public void OnMoveButtonHover()

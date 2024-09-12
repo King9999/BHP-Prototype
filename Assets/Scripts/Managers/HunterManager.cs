@@ -24,7 +24,7 @@ public class HunterManager : MonoBehaviour
     public MenuState state;
 
     public enum HunterMenuState { Default, SelectCard, RollDiceToMove, SelectMoveTile, Rest, ActionSubmenu, Inventory, 
-        ChooseAttackTarget}
+        InventoryItemDetails, ChooseAttackTarget }
     public HunterMenuState hunterMenuState;
 
     GameObject hunterContainer;         //hunters are stored here for organization
@@ -143,6 +143,11 @@ public class HunterManager : MonoBehaviour
             case HunterMenuState.Inventory:
                 ui.ShowInventory(true);
                 ui.ShowHunterMenu_ActionSubmenu(false);
+                ui.ShowDetailsWindow(false);
+                break;
+
+            case HunterMenuState.InventoryItemDetails:
+                ui.ShowDetailsWindow(true);
                 break;
 
 

@@ -10,6 +10,7 @@ public class Accessory : Item
     public float dfp, rst;
     public float str, vit, mnt, spd, evd;
     public int mov;
+    public string statBonuses;      //a way to list what an accessory does instead of listing every stat.
 
     public List<ItemMod> itemMods;  //if there's a chip slot, there can only be 1 item mod.
     public Skill itemSkill;         //only available if item has an empty chip slot
