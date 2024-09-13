@@ -239,7 +239,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9015067342448603834, guid: 1f78cd620070c1944a35440921ada4b3, type: 3}
       propertyPath: itemModTable.Array.data[1].rarity
-      value: 0.25
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9015067342448603834, guid: 1f78cd620070c1944a35440921ada4b3, type: 3}
+      propertyPath: itemModTable.Array.data[2].rarity
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9015067342448603834, guid: 1f78cd620070c1944a35440921ada4b3, type: 3}
       propertyPath: itemModTable.Array.data[0].itemMods.Array.size
@@ -251,6 +255,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9015067342448603834, guid: 1f78cd620070c1944a35440921ada4b3, type: 3}
       propertyPath: itemModTable.Array.data[0].itemMods.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: d3cde2e15924d3740a5ac08a81d83600, type: 2}
+    - target: {fileID: 9015067342448603834, guid: 1f78cd620070c1944a35440921ada4b3, type: 3}
+      propertyPath: itemModTable.Array.data[1].itemMods.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: d3cde2e15924d3740a5ac08a81d83600, type: 2}
     - target: {fileID: 9015067342448603834, guid: 1f78cd620070c1944a35440921ada4b3, type: 3}
@@ -338,7 +346,7 @@ PrefabInstance:
     - target: {fileID: 7476351389518075795, guid: a71fe985afadb894d84a8d732fec7f5e, type: 3}
       propertyPath: dungeonMods.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 613bfe3903f617943a71c96a15a73d5b, type: 2}
+      objectReference: {fileID: 11400000, guid: e497705fef9c59645b16aa93c9315819, type: 2}
     - target: {fileID: 7476351389518075795, guid: a71fe985afadb894d84a8d732fec7f5e, type: 3}
       propertyPath: masterWeaponList.Array.size
       value: 1

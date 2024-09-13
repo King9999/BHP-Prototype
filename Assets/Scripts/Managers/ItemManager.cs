@@ -34,15 +34,13 @@ public class ItemManager : MonoBehaviour
         maxItemModBaseChance = 0.15f;
 
         lootTable = Instantiate(masterLootTable);
+       
 
         //sort all table items by weight in case they're not sorted already.
-        for (int i = 0; i < lootTable.itemTables.Count; i++)
-        {
-            lootTable.itemTables[i].item = lootTable.itemTables[i].item.OrderByDescending(x => x.itemWeight).ToList();
-        }
+        SortTableItems(lootTable.itemTables);
 
         //testing dungeon mods
-        ActivateDungeonMods();
+        //ActivateDungeonMods();
 
     }
 
@@ -75,6 +73,22 @@ public class ItemManager : MonoBehaviour
             int randWeapon = Random.Range(0, lootTable.itemTables[weaponIndex].item.Count);
             GenerateWeaponMods(Instantiate((Weapon)lootTable.itemTables[weaponIndex].item[randWeapon].item));
         }*/
+    }
+
+    public void SortTableItems(List<Table> tables)
+    {
+        for (int i = 0; i < tables.Count; i++)
+        {
+            tables[i].item = tables[i].item.OrderByDescending(x => x.itemWeight).ToList();
+        }
+    }
+
+    public void SortTableWeight(List<Table> tables)
+    {
+        //for (int i = 0; i < tables.Count; i++)
+        //{
+            lootTable.itemTables = tables.OrderByDescending(x => x.tableWeight).ToList();
+        //}
     }
 
     public void GenerateMods(Weapon weapon)

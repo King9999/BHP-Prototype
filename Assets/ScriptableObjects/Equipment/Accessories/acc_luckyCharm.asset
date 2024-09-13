@@ -31,6 +31,7 @@ MonoBehaviour:
   spd: 0
   evd: 0.05
   mov: 0
+  statBonuses: EVD +5%
   itemMods: []
   itemSkill: {fileID: 0}
   hasChipSlot: 0

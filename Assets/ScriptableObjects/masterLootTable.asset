@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dataLogs: []
   itemTables:
-  - itemType: 1
+  - itemType: 0
     tableWeight: 900
     item:
     - item: {fileID: 11400000, guid: a8b738d2379eeac47b4474853d27dcc7, type: 2}
@@ -26,7 +26,7 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: 686e146c397610643af0cc0dc91bfa68, type: 2}
       itemWeight: 300
       requiredLevel: 0
-  - itemType: 0
+  - itemType: 1
     tableWeight: 650
     item:
     - item: {fileID: 11400000, guid: f9bfc8beb1db3ee4fad5169cada3d201, type: 2}

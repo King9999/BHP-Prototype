@@ -16,3 +16,4 @@ MonoBehaviour:
   modID: itemMod_lifeRing
   modLevel: 0
   isChipSlot: 0
+  isUnique: 1

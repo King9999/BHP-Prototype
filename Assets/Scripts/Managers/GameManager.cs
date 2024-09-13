@@ -94,8 +94,11 @@ public class GameManager : MonoBehaviour
         //Random.InitState(seed);
         //Debug.Log("Seed: " + seed);
 
-        //create dungeon
+        //create dungeon. dungeon mods are activated before the dungeon is generated.
         Dungeon dungeon = Singleton.instance.Dungeon;
+        ItemManager im = Singleton.instance.ItemManager;
+        im.ActivateDungeonMods();
+        im.SortTableWeight(im.lootTable.itemTables);
         dungeon.CreateDungeon();
 
         //TODO: Set up turn order based on characters' SPD.

@@ -20,6 +20,7 @@ public class Dungeon : MonoBehaviour
     public List<Entity_TreasureChest> treasureChests;
     public int chestCount;
     public float baseCreditsChance;             //determines whether a chest contains credits or an item
+    public float creditsChanceMod;               //modified by dungeon mods.
 
     //private readonly Hashtable occupiedPositions = new();
     private Dictionary<Vector3, Room> occupiedPositions = new Dictionary<Vector3, Room>();
@@ -113,7 +114,7 @@ public class Dungeon : MonoBehaviour
             {
                 dungeonRooms.Add(room);
                 occupiedPositions.Add(room.transform.position, room);
-                Debug.Log("Added 1 dungeon room");
+                //Debug.Log("Added 1 dungeon room");
             }
             else
             {
@@ -265,11 +266,12 @@ public class Dungeon : MonoBehaviour
                         //add target item
                     }*/
 
-                    if (Random.value <= baseCreditsChance)
+                    Debug.Log("Chance to generate credits: " + (baseCreditsChance + creditsChanceMod));
+                    if (Random.value <= baseCreditsChance + creditsChanceMod)
                     {
                         chest.credits = 50 * averageHunterLevel;
                         chest.credits += Random.Range(0, (chest.credits / 2) + 1);
-                        Debug.Log("Adding " +  chest.credits + "CR to chest");
+                        Debug.Log("Adding " +  chest.credits + " CR to chest");
                     }
                     else
                     {

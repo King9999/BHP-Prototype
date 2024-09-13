@@ -50,5 +50,4 @@ MonoBehaviour:
   itemModBonusChance: 0
   masterLootTable: {fileID: 0}
   lootTable: {fileID: 11400000, guid: a802310127d8dc945b654ec43566cb53, type: 2}
-  dungeonMods:
-  - {fileID: 11400000, guid: 613bfe3903f617943a71c96a15a73d5b, type: 2}
+  dungeonMods: []

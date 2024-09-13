@@ -30,6 +30,9 @@ public class LootTable : ScriptableObject
    
     public Table GetTable()
     {
+        //sort the tables in case the weights were changed
+
+
         //check which table is going to be accessed
         int totalWeight = 0;
         int tableIndex = 0;
@@ -39,7 +42,7 @@ public class LootTable : ScriptableObject
         }
 
         int randValue = UnityEngine.Random.Range(0, totalWeight);
-        //Debug.Log("Total Weight: " + totalWeight);
+        Debug.Log("Total Weight: " + totalWeight);
 
         int j = 0;
         bool tableFound = false;
@@ -190,6 +193,6 @@ public class Table
     
     public enum ItemType
     {
-        Consumable, Valuable, Weapon, Armor, Accessory, DungeonMod
+        Valuable, Consumable, Weapon, Armor, Accessory, DungeonMod
     }
 }

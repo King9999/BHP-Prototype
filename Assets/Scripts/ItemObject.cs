@@ -98,7 +98,7 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 foreach (ItemMod mod in weapon.itemMods)
                 {
                     if (mod.isUnique)
-                        hm.ui.itemDetailsText.text += "(Unique) " + mod.modName + "\n";
+                        hm.ui.itemDetailsText.text += "(U)" + mod.modName + "\n";
                     else
                         hm.ui.itemDetailsText.text += mod.modName + "\n";
                 }
@@ -123,7 +123,7 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 foreach (ItemMod mod in armor.itemMods)
                 {
                     if (mod.isUnique)
-                        hm.ui.itemDetailsText.text += "(Unique) " + mod.modName + "\n";
+                        hm.ui.itemDetailsText.text += "(U)" + mod.modName + "\n";
                     else
                         hm.ui.itemDetailsText.text += mod.modName + "\n";
                 }
@@ -147,7 +147,7 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 foreach (ItemMod mod in acc.itemMods)
                 {
                     if (mod.isUnique)
-                        hm.ui.itemDetailsText.text += "(Unique) " + mod.modName + "\n";
+                        hm.ui.itemDetailsText.text += "(U)" + mod.modName + "\n";
                     else
                         hm.ui.itemDetailsText.text += mod.modName + "\n";
                 }
@@ -162,6 +162,16 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void OnItemSelected()
     {
         //mouse button code. Different options based on the item.
+        GameManager gm = Singleton.instance.GameManager;
+        if (item is Consumable consumable)
+        {
+            if (gm.ActiveCharacter() is Hunter hunter)
+            {
+                consumable.ActivateEffect(hunter);
+                item = null;
+                gameObject.SetActive(false);
+            }
+        }
     }
 
    

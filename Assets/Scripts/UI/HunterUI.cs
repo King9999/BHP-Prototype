@@ -249,7 +249,12 @@ public class HunterUI : MonoBehaviour
                 {
                     inventory[i].gameObject.SetActive(true);
                     inventory[i].item = hunter.inventory[i];
-                    inventory[i].itemNameText.text = hunter.inventory[i].itemName;
+
+                    //consumables are marked for easy reading.
+                    if (inventory[i].item is Consumable consumable)
+                        inventory[i].itemNameText.text = hunter.inventory[i].itemName + "(Usable)";
+                    else
+                        inventory[i].itemNameText.text = hunter.inventory[i].itemName;
                     //inventory[i].GetDetails(hunter.inventory[i]);
                 }
             }
