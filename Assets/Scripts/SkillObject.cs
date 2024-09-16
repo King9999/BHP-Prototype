@@ -16,12 +16,15 @@ public class SkillObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public TextMeshProUGUI costText;           //cost of using a skill. Could be SP or charges
     public TextMeshProUGUI cooldownText;
     public TextMeshProUGUI dmgModText;          //dmg effectiveness.
-    public Image skillImage;
+    public Image skillImage, skillBackground;
+    Color highlightColor, normalColor;
+    //bool showSkillDetails;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        highlightColor = new Color(128, 0, 0, 0.5f);
+        normalColor = skillBackground.color;
     }
 
     // Update is called once per frame

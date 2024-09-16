@@ -355,7 +355,7 @@ public class GameManager : MonoBehaviour
     /// <param name="character">The active character.</param>
     /// <param name="spaceCount">The total number of spaces the character can move.</param>
     /// <returns>The list of valid spaces the character can move.</returns>
-    public List<Vector3> ShowMoveRange(/*char[,] grid,*/ Character character, int spaceCount)
+    public List<Vector3> ShowMoveRange(Character character, int spaceCount)
     {
         List<Vector3>  validPositions = new List<Vector3>();
         Dungeon dungeon = Singleton.instance.Dungeon;
@@ -772,6 +772,237 @@ public class GameManager : MonoBehaviour
             currentCol = startCol;
             currentSpaceCount = nextSpace;
             consecutiveGaps = 0;
+        }
+
+        return validPositions;
+    }
+
+
+    public List<Vector3> ShowSkillRange(Character character, int minRange, int maxRange)
+    {
+        List<Vector3> validPositions = new List<Vector3>();
+        Dungeon dungeon = Singleton.instance.Dungeon;
+        char[,] grid = dungeon.dungeonGrid;
+
+        int startRow = character.room.row;
+        int startCol = character.room.col;
+
+        Debug.Log("Max Rows " + grid.GetLength(0));
+        Debug.Log("Max Cols " + grid.GetLength(1));
+
+        //search in the cardinal directions. At each point in the grid, search surrounding points for targetable space.
+        /*****search right******/
+        int currentCol = startCol;
+        int currentRow = startRow;
+        int currentSpaceCount = 0;
+        //int consecutiveGaps = 0;        //tracks number of invalid spaces.
+        int nextSpace = 0;              //used to reset currentSpaceCount
+
+        //the first condition checks if we're at the edge of the grid. If true, we can't move in that direction
+        //and must check the next direction.
+        while (currentCol + 1 < grid.GetLength(1) && currentSpaceCount < maxRange)
+        {
+            currentCol++;
+            currentSpaceCount++;
+
+            //if we haven't reached the minimum range, this current space isn't valid. But we must still check surrounding spaces.
+            if (currentSpaceCount >= minRange && grid[currentRow, currentCol] == '1')
+            {
+                validPositions.Add(GetRoomPosition(currentRow, currentCol));
+
+            }
+
+
+            /* search up and down until we reach total moves or we go out of bounds */
+            //search up
+            currentRow = startRow;
+            nextSpace = currentSpaceCount;  //track what current space is so it can be reset when searching in other direction.
+            while (currentRow - 1 >= 0 && currentSpaceCount < maxRange)
+            {
+                currentRow--;
+                currentSpaceCount++;
+                if (grid[currentRow, currentCol] == '1')  //search up
+                {
+                    validPositions.Add(GetRoomPosition(currentRow, currentCol));
+                }
+               
+            }
+
+            //search down
+            currentRow = startRow;
+            currentSpaceCount = nextSpace;
+            while (currentRow + 1 < grid.GetLength(0) && currentSpaceCount < maxRange)
+            {
+                currentRow++;
+                currentSpaceCount++;
+                if (grid[currentRow, currentCol] == '1')
+                {
+                    validPositions.Add(GetRoomPosition(currentRow, currentCol));
+                }
+               
+            }
+
+            //reset space count
+            currentRow = startRow;
+            currentSpaceCount = nextSpace;
+        }
+
+        /*****check left*****/
+        currentCol = startCol;
+        currentRow = startRow;
+        currentSpaceCount = 0;
+        while (currentCol - 1 >= 0 && currentSpaceCount < maxRange)
+        {
+            currentCol--;
+            currentSpaceCount++;
+            if (currentSpaceCount >= minRange && grid[currentRow, currentCol] == '1')
+            {
+                Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                if (!validPositions.Contains(newPos))
+                    validPositions.Add(newPos);
+            }
+            
+
+            //check surrounding spaces and record their equivalent positions in world space
+            //search up
+            currentRow = startRow;
+            nextSpace = currentSpaceCount;
+            while (currentRow - 1 >= 0 && currentSpaceCount < maxRange)
+            {
+                currentRow--;
+                currentSpaceCount++;
+                if (grid[currentRow, currentCol] == '1')
+                {
+                    Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                    if (!validPositions.Contains(newPos))
+                        validPositions.Add(newPos);
+                }
+
+            }
+
+            //search down
+            currentRow = startRow;
+            currentSpaceCount = nextSpace;
+            while (currentRow + 1 < grid.GetLength(0) && currentSpaceCount < maxRange)
+            {
+                currentRow++;
+                currentSpaceCount++;
+                if (grid[currentRow, currentCol] == '1')
+                {
+                    Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                    if (!validPositions.Contains(newPos))
+                        validPositions.Add(newPos);
+                }
+               
+            }
+
+            //reset space count
+            currentRow = startRow;
+            currentSpaceCount = nextSpace;
+        }
+
+        /******check up (back)******/
+        currentCol = startCol;
+        currentRow = startRow;
+        currentSpaceCount = 0;
+        while (currentRow - 1 >= 0 && currentSpaceCount < maxRange)
+        {
+            currentRow--;
+            currentSpaceCount++;
+            //add new position
+            if (currentSpaceCount >= minRange && grid[currentRow, currentCol] == '1')
+            {
+                Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                if (!validPositions.Contains(newPos))
+                    validPositions.Add(newPos);
+            }
+
+            //search right
+            currentCol = startCol;
+            nextSpace = currentSpaceCount;
+            while (currentCol + 1 < grid.GetLength(1) && currentSpaceCount < maxRange)
+            {
+                currentCol++;
+                currentSpaceCount++;
+                if (grid[currentRow, currentCol] == '1')
+                {
+                    Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                    if (!validPositions.Contains(newPos))
+                        validPositions.Add(newPos);
+                }
+
+            }
+
+            //search left
+            currentCol = startCol;
+            currentSpaceCount = nextSpace;
+            while (currentCol - 1 >= 0 && currentSpaceCount < maxRange)
+            {
+                currentCol--;
+                currentSpaceCount++;
+                if (grid[currentRow, currentCol] == '1')
+                {
+                    Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                    if (!validPositions.Contains(newPos))
+                        validPositions.Add(newPos);
+                }
+            }
+
+            //reset space count
+            currentCol = startCol;
+            currentSpaceCount = nextSpace;
+        }
+
+        /******check down (front)******/
+        currentCol = startCol;
+        currentRow = startRow;
+        currentSpaceCount = 0;
+        while (currentRow + 1 < grid.GetLength(0) && currentSpaceCount < maxRange)
+        {
+            currentRow++;
+            currentSpaceCount++;
+            //add new position
+            if (currentSpaceCount >= minRange && grid[currentRow, currentCol] == '1')
+            {
+                Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                if (!validPositions.Contains(newPos))
+                    validPositions.Add(newPos);
+            }
+
+            //search right
+            currentCol = startCol;
+            nextSpace = currentSpaceCount;
+            while (currentCol + 1 < grid.GetLength(1) && currentSpaceCount < maxRange)
+            {
+                currentCol++;
+                currentSpaceCount++;
+                if (grid[currentRow, currentCol] == '1')
+                {
+                    Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                    if (!validPositions.Contains(newPos))
+                        validPositions.Add(newPos);
+                }
+
+            }
+
+            //search left
+            currentCol = startCol;
+            currentSpaceCount = nextSpace;
+            while (currentCol - 1 >= 0 && currentSpaceCount < maxRange)
+            {
+                currentCol--;
+                currentSpaceCount++;
+                if (grid[currentRow, currentCol] == '1')
+                {
+                    Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                    if (!validPositions.Contains(newPos))
+                        validPositions.Add(newPos);
+                }
+            }
+
+            //reset space count
+            currentCol = startCol;
+            currentSpaceCount = nextSpace;
         }
 
         return validPositions;

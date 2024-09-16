@@ -21,7 +21,7 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public TextMeshProUGUI isTargetItemText;   //the target item required to complete a dungeon.
     public Image itemImage, itemBackground;     //item background is used for higlighting selected item.
     Color highlightColor, normalColor;
-    bool showItemDetails;
+    //bool showItemDetails;
 
     // Start is called before the first frame update
     void Start()
