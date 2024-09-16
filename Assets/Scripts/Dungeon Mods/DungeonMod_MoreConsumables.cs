@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Item/Dungeon Mod/More Consumables", fileName = "dungeonMod_moreConsumables")]
 public class DungeonMod_MoreConsumables : DungeonMod
 {
-    private int weightMod;        //50% more weight
+    private int weightMod;        //100% more weight
     private int originalWeight;
     private float creditsChanceMod = -0.3f;
     // Start is called before the first frame update
@@ -29,7 +29,7 @@ public class DungeonMod_MoreConsumables : DungeonMod
         originalWeight = im.lootTable.itemTables[conIndex].tableWeight;
         dun.creditsChanceMod = creditsChanceMod;
         Debug.Log("Using More Consumables mod\n------\nOrig. Weight " + originalWeight);
-        weightMod = (originalWeight * 3) / 2;       //50% more weight
+        weightMod = originalWeight * 2;       //100% more weight
         im.lootTable.itemTables[conIndex].tableWeight = weightMod;
         Debug.Log("New Weight for table " + conIndex + ": " + im.lootTable.itemTables[conIndex].tableWeight);
     }

@@ -35,7 +35,7 @@ public class LootTable : ScriptableObject
 
         //check which table is going to be accessed
         int totalWeight = 0;
-        int tableIndex = 0;
+        //int tableIndex = 0;
         for (int i = 0; i < itemTables.Count; i++)
         {
             totalWeight += itemTables[i].tableWeight;
@@ -43,24 +43,24 @@ public class LootTable : ScriptableObject
 
         int randValue = UnityEngine.Random.Range(0, totalWeight);
         Debug.Log("Total Weight: " + totalWeight);
+        Debug.Log("Init. Rand value: " + randValue);
 
         int j = 0;
         bool tableFound = false;
 
         while(!tableFound && j < itemTables.Count) 
-        //for (int i = 0; i < tableWeight.Length; i++)
         {
             if (randValue <= itemTables[j].tableWeight)
             {
                 //create this item
-                tableIndex = j;
+                //tableIndex = j;
                 tableFound = true;
                 Debug.Log("Acessing table " + j + ", rand value is " + randValue);
             }
             else
             {
                 randValue -= itemTables[j].tableWeight;
-                //Debug.Log("Rand value is now " + randValue);
+                Debug.Log("Rand value is now " + randValue);
                 j++;
             }
         }

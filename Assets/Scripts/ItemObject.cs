@@ -87,7 +87,7 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             //hm.ui.itemDetailsText.fontSize = 26;
             if (weapon.isUniqueItem)
             {
-                hm.ui.itemDetailsText.text += "Unique\n\n";
+                hm.ui.itemTypeText.text = "Unique " + item.itemType.ToString() + "\n\n";
             }
 
             hm.ui.itemDetailsText.text += "Equip Level: " + weapon.itemLevel + "\nATP +" + weapon.atp + 
@@ -112,7 +112,7 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             if (armor.isUniqueItem)
             {
-                hm.ui.itemDetailsText.text += "Unique\n\n";
+                hm.ui.itemTypeText.text = "Unique " + item.itemType.ToString() + "\n\n";
             }
 
             hm.ui.itemDetailsText.text += "Equip Level: " + armor.itemLevel + "\nDFP +" + armor.dfp +
@@ -123,7 +123,7 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 foreach (ItemMod mod in armor.itemMods)
                 {
                     if (mod.isUnique)
-                        hm.ui.itemDetailsText.text += "(U)" + mod.modName + "\n";
+                        hm.ui.itemDetailsText.text += "(U) " + mod.modName + "\n";
                     else
                         hm.ui.itemDetailsText.text += mod.modName + "\n";
                 }
@@ -137,7 +137,7 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             if (acc.isUniqueItem)
             {
-                hm.ui.itemDetailsText.text += "Unique\n";
+                hm.ui.itemTypeText.text = "Unique " + item.itemType.ToString() + "\n\n";
             }
 
             hm.ui.itemDetailsText.text += acc.statBonuses + "\n\nItem Mods:\n";
@@ -147,7 +147,7 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 foreach (ItemMod mod in acc.itemMods)
                 {
                     if (mod.isUnique)
-                        hm.ui.itemDetailsText.text += "(U)" + mod.modName + "\n";
+                        hm.ui.itemDetailsText.text += "(U) " + mod.modName + "\n";
                     else
                         hm.ui.itemDetailsText.text += mod.modName + "\n";
                 }
@@ -168,7 +168,10 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             if (gm.ActiveCharacter() is Hunter hunter)
             {
                 consumable.ActivateEffect(hunter);
+                hunter.inventory.Remove(item);
                 item = null;
+                HunterManager hm = Singleton.instance.HunterManager;
+                hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Inventory);
                 gameObject.SetActive(false);
             }
         }
