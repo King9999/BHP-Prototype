@@ -341,7 +341,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: a802310127d8dc945b654ec43566cb53, type: 2}
     - target: {fileID: 7476351389518075795, guid: a71fe985afadb894d84a8d732fec7f5e, type: 3}
       propertyPath: dungeonMods.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7476351389518075795, guid: a71fe985afadb894d84a8d732fec7f5e, type: 3}
       propertyPath: dungeonMods.Array.data[0]

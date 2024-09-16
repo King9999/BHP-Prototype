@@ -8,6 +8,7 @@ public class DungeonMod_MoreWeapons : DungeonMod
 {
     private int weightMod;        //50% more weight
     private int originalWeight;
+    private float creditsChanceMod = -0.3f;
     // Start is called before the first frame update
     void Reset()
     {
@@ -23,18 +24,22 @@ public class DungeonMod_MoreWeapons : DungeonMod
     {
         //modify the weapon weight so that weapons are more common.
         ItemManager im = Singleton.instance.ItemManager;
+        Dungeon dun = Singleton.instance.Dungeon;
         int weaponIndex = (int)Table.ItemType.Weapon;
         originalWeight = im.lootTable.itemTables[weaponIndex].tableWeight;
         Debug.Log("Orig. Weight " + originalWeight);
-        weightMod = (originalWeight * 3) / 2;       //50% more weight
+        weightMod = originalWeight * 3;       //200% more weight
+        dun.creditsChanceMod = creditsChanceMod;
         im.lootTable.itemTables[weaponIndex].tableWeight = weightMod;
         Debug.Log("New Weight " + im.lootTable.itemTables[weaponIndex].tableWeight);
     }
 
     public override void DeactivateMod()
     {
+        Dungeon dun = Singleton.instance.Dungeon;
         ItemManager im = Singleton.instance.ItemManager;
         int weaponIndex = (int)Table.ItemType.Weapon;
         im.lootTable.itemTables[weaponIndex].tableWeight = originalWeight;
+        dun.creditsChanceMod = 0;
     }
 }

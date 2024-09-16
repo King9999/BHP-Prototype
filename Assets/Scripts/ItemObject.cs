@@ -65,18 +65,16 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         if (item != null)
         {
             HunterManager hm = Singleton.instance.HunterManager;
-            //hm.ui.itemDetailsText.text = "";
-            //hm.ui.itemTypeText.text = "";
             hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Inventory);
         }
     }
 
     /* gather all relevant information based on the item type */
-    public void GetDetails(Item item)
+    private void GetDetails(Item item)
     {
         HunterManager hm = Singleton.instance.HunterManager;
         this.item = item;
-        itemNameText.text = item.itemName;
+        //itemNameText.text = item.itemName;
         //hm.ui.itemDetailsText.fontSize = 30;
         hm.ui.itemDetailsText.text = item.details + "\n\n";
         hm.ui.itemTypeText.text = item.itemType.ToString();

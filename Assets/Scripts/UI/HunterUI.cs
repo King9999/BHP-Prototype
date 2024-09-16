@@ -45,7 +45,7 @@ public class HunterUI : MonoBehaviour
     public GameObject[] hunterHudObjects;
     public List<ItemObject> inventory;                  //shows a hunter's collected items.
     public GameObject detailsWindow;
-    public TextMeshProUGUI itemTypeText, itemDetailsText; 
+    public TextMeshProUGUI itemTypeText, itemDetailsText, moneyText; 
 
 
     [Header("---Buttons---")]
@@ -257,7 +257,12 @@ public class HunterUI : MonoBehaviour
                         inventory[i].itemNameText.text = hunter.inventory[i].itemName;
                     //inventory[i].GetDetails(hunter.inventory[i]);
                 }
+
+                //update money
+                moneyText.text = "Money: " + hunter.credits + " CR";
             }
+
+            
         }
         else
         {
