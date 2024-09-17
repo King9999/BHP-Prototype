@@ -31,6 +31,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8857110697663509135}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3101366694221376734
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6334003989940257887}
+  m_Layer: 0
+  m_Name: Skill Tile Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6334003989940257887
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3101366694221376734}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8857110697663509135}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7342513284022463625
 GameObject:
   m_ObjectHideFlags: 0
@@ -62,6 +93,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6408682257025875192}
+  - {fileID: 6334003989940257887}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7881919487199102850
@@ -126,7 +158,9 @@ MonoBehaviour:
   combatManager: {fileID: 0}
   lootTable: {fileID: 0}
   moveTileContainer: {fileID: 231463923363974374}
+  skillTileContainer: {fileID: 3101366694221376734}
   moveTilePrefab: {fileID: 2232471571221434396, guid: e69e9613ba75b3f4ba68d01559754911, type: 3}
+  skillTilePrefab: {fileID: 2232471571221434396, guid: c4a706c3f54a4824e9780b160f5ba915, type: 3}
   selectTilePrefab: {fileID: 2232471571221434396, guid: 4a54d9051261c7c4db8e837f447d17ca, type: 3}
   selectTile: {fileID: 0}
   turnOrder: []
@@ -134,4 +168,6 @@ MonoBehaviour:
   attackPositions: []
   moveTileList: []
   moveTileBin: []
+  characterMoved: 0
+  characterActed: 0
   gameState: 0

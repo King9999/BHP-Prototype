@@ -23,6 +23,8 @@ MonoBehaviour:
   itemType: 1
   atp: 1
   mnp: 0
+  minRange: 2
+  maxRange: 3
   itemMods: []
   itemSkill: {fileID: 0}
   hasChipSlot: 0

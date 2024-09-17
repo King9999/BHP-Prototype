@@ -51,17 +51,18 @@ public class GameManager : MonoBehaviour
     public LootTable lootTable;
 
     [Header("---Movement & Attack Tile---")]
-    public GameObject moveTileContainer;
-    public GameObject moveTilePrefab;
+    public GameObject moveTileContainer, skillTileContainer;
+    public GameObject moveTilePrefab, skillTilePrefab;
     public GameObject selectTilePrefab;               //used to highligh move or attack tile.
     public GameObject selectTile;
     public List<Character> turnOrder;
     int currentCharacter;
     public List<Vector3> movementPositions, attackPositions;     //holds valid positions for moving and attacking
-    public List<GameObject> moveTileList, moveTileBin;          //bin is used for recycling instantiated move tiles
+    public List<GameObject> moveTileList, moveTileBin, skillTileList, skillTileBin;          //bin is used for recycling instantiated move tiles
 
-    bool runMovementCheck, moveTilesActive;
+    bool runMovementCheck, runSkillCheck, moveTilesActive, skillTilesActive;
     public bool characterMoved, characterActed;    //acted includes attacking, using a skill or item.
+    public ActiveSkill selectedSkill;     //the active skill being used after being selected from skill menu.
 
     //states determine which UI is active
     public enum GameState { HunterSetup, Dungeon, Combat, Inventory}
@@ -126,9 +127,12 @@ public class GameManager : MonoBehaviour
             i++;
         }*/
 
-        inventoryContainer.gameObject.SetActive(false);
-        skillContainer.gameObject.SetActive(false);
+        //inventoryContainer.gameObject.SetActive(false);
+        //skillContainer.gameObject.SetActive(false);
+
+        //tile setup
         moveTileContainer.name = "Move Tiles";
+        skillTileContainer.name = "Skill Tiles";
         selectTile = Instantiate(selectTilePrefab);
         selectTile.SetActive(false);
         //ShowMovementRange(hm.hunters[0], 1);
@@ -154,7 +158,7 @@ public class GameManager : MonoBehaviour
         if (runMovementCheck)
         {
             runMovementCheck = false;
-            HunterManager hm = Singleton.instance.HunterManager;
+            //HunterManager hm = Singleton.instance.HunterManager;
 
             //Dungeon dun = Singleton.instance.Dungeon;
             int totalMove = ActiveCharacter().mov + dice.RollSingleDie();
@@ -220,6 +224,73 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(MoveCharacter(ActiveCharacter(), destinationPos));
             }
         }
+
+        //skill range check
+        if (runSkillCheck == true)
+        {
+            runSkillCheck = false;
+
+            //Dungeon dun = Singleton.instance.Dungeon;
+            List<Vector3> skillRange = ShowSkillRange(ActiveCharacter(), selectedSkill.minRange, selectedSkill.maxRange);
+            Debug.Log(selectedSkill.skillName + "'s range: " + selectedSkill.minRange + " min, " + selectedSkill.maxRange + " max");
+
+            foreach (Vector3 pos in skillRange)
+            {
+                //if there are existing move tile objects, activate those first before instantiating new ones.
+                if (skillTileBin.Count > 0)
+                {
+                    GameObject lastTile = skillTileBin[0];
+                    lastTile.SetActive(true);
+                    lastTile.transform.position = new Vector3(pos.x, 0.6f, pos.z);
+                    skillTileList.Add(lastTile);
+                    skillTileBin.Remove(lastTile);
+                }
+                else
+                {
+                    GameObject tile = Instantiate(skillTilePrefab, skillTileContainer.transform);
+                    tile.transform.position = new Vector3(pos.x, 0.6f, pos.z);
+                    skillTileList.Add(tile);
+                }
+
+            }
+
+            if (skillTileBin.Count <= 0)
+            {
+                skillTileBin.TrimExcess();
+            }
+            skillTilesActive = true;
+            selectTile.SetActive(true);
+        }
+
+        if (skillTilesActive)
+        {
+            Ray mouseRay = gameCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(mouseRay, out RaycastHit hitTile) && hitTile.collider.CompareTag("Skill Tile"))
+            {
+                Vector3 tilePos = hitTile.transform.position;
+                selectTile.transform.position = new Vector3(tilePos.x, 0.61f, tilePos.z);
+                //Debug.Log("Select Tile at position " + selectTile.transform.position);
+
+            }
+
+            //if mouse button is clicked, move hunter to chosen tile.
+            if (Input.GetMouseButtonDown(0))
+            {
+                skillTilesActive = false;
+                //clear move tiles
+                for (int i = 0; i < skillTileList.Count; i++)
+                {
+                    skillTileList[i].SetActive(false);
+                    skillTileBin.Add(skillTileList[i]);
+                }
+                skillTileList.Clear();
+                skillTileList.TrimExcess();
+                Debug.Log("New destination: " + selectTile.transform.position);
+                Vector3 destinationPos = new Vector3(selectTile.transform.position.x, 0, selectTile.transform.position.z);
+                //StartCoroutine(MoveCharacter(ActiveCharacter(), destinationPos));
+                //TODO: Add coroutine to begin combat
+            }
+        }
     }
 
     public Character ActiveCharacter()
@@ -230,6 +301,11 @@ public class GameManager : MonoBehaviour
     public void GetMoveRange()
     {
         runMovementCheck = true;
+    }
+
+    public void GetSkillRange()
+    {
+        runSkillCheck = true;
     }
 
     public void ChangeGameState(GameState gameState)

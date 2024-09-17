@@ -8,7 +8,7 @@ using UnityEngine.UI;
 /* Similar to ItemObject, except for skill usage.*/
 public class SkillObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public Skill skill;
+    public ActiveSkill skill;
 
     [Header("---UI----")]
     public TextMeshProUGUI skillNameText;
@@ -36,7 +36,12 @@ public class SkillObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     //mouse button function
     public void OnSkillSelected()
     {
-
+        GameManager gm = Singleton.instance.GameManager;
+        HunterManager hm = Singleton.instance.HunterManager;
+        gm.selectedSkill = skill;
+        gm.GetSkillRange();
+        hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.SelectSkillTile);
+        //gm.ShowSkillRange(gm.ActiveCharacter(), skill.minRange, skill.maxRange);
     }
 
     public void OnPointerExit(PointerEventData pointer)

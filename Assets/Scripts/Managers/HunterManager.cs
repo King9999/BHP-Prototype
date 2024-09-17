@@ -24,7 +24,7 @@ public class HunterManager : MonoBehaviour
     public enum MenuState { NameEntry, PointAlloc, ChooseWeapon, RivalHunter, ShowHunterHuds }
     public MenuState state;
 
-    public enum HunterMenuState { Default, SelectCard, RollDiceToMove, SelectMoveTile, Rest, ActionSubmenu, Inventory, 
+    public enum HunterMenuState { Default, SelectCard, RollDiceToMove, SelectMoveTile, SelectSkillTile, Rest, ActionSubmenu, Inventory, 
         InventoryItemDetails, SkillMenu, SkillDetails, ChooseAttackTarget }
     public HunterMenuState hunterMenuState;
 
@@ -159,6 +159,11 @@ public class HunterManager : MonoBehaviour
 
             case HunterMenuState.SkillDetails:
                 ui.ShowSkillDetails(true);
+                break;
+
+            case HunterMenuState.SelectSkillTile:
+                ui.ShowSkillsMenu(false);
+                ui.ShowSkillDetails(false);
                 break;
 
 
