@@ -13,6 +13,7 @@ public class HunterManager : MonoBehaviour
     public HunterUI ui;
     public List<Hunter> hunters;
     public Hunter hunterPrefab;
+    public ActiveSkill basicAttackSkill;          //when a hunter is created, they get an attack skill that must be instantiated
     private int maxHunters { get; } = 4;
     public int currentHunter;               //iterator to track current hunter's turn
     private int allocationPoint { get; } = 1;
@@ -24,7 +25,7 @@ public class HunterManager : MonoBehaviour
     public MenuState state;
 
     public enum HunterMenuState { Default, SelectCard, RollDiceToMove, SelectMoveTile, Rest, ActionSubmenu, Inventory, 
-        InventoryItemDetails, ChooseAttackTarget }
+        InventoryItemDetails, SkillMenu, SkillDetails, ChooseAttackTarget }
     public HunterMenuState hunterMenuState;
 
     GameObject hunterContainer;         //hunters are stored here for organization
@@ -116,6 +117,7 @@ public class HunterManager : MonoBehaviour
                 ui.ShowHunterMenu_RollDiceToMove(false);
                 ui.ShowHunterMenu_ActionSubmenu(false);
                 ui.ShowInventory(false);
+                ui.ShowSkillsMenu(false);
                 break;
 
             case HunterMenuState.SelectCard:
@@ -148,6 +150,15 @@ public class HunterManager : MonoBehaviour
 
             case HunterMenuState.InventoryItemDetails:
                 ui.ShowDetailsWindow(true);
+                break;
+
+            case HunterMenuState.SkillMenu:
+                ui.ShowSkillsMenu(true);
+                ui.ShowSkillDetails(false);
+                break;
+
+            case HunterMenuState.SkillDetails:
+                ui.ShowSkillDetails(true);
                 break;
 
 
@@ -198,6 +209,15 @@ public class HunterManager : MonoBehaviour
         ToggleHunter(hunter, false);    //disable hunter for now
         hunters.Add(hunter);
         //hunters[0].inventory.Add(im.GenerateWeapon());  //adding weapon as a test
+    }
+
+    //adds basic attack skill and takes on properties of equipped weapon
+    private void AddBasicAttackSkill(Hunter hunter)
+    {
+        ActiveSkill attackSkill = Instantiate(basicAttackSkill);
+        attackSkill.minRange = hunter.equippedWeapon.minRange;
+        attackSkill.maxRange = hunter.equippedWeapon.maxRange;
+        hunter.skills.Add(attackSkill);
     }
 
     #region Point Allocation
@@ -421,9 +441,12 @@ public class HunterManager : MonoBehaviour
                 Debug.Log("Item is " + item);
                 break;
         }
-
-        hunters[hunters.Count - 1].Equip((Weapon)item);
+        Hunter hunter = hunters[hunters.Count - 1];
+        hunter.Equip((Weapon)item);
         newHunter = false;      //level will start going up now when allocating points
+
+        //add basic attack skill to hunter.
+        AddBasicAttackSkill(hunter);
 
         //save the number of rivals, it will be needed during dungeon generation.
         rivalCount = ui.RivalDropdownValue() + 1;   //we add 1 due to zero indexing
@@ -471,7 +494,7 @@ public class HunterManager : MonoBehaviour
     //using a skill includes attacking with equipped weapon, and using field skills.
     public void OnSkillButtonPressed()
     {
-
+        ChangeHunterMenuState(hunterMenuState = HunterMenuState.SkillMenu);
     }
 
     public void OnItemButtonPressed()

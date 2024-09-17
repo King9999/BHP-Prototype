@@ -14,7 +14,7 @@ public class SkillObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public TextMeshProUGUI skillNameText;
     public TextMeshProUGUI detailsText;         
     public TextMeshProUGUI costText;           //cost of using a skill. Could be SP or charges
-    public TextMeshProUGUI cooldownText;
+    public TextMeshProUGUI cooldownText, rangeText;
     public TextMeshProUGUI dmgModText;          //dmg effectiveness.
     public Image skillImage, skillBackground;
     Color highlightColor, normalColor;
@@ -41,12 +41,35 @@ public class SkillObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerExit(PointerEventData pointer)
     {
-        //remove details window
+        skillBackground.color = normalColor;
+        if (skill != null)
+        {
+            HunterManager hm = Singleton.instance.HunterManager;
+            hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.SkillMenu);
+        }
     }
 
     public void OnPointerEnter(PointerEventData pointer)
     {
         //display skill details
+        skillBackground.color = highlightColor;
+        if (skill != null)
+        {
+            HunterManager hm = Singleton.instance.HunterManager;
+            hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.SkillDetails);
+            GetDetails(skill);
+        }
+        
         Debug.Log("mouse is hovering on " + skillNameText.text);
+    }
+
+    private void GetDetails(Skill skill)
+    {
+        HunterManager hm = Singleton.instance.HunterManager;
+        hm.ui.skillDetailsText.text = skill.skillDetails;
+
+        //more skill info.
+        hm.ui.skillDetailsText.text += "\n-------\n";
+
     }
 }

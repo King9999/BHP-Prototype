@@ -13,7 +13,7 @@ public class ActiveSkill_BasicAttack : ActiveSkill
         skillDetails = "Deal ATP/MNP damage. Damage, range and effects are based on equipped weapon.";
         skillCost = 0;
         dmgMod = 1;
-        minRange = 1;
+        minRange = 0;
         maxRange = 1;
         usageType = UsageType.Battle;
         weaponRestriction = WeaponRestriction.None;

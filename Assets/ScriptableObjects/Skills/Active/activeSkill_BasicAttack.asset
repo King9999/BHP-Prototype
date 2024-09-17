@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1561b620e4f33b843b295007a940085b, type: 3}
+  m_Name: activeSkill_BasicAttack
+  m_EditorClassIdentifier: 
+  skillID: activeSkill_BasicAttack
+  skillName: Attack
+  skillDetails: Deal ATP/MNP damage. Damage, range and effects are based on equipped
+    weapon.
+  skillCooldown: 0
+  currentCooldown: 0
+  skillInCooldown: 0
+  skillEffectDuration: 0
+  skillAnimation: {fileID: 0}
+  skillSfx: {fileID: 0}
+  weaponRestriction: 0
+  usageType: 2
+  skillCost: 0
+  skillCharges: 0
+  requiresCharges: 0
+  dmgMod: 1
+  minRange: 0
+  maxRange: 1
+  dice: {fileID: 0}

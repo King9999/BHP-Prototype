@@ -101,6 +101,7 @@ MonoBehaviour:
   equippedAccessory: {fileID: 0}
   inventory: []
   stash: []
+  credits: 0
 --- !u!212 &3247727559695982901
 SpriteRenderer:
   m_ObjectHideFlags: 0

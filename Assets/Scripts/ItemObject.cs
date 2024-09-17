@@ -14,7 +14,7 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     [Header("---UI----")]
     public TextMeshProUGUI itemNameText;
-    public TextMeshProUGUI detailsText, itemTypeText;
+    //public TextMeshProUGUI detailsText, itemTypeText;
     public TextMeshProUGUI itemLevelText;
     public TextMeshProUGUI priceText;           //cost of an item when purchasing. Sell price is 75% of this value.
     public TextMeshProUGUI isKeyItemText;      //key items cannot be sold or dropped.
@@ -40,7 +40,7 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         itemImage.sprite = item.sprite;
     }
 
-    public void ClearItemData()
+    private void ClearItemData()
     {
         item = null;
         itemNameText.text = "";
@@ -55,8 +55,9 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             HunterManager hm = Singleton.instance.HunterManager;
             hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.InventoryItemDetails);
+            GetDetails(item);
         }
-        GetDetails(item);
+        
     }
     public void OnPointerExit(PointerEventData eventData)
     {
@@ -73,7 +74,7 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private void GetDetails(Item item)
     {
         HunterManager hm = Singleton.instance.HunterManager;
-        this.item = item;
+        //this.item = item;
         //itemNameText.text = item.itemName;
         //hm.ui.itemDetailsText.fontSize = 30;
         hm.ui.itemDetailsText.text = item.details + "\n\n";
@@ -167,7 +168,7 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             {
                 consumable.ActivateEffect(hunter);
                 hunter.inventory.Remove(item);
-                item = null;
+                ClearItemData();
                 HunterManager hm = Singleton.instance.HunterManager;
                 hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Inventory);
                 gameObject.SetActive(false);

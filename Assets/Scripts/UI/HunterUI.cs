@@ -45,7 +45,12 @@ public class HunterUI : MonoBehaviour
     public GameObject[] hunterHudObjects;
     public List<ItemObject> inventory;                  //shows a hunter's collected items.
     public GameObject detailsWindow;
-    public TextMeshProUGUI itemTypeText, itemDetailsText, moneyText; 
+    public TextMeshProUGUI itemTypeText, itemDetailsText, moneyText;
+
+    //skills menu
+    public GameObject skillMenuObject, skillDetailsWindow;
+    public TextMeshProUGUI skillDetailsText;
+    public List<SkillObject> hunterSkills;
 
 
     [Header("---Buttons---")]
@@ -273,6 +278,8 @@ public class HunterUI : MonoBehaviour
         }
     }
 
+
+
     public void ShowDetailsWindow(bool toggle)
     {
         /*if (toggle == false)
@@ -282,6 +289,60 @@ public class HunterUI : MonoBehaviour
         }*/
         detailsWindow.SetActive(toggle);
         
+    }
+
+    public void ShowSkillsMenu(bool toggle)
+    {
+        skillMenuObject.SetActive(toggle);
+        ShowSkillDetails(false);
+        skillDetailsText.text = "";
+
+        if (toggle == true)
+        {
+            //populate skills
+            GameManager gm = Singleton.instance.GameManager;
+            int currentSkillIndex = 0;
+            if (gm.ActiveCharacter() is Hunter hunter)
+            {
+                for (int i = 0; i < hunter.skills.Count; i++)
+                {
+                    //only want to show active skills.
+                    if (hunter.skills[i] is ActiveSkill skill)
+                    {
+                        hunterSkills[currentSkillIndex].gameObject.SetActive(true);
+                        hunterSkills[currentSkillIndex].skill = skill;
+                        hunterSkills[currentSkillIndex].skillNameText.text = skill.skillName;
+                        hunterSkills[currentSkillIndex].costText.text = skill.skillCost.ToString();
+                        hunterSkills[currentSkillIndex].cooldownText.text = skill.skillCooldown.ToString();
+
+                        //formatting of skill range varies
+                        if (skill.minRange > 0)
+                        {
+                            hunterSkills[currentSkillIndex].rangeText.text = skill.minRange + " - " + skill.maxRange;
+                        }
+                        else
+                        {
+                            hunterSkills[currentSkillIndex].rangeText.text = skill.maxRange.ToString();
+                        }
+
+                        currentSkillIndex++;                        
+                    }
+                }
+
+            }
+        }
+        else
+        {
+            for (int i = 0; i < hunterSkills.Count; i++)
+            {
+                hunterSkills[i].gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void ShowSkillDetails(bool toggle)
+    {
+        skillDetailsWindow.SetActive(toggle);
     }
 
     /*public void OnMoveButtonHover()

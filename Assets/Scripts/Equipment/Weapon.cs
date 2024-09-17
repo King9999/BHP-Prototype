@@ -7,6 +7,7 @@ using UnityEngine;
 public class Weapon : Item
 {
     public float atp, mnp;
+    public int minRange, maxRange;
     
     public List<ItemMod> itemMods;  //if there's a chip slot, there can only be 1 item mod.
     public Skill itemSkill;         //the skill used if chip is inserted into the item.
