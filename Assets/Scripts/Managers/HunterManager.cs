@@ -140,6 +140,7 @@ public class HunterManager : MonoBehaviour
                 ui.ShowHunterMenu_Main(false);
                 ui.ShowHunterMenu_ActionSubmenu(true, gm.ActiveCharacter());
                 ui.ShowInventory(false);
+                ui.ShowSkillsMenu(false);
                 break;
 
             case HunterMenuState.Inventory:
@@ -541,8 +542,11 @@ public class HunterManager : MonoBehaviour
                 break;
 
             case HunterMenuState.Inventory:
+            case HunterMenuState.SkillMenu:
                 ChangeHunterMenuState(hunterMenuState = HunterMenuState.ActionSubmenu);
                 break;
+
+         
 
             
         }
