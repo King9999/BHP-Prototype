@@ -4,7 +4,7 @@ using UnityEngine;
 
 /* Sends the user to the dungeon exit. If they don't have the target item, the user is sent to a random location. 
  In combat, grants 100% chance to run away. */
-[CreateAssetMenu(menuName = "Cards/Exit!", fileName = "card_exit")]
+[CreateAssetMenu(menuName = "Cards/Exit!", fileName = "card_exit", order = 1)]
 public class Card_Exit : Card
 {
     void Reset()

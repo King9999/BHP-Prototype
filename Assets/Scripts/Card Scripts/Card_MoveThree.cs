@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Cards/MOV +3", fileName = "card_move3")]
+[CreateAssetMenu(menuName = "Cards/MOV +3", fileName = "card_move3", order = 2)]
 public class Card_MoveThree : Card
 {
     // Start is called before the first frame update

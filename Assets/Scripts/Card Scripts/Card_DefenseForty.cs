@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Cards/MOV +2", fileName = "card_move2", order = 2)]
-public class Card_MoveTwo : Card
+[CreateAssetMenu(menuName = "Cards/Defense +40", fileName = "card_defense40", order = 4)]
+public class Card_DefenseForty : Card
 {
-    // Start is called before the first frame update
     void Reset()
     {
-        cardName = "MOV +2";
-        cardDetails_field = "Adds 2 spaces to total MOV";
-        cardDetails_combat = "+20% chance to run away";
+        cardName = "Defense +40";
+        cardDetails_field = "+40% chance to avoid traps";
+        cardDetails_combat = "+40% DFP";
     }
 
     public override void ActivateCard_Field(Hunter user)

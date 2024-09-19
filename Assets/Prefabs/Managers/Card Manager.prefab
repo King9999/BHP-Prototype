@@ -53,30 +53,30 @@ MonoBehaviour:
     copies: 4
   - card: {fileID: 11400000, guid: afba697b0599b6a439d86c3c67d7f78c, type: 2}
     copies: 2
-  - card: {fileID: 0}
+  - card: {fileID: 11400000, guid: 0fcd2dfd02b5d6944bf421cd5bd1f5cb, type: 2}
     copies: 4
-  - card: {fileID: 0}
+  - card: {fileID: 11400000, guid: d1fed5265562e7941a033cf3690aa35f, type: 2}
     copies: 4
-  - card: {fileID: 0}
+  - card: {fileID: 11400000, guid: 79fc3fb9b74f6f64b92f2e8cbe2dad49, type: 2}
     copies: 4
-  - card: {fileID: 0}
+  - card: {fileID: 11400000, guid: 2d1cc123bf4bd6b4f9771cb76acd5937, type: 2}
+    copies: 2
+  - card: {fileID: 11400000, guid: 3ea7b316dab565f47bdefad3f4f90f89, type: 2}
+    copies: 2
+  - card: {fileID: 11400000, guid: 2914bb1f5f90a0642a8710847bbdbad6, type: 2}
     copies: 4
-  - card: {fileID: 0}
+  - card: {fileID: 11400000, guid: e2452a19a374199429631bdf6f617d3a, type: 2}
     copies: 4
-  - card: {fileID: 0}
+  - card: {fileID: 11400000, guid: 7f78c57178a5bcc4a9209833c39be343, type: 2}
     copies: 4
-  - card: {fileID: 0}
+  - card: {fileID: 11400000, guid: 5d61e690ebaf557449fc91cdcace842a, type: 2}
+    copies: 2
+  - card: {fileID: 11400000, guid: e5de6e4fb8b8b0045a17dfbe9f6f1f30, type: 2}
     copies: 4
-  - card: {fileID: 0}
+  - card: {fileID: 11400000, guid: cd89b2c7b2fc7b64486f02b2166a6ceb, type: 2}
     copies: 4
-  - card: {fileID: 0}
+  - card: {fileID: 11400000, guid: 593df6ad66e9b03439ced5ddb0184789, type: 2}
     copies: 4
-  - card: {fileID: 0}
-    copies: 4
-  - card: {fileID: 0}
-    copies: 4
-  - card: {fileID: 0}
-    copies: 4
-  - card: {fileID: 0}
+  - card: {fileID: 11400000, guid: 5154e8176202e4947b43de89076b148a, type: 2}
     copies: 4
   deck: []

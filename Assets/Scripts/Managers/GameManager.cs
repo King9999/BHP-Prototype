@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     [Header("---Camera---")]
     public Camera gameCamera;       //isometric camera. Use this to move camera around the scene.
     Vector3 defaultCameraPos { get; } = new Vector3(0, 5, 0);
-    bool moveCameraToCharacter = false;
+    //bool moveCameraToCharacter = false;
 
     [Header("---Dice---")]
     public Dice dice;
@@ -140,7 +140,7 @@ public class GameManager : MonoBehaviour
 
         //focus camera on the first active character.
         gameCamera.transform.position = defaultCameraPos;
-        moveCameraToCharacter = true;
+        //moveCameraToCharacter = true;
         currentCharacter = 0;
         StartCoroutine(TakeTurn(ActiveCharacter()));
         dice.dieImages[0].sprite = dice.diceSprites[0];
@@ -1317,7 +1317,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        moveCameraToCharacter = false;
+        //moveCameraToCharacter = false;
     }
 
     #endregion
