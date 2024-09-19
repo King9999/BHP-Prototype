@@ -45,6 +45,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   masterCardList:
+  - card: {fileID: 11400000, guid: 662284c82e09f1749a7449886c617f4e, type: 2}
+    copies: 4
   - card: {fileID: 11400000, guid: 46ec5673b4e93a040a55c32f12975479, type: 2}
+    copies: 4
+  - card: {fileID: 11400000, guid: a7fe546eecf81d640949f721a222af97, type: 2}
+    copies: 4
+  - card: {fileID: 11400000, guid: afba697b0599b6a439d86c3c67d7f78c, type: 2}
+    copies: 2
+  - card: {fileID: 0}
+    copies: 4
+  - card: {fileID: 0}
+    copies: 4
+  - card: {fileID: 0}
+    copies: 4
+  - card: {fileID: 0}
+    copies: 4
+  - card: {fileID: 0}
+    copies: 4
+  - card: {fileID: 0}
+    copies: 4
+  - card: {fileID: 0}
+    copies: 4
+  - card: {fileID: 0}
+    copies: 4
+  - card: {fileID: 0}
+    copies: 4
+  - card: {fileID: 0}
+    copies: 4
+  - card: {fileID: 0}
+    copies: 4
+  - card: {fileID: 0}
+    copies: 4
+  - card: {fileID: 0}
     copies: 4
   deck: []

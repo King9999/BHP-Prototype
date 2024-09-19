@@ -42,6 +42,9 @@ public class Hunter : Character
     public int maxInventoryCount { get; } = 10;
     public int maxStashCount { get; } = 100;
 
+    [Header("---Cards---")]
+    public List<Card> cards;
+
     private void Start()
     {
         //InitializeStats();

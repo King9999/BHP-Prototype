@@ -6,7 +6,7 @@ using UnityEngine;
    Depending on when they're used. */
 public abstract class Card : ScriptableObject
 {
-    public string cardName, cardDetails;
+    public string cardName, cardDetails_field, cardDetails_combat;
     public Sprite cardSprite;
     
 

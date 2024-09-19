@@ -131,6 +131,90 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1786605411}
     m_Modifications:
+    - target: {fileID: 4833730788369362748, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
+      propertyPath: masterCardList.Array.size
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833730788369362748, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
+      propertyPath: masterCardList.Array.data[0].card
+      value: 
+      objectReference: {fileID: 11400000, guid: 662284c82e09f1749a7449886c617f4e, type: 2}
+    - target: {fileID: 4833730788369362748, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
+      propertyPath: masterCardList.Array.data[1].card
+      value: 
+      objectReference: {fileID: 11400000, guid: 46ec5673b4e93a040a55c32f12975479, type: 2}
+    - target: {fileID: 4833730788369362748, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
+      propertyPath: masterCardList.Array.data[2].card
+      value: 
+      objectReference: {fileID: 11400000, guid: a7fe546eecf81d640949f721a222af97, type: 2}
+    - target: {fileID: 4833730788369362748, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
+      propertyPath: masterCardList.Array.data[3].card
+      value: 
+      objectReference: {fileID: 11400000, guid: afba697b0599b6a439d86c3c67d7f78c, type: 2}
+    - target: {fileID: 4833730788369362748, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
+      propertyPath: masterCardList.Array.data[1].copies
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833730788369362748, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
+      propertyPath: masterCardList.Array.data[2].copies
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833730788369362748, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
+      propertyPath: masterCardList.Array.data[3].copies
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833730788369362748, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
+      propertyPath: masterCardList.Array.data[4].copies
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833730788369362748, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
+      propertyPath: masterCardList.Array.data[5].copies
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833730788369362748, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
+      propertyPath: masterCardList.Array.data[6].copies
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833730788369362748, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
+      propertyPath: masterCardList.Array.data[7].copies
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833730788369362748, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
+      propertyPath: masterCardList.Array.data[8].copies
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833730788369362748, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
+      propertyPath: masterCardList.Array.data[9].copies
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833730788369362748, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
+      propertyPath: masterCardList.Array.data[10].copies
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833730788369362748, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
+      propertyPath: masterCardList.Array.data[11].copies
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833730788369362748, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
+      propertyPath: masterCardList.Array.data[12].copies
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833730788369362748, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
+      propertyPath: masterCardList.Array.data[13].copies
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833730788369362748, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
+      propertyPath: masterCardList.Array.data[14].copies
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833730788369362748, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
+      propertyPath: masterCardList.Array.data[15].copies
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833730788369362748, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
+      propertyPath: masterCardList.Array.data[16].copies
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4867573836213964547, guid: 9050406abb3a1194e92a56780a1453ea, type: 3}
       propertyPath: m_Name
       value: Card Manager

@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65c6808e943180b45864f96dac94b06d, type: 3}
-  m_Name: card_move2
+  m_Script: {fileID: 11500000, guid: ea8a70e272215ab4aa916183fdfeb7ad, type: 3}
+  m_Name: card_move1
   m_EditorClassIdentifier: 
-  cardName: MOV +2
-  cardDetails_field: Adds 2 spaces to total MOV
-  cardDetails_combat: +20% chance to run away
+  cardName: MOV +1
+  cardDetails_field: Adds 1 space to total MOV
+  cardDetails_combat: +10% chance to run away
   cardSprite: {fileID: 0}

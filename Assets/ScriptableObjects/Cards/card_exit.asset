@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65c6808e943180b45864f96dac94b06d, type: 3}
-  m_Name: card_move2
+  m_Script: {fileID: 11500000, guid: be7772b4834052645b7dadb43d82043f, type: 3}
+  m_Name: card_exit
   m_EditorClassIdentifier: 
-  cardName: MOV +2
-  cardDetails_field: Adds 2 spaces to total MOV
-  cardDetails_combat: +20% chance to run away
+  cardName: Exit!
+  cardDetails_field: Teleport to the dungeon exit. If the user doesn't have the target
+    item, they are sent to a random location.
+  cardDetails_combat: 100% chance to run away
   cardSprite: {fileID: 0}
