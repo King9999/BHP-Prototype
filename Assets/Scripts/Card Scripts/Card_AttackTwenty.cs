@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Cards/Attack +20", fileName = "card_attackTwenty", order = 0)]
 public class Card_AttackTwenty : Card
 {
+    private const float atpMod = 0.2f;
     void Reset()
     {
         cardName = "Attack +20";
@@ -14,6 +15,15 @@ public class Card_AttackTwenty : Card
 
     public override void ActivateCard_Combat(Hunter user)
     {
-        base.ActivateCard_Combat(user);
+        user.atpMod += atpMod;
+    }
+
+    public override void DeactivateCard_Combat(Hunter user)
+    {
+        user.atpMod -= atpMod;
+        if (user.atpMod < 0)
+        {
+            user.atpMod = 0;
+        }
     }
 }

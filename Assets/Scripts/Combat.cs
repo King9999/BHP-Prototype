@@ -11,6 +11,11 @@ public class Combat : MonoBehaviour
     public int attackRollResult, defendRollResult;
     public bool defenderCounterattacking, attackerTurnOver;
     public byte perfectDefenseMod;
+    public float chanceToRun;               //affected by attacker and defender SPD
+
+    [Header("---Modifiers---")]
+    public float runMod;                    //modifier to run chance.
+
 
     [Header("---UI---")]
     public TextMeshProUGUI attackerNameText, defenderNameText;
@@ -61,6 +66,13 @@ public class Combat : MonoBehaviour
         defenderSkillPoints.text = defender.skillPoints + "/" + defender.maxSkillPoints;
 
         perfectDefenseMod = 1;  //default value
+
+        //run chance
+        chanceToRun = 1 - (attacker.spd * 0.01f * 2) + (defender.spd * 0.01f) + runMod;
+        if (chanceToRun < 0)
+            chanceToRun = 0;
+
+
         //attacker takes their turn first
         attackerTurnOver = false;
         defenderCounterattacking = false;
@@ -169,11 +181,11 @@ public class Combat : MonoBehaviour
 
             //display the final result
             attackerAtp_total.text = "ATP\n+" + attacker.atp;
-            attackRollResult += (int)attacker.atp;
+            attackRollResult += Mathf.RoundToInt(attacker.atp * attacker.atpMod);
             attackerTotalAttackDamage.text = attackRollResult.ToString();
 
             defenderDfp_total.text = "DFP\n+" + defender.dfp;
-            defendRollResult += (int)defender.dfp;
+            defendRollResult += Mathf.RoundToInt(defender.dfp * defender.dfpMod);
             defenderTotalDefense.text = defendRollResult.ToString();
 
             //attackerTurnOver = true;

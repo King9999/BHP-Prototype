@@ -24,6 +24,7 @@ public class Weapon : Item
         //isEquipped = false;
     }
 
+   
     public override void Equip(Hunter hunter)
     {
         //item can only be equipped if the player meets the level requirement

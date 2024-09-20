@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/* In the field, adds 1 to total movement. In combat, +10% chance to run away from combat. */
 [CreateAssetMenu(menuName = "Cards/MOV +1", fileName = "card_move1", order = 2)]
 public class Card_MoveOne : Card
 {
@@ -15,11 +16,13 @@ public class Card_MoveOne : Card
 
     public override void ActivateCard_Field(Hunter user)
     {
-        base.ActivateCard_Field(user);
+        GameManager gm = Singleton.instance.GameManager;
+        gm.movementMod += 1;
     }
 
     public override void ActivateCard_Combat(Hunter user)
     {
-        base.ActivateCard_Combat(user);
+        GameManager gm = Singleton.instance.GameManager;
+        gm.combatManager.runMod += 0.1f;
     }
 }

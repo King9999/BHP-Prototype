@@ -15,11 +15,13 @@ public class Card_MoveTwo : Card
 
     public override void ActivateCard_Field(Hunter user)
     {
-        base.ActivateCard_Field(user);
+        GameManager gm = Singleton.instance.GameManager;
+        gm.movementMod += 2;
     }
 
     public override void ActivateCard_Combat(Hunter user)
     {
-        base.ActivateCard_Combat(user);
+        GameManager gm = Singleton.instance.GameManager;
+        gm.combatManager.runMod += 0.2f;
     }
 }

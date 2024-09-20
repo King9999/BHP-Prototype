@@ -15,11 +15,13 @@ public class Card_MoveThree : Card
 
     public override void ActivateCard_Field(Hunter user)
     {
-        base.ActivateCard_Field(user);
+        GameManager gm = Singleton.instance.GameManager;
+        gm.movementMod += 3;
     }
 
     public override void ActivateCard_Combat(Hunter user)
     {
-        base.ActivateCard_Combat(user);
+        GameManager gm = Singleton.instance.GameManager;
+        gm.combatManager.runMod += 0.3f;
     }
 }

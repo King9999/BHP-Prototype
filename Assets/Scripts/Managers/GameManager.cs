@@ -63,6 +63,8 @@ public class GameManager : MonoBehaviour
     bool runMovementCheck, runSkillCheck, moveTilesActive, skillTilesActive;
     public bool characterMoved, characterActed;    //acted includes attacking, using a skill or item.
     public ActiveSkill selectedSkill;     //the active skill being used after being selected from skill menu.
+    public int movementMod;             //value that's added to character's roll when moving. Altered by cards and skills.
+
 
     //states determine which UI is active
     public enum GameState { HunterSetup, Dungeon, Combat, Inventory}
@@ -118,25 +120,12 @@ public class GameManager : MonoBehaviour
         //mm.SpawnMonster(monsterLevel:1);
         //SetupMonsterUI(mm.activeMonsters[0]);
 
-        //populate hunter inventory
-        //HunterManager hm = Singleton.instance.HunterManager;
-        /*int i = 0;
-        while (i < hm.hunters[0].inventory.Count)
-        {
-            hunterInventory[i].GetItemData(hm.hunters[0].inventory[i]);
-            i++;
-        }*/
-
-        //inventoryContainer.gameObject.SetActive(false);
-        //skillContainer.gameObject.SetActive(false);
 
         //tile setup
         moveTileContainer.name = "Move Tiles";
         skillTileContainer.name = "Skill Tiles";
         selectTile = Instantiate(selectTilePrefab);
         selectTile.SetActive(false);
-        //ShowMovementRange(hm.hunters[0], 1);
-        //runMovementCheck = true;
 
         //focus camera on the first active character.
         gameCamera.transform.position = defaultCameraPos;
@@ -161,7 +150,7 @@ public class GameManager : MonoBehaviour
             //HunterManager hm = Singleton.instance.HunterManager;
 
             //Dungeon dun = Singleton.instance.Dungeon;
-            int totalMove = ActiveCharacter().mov + dice.RollSingleDie();
+            int totalMove = ActiveCharacter().mov + dice.RollSingleDie() + movementMod;
             List<Vector3> moveRange = ShowMoveRange(ActiveCharacter(), totalMove);
             Debug.Log("Total Move: " + totalMove);
 
@@ -1121,6 +1110,20 @@ public class GameManager : MonoBehaviour
         return roomPos;
     }
 
+
+    public void EndTurn()
+    {
+        HunterManager hm = Singleton.instance.HunterManager;
+        hm.ui.ShowHunterMenuContainer(false);
+        currentCharacter = currentCharacter >= turnOrder.Count ? 0 : currentCharacter++;
+
+        //clean up any buffs/debuffs/other effects or mods
+        movementMod = 0;
+
+        StartCoroutine(TakeTurn(ActiveCharacter()));
+    }
+
+    #region Coroutines
     IEnumerator CheckCharacterState(Character character)
     {
         if (characterActed && characterMoved)
@@ -1142,16 +1145,6 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
-    public void EndTurn()
-    {
-        HunterManager hm = Singleton.instance.HunterManager;
-        hm.ui.ShowHunterMenuContainer(false);
-        currentCharacter = currentCharacter >= turnOrder.Count ? 0 : currentCharacter++;
-        StartCoroutine(TakeTurn(ActiveCharacter()));
-    }
-
-    #region Coroutines
 
     //Next character in the turn order takes action. The camera is centered on the active character and 
     //a menu is displayed if the character is controlled by a player. Otherwise, CPU takes action.

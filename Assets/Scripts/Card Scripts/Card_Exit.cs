@@ -16,11 +16,14 @@ public class Card_Exit : Card
 
     public override void ActivateCard_Field(Hunter user)
     {
-        base.ActivateCard_Field(user);
+        GameManager gm = Singleton.instance.GameManager;
+        //Add code to locate the exit and send hunter there.
+        //check inventory for target item. If it's not there, then send hunter to a random location.
     }
 
     public override void ActivateCard_Combat(Hunter user)
     {
-        base.ActivateCard_Combat(user);
+        GameManager gm = Singleton.instance.GameManager;
+        gm.combatManager.chanceToRun = 1;
     }
 }
