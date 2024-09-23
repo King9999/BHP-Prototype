@@ -89,8 +89,21 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 hm.ui.itemTypeText.text = "Unique " + item.itemType.ToString() + "\n\n";
             }
 
-            hm.ui.itemDetailsText.text += "Equip Level: " + weapon.itemLevel + "\nATP +" + weapon.atp + 
-                " MNP +" + weapon.mnp + "\n\nItem Mods:\n";
+            hm.ui.itemDetailsText.text += "Equip Level: " + weapon.itemLevel + "\nATP +" + weapon.atp +
+                " MNP +" + weapon.mnp;
+            
+            //weapon range
+            if (weapon.minRange > 0)
+            {
+                hm.ui.itemDetailsText.text += "\nRange: " + weapon.minRange + " - " + weapon.maxRange;
+            }
+            else
+            {
+                hm.ui.itemDetailsText.text += "\nRange: " + weapon.maxRange;
+            }
+
+            //add item mods
+            hm.ui.itemDetailsText.text += "\n\nItem Mods:\n";
 
             if (weapon.itemMods.Count > 0)
             {

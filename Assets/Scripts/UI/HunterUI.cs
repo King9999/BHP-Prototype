@@ -48,7 +48,7 @@ public class HunterUI : MonoBehaviour
     public TextMeshProUGUI itemTypeText, itemDetailsText, moneyText;
 
     //skills menu
-    public GameObject skillMenuObject, skillDetailsWindow;
+    public GameObject skillMenuObject, skillDetailsWindow, selectTargetMenu;
     public TextMeshProUGUI skillDetailsText;
     public List<SkillObject> hunterSkills;
 
@@ -345,6 +345,15 @@ public class HunterUI : MonoBehaviour
         skillDetailsWindow.SetActive(toggle);
     }
 
+    public void ShowSelectingTargetMenu(bool toggle, Character character = null)
+    {
+        selectTargetMenu.SetActive(toggle);
+        if (toggle == true)
+        {
+            Vector3 menuPos = new Vector3(character.transform.position.x, character.transform.position.y + 6, character.transform.position.z);
+            selectTargetMenu.transform.position = Camera.main.WorldToScreenPoint(menuPos);
+        }
+    }
     /*public void OnMoveButtonHover()
     {
         hunterMenu_actionText.text = "Roll a die to move to a new space";

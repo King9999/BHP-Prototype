@@ -118,6 +118,7 @@ public class HunterManager : MonoBehaviour
                 ui.ShowHunterMenu_ActionSubmenu(false);
                 ui.ShowInventory(false);
                 ui.ShowSkillsMenu(false);
+                ui.ShowSelectingTargetMenu(false);
                 break;
 
             case HunterMenuState.SelectCard:
@@ -155,7 +156,9 @@ public class HunterManager : MonoBehaviour
 
             case HunterMenuState.SkillMenu:
                 ui.ShowSkillsMenu(true);
+                ui.ShowHunterMenu_ActionSubmenu(false);
                 ui.ShowSkillDetails(false);
+                ui.ShowSelectingTargetMenu(false);
                 break;
 
             case HunterMenuState.SkillDetails:
@@ -165,6 +168,7 @@ public class HunterManager : MonoBehaviour
             case HunterMenuState.SelectSkillTile:
                 ui.ShowSkillsMenu(false);
                 ui.ShowSkillDetails(false);
+                ui.ShowSelectingTargetMenu(true, gm.ActiveCharacter());
                 break;
 
 
@@ -546,7 +550,10 @@ public class HunterManager : MonoBehaviour
                 ChangeHunterMenuState(hunterMenuState = HunterMenuState.ActionSubmenu);
                 break;
 
-         
+            case HunterMenuState.SelectSkillTile:
+                gm.selectTile.SetActive(false);
+                ChangeHunterMenuState(hunterMenuState = HunterMenuState.SkillMenu);
+                break;
 
             
         }
