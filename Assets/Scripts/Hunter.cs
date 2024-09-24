@@ -43,7 +43,7 @@ public class Hunter : Character
     public int maxStashCount { get; } = 100;
 
     [Header("---Cards---")]
-    public List<Card> cards;
+    public List<CardObject> cards;
 
     private void Start()
     {
