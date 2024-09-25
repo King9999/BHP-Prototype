@@ -37,6 +37,7 @@ public class CardManager : MonoBehaviour
                 card.cardData = masterCardList[i].card;
                 card.cardSprite = masterCardList[i].card.cardSprite;
                 card.GetComponent<SpriteRenderer>().sprite = card.cardSprite;
+                card.ShowCard(false);   //hide card until it's needed
                 deck.Add(card);
             }
         }
