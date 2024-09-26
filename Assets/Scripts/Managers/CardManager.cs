@@ -71,15 +71,22 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    public void DrawCard(Hunter hunter, List<Card> deck)
+    public void DrawCard(Hunter hunter, List<Card> deck, int amount = 1)
     {
-        if (deck.Count <= 0)
+        if (deck.Count <= 0 || amount > deck.Count)
         {
             Debug.Log("No more cards to draw!");
             return;
         }
 
-        hunter.cards.Add(deck[0]);
-        deck.Remove(deck[0]);
+        int i = 0;
+        do
+        {
+            hunter.cards.Add(deck[0]);
+            deck.Remove(deck[0]);
+            i++;
+        }
+        while (deck.Count > 0 && i < amount);
+        
     }
 }
