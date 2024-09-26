@@ -24,7 +24,7 @@ public class HunterManager : MonoBehaviour
     public enum MenuState { NameEntry, PointAlloc, ChooseWeapon, RivalHunter, ShowHunterHuds }
     public MenuState state;
 
-    public enum HunterMenuState { Default, SelectCard, RollDiceToMove, SelectMoveTile, SelectSkillTile, Rest, ActionSubmenu, Inventory, 
+    public enum HunterMenuState { Default, SelectCard, CardDetails, RollDiceToMove, SelectMoveTile, SelectSkillTile, Rest, ActionSubmenu, Inventory, 
         InventoryItemDetails, SkillMenu, SkillDetails, ChooseAttackTarget }
     public HunterMenuState hunterMenuState;
 
@@ -119,15 +119,25 @@ public class HunterManager : MonoBehaviour
                 ui.ShowInventory(false);
                 ui.ShowSkillsMenu(false);
                 ui.ShowSelectingTargetMenu(false);
+                //ui.ShowCardsMenu(false);
+                ui.ShowCardDetails(false);
                 break;
 
             case HunterMenuState.SelectCard:
                 ui.ShowHunterMenu_Main(false);
                 ui.ShowHunterMenu_DisplayCards(true, gm.ActiveCharacter());
+                //ui.ShowCardsMenu(true, gm.ActiveCharacter());
+                gm.dice.ShowSingleDieUI(false);
                 ui.ShowHunterMenu_RollDiceToMove(false);
+                ui.ShowCardDetails(false);
+                break;
+
+            case HunterMenuState.CardDetails:
+                ui.ShowCardDetails(true);
                 break;
 
             case HunterMenuState.RollDiceToMove:
+                gm.dice.ShowSingleDieUI(true);
                 ui.ShowHunterMenu_RollDiceToMove(true, gm.ActiveCharacter());
                 ui.ShowHunterMenu_Main(false);
                 ui.ShowHunterMenu_DisplayCards(false);
@@ -474,8 +484,8 @@ public class HunterManager : MonoBehaviour
         if (gm.characterMoved)
             return;
 
-        gm.dice.ShowSingleDieUI(true);
-        ChangeHunterMenuState(hunterMenuState = HunterMenuState.RollDiceToMove);    //TODO: change to SelectCard when ready
+        //gm.dice.ShowSingleDieUI(true);
+        ChangeHunterMenuState(hunterMenuState = HunterMenuState.SelectCard);    //TODO: change to SelectCard when ready
 
     }
 
@@ -488,6 +498,16 @@ public class HunterManager : MonoBehaviour
 
         //show submenu here
         ChangeHunterMenuState(hunterMenuState = HunterMenuState.ActionSubmenu);
+    }
+
+    public void OnSelectCardButtonPressed()
+    {
+        //track which card was selected.
+    }
+
+    public void OnSkipCardButtonPressed()
+    {
+        ChangeHunterMenuState(hunterMenuState = HunterMenuState.RollDiceToMove);
     }
 
     public void OnRestButtonPressed()
@@ -541,8 +561,8 @@ public class HunterManager : MonoBehaviour
                 break;
 
             case HunterMenuState.RollDiceToMove:
-                gm.dice.ShowSingleDieUI(false);
-                ChangeHunterMenuState(hunterMenuState = HunterMenuState.Default); //TODO: Change state to SelectCard when ready
+                //gm.dice.ShowSingleDieUI(false);
+                ChangeHunterMenuState(hunterMenuState = HunterMenuState.SelectCard); //TODO: Change state to SelectCard when ready
                 break;
 
             case HunterMenuState.Inventory:

@@ -52,6 +52,11 @@ public class HunterUI : MonoBehaviour
     public TextMeshProUGUI skillDetailsText;
     public List<SkillObject> hunterSkills;
 
+    //card menu
+    public GameObject /*selectCardMenu,*/ cardDetailsWindow;
+    public TextMeshProUGUI cardDetailsText, cardNameText;
+    
+
 
     [Header("---Buttons---")]
     public Button moveButton;
@@ -354,6 +359,22 @@ public class HunterUI : MonoBehaviour
             selectTargetMenu.transform.position = Camera.main.WorldToScreenPoint(menuPos);
         }
     }
+
+    /*public void ShowCardsMenu(bool toggle, Character character = null)
+    {
+        selectCardMenu.SetActive(toggle);
+        if (toggle == true)
+        {
+            Vector3 menuPos = new Vector3(character.transform.position.x, character.transform.position.y + 6, character.transform.position.z);
+            selectTargetMenu.transform.position = Camera.main.WorldToScreenPoint(menuPos);
+        }
+    }*/
+
+    public void ShowCardDetails(bool toggle)
+    {
+        cardDetailsWindow.SetActive(toggle);
+    }
+
     /*public void OnMoveButtonHover()
     {
         hunterMenu_actionText.text = "Roll a die to move to a new space";

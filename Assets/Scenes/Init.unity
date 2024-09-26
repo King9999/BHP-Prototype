@@ -392,7 +392,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &924178791
 RectTransform:
   m_ObjectHideFlags: 0
@@ -937,6 +937,10 @@ PrefabInstance:
     - target: {fileID: 7673625755077009004, guid: b74d1d9b02c3c2e47b0ff70f6d4a5825, type: 3}
       propertyPath: m_Name
       value: Card Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 7673625755077009004, guid: b74d1d9b02c3c2e47b0ff70f6d4a5825, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
