@@ -16,3 +16,4 @@ MonoBehaviour:
   cardDetails_field: Sets a trap that inflicts Dizzy
   cardDetails_combat: 
   cardSprite: {fileID: 0}
+  cardType: 1

@@ -16,3 +16,4 @@ MonoBehaviour:
   cardDetails_field: +30% to super meter
   cardDetails_combat: 
   cardSprite: {fileID: 0}
+  cardType: 1

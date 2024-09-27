@@ -16,3 +16,4 @@ MonoBehaviour:
   cardDetails_field: 
   cardDetails_combat: +60% ATP
   cardSprite: {fileID: 0}
+  cardType: 2
