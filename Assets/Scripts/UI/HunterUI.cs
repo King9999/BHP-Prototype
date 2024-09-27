@@ -230,13 +230,19 @@ public class HunterUI : MonoBehaviour
 
             //get hunter cards
             GameManager gm = Singleton.instance.GameManager;
+            int currentCardIndex = 0;
             if (gm.ActiveCharacter() is Hunter hunter)
             {
                 for (int i = 0; i < hunter.cards.Count; i++)
                 {
-                    hunterCards[i].ShowCard(true);
-                    hunterCards[i].cardData = hunter.cards[i];
-                    hunterCards[i].cardSprite = hunter.cards[i].cardSprite;
+                    if (hunter.cards[i].cardType == Card.CardType.Field || hunter.cards[i].cardType == Card.CardType.Versatile)
+                    {
+                        hunterCards[currentCardIndex].ShowCard(true);
+                        hunterCards[currentCardIndex].cardData = hunter.cards[i];
+                        hunterCards[currentCardIndex].cardSprite = hunter.cards[i].cardSprite;
+                        currentCardIndex++;
+                    }
+                    
                 }
             }
         }

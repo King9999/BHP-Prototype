@@ -8,6 +8,8 @@ public abstract class Card : ScriptableObject
 {
     public string cardName, cardDetails_field, cardDetails_combat;
     public Sprite cardSprite;
+    public enum CardType { Versatile, Field, Combat }
+    public CardType cardType;
     
 
     //card effects last for the duration of combat or a turn.
