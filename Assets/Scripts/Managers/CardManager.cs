@@ -83,6 +83,7 @@ public class CardManager : MonoBehaviour
         do
         {
             hunter.cards.Add(deck[0]);
+            Debug.Log("Drew card " + deck[0].cardName);
             deck.Remove(deck[0]);
             i++;
         }

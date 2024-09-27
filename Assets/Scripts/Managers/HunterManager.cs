@@ -223,7 +223,7 @@ public class HunterManager : MonoBehaviour
 
         //testing out cards
         CardManager cm = Singleton.instance.CardManager;
-        cm.DrawCard(hunter, cm.deck, 5);
+        cm.DrawCard(hunter, cm.deck, 3);
         
 
         //give hunter a weapon
@@ -240,8 +240,8 @@ public class HunterManager : MonoBehaviour
     private void AddBasicAttackSkill(Hunter hunter)
     {
         ActiveSkill attackSkill = Instantiate(basicAttackSkill);
-        attackSkill.minRange = hunter.equippedWeapon.minRange;
-        attackSkill.maxRange = hunter.equippedWeapon.maxRange;
+        attackSkill.minRange = 0;
+        attackSkill.maxRange = 1;
         hunter.skills.Add(attackSkill);
     }
 
@@ -444,6 +444,7 @@ public class HunterManager : MonoBehaviour
 
     public void OnFinishRivalHunterButtonPressed()
     {
+
         //equip the selected weapon here
         //create an instance of the weapon the player chose
         ItemManager im = Singleton.instance.ItemManager;
@@ -467,11 +468,14 @@ public class HunterManager : MonoBehaviour
                 break;
         }
         Hunter hunter = hunters[hunters.Count - 1];
-        hunter.Equip((Weapon)item);
-        newHunter = false;      //level will start going up now when allocating points
 
         //add basic attack skill to hunter.
         AddBasicAttackSkill(hunter);
+
+        hunter.Equip((Weapon)item);
+        newHunter = false;      //level will start going up now when allocating points
+
+        
 
         //save the number of rivals, it will be needed during dungeon generation.
         rivalCount = ui.RivalDropdownValue() + 1;   //we add 1 due to zero indexing

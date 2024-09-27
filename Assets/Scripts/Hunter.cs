@@ -37,10 +37,10 @@ public class Hunter : Character
     public Accessory equippedAccessory;
 
     public List<Item> inventory;          //10 items max
-    public List<Item> stash;              //100 items max
+    //public List<Item> stash;              //100 items max. THIS SHOULD BE ATTACHED TO HUNTER, ONLY 1 STASH SHARED BETWEEN ALL HUNTERS
     public int credits;                     //money on hand
     public int maxInventoryCount { get; } = 10;
-    public int maxStashCount { get; } = 100;
+    //public int maxStashCount { get; } = 100;
 
     [Header("---Cards---")]
     public List<Card> cards;
@@ -157,6 +157,13 @@ public class Hunter : Character
         atp += weapon.atp;
         mnp += weapon.mnp;
 
+        //update 'Basic Attack' skill
+        if (skills[0] is ActiveSkill basicAttack)
+        {
+            basicAttack.minRange = equippedWeapon.minRange;
+            basicAttack.maxRange = equippedWeapon.maxRange;
+        }
+
         if (weapon.itemMods.Count > 0)
         {
             //apply effects of mods
@@ -176,6 +183,13 @@ public class Hunter : Character
         equippedWeapon = null;
         atp -= weapon.atp;
         mnp -= weapon.mnp;
+
+        //update 'Basic Attack' skill
+        if (skills[0] is ActiveSkill basicAttack)
+        {
+            basicAttack.minRange = 0;
+            basicAttack.maxRange = 1;
+        }
 
         if (weapon.itemMods.Count > 0)
         {
@@ -218,6 +232,7 @@ public class Hunter : Character
         skillPoints = skillPoints + spAmount > maxSkillPoints ? maxSkillPoints : skillPoints + spAmount;
         Debug.Log(characterName + " is resting! Restored " + hpAmount + " HP and " + spAmount + "SP.");
 
-        //TODO: draw a card
+        CardManager cm = Singleton.instance.CardManager;
+        cm.DrawCard(this, cm.deck);
     }
 }

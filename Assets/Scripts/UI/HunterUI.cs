@@ -55,7 +55,7 @@ public class HunterUI : MonoBehaviour
     //card menu
     public GameObject /*selectCardMenu,*/ cardDetailsWindow;
     public TextMeshProUGUI cardDetailsText, cardNameText;
-    
+    public List<CardObject> hunterCards;
 
 
     [Header("---Buttons---")]
@@ -227,6 +227,25 @@ public class HunterUI : MonoBehaviour
         {
             Vector3 menuPos = new Vector3(character.transform.position.x, character.transform.position.y + 6, character.transform.position.z);
             hunterMenuObject_showCards.transform.position = Camera.main.WorldToScreenPoint(menuPos);
+
+            //get hunter cards
+            GameManager gm = Singleton.instance.GameManager;
+            if (gm.ActiveCharacter() is Hunter hunter)
+            {
+                for (int i = 0; i < hunter.cards.Count; i++)
+                {
+                    hunterCards[i].ShowCard(true);
+                    hunterCards[i].cardData = hunter.cards[i];
+                    hunterCards[i].cardSprite = hunter.cards[i].cardSprite;
+                }
+            }
+        }
+        else
+        {
+            foreach(CardObject card in hunterCards)
+            {
+                card.ShowCard(false);
+            }
         }
     }
 

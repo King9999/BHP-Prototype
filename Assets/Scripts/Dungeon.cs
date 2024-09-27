@@ -27,15 +27,11 @@ public class Dungeon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        baseCreditsChance = 0.5f;
+        baseCreditsChance = 0.4f;
         //CreateDungeon();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   
     /// <summary>
     /// Adds an adjacent room to the room specified.
     /// </summary>
