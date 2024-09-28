@@ -16900,7 +16900,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: -24
+  m_Spacing: -40
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -28439,6 +28439,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1059658805282100095, guid: b74d1d9b02c3c2e47b0ff70f6d4a5825, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1407800418694288800, guid: b74d1d9b02c3c2e47b0ff70f6d4a5825, type: 3}
+      propertyPath: m_UseSpriteMesh
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7673625755077009004, guid: b74d1d9b02c3c2e47b0ff70f6d4a5825, type: 3}
