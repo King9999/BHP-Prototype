@@ -21,6 +21,7 @@ public class CardManager : MonoBehaviour
     public CardObject cardPrefab;
     GameObject cardContainer;
     public List<Card> deck;
+    public Card selectedCard;       //reference to card a player picks in the field/during combat.
     // Start is called before the first frame update
     void Start()
     {

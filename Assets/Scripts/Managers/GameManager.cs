@@ -1119,6 +1119,9 @@ public class GameManager : MonoBehaviour
 
         //clean up any buffs/debuffs/other effects or mods
         movementMod = 0;
+        CardManager cm = Singleton.instance.CardManager;
+        cm.selectedCard = null; //in case a card was used but wasn't triggered.
+        hm.ui.activeCardText.text = "";
 
         StartCoroutine(TakeTurn(ActiveCharacter()));
     }

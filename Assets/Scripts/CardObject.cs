@@ -11,6 +11,7 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public Card cardData;       //handles card activation also.
     public Sprite cardSprite;
     bool revertCardOn, animateCardOn, coroutineActive, origPosCaptured;
+    bool mouseOnCard;       //used to check if mouse is hovering over a card.
     Vector3 originalPos;
 
     /*void OnEnable()
@@ -37,6 +38,13 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             StartCoroutine(AnimateCard());
         }
+
+        if (mouseOnCard && Input.GetMouseButtonDown(0))
+        {
+            CardManager cm = Singleton.instance.CardManager;
+            cm.selectedCard = cardData;
+            Debug.Log(cm.selectedCard + " selected");
+        }
     }
 
     public void ShowCard(bool toggle)
@@ -48,13 +56,12 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         revertCardOn = true;
         animateCardOn = false;
-        //if (cardData != null)
-        //{
+        mouseOnCard = false;
+        Debug.Log("Mouse is on card: " + mouseOnCard);
             HunterManager hm = Singleton.instance.HunterManager;
             hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.SelectCard);
-        //}
-        //if (!coroutineOn)
-            //StartCoroutine(RevertCard());
+
+        
     }
 
     //displays detailed info about card and plays a short animation
@@ -62,16 +69,12 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         animateCardOn = true;
         revertCardOn = false;
-        //if (cardData != null)
-        //{
+        mouseOnCard = true;
+        Debug.Log("Mouse is on card: " + mouseOnCard);
         HunterManager hm = Singleton.instance.HunterManager;
             hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.CardDetails);
             GetDetails(cardData);
-        //}
-
-        //animate the card. Card shifts up a little
-        //if (!coroutineOn)
-            //StartCoroutine(AnimateCard());
+        
     }
 
     void GetDetails(Card cardData)

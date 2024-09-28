@@ -46,6 +46,7 @@ public class HunterUI : MonoBehaviour
     public List<ItemObject> inventory;                  //shows a hunter's collected items.
     public GameObject detailsWindow;
     public TextMeshProUGUI itemTypeText, itemDetailsText, moneyText;
+    public TextMeshProUGUI activeCardText;      //displays the currently used card in the field.
 
     //skills menu
     public GameObject skillMenuObject, skillDetailsWindow, selectTargetMenu;
@@ -77,6 +78,7 @@ public class HunterUI : MonoBehaviour
         }
 
         instance = this;
+        activeCardText.text = "";
         //Singleton.instance.HunterUI = this;
         //transform.SetParent(Singleton.instance.transform);
         //DontDestroyOnLoad(instance);

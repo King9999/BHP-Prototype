@@ -511,11 +511,18 @@ public class HunterManager : MonoBehaviour
 
     public void OnSelectCardButtonPressed()
     {
-        //track which card was selected.
+        //cannot proceed if no card was selected.
+        CardManager cm = Singleton.instance.CardManager;
+        if (cm.selectedCard == null)
+            return;
+
+        ChangeHunterMenuState(hunterMenuState = HunterMenuState.RollDiceToMove);
     }
 
     public void OnSkipCardButtonPressed()
     {
+        CardManager cm = Singleton.instance.CardManager;
+        cm.selectedCard = null;
         ChangeHunterMenuState(hunterMenuState = HunterMenuState.RollDiceToMove);
     }
 
@@ -550,6 +557,18 @@ public class HunterManager : MonoBehaviour
     public void OnRollDiceButtonPressed()
     {
         GameManager gm = Singleton.instance.GameManager;
+        CardManager cm = Singleton.instance.CardManager;
+
+        //if player used card, it's removed from their hand here. Player cannot undo actions at this point.
+        if (gm.ActiveCharacter() is Hunter hunter)
+        {
+            if (cm.selectedCard != null)
+            {
+                hunter.cards.Remove(cm.selectedCard);
+                ui.activeCardText.text = "Active Card: " + cm.selectedCard.cardName;
+            }
+        }
+
         gm.GetMoveRange();
         ChangeHunterMenuState(hunterMenuState = HunterMenuState.SelectMoveTile);
         /*Dungeon dungeon = Singleton.instance.Dungeon;
@@ -562,16 +581,19 @@ public class HunterManager : MonoBehaviour
     public void OnHunterMenuBackButtonPressed()
     {
         GameManager gm = Singleton.instance.GameManager;
+        CardManager cm = Singleton.instance.CardManager;
         switch (hunterMenuState)
         {
             case HunterMenuState.SelectCard:
             case HunterMenuState.ActionSubmenu:
+                //clear selected card
+                cm.selectedCard = null;
                 ChangeHunterMenuState(hunterMenuState = HunterMenuState.Default);
                 break;
 
             case HunterMenuState.RollDiceToMove:
-                //gm.dice.ShowSingleDieUI(false);
-                ChangeHunterMenuState(hunterMenuState = HunterMenuState.SelectCard); //TODO: Change state to SelectCard when ready
+                cm.selectedCard = null;
+                ChangeHunterMenuState(hunterMenuState = HunterMenuState.SelectCard);
                 break;
 
             case HunterMenuState.Inventory:
