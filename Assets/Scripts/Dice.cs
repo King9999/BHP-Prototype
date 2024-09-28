@@ -62,6 +62,14 @@ public class Dice : MonoBehaviour
         die2 = 0;
         dieImages[0].sprite = diceSprites[die1 - 1];
         die1_text.text = die1.ToString();
+
+        //check if there's a bonus 
+        GameManager gm = Singleton.instance.GameManager;
+        if (gm.movementMod > 0)
+        {
+            die1_text.text += "<color=green>+" + gm.movementMod + "</color>";
+        }
+
         return die1;
     }
 

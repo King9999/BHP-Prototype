@@ -566,6 +566,12 @@ public class HunterManager : MonoBehaviour
             {
                 hunter.cards.Remove(cm.selectedCard);
                 ui.activeCardText.text = "Active Card: " + cm.selectedCard.cardName;
+
+                //is this card a MOV card?
+                if (cm.selectedCard.triggerWhenDiceRolled == true)
+                {
+                    cm.selectedCard.ActivateCard_Field(hunter);
+                }
             }
         }
 
