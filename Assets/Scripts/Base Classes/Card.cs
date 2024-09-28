@@ -10,6 +10,12 @@ public abstract class Card : ScriptableObject
     public Sprite cardSprite;
     public enum CardType { Versatile, Field, Combat }
     public CardType cardType;
+
+    //trigger conditions
+    [Header("---Field Triggers---")]
+    public bool triggerWhenDiceRolled;     //used by MOV cards
+    public bool triggerAfterMoving;        //used by trap cards
+    public bool triggerWhenTrapSprung;     //used by Defense cards
     
 
     //card effects last for the duration of combat or a turn.

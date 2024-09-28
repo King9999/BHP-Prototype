@@ -16,3 +16,7 @@ MonoBehaviour:
   cardDetails_field: Adds 2 spaces to total MOV
   cardDetails_combat: +20% chance to run away
   cardSprite: {fileID: 0}
+  cardType: 0
+  triggerWhenDiceRolled: 1
+  triggerAfterMoving: 0
+  triggerWhenTrapSprung: 0

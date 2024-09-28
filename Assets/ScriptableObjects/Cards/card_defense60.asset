@@ -16,3 +16,7 @@ MonoBehaviour:
   cardDetails_field: +60% chance to avoid traps
   cardDetails_combat: +60% DFP
   cardSprite: {fileID: 0}
+  cardType: 0
+  triggerWhenDiceRolled: 0
+  triggerAfterMoving: 0
+  triggerWhenTrapSprung: 1
