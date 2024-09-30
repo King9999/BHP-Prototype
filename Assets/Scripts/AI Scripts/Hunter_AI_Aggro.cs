@@ -21,9 +21,9 @@ public class Hunter_AI_Aggro : Hunter_AI
         canAttackMonsters = true;          //also includes bosses
         canOpenChests = false;
         canUseTerminals = false;
-        rollStr = 0.85f;
-        rollVit = 0.05f;
-        rollSpd = 0.1f;
+        rollStr = 85;
+        rollVit = 5;
+        rollSpd = 10;
         rollMnt = 0;
     }
 

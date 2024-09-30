@@ -12,7 +12,8 @@ public class Hunter : Character
     public float strPoints, spdPoints, vitPoints, mntPoints;  //AP is distributed to these values
     private int maxHunterLevel { get; } = 50;
     public int hunterLevel = 1;
-    public bool isAI;
+    //public bool isAI;
+    public Hunter_AI cpuBehaviour;
 
     //base values
     private const float baseAtp = 4;
@@ -52,7 +53,7 @@ public class Hunter : Character
 
     public void InitializeStats()
     {
-        hunterLevel = 5;
+        hunterLevel = 1;
         str = 1;
         vit = 1;
         spd = 1;

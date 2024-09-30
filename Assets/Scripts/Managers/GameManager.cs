@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
             turnOrder.Add(hunter);
         }
 
-        turnOrder.OrderByDescending(x => x.spd);    //TODO: Check to make sure this worked
+        turnOrder = turnOrder.OrderByDescending(x => x.spd).ToList();    //TODO: Check to make sure this worked
         
         //MonsterManager mm = MonsterManager.instance;
         //CreateHunter();

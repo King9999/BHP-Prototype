@@ -279,5 +279,8 @@ public class Dungeon : MonoBehaviour
                 }
             }
         }
+
+        //**************Add CPU Hunter*************/
+        hm.hunters.Add(hm.CreateCPUHunter(averageHunterLevel));
     }
 }

@@ -24,10 +24,10 @@ public class Hunter_AI_Bully : Hunter_AI
         canAttackMonsters = false;          //also includes bosses
         canOpenChests = false;
         canUseTerminals = false;
-        rollStr = 0.25f;
-        rollVit = 0.25f;
-        rollSpd = 0.25f;
-        rollMnt = 0.25f;
+        rollStr = 25;
+        rollVit = 25;
+        rollSpd = 25;
+        rollMnt = 25;
     }
 
 

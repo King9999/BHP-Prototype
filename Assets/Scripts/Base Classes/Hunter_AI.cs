@@ -16,9 +16,9 @@ public abstract class Hunter_AI : ScriptableObject
 
     [Header("---Stats Influence---")]
     
-    public float rollStr;
-    public float rollVit;               /* These are the odds that a stat is chosen during hunter generation.
-                                         * The sum of these values must be 100% */
-    public float rollSpd;
-    public float rollMnt;
+    public int rollStr;
+    public int rollVit;               /* These are the odds that a stat is chosen during hunter generation.
+                                    * The sum of these values must be 100% */
+    public int rollSpd;
+    public int rollMnt;
 }

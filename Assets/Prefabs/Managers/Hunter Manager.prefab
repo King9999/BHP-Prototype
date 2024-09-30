@@ -156,3 +156,6 @@ MonoBehaviour:
   rivalCount: 0
   state: 0
   hunterMenuState: 0
+  hunterBehaviours:
+  - {fileID: 11400000, guid: 32e95beb4324e524e9f1d7d2f56d6660, type: 2}
+  - {fileID: 11400000, guid: 8479c565912a5c14daa504c07ec80ce5, type: 2}

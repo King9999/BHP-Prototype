@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.XR;
 using static UnityEditor.Progress;
+using JetBrains.Annotations;
+using System.Linq;
 
 /* This script handles hunter creation. The UI for hunter setup is here. */
 public class HunterManager : MonoBehaviour
@@ -28,7 +30,8 @@ public class HunterManager : MonoBehaviour
         InventoryItemDetails, SkillMenu, SkillDetails, ChooseAttackTarget }
     public HunterMenuState hunterMenuState;
 
-    GameObject hunterContainer;         //hunters are stored here for organization
+    GameObject hunterContainer;                     //hunters are stored here for organization
+    public List<Hunter_AI> hunterBehaviours;        //used by CPU Hunters
 
     public static HunterManager instance;
 
@@ -236,8 +239,161 @@ public class HunterManager : MonoBehaviour
         //hunters[0].inventory.Add(im.GenerateWeapon());  //adding weapon as a test
     }
 
+    //create a hunter based on the given level.
+    struct Stats
+    {
+        public enum StatType { Str, Vit, Mnt, Spd }
+        public StatType statType;
+        public int weight;    //the likelihood the stat will be rolled.       
+    }
+    public Hunter CreateCPUHunter(int hunterLevel)
+    {
+        
+        Hunter hunter = Instantiate(hunterPrefab);
+        hunter.transform.SetParent(hunterContainer.transform);
+        hunter.cpuControlled = true;
+        hunter.InitializeStats();
+
+        //get a behaviour, which will determine stat growth.
+        int randBehaviour = Random.Range(0, hunterBehaviours.Count);
+        hunter.cpuBehaviour = Instantiate(hunterBehaviours[randBehaviour]);
+
+        //generate stats. First use the starting allocation points.
+        List<Stats> stats = new List<Stats>();
+
+
+        //add STR
+        Stats str = new Stats();
+        str.statType = Stats.StatType.Str;
+        str.weight = hunter.cpuBehaviour.rollStr;
+        stats.Add(str);
+
+        //add VIT
+        Stats vit = new Stats();
+        vit.statType = Stats.StatType.Vit;
+        vit.weight = hunter.cpuBehaviour.rollVit;
+        stats.Add(vit);
+
+        //add MNT
+        Stats mnt = new Stats();
+        mnt.statType = Stats.StatType.Mnt;
+        mnt.weight = hunter.cpuBehaviour.rollMnt;
+        stats.Add(mnt);
+
+        //add SPD
+        Stats spd = new Stats();
+        spd.statType = Stats.StatType.Spd;
+        spd.weight = hunter.cpuBehaviour.rollSpd;
+        stats.Add(spd);
+
+        //sort list by highest value first
+        stats = stats.OrderByDescending(x => x.weight).ToList();
+        Debug.Log("Stats Order:\n");
+        foreach(Stats stat in  stats)
+        {
+            Debug.Log(stat.statType + ": " + stat.weight + "\n");
+        }
+
+        //get total weight.
+        int totalWeight = 0;
+        for (int i = 0; i < stats.Count; i++)
+        {
+            totalWeight += stats[i].weight;
+        }
+
+        for (int i = 0; i < hunter.startingAllocationPoints; i++)
+        {
+            int randWeight = Random.Range(0, totalWeight);
+            for (int j = 0;  j < stats.Count; j++)
+            {
+                if (randWeight <= stats[j].weight)
+                {
+                    //get which stat this is and allocate point to it
+                    switch (stats[j].statType)
+                    {
+                        case Stats.StatType.Str:
+                            hunter.AllocateToStr(1, true);
+                            break;
+
+                        case Stats.StatType.Vit:
+                            hunter.AllocateToVit(1, true);
+                            break;
+
+                        case Stats.StatType.Mnt:
+                            hunter.AllocateToMnt(1, true);
+                            break;
+
+                        case Stats.StatType.Spd:
+                            hunter.AllocateToSpd(1, true);
+                            break;
+                    }
+                }
+                else
+                {
+                    randWeight -= stats[j].weight;
+                }
+            }
+           
+
+        }
+
+        //raise stats up to hunter level
+        for (int i = 0; i < hunterLevel; i++)
+        {
+            int randWeight = Random.Range(0, totalWeight);
+            for (int j = 0; j < stats.Count; j++)
+            {
+                if (randWeight <= stats[j].weight)
+                {
+                    //get which stat this is and allocate point to it
+                    switch (stats[j].statType)
+                    {
+                        case Stats.StatType.Str:
+                            hunter.AllocateToStr(1, false);
+                            break;
+
+                        case Stats.StatType.Vit:
+                            hunter.AllocateToVit(1, false);
+                            break;
+
+                        case Stats.StatType.Mnt:
+                            hunter.AllocateToMnt(1, false);
+                            break;
+
+                        case Stats.StatType.Spd:
+                            hunter.AllocateToSpd(1, false);
+                            break;
+                    }
+                }
+                else
+                {
+                    randWeight -= stats[j].weight;
+                }
+            }
+        }
+
+        /*Debug.Log("CPU Hunter Stats");
+        Debug.Log("STR: " + hunter.str);
+        Debug.Log("VIT: " + hunter.vit);
+        Debug.Log("MNT: " + hunter.mnt);
+        Debug.Log("SPD: " + hunter.spd);*/
+
+        //add basic attack skill. NOTE: this skill must always be added before equipping a weapon.
+
+        //get random gear to equip. CPU Hunters always have a weapon.
+
+        //determine if hunter carries any items in inventory. These can be taken by other hunters.
+
+        //give hunter a random name
+        hunter.characterName = "CPU " + hunters.Count;
+        hunter.name = "Hunter - " + hunter.characterName;
+        hunter.healthPoints = hunter.maxHealthPoints;
+        hunter.skillPoints = hunter.maxSkillPoints;
+        return hunter;
+    }
+
     //adds basic attack skill and takes on properties of equipped weapon
-    private void AddBasicAttackSkill(Hunter hunter)
+    void AddBasicAttackSkill(Hunter hunter)
     {
         ActiveSkill attackSkill = Instantiate(basicAttackSkill);
         attackSkill.minRange = 0;
@@ -247,7 +403,7 @@ public class HunterManager : MonoBehaviour
 
     #region Point Allocation
     //Allocates a point to STR when clicked
-    private void AllocatePoint_STR(Hunter hunter, int amount)
+    void AllocatePoint_STR(Hunter hunter, int amount)
     {
         //NOTE: second condition is minus because if amount is -1, a point is being refunded since two negatives = positive
         //if (startingAllocationPoints <= 0 || startingAllocationPoints - amount > 16)    
@@ -266,7 +422,7 @@ public class HunterManager : MonoBehaviour
     }
 
     
-    private void AllocatePoint_SPD(Hunter hunter, int amount)
+    void AllocatePoint_SPD(Hunter hunter, int amount)
     {
         //if (startingAllocationPoints <= 0 || startingAllocationPoints - amount > 16)
             //return;
@@ -283,7 +439,7 @@ public class HunterManager : MonoBehaviour
         ui.allocationPointsText.text = startingAllocationPoints + " Allocation Points Remaining";
     }
 
-    private void AllocatePoint_VIT(Hunter hunter, int amount)
+    void AllocatePoint_VIT(Hunter hunter, int amount)
     {
         //if (startingAllocationPoints <= 0 || startingAllocationPoints - amount > 16)
             //return;
@@ -299,7 +455,7 @@ public class HunterManager : MonoBehaviour
         ui.allocationPointsText.text = startingAllocationPoints + " Allocation Points Remaining";
     }
 
-    private void AllocatePoint_MNT(Hunter hunter, int amount)
+    void AllocatePoint_MNT(Hunter hunter, int amount)
     {
         //if (startingAllocationPoints <= 0 || startingAllocationPoints - amount > 16)
             //return;
