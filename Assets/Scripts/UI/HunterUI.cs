@@ -55,7 +55,7 @@ public class HunterUI : MonoBehaviour
     public List<SkillObject> hunterSkills;
 
     //card menu
-    public GameObject /*selectCardMenu,*/ cardDetailsWindow;
+    public GameObject /*selectCardMenu,*/ cardDetailsWindow, cardCursor;
     public TextMeshProUGUI cardDetailsText, cardNameText;
     public List<CardObject> hunterCards;
 
@@ -227,6 +227,7 @@ public class HunterUI : MonoBehaviour
     public void ShowHunterMenu_DisplayCards(bool toggle, Character character = null)
     {
         hunterMenuObject_showCards.SetActive(toggle);
+        ShowCardCursor(false, Vector3.zero);
         if (toggle == true)
         {
             Vector3 menuPos = new Vector3(character.transform.position.x, character.transform.position.y + 6, character.transform.position.z);
@@ -255,6 +256,29 @@ public class HunterUI : MonoBehaviour
             foreach(CardObject card in hunterCards)
             {
                 card.ShowCard(false);
+            }
+        }
+    }
+
+    public void ShowCardCursor(bool toggle, Vector3 pos)
+    {
+        cardCursor.SetActive(toggle);
+        if (toggle == true)
+        {
+            //display cursor over the selected card
+            cardCursor.transform.position = pos;
+
+            //check each card and find the one that was selected
+            foreach(CardObject card in hunterCards)
+            {
+                if (card.transform.position == pos)
+                {
+                    card.cardSelected = true;
+                }
+                else
+                {
+                    card.cardSelected = false;
+                }
             }
         }
     }

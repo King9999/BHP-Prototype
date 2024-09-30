@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 
 /* Visual representation of Card scriptable object. */
 public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
@@ -12,6 +13,7 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public Sprite cardSprite;
     bool revertCardOn, animateCardOn, coroutineActive, origPosCaptured;
     bool mouseOnCard;       //used to check if mouse is hovering over a card.
+    public bool cardSelected;
     Vector3 originalPos;
 
     /*void OnEnable()
@@ -44,6 +46,12 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             CardManager cm = Singleton.instance.CardManager;
             cm.selectedCard = cardData;
             Debug.Log(cm.selectedCard + " selected");
+
+            //change the sort layer
+            //GetComponent<SortingGroup>().sortingOrder = 2;
+
+            HunterManager hm = Singleton.instance.HunterManager;
+            hm.ui.ShowCardCursor(true, this.transform.position);
         }
     }
 
@@ -59,7 +67,8 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         mouseOnCard = false;
         Debug.Log("Mouse is on card: " + mouseOnCard);
             HunterManager hm = Singleton.instance.HunterManager;
-            hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.SelectCard);
+        hm.ui.ShowCardDetails(false);
+        //hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.SelectCard);
 
         
     }
@@ -72,7 +81,8 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         mouseOnCard = true;
         Debug.Log("Mouse is on card: " + mouseOnCard);
         HunterManager hm = Singleton.instance.HunterManager;
-            hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.CardDetails);
+        hm.ui.ShowCardDetails(true);
+            //hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.CardDetails);
             GetDetails(cardData);
         
     }
@@ -97,10 +107,13 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         //originalPos = transform.position;
         Vector3 newPos = new Vector3(originalPos.x, originalPos.y + 30, originalPos.z);
         float moveSpeed = 200;
+        HunterManager hm = Singleton.instance.HunterManager;
 
         while (transform.position.y < newPos.y)
         {
             transform.position = new Vector3(transform.position.x, transform.position.y + moveSpeed * Time.deltaTime, transform.position.z);
+            if (hm.ui.cardCursor.activeSelf && cardSelected)
+                hm.ui.cardCursor.transform.position = transform.position;
             yield return null;
         }
         coroutineActive = false;
@@ -114,10 +127,13 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         float moveSpeed = 200;
         //Vector3 originalPos = transform.position;
         //Vector3 newPos = new Vector3(transform.position.x, transform.position.y - 30, transform.position.z);
+        HunterManager hm = Singleton.instance.HunterManager;
 
         while (transform.position.y > originalPos.y)
         {
             transform.position = new Vector3(transform.position.x, transform.position.y - moveSpeed * Time.deltaTime, transform.position.z);
+            if (hm.ui.cardCursor.activeSelf && cardSelected)
+                hm.ui.cardCursor.transform.position = transform.position;
             yield return null;
         }
         coroutineActive = false;
