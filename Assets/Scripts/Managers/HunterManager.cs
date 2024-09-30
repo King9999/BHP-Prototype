@@ -222,8 +222,8 @@ public class HunterManager : MonoBehaviour
         ui.allocationPointsText.text = startingAllocationPoints + " Allocation Points Remaining";
 
         //testing out cards
-        CardManager cm = Singleton.instance.CardManager;
-        cm.DrawCard(hunter, cm.deck, 3);
+        //CardManager cm = Singleton.instance.CardManager;
+        //cm.DrawCard(hunter, cm.deck, 3);
         
 
         //give hunter a weapon

@@ -47,6 +47,7 @@ public class HunterUI : MonoBehaviour
     public GameObject detailsWindow;
     public TextMeshProUGUI itemTypeText, itemDetailsText, moneyText;
     public TextMeshProUGUI activeCardText;      //displays the currently used card in the field.
+    public TextMeshProUGUI deckCountText;
 
     //skills menu
     public GameObject skillMenuObject, skillDetailsWindow, selectTargetMenu;
@@ -79,6 +80,7 @@ public class HunterUI : MonoBehaviour
 
         instance = this;
         activeCardText.text = "";
+        deckCountText.text = "";
         //Singleton.instance.HunterUI = this;
         //transform.SetParent(Singleton.instance.transform);
         //DontDestroyOnLoad(instance);

@@ -127,6 +127,10 @@ public class GameManager : MonoBehaviour
         selectTile = Instantiate(selectTilePrefab);
         selectTile.SetActive(false);
 
+        //Update card count
+        CardManager cm = Singleton.instance.CardManager;
+        cm.UpdateDeckCount();
+
         //focus camera on the first active character.
         gameCamera.transform.position = defaultCameraPos;
         //moveCameraToCharacter = true;
@@ -1158,7 +1162,17 @@ public class GameManager : MonoBehaviour
         //move camera to the active character
         yield return MoveCameraToCharacter(character);
 
+        Debug.Log(character.characterName + "'s turn");
+
         //once complete, show the menu if the active character is a player. Otherwise, CPU takes action.
+        //draw a card
+        if (character is Hunter hunter)
+        {
+            CardManager cm = Singleton.instance.CardManager;
+            cm.DrawCard(hunter, cm.deck);
+            Debug.Log("Hunter " + hunter.characterName + " drew a card");
+        }
+
         if (!character.cpuControlled)
         {
             HunterManager hm = Singleton.instance.HunterManager;

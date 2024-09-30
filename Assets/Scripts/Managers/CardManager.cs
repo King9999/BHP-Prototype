@@ -21,7 +21,9 @@ public class CardManager : MonoBehaviour
     public CardObject cardPrefab;
     GameObject cardContainer;
     public List<Card> deck;
-    public Card selectedCard;       //reference to card a player picks in the field/during combat.
+    public Card selectedCard;           //reference to card a player picks in the field/during combat.
+    private int maxHand { get; } = 5;   //total number of cards a hunter can have in their hand.
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +46,6 @@ public class CardManager : MonoBehaviour
                 deck.Add(card);*/
             }
         }
-
 
         ShuffleDeck(deck);
     }
@@ -83,12 +84,26 @@ public class CardManager : MonoBehaviour
         int i = 0;
         do
         {
-            hunter.cards.Add(deck[0]);
-            Debug.Log("Drew card " + deck[0].cardName);
+            if (hunter.cards.Count < maxHand)
+            {
+                hunter.cards.Add(deck[0]);
+                Debug.Log("Drew card " + deck[0].cardName);
+            }
+            else
+            {
+                Debug.Log(hunter.characterName + "'s hand is full! Discarding " + deck[0].cardName);
+            }
+
             deck.Remove(deck[0]);
             i++;
         }
         while (deck.Count > 0 && i < amount);
-        
+        UpdateDeckCount();
+    }
+
+    public void UpdateDeckCount()
+    {
+        HunterManager hm = Singleton.instance.HunterManager;
+        hm.ui.deckCountText.text = "Cards in Deck: " + deck.Count;
     }
 }
