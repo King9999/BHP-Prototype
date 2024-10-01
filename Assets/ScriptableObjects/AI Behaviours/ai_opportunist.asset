@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aacea7b94b4bb324b861d73148f4ead3, type: 3}
-  m_Name: ai_bully
+  m_Script: {fileID: 11500000, guid: b7517cc58ddf1a34c8fa735f2c45e5e2, type: 3}
+  m_Name: ai_opportunist
   m_EditorClassIdentifier: 
-  behaviourType: 1
+  behaviourType: 2
   canAttackHunters: 1
   canAttackMonsters: 0
-  canOpenChests: 0
-  canUseTerminals: 0
-  rollStr: 50
-  rollVit: 30
-  rollSpd: 10
+  canOpenChests: 1
+  canUseTerminals: 1
+  rollStr: 10
+  rollVit: 10
+  rollSpd: 70
   rollMnt: 10

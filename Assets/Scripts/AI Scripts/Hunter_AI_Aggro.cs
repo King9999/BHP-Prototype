@@ -16,7 +16,7 @@ public class Hunter_AI_Aggro : Hunter_AI
     // Start is called before the first frame update
     void Reset()
     {
-        behaviourType = "Aggro";        //internal info only. It tells me what kind of behaviour the hunter has.
+        behaviourType = BehaviourType.Aggro;        //internal info only. It tells me what kind of behaviour the hunter has.
         canAttackHunters = true;
         canAttackMonsters = true;          //also includes bosses
         canOpenChests = false;

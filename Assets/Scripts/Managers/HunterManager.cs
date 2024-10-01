@@ -288,7 +288,7 @@ public class HunterManager : MonoBehaviour
 
         //sort list by highest value first
         stats = stats.OrderByDescending(x => x.weight).ToList();
-        Debug.Log("Stats Order:\n");
+        Debug.Log("Stats Order for " + hunter.cpuBehaviour.behaviourType + ":\n");
         foreach(Stats stat in  stats)
         {
             Debug.Log(stat.statType + ": " + stat.weight + "\n");

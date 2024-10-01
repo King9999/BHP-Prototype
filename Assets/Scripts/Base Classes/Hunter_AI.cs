@@ -7,8 +7,9 @@ using UnityEngine;
  * This allows CPU hunters to specialize in a few stats, while being weak in others. */
 public abstract class Hunter_AI : ScriptableObject
 {
+    public enum BehaviourType { Aggro, Bully, Opportunist, Mage, Turtle, Ninja }
     [Header("---AI Behaviours---")]
-    public string behaviourType;        //internal info only. It tells me what kind of behaviour the hunter has.
+    public BehaviourType behaviourType;        //internal info only. It tells me what kind of behaviour the hunter has.
     public bool canAttackHunters;
     public bool canAttackMonsters;          //also includes bosses
     public bool canOpenChests;
