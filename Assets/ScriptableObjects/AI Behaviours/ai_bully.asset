@@ -17,7 +17,7 @@ MonoBehaviour:
   canAttackMonsters: 0
   canOpenChests: 0
   canUseTerminals: 0
-  rollStr: 50
-  rollVit: 30
-  rollSpd: 10
-  rollMnt: 10
+  rollStr: 25
+  rollVit: 25
+  rollSpd: 25
+  rollMnt: 25

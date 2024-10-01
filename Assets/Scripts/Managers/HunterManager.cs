@@ -239,7 +239,7 @@ public class HunterManager : MonoBehaviour
         //hunters[0].inventory.Add(im.GenerateWeapon());  //adding weapon as a test
     }
 
-    //create a hunter based on the given level.
+    //********create a hunter based on the given level.*********/
     struct Stats
     {
         public enum StatType { Str, Vit, Mnt, Spd }
@@ -304,10 +304,13 @@ public class HunterManager : MonoBehaviour
         for (int i = 0; i < hunter.startingAllocationPoints; i++)
         {
             int randWeight = Random.Range(0, totalWeight);
-            for (int j = 0;  j < stats.Count; j++)
+            bool statFound = false;
+            int j = 0;
+            while (!statFound && j < stats.Count)// (int j = 0;  j < stats.Count; j++)
             {
                 if (randWeight <= stats[j].weight)
                 {
+                    statFound = true;
                     //get which stat this is and allocate point to it
                     switch (stats[j].statType)
                     {
@@ -331,6 +334,7 @@ public class HunterManager : MonoBehaviour
                 else
                 {
                     randWeight -= stats[j].weight;
+                    j++;
                 }
             }
            
@@ -341,10 +345,13 @@ public class HunterManager : MonoBehaviour
         for (int i = 0; i < hunterLevel; i++)
         {
             int randWeight = Random.Range(0, totalWeight);
-            for (int j = 0; j < stats.Count; j++)
+            bool statFound = false;
+            int j = 0;
+            while (!statFound && j < stats.Count)// (int j = 0;  j < stats.Count; j++)
             {
                 if (randWeight <= stats[j].weight)
                 {
+                    statFound = true;
                     //get which stat this is and allocate point to it
                     switch (stats[j].statType)
                     {
@@ -368,6 +375,7 @@ public class HunterManager : MonoBehaviour
                 else
                 {
                     randWeight -= stats[j].weight;
+                    j++;
                 }
             }
         }

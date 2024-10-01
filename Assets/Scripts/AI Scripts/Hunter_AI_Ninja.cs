@@ -4,10 +4,10 @@ using UnityEngine;
 
 /* Ninjas have high SPD and ATP, making them deadly if they can get the first strike.
 
-TURTLE BEHAVIOUR
+NINJA BEHAVIOUR
 -----
-* If they have low HP (10%), they will rest.
-* In combat, if they have the target item, they are more likely to defend.
+* They don't target monsters.
+* Favour using trap cards and skills.
 
 */ 
 [CreateAssetMenu(menuName = "AI Behaviour/Hunter/Ninja", fileName = "ai_ninja")]
