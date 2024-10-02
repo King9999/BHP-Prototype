@@ -206,21 +206,104 @@ public class Hunter : Character
 
     public void Equip(Armor armor)
     {
+        //item can only be equipped if the player meets the level requirement
+        if (hunterLevel < armor.itemLevel || armor.isEquipped)
+            return;
 
+        armor.isEquipped = true;
+        equippedArmor = armor;
+        dfp = vit + armor.dfp;
+        rst = Mathf.Round(mnt / 2) + armor.rst;
+
+        if (armor.itemMods.Count > 0)
+        {
+            //apply effects of mods
+            foreach (ItemMod mod in armor.itemMods)
+            {
+                mod.ActivateOnEquip(this);
+            }
+        }
+
+        //TODO: if there's a skill, add it to hunter's inventory.
     }
 
     public void Unequip(Armor armor)
     {
+        //item can only be equipped if the player meets the level requirement
+        if (equippedArmor == null || !armor.isEquipped)
+            return;
 
+        armor.isEquipped = false;
+        equippedArmor = null;
+        dfp = vit - armor.dfp;
+        rst = Mathf.Round(mnt / 2) - armor.rst;
+
+        if (armor.itemMods.Count > 0)
+        {
+            //apply effects of mods
+            foreach (ItemMod mod in armor.itemMods)
+            {
+                mod.DeactivateOnUnequip(this);
+            }
+        }
     }
 
-    public void Equip(Accessory accessory)
+    public void Equip(Accessory acc)
     {
+        //item can only be equipped if the player meets the level requirement
+        if (hunterLevel < acc.itemLevel || acc.isEquipped)
+            return;
 
+        acc.isEquipped = true;
+        equippedAccessory = acc;
+        atp += acc.atp;
+        mnp += acc.mnp;
+        dfp += acc.dfp;
+        rst += acc.rst;
+        str += acc.str;
+        vit += acc.vit;
+        spd += acc.spd;
+        mnt += acc.mnt;
+        evd += acc.evd;
+        mov += acc.mov;
+
+        if (acc.itemMods.Count > 0)
+        {
+            //apply effects of mods
+            foreach (ItemMod mod in acc.itemMods)
+            {
+                mod.ActivateOnEquip(this);
+            }
+        }
+
+        //TODO: if there's a skill, add it to hunter's inventory.
     }
-    public void Unequip(Accessory accessory)
+    public void Unequip(Accessory acc)
     {
+        if (equippedAccessory == null || !acc.isEquipped)
+            return;
 
+        acc.isEquipped = false;
+        equippedAccessory = null;
+        atp -= acc.atp;
+        mnp -= acc.mnp;
+        dfp -= acc.dfp;
+        rst -= acc.rst;
+        str -= acc.str;
+        vit -= acc.vit;
+        spd -= acc.spd;
+        mnt -= acc.mnt;
+        evd -= acc.evd;
+        mov -= acc.mov;
+
+        if (acc.itemMods.Count > 0)
+        {
+            //apply effects of mods
+            foreach (ItemMod mod in acc.itemMods)
+            {
+                mod.DeactivateOnUnequip(this);
+            }
+        }
     }
 
     public void Rest() 

@@ -407,6 +407,54 @@ public class HunterManager : MonoBehaviour
             item = im.lootTable.GetItem(Table.ItemType.Weapon);
         }
 
+        if (item is Weapon wpn)
+        {
+            im.GenerateMods(wpn);
+
+            //if item has a chip slot, then get a skill
+            if (wpn.hasChipSlot && wpn.itemSkill == null)
+            {
+                
+            }
+
+            hunter.Equip(wpn);
+        }
+
+        //armor check
+        if (Random.value <= 0.5f)
+        {
+            Item newArmor = im.lootTable.GetItem(Table.ItemType.Armor);
+            if (newArmor is Armor armor)
+            {
+                im.GenerateMods(armor);
+
+                //if item has a chip slot, then get a skill
+                if (armor.hasChipSlot && armor.itemSkill == null)
+                {
+
+                }
+
+                hunter.Equip(armor);
+            }
+        }
+
+        //accessory check
+        if (Random.value <= 0.5f)
+        {
+            Item newAcc = im.lootTable.GetItem(Table.ItemType.Accessory);
+            if (newAcc is Accessory acc)
+            {
+                im.GenerateMods(acc);
+
+                //if item has a chip slot, then get a skill
+                if (acc.hasChipSlot && acc.itemSkill == null)
+                {
+
+                }
+
+                hunter.Equip(acc);
+            }
+        }
 
         //determine if hunter carries any items in inventory. These can be taken by other hunters.
 

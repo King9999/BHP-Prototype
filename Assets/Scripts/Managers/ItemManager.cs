@@ -163,6 +163,7 @@ public class ItemManager : MonoBehaviour
                     if (weapon.itemMods.Count <= 1 && !weapon.isUniqueItem)
                     {
                         weapon.itemMods.Add(itemMod);
+                        weapon.hasChipSlot = true;
                         mods += itemMod.modName + "\n";
                         j += 2;     //chip slot takes up 2 mod slots
                     }
@@ -255,6 +256,7 @@ public class ItemManager : MonoBehaviour
                     if (armor.itemMods.Count <= 1 && !armor.isUniqueItem)
                     {
                         armor.itemMods.Add(itemMod);
+                        armor.hasChipSlot = true;
                         mods += itemMod.modName + "\n";
                         j += 2;     //chip slot takes up 2 mod slots
                     }
@@ -345,6 +347,7 @@ public class ItemManager : MonoBehaviour
                     if (acc.itemMods.Count <= 1 && !acc.isUniqueItem)
                     {
                         acc.itemMods.Add(itemMod);
+                        acc.hasChipSlot = true;
                         mods += itemMod.modName + "\n";
                         j += 2;     //chip slot takes up 2 mod slots
                     }

@@ -25,7 +25,7 @@ public class Weapon : Item
     }
 
    
-    public override void Equip(Hunter hunter)
+    /*public override void Equip(Hunter hunter)
     {
         //item can only be equipped if the player meets the level requirement
         if (hunter.hunterLevel < itemLevel || isEquipped)
@@ -68,6 +68,6 @@ public class Weapon : Item
         }
 
         //TODO: remove skill from inventory
-    }
+    }*/
 
 }

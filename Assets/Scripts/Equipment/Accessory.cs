@@ -19,7 +19,7 @@ public class Accessory : Item
     public int modCount = 3;            //default is 3. If item is not unique and has a chip slot, this value is 1. If item is unique, this value is 2.
 
 
-    protected bool isEquipped = false;     
+    public bool isEquipped;     
 
     private void Awake()
     {
@@ -33,7 +33,7 @@ public class Accessory : Item
     }
 
     /* equipping an accessory works a little differently. It simply adds to the existing values. */
-    public override void Equip(Hunter hunter)
+    /*public override void Equip(Hunter hunter)
     {
         //item can only be equipped if the player meets the level requirement
         if (hunter.hunterLevel < itemLevel || isEquipped)
@@ -93,5 +93,5 @@ public class Accessory : Item
         }
 
         //TODO: remove skill from inventory
-    }
+    }*/
 }

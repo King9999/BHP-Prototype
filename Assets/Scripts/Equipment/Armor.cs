@@ -8,13 +8,13 @@ public class Armor : Item
 {
     public float dfp, rst;
     public List<ItemMod> itemMods;  //if there's a chip slot, there can only be 1 item mod.
-    //public Skill itemSkill;         //only available if item has an empty chip slot
+    public Skill itemSkill;         //only available if item has an empty chip slot
     public bool hasChipSlot;        //if true, itemSkill is available.
     public bool isUniqueItem;       //if true, chip slot counts as 1 item mod instead of 2.    
 
     public int modCount = 3;            //default is 3. If item is not unique and has a chip slot, this value is 1. If item is unique, this value is 2.
 
-    [System.NonSerialized] protected bool isEquipped = false;     //NonSerialized means Unity will reset the variable state
+    public bool isEquipped;
 
     // Start is called before the first frame update
     void Reset()
@@ -23,7 +23,7 @@ public class Armor : Item
         itemLevel = 1;
     }
 
-    public override void Equip(Hunter hunter)
+    /*public override void Equip(Hunter hunter)
     {
         //item can only be equipped if the player meets the level requirement
         if (hunter.hunterLevel < itemLevel || isEquipped)
@@ -66,5 +66,5 @@ public class Armor : Item
         }
 
         //TODO: remove skill from inventory
-    }
+    }*/
 }
