@@ -44,12 +44,43 @@ public class EffectManager : MonoBehaviour
         if (statusEffect.effectType == StatusEffect.EffectType.Buff)
         {
             character.buffs.Add(statusEffect);
+            statusEffect.ApplyEffect(character);
         }
         else
         {
-            character.debuffs.Add(statusEffect);
+            //if character already has injured status, we update the one that's there.
+            if (statusEffect is StatusEffect_Injured injured)
+            {
+                //update existing debuff
+                bool injuredFound = false;
+                i = 0;
+                while (!injuredFound && i < character.debuffs.Count)
+                {
+                    if (character.debuffs[i].effect == StatusEffect.Effect.Injured)
+                    {
+                        character.debuffs[i].ApplyEffect(character);
+                        injuredFound = true;
+                    }
+                    else
+                    {
+                        i++;
+                    }
+                }
+
+                if (!injuredFound)
+                {
+                    character.debuffs.Add(injured);
+                    injured.ApplyEffect(character);
+                }
+            }
+            else
+            {
+                character.debuffs.Add(statusEffect);
+                statusEffect.ApplyEffect(character);
+            }
+
         }
-        statusEffect.ApplyEffect(character);
+        //statusEffect.ApplyEffect(character);
     }
    
 }

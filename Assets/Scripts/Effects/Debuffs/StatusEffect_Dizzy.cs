@@ -11,12 +11,13 @@ public class StatusEffect_Dizzy : StatusEffect
         effectName = "Dizzy";
         effectDetails = "Target cannot act. If target is damaged, dizzy is removed.";
         effectType = EffectType.Debuff;
+        hasDuration = true;
     }
 
     //remove dizzy status
     public override void CleanupEffect(Character user)
     {
-        base.CleanupEffect(user);
         Debug.Log("Removing dizzy status from " + user.characterName);
+        base.CleanupEffect(user);   
     }
 }

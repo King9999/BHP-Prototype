@@ -1168,7 +1168,7 @@ public class GameManager : MonoBehaviour
         for(int i = 0; i < character.buffs.Count; i++)
         {
             character.buffs[i].UpdateEffect(character);
-            if (character.buffs[i].currentDuration >= character.buffs[i].totalDuration)
+            if (character.buffs[i].hasDuration && character.buffs[i].currentDuration >= character.buffs[i].totalDuration)
             {
                 character.buffs.Remove(character.buffs[i]);
                 i--;
@@ -1178,12 +1178,19 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < character.debuffs.Count; i++)
         {
             character.debuffs[i].UpdateEffect(character);
-            if (character.debuffs[i].currentDuration >= character.debuffs[i].totalDuration)
+            if (character.debuffs[i].hasDuration && character.debuffs[i].currentDuration >= character.debuffs[i].totalDuration)
             {
                 character.debuffs.Remove(character.debuffs[i]);
                 i--;
             }
+            /*else
+            {
+                character.debuffs[i].CleanupEffect(character);
+                character.debuffs.Remove(character.debuffs[i]);
+                i--;
+            }*/
         }
+
 
         //once complete, show the menu if the active character is a player. Otherwise, CPU takes action.
         //draw a card

@@ -11,6 +11,7 @@ public class StatusEffect_Berserk : StatusEffect
         effectName = "Berserk";
         effectDetails = "Target is uncontrollable. Gain 50% ATP. Cannot defend or roll dice to reduce damage";
         effectType = EffectType.Debuff;
+        hasDuration = true;
     }
 
     public override void ApplyEffect(Character user)
@@ -30,5 +31,7 @@ public class StatusEffect_Berserk : StatusEffect
         {
             user.atpMod = 0;
         }
+
+        base.CleanupEffect(user);   //destroys this object.
     }
 }

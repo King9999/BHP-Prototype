@@ -8,6 +8,7 @@ public abstract class StatusEffect : ScriptableObject
 {
     public string effectName, effectDetails;
     public int totalDuration, currentDuration;
+    public bool hasDuration;                //if false, effect is permanent.
     public Sprite effectIcon;
     //public TextMeshPro durationText;
 
@@ -25,6 +26,9 @@ public abstract class StatusEffect : ScriptableObject
 
     public virtual void UpdateEffect(Character user) 
     {
+        if (!hasDuration)
+            return;
+
         currentDuration++;
         if (currentDuration >= totalDuration)
         {
@@ -50,6 +54,6 @@ public abstract class StatusEffect : ScriptableObject
     //removes effect
     public virtual void CleanupEffect(Character user)
     {
-
+        Destroy(this);
     }
 }

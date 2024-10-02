@@ -229,9 +229,6 @@ public class HunterManager : MonoBehaviour
         //CardManager cm = Singleton.instance.CardManager;
         //cm.DrawCard(hunter, cm.deck, 3);
 
-        //testing status effects
-        EffectManager em = Singleton.instance.EffectManager;
-        em.AddEffect(StatusEffect.Effect.Berserk, hunter);
         
 
         //give hunter a weapon
@@ -660,7 +657,12 @@ public class HunterManager : MonoBehaviour
         hunter.Equip((Weapon)item);
         newHunter = false;      //level will start going up now when allocating points
 
-        
+        //testing status effects
+        //EffectManager em = Singleton.instance.EffectManager;
+        //em.AddEffect(StatusEffect.Effect.Injured, hunter);
+        //em.AddEffect(StatusEffect.Effect.Injured, hunter);
+
+
 
         //save the number of rivals, it will be needed during dungeon generation.
         rivalCount = ui.RivalDropdownValue() + 1;   //we add 1 due to zero indexing

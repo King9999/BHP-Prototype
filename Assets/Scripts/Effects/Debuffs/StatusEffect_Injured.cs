@@ -14,7 +14,14 @@ public class StatusEffect_Injured : StatusEffect
         effectName = "Injured";
         effectDetails = "Max HP reduced by 50%. Can stack 2 times.";
         effectType = EffectType.Debuff;
+        hasDuration = false;
     }
+
+    /*private void OnDestroy()
+    {
+        GameManager gm = Singleton.instance.GameManager;
+        CleanupEffect(gm.ActiveCharacter());
+    }*/
 
     public override void ApplyEffect(Character user)
     {
@@ -22,6 +29,7 @@ public class StatusEffect_Injured : StatusEffect
             return;
 
         stackCount++;
+        Debug.Log("Injured stack count on " + user.characterName + ": " + stackCount);
         if (stackCount <= 1)
             originalHealthPoints = user.maxHealthPoints;    //keep copy of hunter's original health points. 
 
@@ -36,6 +44,8 @@ public class StatusEffect_Injured : StatusEffect
     {
         Debug.Log("Removing injured status from " + user.characterName);
         user.maxHealthPoints = originalHealthPoints;
-        user.debuffs.Remove(this);
+        base.CleanupEffect(user);
+        //Destroy(this);
+        //user.debuffs.Remove(this);
     }
 }
