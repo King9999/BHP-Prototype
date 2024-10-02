@@ -4,8 +4,8 @@ using UnityEngine;
 
 /* Reduces max HP by 50%. Stacks 2 times. Inujred debuff is applied whenever hunter is defeated by another hunter.
  * If they're defeated by a monster, they're removed from the dungeon. */
-[CreateAssetMenu(menuName = "Effects/Character Effects/Injured", fileName = "charEffect_Injured")]
-public class CharacterEffect_Injured : CharacterEffect
+[CreateAssetMenu(menuName = "Effects/Status Effects/Injured", fileName = "statEffect_Injured")]
+public class StatusEffect_Injured : StatusEffect
 {
     private int stackCount = 0;
     private float originalHealthPoints;
@@ -34,6 +34,7 @@ public class CharacterEffect_Injured : CharacterEffect
     //remove injured status
     public override void CleanupEffect(Character user)
     {
+        Debug.Log("Removing injured status from " + user.characterName);
         user.maxHealthPoints = originalHealthPoints;
         user.debuffs.Remove(this);
     }

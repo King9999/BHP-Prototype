@@ -18,6 +18,6 @@ MonoBehaviour:
   canOpenChests: 1
   canUseTerminals: 1
   rollStr: 40
-  rollVit: 0
+  rollVit: 5
   rollSpd: 50
-  rollMnt: 10
+  rollMnt: 5

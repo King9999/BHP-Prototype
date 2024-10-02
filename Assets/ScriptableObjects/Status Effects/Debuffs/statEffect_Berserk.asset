@@ -9,12 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79dc23ee06cd2f54183f96f3135563d0, type: 3}
-  m_Name: charEffect_Injured
+  m_Script: {fileID: 11500000, guid: 84fd122de006c7b4fa8dc48fc4482eed, type: 3}
+  m_Name: statEffect_Berserk
   m_EditorClassIdentifier: 
-  effectName: Injured
-  effectDetails: Max HP reduced by 50%. Can stack 2 times.
-  totalDuration: 0
+  effectName: Berserk
+  effectDetails: Target is uncontrollable. Gain 50% ATP. Cannot defend or roll dice
+    to reduce damage
+  totalDuration: 3
   currentDuration: 0
   effectIcon: {fileID: 0}
+  effect: 1
   effectType: 1

@@ -7,7 +7,7 @@ using UnityEngine;
 -----
 * Always attacks hunters and monsters, whichever is closer
 * Ignores chests and terminals
-* 
+* At the start of each turn, there's a 30% chance that the hunter gains Berserk debuff.
 */
 
 [CreateAssetMenu(menuName = "AI Behaviour/Hunter/Aggro", fileName = "ai_aggro")]
@@ -27,5 +27,14 @@ public class Hunter_AI_Aggro : Hunter_AI
         rollMnt = 0;
     }
 
+    //Hunter has a chance to gain berserk debuff
+    public override void ActivateAbility(Hunter hunter)
+    {
+        if (Random.value <= 0.3f)
+        {
+            //add berserk
+            //hunter.debuffs.Add(new CharacterEffect_Dizzy());
+        }
+    }
 
 }

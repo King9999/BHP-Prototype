@@ -22,4 +22,7 @@ public abstract class Hunter_AI : ScriptableObject
                                     * The sum of these values must be 100% */
     public int rollSpd;
     public int rollMnt;
+
+    //Some behaviours have special abilities that are triggered on their turn.
+    public virtual void ActivateAbility(Hunter hunter) { }
 }

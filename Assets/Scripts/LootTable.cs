@@ -95,8 +95,26 @@ public class LootTable : ScriptableObject
     }
 
     //gets a random item from the given table
-    public Item GetItem(Table table)
+    public Item GetItem(Table.ItemType itemType)    //the parameter is itemType in case the table list is sorted.
     {
+
+        //find the table matching the type
+        Table table = new Table();
+        bool tableFound = false;
+        int j = 0;
+        while(!tableFound && j < itemTables.Count)
+        {
+            if (itemTables[j].itemType == itemType)
+            {
+                tableFound = true;
+                table = itemTables[j];
+            }
+            else
+            {
+                j++;
+            }
+        }
+
         if (table.item.Count <= 0)
             return null;
 
@@ -111,7 +129,7 @@ public class LootTable : ScriptableObject
         int randValue = UnityEngine.Random.Range(0, totalWeight);
         //Debug.Log("total weight: " + totalWeight);
 
-        int j = 0;
+        j = 0;
         bool itemFound = false;
 
         while (!itemFound && j < table.item.Count)
@@ -141,12 +159,29 @@ public class LootTable : ScriptableObject
     }
 
     //gets a specific item from the given table
-    public Item GetItem(Table table, string itemID)
+    public Item GetItem(Table.ItemType itemType, string itemID)
     {
+
+        Table table = new Table();
+        bool tableFound = false;
+        int j = 0;
+        while (!tableFound && j < itemTables.Count)
+        {
+            if (itemTables[j].itemType == itemType)
+            {
+                tableFound = true;
+                table = itemTables[j];
+            }
+            else
+            {
+                j++;
+            }
+        }
+
         if (table.item.Count <= 0)
             return null;
 
-        int j = 0;
+        j = 0;
         bool itemFound = false;
 
         while (!itemFound && j < table.item.Count)

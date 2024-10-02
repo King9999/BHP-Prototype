@@ -17,7 +17,7 @@ public class SuperAbility_FullHeal : SuperAbility
     public override void ActivateSkill(Character user, Character target)
     {
         superMeter = 0;
-        foreach(CharacterEffect debuff in target.debuffs)
+        foreach(StatusEffect debuff in target.debuffs)
         {
             debuff.CleanupEffect(target);
         }

@@ -4,13 +4,18 @@ using TMPro;
 using UnityEngine;
 
 //buffs and debuffs that affect characters.
-public abstract class CharacterEffect : ScriptableObject
+public abstract class StatusEffect : ScriptableObject
 {
     public string effectName, effectDetails;
     public int totalDuration, currentDuration;
     public Sprite effectIcon;
     //public TextMeshPro durationText;
 
+    public enum Effect { Dizzy, Berserk, Injured, Blind, CardDrain, Poison, DisableLeg, DisableSkill, DisableSuper,
+    Weakened }
+
+
+    public Effect effect;
     public enum EffectType
     {
         Buff, Debuff
@@ -24,16 +29,16 @@ public abstract class CharacterEffect : ScriptableObject
         if (currentDuration >= totalDuration)
         {
             //remove this effect
-            currentDuration = 0;
+            //currentDuration = 0;
             CleanupEffect(user);
-            if (effectType == EffectType.Buff) 
+            /*if (effectType == EffectType.Buff) 
             {
                 user.buffs.Remove(this);
             }
             else
             {
                 user.debuffs.Remove(this);
-            }
+            }*/
         }
     }
 

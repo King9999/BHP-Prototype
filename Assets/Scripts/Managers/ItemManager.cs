@@ -395,7 +395,7 @@ public class ItemManager : MonoBehaviour
         }
         Table table = new Table();
         table = lootTable.GetTable();
-        Item item = lootTable.GetItem(table);
+        Item item = lootTable.GetItem(table.itemType);
 
         //if item can have mods on it, add them now
         if (item is Weapon wpn)
@@ -414,7 +414,7 @@ public class ItemManager : MonoBehaviour
         if (table == null || itemID.Equals(""))
             return;
 
-        Item item = lootTable.GetItem(table, itemID);
+        Item item = lootTable.GetItem(table.itemType, itemID);
 
         //if item can have mods on it, add them now
         if (item is Weapon wpn)

@@ -101,8 +101,8 @@ public abstract class Character : MonoBehaviour
     {
         Regen, Empowered, Haste, SecondWind, Lucky
     }
-    public List<CharacterEffect> debuffs;     //Characters can have up to 3 buffs and debuffs. Adding a 4th overwrites the oldest effect.
-    public List<CharacterEffect> buffs;
+    public List<StatusEffect> debuffs;     //Characters can have up to 3 buffs and debuffs. Adding a 4th overwrites the oldest effect.
+    public List<StatusEffect> buffs;
     protected int maxEffects { get; } = 3;
 
     public void Attack() { }

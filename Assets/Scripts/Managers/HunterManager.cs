@@ -8,6 +8,7 @@ using UnityEngine.XR;
 using static UnityEditor.Progress;
 using JetBrains.Annotations;
 using System.Linq;
+using Unity.VisualScripting;
 
 /* This script handles hunter creation. The UI for hunter setup is here. */
 public class HunterManager : MonoBehaviour
@@ -227,6 +228,10 @@ public class HunterManager : MonoBehaviour
         //testing out cards
         //CardManager cm = Singleton.instance.CardManager;
         //cm.DrawCard(hunter, cm.deck, 3);
+
+        //testing status effects
+        EffectManager em = Singleton.instance.EffectManager;
+        em.AddEffect(StatusEffect.Effect.Berserk, hunter);
         
 
         //give hunter a weapon
@@ -288,11 +293,11 @@ public class HunterManager : MonoBehaviour
 
         //sort list by highest value first
         stats = stats.OrderByDescending(x => x.weight).ToList();
-        Debug.Log("Stats Order for " + hunter.cpuBehaviour.behaviourType + ":\n");
+        /*Debug.Log("Stats Order for " + hunter.cpuBehaviour.behaviourType + ":\n");
         foreach(Stats stat in  stats)
         {
             Debug.Log(stat.statType + ": " + stat.weight + "\n");
-        }
+        }*/
 
         //get total weight.
         int totalWeight = 0;
@@ -306,7 +311,7 @@ public class HunterManager : MonoBehaviour
             int randWeight = Random.Range(0, totalWeight);
             bool statFound = false;
             int j = 0;
-            while (!statFound && j < stats.Count)// (int j = 0;  j < stats.Count; j++)
+            while (!statFound && j < stats.Count)
             {
                 if (randWeight <= stats[j].weight)
                 {
@@ -347,7 +352,7 @@ public class HunterManager : MonoBehaviour
             int randWeight = Random.Range(0, totalWeight);
             bool statFound = false;
             int j = 0;
-            while (!statFound && j < stats.Count)// (int j = 0;  j < stats.Count; j++)
+            while (!statFound && j < stats.Count)
             {
                 if (randWeight <= stats[j].weight)
                 {
@@ -387,8 +392,24 @@ public class HunterManager : MonoBehaviour
         Debug.Log("SPD: " + hunter.spd);*/
 
         //add basic attack skill. NOTE: this skill must always be added before equipping a weapon.
+        AddBasicAttackSkill(hunter);
 
-        //get random gear to equip. CPU Hunters always have a weapon.
+        //get random gear to equip. CPU Hunters always have a weapon. Certain behaviours have specific weapon types
+        ItemManager im = Singleton.instance.ItemManager;
+        Item item = null;
+        if (hunter.cpuBehaviour.behaviourType == Hunter_AI.BehaviourType.Mage)
+        {
+            item = im.lootTable.GetItem(Table.ItemType.Weapon, "weapon_augmenter");
+        }
+        else if (hunter.cpuBehaviour.behaviourType == Hunter_AI.BehaviourType.Aggro)
+        {
+            item = im.lootTable.GetItem(Table.ItemType.Weapon, "weapon_beamSword");
+        }
+        else
+        {
+            item = im.lootTable.GetItem(Table.ItemType.Weapon);
+        }
+
 
         //determine if hunter carries any items in inventory. These can be taken by other hunters.
 
@@ -617,17 +638,17 @@ public class HunterManager : MonoBehaviour
         switch (ui.WeaponDropdownValue())
         {
             case 0:
-                item = im.lootTable.GetItem(im.lootTable.itemTables[weaponIndex], "weapon_beamSword");
+                item = im.lootTable.GetItem(Table.ItemType.Weapon, "weapon_beamSword");
                 Debug.Log("Item is " + item);
                 break;
 
             case 1:
-                item = im.lootTable.GetItem(im.lootTable.itemTables[weaponIndex], "weapon_railGun");
+                item = im.lootTable.GetItem(Table.ItemType.Weapon, "weapon_railGun");
                 Debug.Log("Item is " + item);
                 break;
 
             case 2:
-                item = im.lootTable.GetItem(im.lootTable.itemTables[weaponIndex], "weapon_augmenter");
+                item = im.lootTable.GetItem(Table.ItemType.Weapon, "weapon_augmenter");
                 Debug.Log("Item is " + item);
                 break;
         }

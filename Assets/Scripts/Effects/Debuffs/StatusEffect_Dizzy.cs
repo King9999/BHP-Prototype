@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //not much to this. As long as this object is in debuffs, player can do nothing.
-[CreateAssetMenu(menuName = "Effects/Character Effects/Dizzy", fileName = "charEffect_Dizzy")]
-public class CharacterEffect_Dizzy : CharacterEffect
+[CreateAssetMenu(menuName = "Effects/Status Effects/Dizzy", fileName = "statEffect_Dizzy")]
+public class StatusEffect_Dizzy : StatusEffect
 {
    void Reset()
     {
@@ -17,5 +17,6 @@ public class CharacterEffect_Dizzy : CharacterEffect
     public override void CleanupEffect(Character user)
     {
         base.CleanupEffect(user);
+        Debug.Log("Removing dizzy status from " + user.characterName);
     }
 }
