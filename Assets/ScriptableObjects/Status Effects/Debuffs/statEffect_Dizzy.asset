@@ -16,6 +16,7 @@ MonoBehaviour:
   effectDetails: Target cannot act. If target is damaged, dizzy is removed.
   totalDuration: 1
   currentDuration: 0
+  hasDuration: 1
   effectIcon: {fileID: 0}
   effect: 0
   effectType: 1

@@ -32,7 +32,9 @@ public class HunterManager : MonoBehaviour
     public HunterMenuState hunterMenuState;
 
     GameObject hunterContainer;                     //hunters are stored here for organization
+    [Header("---CPU Hunters----")]
     public List<Hunter_AI> hunterBehaviours;        //used by CPU Hunters
+    public float itemChanceMod;                     //used by dungeon mods to influence odds of CPU hunters carrying items. 
 
     public static HunterManager instance;
 
@@ -457,6 +459,24 @@ public class HunterManager : MonoBehaviour
         }
 
         //determine if hunter carries any items in inventory. These can be taken by other hunters.
+        //Chance to have items = (CPU Hunter level x 0.01) / 2 + any dungeon modifiers that influence the probability
+        //Number of items = 60 % chance for 1 item, 35 % chance for 2 items, 5 % chance for 3 items.
+        float itemChance = hunterLevel * 0.01f / 2 * (1 + itemChanceMod);
+        Debug.Log("Chance for CPU Hunter to have items: " +  itemChance);
+        int itemCount = 0;
+        if (Random.value <= itemChance)
+        {
+            float prob = Random.value;
+            if (prob <= 0.05f)
+            {
+                itemCount = 3;
+            }
+            else if (prob <= 0.35f)
+                itemCount = 2;
+            else
+                itemCount = 1;
+        }
+        Debug.Log("Number of items CPU Hunter will carry: " + itemCount);
 
         //give hunter a random name
         hunter.characterName = "CPU " + hunters.Count;

@@ -56,15 +56,21 @@ MonoBehaviour:
   - itemType: 4
     tableWeight: 450
     item:
-    - item: {fileID: 11400000, guid: b78b1e865359e694ba2b35f39be71dec, type: 2}
-      itemWeight: 400
-      requiredLevel: 0
     - item: {fileID: 11400000, guid: a7827ab0d9aeac64fa508e7975726041, type: 2}
       itemWeight: 600
+      requiredLevel: 0
+    - item: {fileID: 11400000, guid: b78b1e865359e694ba2b35f39be71dec, type: 2}
+      itemWeight: 400
       requiredLevel: 0
   - itemType: 5
     tableWeight: 100
     item:
     - item: {fileID: 11400000, guid: 613bfe3903f617943a71c96a15a73d5b, type: 2}
-      itemWeight: 1000
+      itemWeight: 333
+      requiredLevel: 0
+    - item: {fileID: 11400000, guid: e497705fef9c59645b16aa93c9315819, type: 2}
+      itemWeight: 333
+      requiredLevel: 0
+    - item: {fileID: 11400000, guid: d0aeeeb3a39ac3a4c9e2518a7fd3611b, type: 2}
+      itemWeight: 333
       requiredLevel: 0

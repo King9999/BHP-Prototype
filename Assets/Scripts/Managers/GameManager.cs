@@ -100,6 +100,8 @@ public class GameManager : MonoBehaviour
         //create dungeon. dungeon mods are activated before the dungeon is generated.
         Dungeon dungeon = Singleton.instance.Dungeon;
         ItemManager im = Singleton.instance.ItemManager;
+        //Item item = im.lootTable.GetItem(Table.ItemType.DungeonMod, "dungeonMod_increaseCpuItemChance");
+        //im.dungeonMods.Add((DungeonMod)item);
         im.ActivateDungeonMods();
         im.SortTableWeight(im.lootTable.itemTables);
         dungeon.CreateDungeon();

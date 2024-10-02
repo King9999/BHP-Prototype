@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d256573322c6b87409d292217f967cf0, type: 3}
+  m_Name: dungeonMod_increaseCpuItemChance
+  m_EditorClassIdentifier: 
+  itemName: Increase CPU Item Chance
+  details: Makes CPU Hunters more likely to carry items
+  itemID: dungeonMod_increaseCpuItemChance
+  itemLevel: 0
+  price: 2000
+  isKeyItem: 0
+  isTargetItem: 0
+  sprite: {fileID: 0}
+  itemType: 5
+  modUpside: 
+  modDownside: 
+  itemChanceMod: 0

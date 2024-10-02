@@ -17,6 +17,7 @@ MonoBehaviour:
     to reduce damage
   totalDuration: 3
   currentDuration: 0
+  hasDuration: 1
   effectIcon: {fileID: 0}
   effect: 1
   effectType: 1
