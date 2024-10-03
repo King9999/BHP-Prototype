@@ -14,21 +14,6 @@ public class DungeonMod_IncreaseCPUItemChance : DungeonMod
         details = "Makes CPU Hunters more likely to carry items";
         itemType = ItemType.DunegonMod;
         price = 2000;
-        /*itemChanceMod = Mathf.Round(Random.Range(0.5f, 2.5f) * 100f) / 100f;    //round to 2 decimal places.
-
-        //mod goes up in increments of .05. Add an amount based on whether ones digit is less than or greater than 5.
-        float onesDigit = itemChanceMod % 1;
-        Debug.Log(onesDigit);
-        if (onesDigit > 0.5f)
-        {
-            itemChanceMod += 1 - onesDigit;
-        }
-        else if (onesDigit < 0.5f)
-        {
-            itemChanceMod += 0.5f - onesDigit;
-        }*/
-
-        //itemName += " +" + itemChanceMod * 100 + "%";
     }
 
     void Awake()    //this will execute when instantiated
@@ -36,13 +21,14 @@ public class DungeonMod_IncreaseCPUItemChance : DungeonMod
         GenerateModValue();
     }
 
+
     private void GenerateModValue()
     {
         itemChanceMod = Mathf.Round(Random.Range(0.5f, 2.5f) * 100f) / 100f;    //round to 2 decimal places.
 
         //mod goes up in increments of .05. Add an amount based on whether ones digit is less than or greater than 5.
         float onesDigit = itemChanceMod % 1;
-        Debug.Log(onesDigit);
+        //Debug.Log(onesDigit);
         if (onesDigit > 0.5f)
         {
             itemChanceMod += 1 - onesDigit;
@@ -52,7 +38,7 @@ public class DungeonMod_IncreaseCPUItemChance : DungeonMod
             itemChanceMod += 0.5f - onesDigit;
         }
 
-        itemName += " +" + itemChanceMod * 100 + "%";
+        itemName = "Increase CPU Item Chance +" + itemChanceMod * 100 + "%";
     }
 
 

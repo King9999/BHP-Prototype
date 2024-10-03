@@ -19,6 +19,7 @@ public class LootTable : ScriptableObject
     //public List<Item> armor;                /* These contain specific equipment */
     //public List<Item> accessories;
     public List<Table> itemTables;      // table 0 is valuables, 1 is consumables, 2 is weapons, 3 is armor
+    public AnimationCurve curve;        //used to get random values. Lower values occur more frequently than higher values.
 
     //table indexes
     private const int VALUABLES = 0;
@@ -27,12 +28,27 @@ public class LootTable : ScriptableObject
     private const int DUNGEON_MODS = 3;
     private const int DATA_LOGS = 4;
 
+    private void Awake()
+    {
+        //GetSampleValues();
+    }
+
+    void GetSampleValues()
+    {
+        for (int i = 0; i < 100; i++)
+        {
+            //float weight = UnityEngine.Random.value;
+            float randValue = UnityEngine.Random.value;
+            int randWeight = Mathf.RoundToInt(curve.Evaluate(randValue) * 3000);
+            Debug.Log("Random value " + i + ": " + randWeight);
+        }
+    }
    
     public Table GetTable()
     {
         //sort the tables in case the weights were changed
 
-
+        
         //check which table is going to be accessed
         int totalWeight = 0;
         //int tableIndex = 0;
@@ -41,9 +57,9 @@ public class LootTable : ScriptableObject
             totalWeight += itemTables[i].tableWeight;
         }
 
-        int randValue = UnityEngine.Random.Range(0, totalWeight);
+        int randValue = Mathf.RoundToInt(curve.Evaluate(UnityEngine.Random.value) * totalWeight);// UnityEngine.Random.Range(0, totalWeight);
         Debug.Log("Total Weight: " + totalWeight);
-        Debug.Log("Init. Rand value: " + randValue);
+        Debug.Log("Init. Rand value (GetTable): " + randValue);
 
         int j = 0;
         bool tableFound = false;
@@ -126,8 +142,9 @@ public class LootTable : ScriptableObject
         }
 
         //Debug.Log("---Getting random value from GetItem---");
-        int randValue = UnityEngine.Random.Range(0, totalWeight);
+        int randValue = Mathf.RoundToInt(curve.Evaluate(UnityEngine.Random.value) * totalWeight); //UnityEngine.Random.Range(0, totalWeight);
         //Debug.Log("total weight: " + totalWeight);
+        Debug.Log("Init. Rand value (GetItem): " + randValue);
 
         j = 0;
         bool itemFound = false;
