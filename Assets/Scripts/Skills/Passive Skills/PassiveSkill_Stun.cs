@@ -11,7 +11,8 @@ public class PassiveSkill_Stun : PassiveSkill
     void Reset()
     {
         skillName = "Stun";
-        skillDetails = "After target takes damage, 50% chance target is Dizzied";
+        skillID = "passiveSkill_Stun";
+        skillDetails = "Chance to inflict Dizzy after target takes damage";
         triggerOnHit = true;
         skillEffectDuration = 1;
     }
@@ -24,7 +25,8 @@ public class PassiveSkill_Stun : PassiveSkill
         if (Random.value <= dizzyChance - target.resistDizzy)
         {
             //target is dizzied
-            //target.debuffs.Add(Character.Debuff.Dizzy);
+            EffectManager em = Singleton.instance.EffectManager;
+            em.AddEffect(StatusEffect.Effect.Dizzy, target);
         }
     }
 }

@@ -9,6 +9,7 @@ using static UnityEditor.Progress;
 using JetBrains.Annotations;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager;
 
 /* This script handles hunter creation. The UI for hunter setup is here. */
 public class HunterManager : MonoBehaviour
@@ -412,11 +413,41 @@ public class HunterManager : MonoBehaviour
         if (item is Weapon wpn)
         {
             im.GenerateMods(wpn);
-
+            //wpn.hasChipSlot = true;
             //if item has a chip slot, then get a skill
             if (wpn.hasChipSlot && wpn.itemSkill == null)
             {
-                
+                SkillManager sm = Singleton.instance.SkillManager;
+                bool skillFound = false;
+                while (!skillFound)
+                {
+                    if (Random.value <= 0.5f)
+                        wpn.itemSkill = sm.AddSkill(sm.activeSkillList);
+                    else
+                        wpn.itemSkill = sm.AddSkill(sm.passiveSkillList);
+
+                    //check if the skill added is compatible with the weapon
+                    if (wpn.weaponType == Weapon.WeaponType.BeamSword && (wpn.itemSkill.weaponRestriction == Skill.WeaponRestriction.None
+                        || wpn.itemSkill.weaponRestriction == Skill.WeaponRestriction.BeamSword))
+                    {
+                        skillFound = true;
+                    }
+
+                    else if (wpn.weaponType == Weapon.WeaponType.Railgun && (wpn.itemSkill.weaponRestriction == Skill.WeaponRestriction.None
+                        || wpn.itemSkill.weaponRestriction == Skill.WeaponRestriction.Gun))
+                    {
+                        skillFound = true;
+                    }
+
+                    else if (wpn.weaponType == Weapon.WeaponType.Augmenter && (wpn.itemSkill.weaponRestriction == Skill.WeaponRestriction.None
+                        || wpn.itemSkill.weaponRestriction == Skill.WeaponRestriction.Augmenter))
+                    {
+                        skillFound = true;
+                    }
+                }
+                //add this skill to skill list
+                //hunter.skills.Add(wpn.itemSkill);
+
             }
 
             hunter.Equip(wpn);
@@ -433,8 +464,21 @@ public class HunterManager : MonoBehaviour
                 //if item has a chip slot, then get a skill
                 if (armor.hasChipSlot && armor.itemSkill == null)
                 {
+                    SkillManager sm = Singleton.instance.SkillManager;
+                    
+                    if (Random.value <= 0.5f)
+                        armor.itemSkill = sm.AddSkill(sm.activeSkillList);
+                    else
+                        armor.itemSkill = sm.AddSkill(sm.passiveSkillList);
 
+                    //add this skill to skill list
+                    //hunter.skills.Add(armor.itemSkill);
+                    /* NOTE: It'll be possible for armor to get a skill that can only be used by specific weapon types.
+                     * This should be OK, as it just means that the hunter will need to have the correct weapon equipped to use the skill.
+                     */
                 }
+
+               
 
                 hunter.Equip(armor);
             }
@@ -451,8 +495,18 @@ public class HunterManager : MonoBehaviour
                 //if item has a chip slot, then get a skill
                 if (acc.hasChipSlot && acc.itemSkill == null)
                 {
+                    SkillManager sm = Singleton.instance.SkillManager;
 
+                    if (Random.value <= 0.5f)
+                        acc.itemSkill = sm.AddSkill(sm.activeSkillList);
+                    else
+                        acc.itemSkill = sm.AddSkill(sm.passiveSkillList);
+
+                    //add this skill to skill list
+                    //hunter.skills.Add(acc.itemSkill);
                 }
+
+                
 
                 hunter.Equip(acc);
             }
@@ -699,7 +753,7 @@ public class HunterManager : MonoBehaviour
         //create an instance of the weapon the player chose
         ItemManager im = Singleton.instance.ItemManager;
         Item item = null;
-        int weaponIndex = (int)Table.ItemType.Weapon;
+        //int weaponIndex = (int)Table.ItemType.Weapon;
         switch (ui.WeaponDropdownValue())
         {
             case 0:

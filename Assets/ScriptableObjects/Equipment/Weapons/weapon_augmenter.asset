@@ -31,3 +31,4 @@ MonoBehaviour:
   isUniqueItem: 0
   modCount: 0
   isEquipped: 0
+  weaponType: 2

@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846dd74e12715504f9c800d1e8f5873e, type: 3}
   m_Name: passiveSkill_Stun
   m_EditorClassIdentifier: 
-  skillID: 0
+  skillID: passiveSkill_Stun
   skillName: Stun
   skillDetails: After target takes damage, 50% chance target is Dizzied
   skillCooldown: 0
   currentCooldown: 0
   skillInCooldown: 0
   skillEffectDuration: 1
+  skillAnimation: {fileID: 0}
+  skillSfx: {fileID: 0}
   weaponRestriction: 1
   usageType: 2
   triggerOnHit: 1

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
@@ -175,6 +176,8 @@ public class Hunter : Character
         }
 
         //TODO: if there's a skill, add it to hunter's inventory.
+        if (weapon.itemSkill != null)
+            skills.Add(weapon.itemSkill);
     }
 
     public void Unequip(Weapon weapon)
@@ -202,6 +205,8 @@ public class Hunter : Character
         }
 
         //TODO: remove skill from inventory
+        if (weapon.itemSkill != null)
+            skills.Remove(weapon.itemSkill);
     }
 
     public void Equip(Armor armor)
@@ -225,6 +230,8 @@ public class Hunter : Character
         }
 
         //TODO: if there's a skill, add it to hunter's inventory.
+        if (armor.itemSkill != null)
+            skills.Add(armor.itemSkill);
     }
 
     public void Unequip(Armor armor)
@@ -246,6 +253,10 @@ public class Hunter : Character
                 mod.DeactivateOnUnequip(this);
             }
         }
+
+        //remove skill from inventory
+        if (armor.itemSkill != null)
+            skills.Remove(armor.itemSkill);
     }
 
     public void Equip(Accessory acc)
@@ -277,6 +288,8 @@ public class Hunter : Character
         }
 
         //TODO: if there's a skill, add it to hunter's inventory.
+        if (acc.itemSkill != null)
+            skills.Add(acc.itemSkill);
     }
     public void Unequip(Accessory acc)
     {
@@ -304,6 +317,10 @@ public class Hunter : Character
                 mod.DeactivateOnUnequip(this);
             }
         }
+
+        //remove skill
+        if (acc.itemSkill != null)
+            skills.Remove(acc.itemSkill);
     }
 
     public void Rest() 

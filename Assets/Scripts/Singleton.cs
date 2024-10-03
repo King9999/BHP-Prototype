@@ -16,6 +16,7 @@ public class Singleton : MonoBehaviour
     public CardManager CardManager { get; private set; }
     public HunterManager HunterManager { get; set; }
     public EffectManager EffectManager { get; private set; }
+    public SkillManager SkillManager { get; private set; }
     public HunterUI HunterUI { get; set; }
     public Dungeon Dungeon { get; private set; }
     //public UI UI { get; set; }
@@ -45,6 +46,7 @@ public class Singleton : MonoBehaviour
         Dungeon = GetComponentInChildren<Dungeon>();
         CardManager = GetComponentInChildren<CardManager>();
         EffectManager = GetComponentInChildren<EffectManager>();
+        SkillManager = GetComponentInChildren<SkillManager>();
         //HunterManager = GetComponentInChildren<HunterManager>();
 
         DontDestroyOnLoad(instance);

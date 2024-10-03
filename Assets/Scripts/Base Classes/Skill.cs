@@ -15,7 +15,7 @@ public abstract class Skill : ScriptableObject
 
     public enum WeaponRestriction                     //some skills only work with certain weapon types.
     {
-        None, Melee, Gun, Augmenter
+        None, BeamSword, Gun, Augmenter
     }
 
     public WeaponRestriction weaponRestriction;

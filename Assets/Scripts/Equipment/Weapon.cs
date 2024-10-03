@@ -16,6 +16,8 @@ public class Weapon : Item
     public int modCount = 3;        //default is 3. If item is not unique and has a chip slot, this value is 1.
                                     //If item is unique, this value is 2.
     public bool isEquipped;
+    public enum WeaponType { BeamSword, Railgun, Augmenter }
+    public WeaponType weaponType;
 
     void Reset()
     {

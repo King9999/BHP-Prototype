@@ -19,7 +19,7 @@ public class ActiveSkill_RiskyTackle : ActiveSkill
         minRange = 1;
         maxRange = 1;
         usageType = UsageType.Battle;
-        weaponRestriction = WeaponRestriction.Melee;
+        weaponRestriction = WeaponRestriction.BeamSword;
     }
 
     public override void ActivateSkill(Character user, Character target)
