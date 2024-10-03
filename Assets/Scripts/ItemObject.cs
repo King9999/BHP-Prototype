@@ -102,6 +102,19 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 hm.ui.itemDetailsText.text += "\nRange: " + weapon.maxRange;
             }
 
+            //add skill if applicable
+            if (weapon.itemSkill != null)
+            {
+                hm.ui.itemDetailsText.text += "\n\nSkill: " + weapon.itemSkill.skillName + 
+                    "\n" + weapon.itemSkill.skillDetails;
+
+                if (weapon.itemSkill.skillType == Skill.SkillType.Active)
+                {
+                    //more details
+                    //hm.ui.itemDetailsText.text += "\n"
+                }
+            }
+
             //add item mods
             hm.ui.itemDetailsText.text += "\n\nItem Mods:\n";
 

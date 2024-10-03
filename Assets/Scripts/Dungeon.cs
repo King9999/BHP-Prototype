@@ -257,21 +257,24 @@ public class Dungeon : MonoBehaviour
                     occupiedLocations.Add(randRoom);
 
                     //generate item TODO: first chest must contain target item.
-                    /*if (i == 0)
+                    if (i == 0)
                     {
                         //add target item
-                    }*/
-
-                    Debug.Log("Chance to generate credits: " + (baseCreditsChance + creditsChanceMod));
-                    if (Random.value <= baseCreditsChance + creditsChanceMod)
-                    {
-                        chest.credits = 50 * averageHunterLevel;
-                        chest.credits += Random.Range(0, (chest.credits / 2) + 1);
-                        Debug.Log("Adding " +  chest.credits + " CR to chest");
+                        im.GenerateChestItem(chest, Table.ItemType.Weapon, "weapon_beamSword");
                     }
                     else
                     {
-                        im.GenerateChestItem(chest);
+                        Debug.Log("Chance to generate credits: " + (baseCreditsChance + creditsChanceMod));
+                        if (Random.value <= baseCreditsChance + creditsChanceMod)
+                        {
+                            chest.credits = 50 * averageHunterLevel;
+                            chest.credits += Random.Range(0, (chest.credits / 2) + 1);
+                            Debug.Log("Adding " + chest.credits + " CR to chest");
+                        }
+                        else
+                        {
+                            im.GenerateChestItem(chest);
+                        }
                     }
                     //chest.room = dungeonRooms[randRoom];
                     dungeonRooms[randRoom].entity = chest;
@@ -281,7 +284,7 @@ public class Dungeon : MonoBehaviour
         }
 
         //**************Add CPU Hunter*************/
-        for (int i = 0; i < hm.rivalCount; i++)
-            hm.hunters.Add(hm.CreateCPUHunter(averageHunterLevel));
+        //for (int i = 0; i < hm.rivalCount; i++)
+            //hm.hunters.Add(hm.CreateCPUHunter(averageHunterLevel));
     }
 }

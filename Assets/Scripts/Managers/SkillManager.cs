@@ -42,7 +42,7 @@ public class SkillManager : MonoBehaviour
         int i = 0;
         while (!skillFound && i < skillList.Count)
         {
-            if (skillID == skillList[i].skillID)
+            if (skillID.ToLower().Equals(skillList[i].skillID.ToLower()))
             {
                 skillFound = true;
             }

@@ -13,6 +13,9 @@ public abstract class Skill : ScriptableObject
     public GameObject skillAnimation;               //the visuals for skills.
     public AudioClip skillSfx;
 
+    public enum SkillType { Active, Passive }
+    public SkillType skillType;
+
     public enum WeaponRestriction                     //some skills only work with certain weapon types.
     {
         None, BeamSword, Gun, Augmenter

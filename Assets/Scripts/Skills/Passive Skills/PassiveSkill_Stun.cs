@@ -15,6 +15,7 @@ public class PassiveSkill_Stun : PassiveSkill
         skillDetails = "Chance to inflict Dizzy after target takes damage";
         triggerOnHit = true;
         skillEffectDuration = 1;
+        skillType = SkillType.Passive;
     }
 
     //after hitting a target, there's a chance the target may be dizzied

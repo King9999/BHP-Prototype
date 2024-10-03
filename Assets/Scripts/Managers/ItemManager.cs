@@ -402,30 +402,44 @@ public class ItemManager : MonoBehaviour
 
         //if item can have mods on it, add them now
         if (item is Weapon wpn)
+        {
             GenerateMods(wpn);
+        }
         else if (item is Armor armor)
+        {
             GenerateMods(armor);
+        }
         else if (item is Accessory acc)
+        {
             GenerateMods(acc);
+        }
 
         chest.item = item;
     }
 
     //adds a specific item, such as target item
-    public void GenerateChestItem(Entity_TreasureChest chest, Table table, string itemID)
+    public void GenerateChestItem(Entity_TreasureChest chest, Table.ItemType table, string itemID)
     {
-        if (table == null || itemID.Equals(""))
+        if (/*table == null ||*/ itemID.Equals(""))
             return;
 
-        Item item = lootTable.GetItem(table.itemType, itemID);
+        Item item = lootTable.GetItem(table, itemID);
 
         //if item can have mods on it, add them now
         if (item is Weapon wpn)
+        {
             GenerateMods(wpn);
+            //SkillManager sm = Singleton.instance.SkillManager;
+            //wpn.itemSkill = sm.AddSkill(sm.passiveSkillList, "passiveSkill_Stun");
+        }
         else if (item is Armor armor)
+        {
             GenerateMods(armor);
+        }
         else if (item is Accessory acc)
+        {
             GenerateMods(acc);
+        }
 
         chest.item = item;
     }
