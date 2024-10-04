@@ -12,7 +12,7 @@ public class SkillChip : Item
     void Reset()
     {
         itemType = ItemType.SkillChip;
-        price = 5000;   //all chips have the same price since there's no rarity associated with skills.
+        price = 500;   //all chips have the same price since there's no rarity associated with skills.
     }
 
     //generate a random skill.
@@ -26,5 +26,17 @@ public class SkillChip : Item
 
         itemName = "Skill Chip [" + skill.skillName + "]";
         this.name += skill.skillName;
+        details = skill.skillDetails;
+
+        if (skill is ActiveSkill activeSkill)
+        {
+            details += "\n\nCost: " + activeSkill.skillCost + " SP\nCooldown: " + activeSkill.skillCooldown;
+            if (activeSkill.minRange > 0)
+                details += "\nRange: " + activeSkill.minRange + " - " + activeSkill.maxRange;
+            else
+                details += "\nRange: " + activeSkill + activeSkill.maxRange;
+        }
+
+        details += "\n\nWpn. Restriction: " + skill.weaponRestriction + "\nUsage: " + skill.usageType;
     }
 }

@@ -21,12 +21,13 @@ MonoBehaviour:
   skillEffectDuration: 0
   skillAnimation: {fileID: 0}
   skillSfx: {fileID: 0}
+  skillType: 0
   weaponRestriction: 1
   usageType: 2
   skillCost: 5
   skillCharges: 0
   requiresCharges: 0
-  dmgEffectiveness: 3
-  minRange: 1
+  dmgMod: 0
+  minRange: 0
   maxRange: 1
   dice: {fileID: 0}

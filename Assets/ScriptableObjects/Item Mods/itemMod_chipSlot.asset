@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: itemMod_chipSlot
   m_EditorClassIdentifier: 
   modName: <CHIP SLOT>
-  modID: ItemMod_ChipSlot
+  modID: itemMod_ChipSlot
   modLevel: 1
   isChipSlot: 1
+  isUnique: 0

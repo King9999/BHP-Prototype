@@ -74,6 +74,12 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: d0aeeeb3a39ac3a4c9e2518a7fd3611b, type: 2}
       itemWeight: 333
       requiredLevel: 0
+  - itemType: 6
+    tableWeight: 200
+    item:
+    - item: {fileID: 11400000, guid: 340e9f0c9bc7d4f48a0aa97d4c85419b, type: 2}
+      itemWeight: 1000
+      requiredLevel: 0
   curve:
     serializedVersion: 2
     m_Curve:

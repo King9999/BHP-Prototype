@@ -814,7 +814,12 @@ public class HunterManager : MonoBehaviour
         //em.AddEffect(StatusEffect.Effect.Injured, hunter);
         //em.AddEffect(StatusEffect.Effect.Injured, hunter);
 
-
+        //testing skill chip
+        /*for (int i = 0; i < 3; i++)
+        {
+            item = im.lootTable.GetItem(Table.ItemType.SkillChip);
+            hunter.inventory.Add(item);
+        }*/
 
         //save the number of rivals, it will be needed during dungeon generation.
         rivalCount = ui.RivalDropdownValue();
