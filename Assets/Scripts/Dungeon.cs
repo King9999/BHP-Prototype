@@ -95,12 +95,43 @@ public class Dungeon : MonoBehaviour
         //TODO 2: Need a way to recycle rooms, and only instantiate more rooms when necessary.
 
         HunterManager hm = Singleton.instance.HunterManager;
+
+
+        //get average hunter level of all player-controlled hunters to add CPU Hunters. Average hunter level
+        //is used later for other calculations.
+        int averageHunterLevel = 0;                         
+        foreach (Hunter hunter in hm.hunters)
+        {
+            averageHunterLevel += hunter.hunterLevel;
+        }
+
+        //get average
+        averageHunterLevel /= hm.hunters.Count;
+
+        //should never happen, but just in case
+        if (averageHunterLevel <= 0)
+            averageHunterLevel = 1;
+
+        //**************Add CPU Hunters*************/
+        for (int i = 0; i < hm.rivalCount; i++)
+        {
+            hm.hunters.Add(hm.CreateCPUHunter(averageHunterLevel));
+        }
+
+        //get the average hunter level again for calculations of adding other objects
+        averageHunterLevel = 0;
+        foreach (Hunter hunter in hm.hunters)
+        {
+            averageHunterLevel += hunter.hunterLevel;
+        }
+        averageHunterLevel /= hm.hunters.Count;
+
+        /*****************DUNGEON GENERATION********************/
         int roomCount = 50 * hm.hunters.Count;
-        //bool loopBreak = false;
         GameObject roomContainer = new GameObject();
         roomContainer.name = "Dungeon Rooms";
 
-        while (/*!loopBreak &&*/ dungeonRooms.Count < roomCount)
+        while (dungeonRooms.Count < roomCount)
         {
             Room room = Instantiate(roomPrefabs[0]);
             room.transform.SetParent(roomContainer.transform);
@@ -115,8 +146,6 @@ public class Dungeon : MonoBehaviour
             else
             {
                 //find a random point and add new room there. Must check for occupiped positions.
-
-
                 //check the last room that was added for a connect point, then add the new room there.
                 bool pointFound = false;
                 
@@ -197,11 +226,10 @@ public class Dungeon : MonoBehaviour
         Debug.Log("Dungeon Grid\n--------\n" + gridStr);
 
         /* populate the dungeon with objects, including hunters. */
+        //add all hunters
         List<int> occupiedLocations = new List<int>();  //dungeon rooms that have an object in them.
-        int averageHunterLevel = 0;                         //used for different calculations.
         foreach(Hunter hunter in hm.hunters)
         {
-            averageHunterLevel += hunter.hunterLevel;
             //pick a random room and place hunter there. Hunters should be placed in a way so that they aren't too close 
             //to each other.
             bool roomFound = false;
@@ -220,15 +248,8 @@ public class Dungeon : MonoBehaviour
                     occupiedLocations.Add(randRoom);
                 }
             }
-            
         }
-
-        //get average
-        averageHunterLevel /= hm.hunters.Count;
-
-        //should never happen, but just in case
-        if (averageHunterLevel <= 0)
-            averageHunterLevel = 1; 
+       
 
         //add chests. Number of chests = hunter count * 2 + random number between 0 and 3.
         chestCount = hm.hunters.Count * 2 + Random.Range(0, 4);
@@ -260,7 +281,8 @@ public class Dungeon : MonoBehaviour
                     if (i == 0)
                     {
                         //add target item
-                        im.GenerateChestItem(chest, Table.ItemType.Weapon, "weapon_beamSword");
+                        im.GenerateChestItem(chest, Table.ItemType.Valuable, targetItem: true);
+                        Debug.Log("Target item " + chest.item.itemName + " generated");
                     }
                     else
                     {
@@ -283,8 +305,5 @@ public class Dungeon : MonoBehaviour
             }
         }
 
-        //**************Add CPU Hunter*************/
-        //for (int i = 0; i < hm.rivalCount; i++)
-            //hm.hunters.Add(hm.CreateCPUHunter(averageHunterLevel));
     }
 }

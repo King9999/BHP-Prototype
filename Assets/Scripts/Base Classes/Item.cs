@@ -20,7 +20,7 @@ public abstract class Item : ScriptableObject
 
     public enum ItemType
     {
-        Loot, Weapon, Armor, Accessory, Consumable, DunegonMod, DataLog
+        Loot, Weapon, Armor, Accessory, Consumable, DunegonMod, DataLog, SkillChip
     }
 
     public ItemType itemType;

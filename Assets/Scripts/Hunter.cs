@@ -178,6 +178,8 @@ public class Hunter : Character
         //TODO: if there's a skill, add it to hunter's inventory.
         if (weapon.itemSkill != null)
             skills.Add(weapon.itemSkill);
+
+       
     }
 
     public void Unequip(Weapon weapon)

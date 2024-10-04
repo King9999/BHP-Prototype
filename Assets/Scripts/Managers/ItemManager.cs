@@ -7,7 +7,7 @@ using UnityEngine;
 /* Manages all items in the game. Used to generate items dynamically */
 public class ItemManager : MonoBehaviour
 {
-    public List<Weapon> masterWeaponList;
+    //public List<Weapon> masterWeaponList;
     public static ItemManager instance;
     public float maxItemModBaseChance;      //chance that a non-unique item has 3 mods 
     public float itemModBonusChance;        //dungeon mod can increase chance for 3 mods
@@ -417,10 +417,46 @@ public class ItemManager : MonoBehaviour
         chest.item = item;
     }
 
-    //adds a specific item, such as target item
-    public void GenerateChestItem(Entity_TreasureChest chest, Table.ItemType table, string itemID)
+    //adds random item from a specific table. Can be a target item.
+    public void GenerateChestItem(Entity_TreasureChest chest, Table.ItemType table, bool targetItem = false)
     {
-        if (/*table == null ||*/ itemID.Equals(""))
+        if (chest == null)
+        {
+            Debug.Log("Chest doesn't exist!");
+            return;
+        }
+        
+        Item item = lootTable.GetItem(table);
+
+        //if item can have mods on it, add them now
+        if (item is Weapon wpn)
+        {
+            GenerateMods(wpn);
+        }
+        else if (item is Armor armor)
+        {
+            GenerateMods(armor);
+        }
+        else if (item is Accessory acc)
+        {
+            GenerateMods(acc);
+        }
+
+        item.isTargetItem = targetItem;
+
+        chest.item = item;
+    }
+
+    /// <summary>
+    /// Adds a specific item from a specific table. Can be a target item
+    /// </summary>
+    /// <param name="chest">The entity that the item will be stored in.</param>
+    /// <param name="table">The table category to search.</param>
+    /// <param name="itemID">The name of the item to retrieve from the given table.</param>
+    /// <param name="targetItem">If true, this item is required to complete the dungeon.</param>
+    public void GenerateChestItem(Entity_TreasureChest chest, Table.ItemType table, string itemID, bool targetItem = false)
+    {
+        if (chest == null || itemID.Equals(""))
             return;
 
         Item item = lootTable.GetItem(table, itemID);

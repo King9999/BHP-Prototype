@@ -14,13 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillID: passiveSkill_Stun
   skillName: Stun
-  skillDetails: After target takes damage, 50% chance target is Dizzied
+  skillDetails: Chance to inflict Dizzy after target takes damage
   skillCooldown: 0
   currentCooldown: 0
   skillInCooldown: 0
   skillEffectDuration: 1
   skillAnimation: {fileID: 0}
   skillSfx: {fileID: 0}
+  skillType: 1
   weaponRestriction: 1
   usageType: 2
   triggerOnHit: 1

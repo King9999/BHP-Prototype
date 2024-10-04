@@ -16,6 +16,8 @@ public class PassiveSkill_Stun : PassiveSkill
         triggerOnHit = true;
         skillEffectDuration = 1;
         skillType = SkillType.Passive;
+        weaponRestriction = WeaponRestriction.BeamSword;
+        usageType = UsageType.Battle;
     }
 
     //after hitting a target, there's a chance the target may be dizzied

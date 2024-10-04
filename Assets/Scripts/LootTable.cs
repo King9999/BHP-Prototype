@@ -245,6 +245,6 @@ public class Table
     
     public enum ItemType
     {
-        Valuable, Consumable, Weapon, Armor, Accessory, DungeonMod
+        Valuable, Consumable, Weapon, Armor, Accessory, DungeonMod, SkillChip
     }
 }

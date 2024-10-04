@@ -445,8 +445,19 @@ public class HunterManager : MonoBehaviour
                         skillFound = true;
                     }
                 }
-                //add this skill to skill list
-                //hunter.skills.Add(wpn.itemSkill);
+                //find the item mod with <CHIP SLOT> and replace with skill name
+                bool modFound = false;
+                int i = 0;
+                while(!modFound && i < wpn.itemMods.Count)
+                {
+                    if (wpn.itemMods[i].modID.ToLower().Equals("itemMod_ChipSlot".ToLower()))
+                    {
+                        modFound = true;
+                        wpn.itemMods[i].modName = "[" + wpn.itemSkill.skillType + " skill] " + wpn.itemSkill.skillName;
+                    }
+                    else
+                        i++;
+                }
 
             }
 
@@ -470,12 +481,22 @@ public class HunterManager : MonoBehaviour
                         armor.itemSkill = sm.AddSkill(sm.activeSkillList);
                     else
                         armor.itemSkill = sm.AddSkill(sm.passiveSkillList);
-
-                    //add this skill to skill list
-                    //hunter.skills.Add(armor.itemSkill);
                     /* NOTE: It'll be possible for armor to get a skill that can only be used by specific weapon types.
                      * This should be OK, as it just means that the hunter will need to have the correct weapon equipped to use the skill.
                      */
+                    //find the item mod with <CHIP SLOT> and replace with skill name
+                    bool modFound = false;
+                    int i = 0;
+                    while (!modFound && i < armor.itemMods.Count)
+                    {
+                        if (armor.itemMods[i].modID.ToLower().Equals("itemMod_ChipSlot".ToLower()))
+                        {
+                            modFound = true;
+                            armor.itemMods[i].modName = "[" + armor.itemSkill.skillType + " skill] " + armor.itemSkill.skillName;
+                        }
+                        else
+                            i++;
+                    }
                 }
 
                
@@ -502,11 +523,20 @@ public class HunterManager : MonoBehaviour
                     else
                         acc.itemSkill = sm.AddSkill(sm.passiveSkillList);
 
-                    //add this skill to skill list
-                    //hunter.skills.Add(acc.itemSkill);
+                    //find the item mod with <CHIP SLOT> and replace with skill name
+                    bool modFound = false;
+                    int i = 0;
+                    while (!modFound && i < acc.itemMods.Count)
+                    {
+                        if (acc.itemMods[i].modID.ToLower().Equals("itemMod_ChipSlot".ToLower()))
+                        {
+                            modFound = true;
+                            acc.itemMods[i].modName = "[" + acc.itemSkill.skillType + " skill] " + acc.itemSkill.skillName;
+                        }
+                        else
+                            i++;
+                    }
                 }
-
-                
 
                 hunter.Equip(acc);
             }
@@ -532,7 +562,7 @@ public class HunterManager : MonoBehaviour
         }
         Debug.Log("Number of items CPU Hunter will carry: " + itemCount);
 
-        //give hunter a random name
+        //give hunter a random name TODO: Get a name from a file.
         hunter.characterName = "CPU " + hunters.Count;
         hunter.name = "Hunter - " + hunter.characterName;
         hunter.healthPoints = hunter.maxHealthPoints;
@@ -787,7 +817,7 @@ public class HunterManager : MonoBehaviour
 
 
         //save the number of rivals, it will be needed during dungeon generation.
-        rivalCount = ui.RivalDropdownValue() + 1;   //we add 1 due to zero indexing
+        rivalCount = ui.RivalDropdownValue();
         Debug.Log("rival count: " + rivalCount);
 
         ChangeState(state = MenuState.ShowHunterHuds);
