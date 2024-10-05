@@ -499,8 +499,6 @@ public class HunterManager : MonoBehaviour
                     }
                 }
 
-               
-
                 hunter.Equip(armor);
             }
         }
@@ -561,6 +559,9 @@ public class HunterManager : MonoBehaviour
                 itemCount = 1;
         }
         Debug.Log("Number of items CPU Hunter will carry: " + itemCount);
+
+        //Test purposes only
+        hunter.spd = 0;
 
         //give hunter a random name TODO: Get a name from a file.
         hunter.characterName = "CPU " + hunters.Count;

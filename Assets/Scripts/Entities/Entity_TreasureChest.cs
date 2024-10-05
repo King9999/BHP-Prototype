@@ -17,6 +17,14 @@ public class Entity_TreasureChest : Entity
         sr.sprite = closedChest;
     }
 
+    //can use the below code to check the radius for when adding objects to dungeon in the Dungeon script. If another object is colliding with
+    //the sphere, this object's position is re-rolled.
+    /*private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(transform.position, 2);
+    }*/
+
     public void OpenChest(Hunter hunter)
     {
         if (playerInteracted)

@@ -239,20 +239,31 @@ public class Dungeon : MonoBehaviour
 
                 if (!occupiedLocations.Contains(randRoom))
                 {
-                    roomFound = true;
-                    hm.ToggleHunter(hunter, true);
+                    //check if this object collides with nearby objects. If true, find another location.
                     Vector3 roomPos = dungeonRooms[randRoom].transform.position;
-                    //2 is added to Y so hunter is above the room and not falling through it
-                    hunter.transform.position = new Vector3(roomPos.x, roomPos.y + 2, roomPos.z);
-                    hunter.room = dungeonRooms[randRoom];
-                    occupiedLocations.Add(randRoom);
+                    Collider[] colliders = Physics.OverlapSphere(roomPos, 2, 0, QueryTriggerInteraction.Collide);
+                    if (colliders.Length <= 0)
+                    {
+                        roomFound = true;
+                        hm.ToggleHunter(hunter, true);
+                        //Vector3 roomPos = dungeonRooms[randRoom].transform.position;
+                        //2 is added to Y so hunter is above the room and not falling through it
+                        hunter.transform.position = new Vector3(roomPos.x, roomPos.y + 2, roomPos.z);
+                        hunter.room = dungeonRooms[randRoom];
+                        occupiedLocations.Add(randRoom);
+                    }
+                    else
+                    {
+                        Debug.Log("Object too close to other objects, finding another location");
+                        occupiedLocations.Add(randRoom);
+                    }
                 }
             }
         }
        
 
-        //add chests. Number of chests = hunter count * 2 + random number between 0 and 3.
-        chestCount = hm.hunters.Count * 2 + Random.Range(0, 4);
+        //add chests. Number of chests = hunter count + random number between 1 and 3.
+        chestCount = hm.hunters.Count + Random.Range(1, 4);
         ItemManager im = Singleton.instance.ItemManager;
         GameObject chestContainer = new GameObject();
         chestContainer.name = "Treasure Chests";
@@ -266,41 +277,52 @@ public class Dungeon : MonoBehaviour
 
                 if (!occupiedLocations.Contains(randRoom))
                 {
-                    roomFound = true;
-                    Entity_TreasureChest chest = Instantiate(chestPrefab, chestContainer.transform);
-                    //chest.transform.SetParent(chestContainer.transform);
-
-                    //TODO: If this is the first chest to be generated, it must contain the target item.
-
+                    //check if this object collides with nearby objects. If true, find another location.
                     Vector3 roomPos = dungeonRooms[randRoom].transform.position;
-                    //1 is added to Y so chest is above the room
-                    chest.transform.position = new Vector3(roomPos.x, roomPos.y + 1.2f, roomPos.z);
-                    occupiedLocations.Add(randRoom);
+                    Collider[] colliders = Physics.OverlapSphere(roomPos, 2, 0, QueryTriggerInteraction.Collide);
+                    if (colliders.Length <= 0)
+                    {
 
-                    //generate item TODO: first chest must contain target item.
-                    if (i == 0)
-                    {
-                        //add target item
-                        im.GenerateChestItem(chest, Table.ItemType.Valuable, targetItem: true);
-                        Debug.Log("Target item " + chest.item.itemName + " generated");
-                    }
-                    else
-                    {
-                        Debug.Log("Chance to generate credits: " + (baseCreditsChance + creditsChanceMod));
-                        if (Random.value <= baseCreditsChance + creditsChanceMod)
+                        roomFound = true;
+                        Entity_TreasureChest chest = Instantiate(chestPrefab, chestContainer.transform);
+                        //chest.transform.SetParent(chestContainer.transform);
+
+                        //TODO: If this is the first chest to be generated, it must contain the target item.
+
+
+                        //1 is added to Y so chest is above the room
+                        chest.transform.position = new Vector3(roomPos.x, roomPos.y + 1.2f, roomPos.z);
+                        occupiedLocations.Add(randRoom);
+
+                        //generate item TODO: first chest must contain target item.
+                        if (i == 0)
                         {
-                            chest.credits = 50 * averageHunterLevel;
-                            chest.credits += Random.Range(0, (chest.credits / 2) + 1);
-                            Debug.Log("Adding " + chest.credits + " CR to chest");
+                            //add target item
+                            im.GenerateChestItem(chest, Table.ItemType.Valuable, targetItem: true);
+                            Debug.Log("Target item " + chest.item.itemName + " generated");
                         }
                         else
                         {
-                            im.GenerateChestItem(chest);
+                            Debug.Log("Chance to generate credits: " + (baseCreditsChance + creditsChanceMod));
+                            if (Random.value <= baseCreditsChance + creditsChanceMod)
+                            {
+                                chest.credits = 50 * averageHunterLevel;
+                                chest.credits += Random.Range(0, (chest.credits / 2) + 1);
+                                Debug.Log("Adding " + chest.credits + " CR to chest");
+                            }
+                            else
+                            {
+                                im.GenerateChestItem(chest);
+                            }
                         }
+                        dungeonRooms[randRoom].entity = chest;
+                        treasureChests.Add(chest);
                     }
-                    //chest.room = dungeonRooms[randRoom];
-                    dungeonRooms[randRoom].entity = chest;
-                    treasureChests.Add(chest);
+                    else
+                    {
+                        Debug.Log("Object too close to other objects, finding another location");
+                        occupiedLocations.Add(randRoom);
+                    }
                 }
             }
         }
