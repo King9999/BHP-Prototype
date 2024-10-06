@@ -92,6 +92,14 @@ public class Dungeon : MonoBehaviour
         return room;
     }
 
+    //also updates character world position in the dungeon
+    public void UpdateCharacterRoom(Character character, Room room)
+    {
+        Vector3 roomPos = room.transform.position;
+        character.room = room;
+        character.transform.position = new Vector3(roomPos.x, character.transform.position.y, roomPos.z);
+    }
+
     public void CreateDungeon()
     {
         //TODO: Room count scales up depending on hunter count. Need to figure out a good minimum room count for 2 hunters.

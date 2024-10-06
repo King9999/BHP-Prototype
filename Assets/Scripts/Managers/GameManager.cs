@@ -417,7 +417,10 @@ public class GameManager : MonoBehaviour
         //terminal check
 
         //exit check
-
+        if (room.entity is Entity_Exit exit)
+        {
+            exit.TeleportCharacter(character);
+        }
     }
 
     /// <summary>

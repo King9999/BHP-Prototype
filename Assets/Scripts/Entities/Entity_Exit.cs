@@ -18,6 +18,7 @@ public class Entity_Exit : Entity
 
     public void TeleportCharacter(Character character)
     {
+        Dungeon dun = Singleton.instance.Dungeon;
         if (character is Hunter hunter)
         {
             //check for target item
@@ -28,9 +29,7 @@ public class Entity_Exit : Entity
             else
             {
                 //teleport to random empty space
-                Dungeon dun = Singleton.instance.Dungeon;
                 bool roomFound = false;
-                int i = 0;
                 while(!roomFound)
                 {
                     int randRoom = Random.Range(0, dun.dungeonRooms.Count);
@@ -38,6 +37,25 @@ public class Entity_Exit : Entity
                     if (dun.dungeonRooms[randRoom].entity == null)
                     {
                         //check for any characters.
+                        bool roomEmpty = true;
+                        GameManager gm = Singleton.instance.GameManager;
+                        int i = 0;
+                        while (roomEmpty && i < gm.turnOrder.Count)
+                        {
+                            if (gm.turnOrder[i].room == dun.dungeonRooms[randRoom])
+                            {
+                                roomEmpty = false;
+                                
+                            }
+                            else
+                                i++;
+                        }
+
+                        if (roomEmpty)
+                        {
+                            roomFound = true;
+                            dun.UpdateCharacterRoom(hunter, dun.dungeonRooms[randRoom]);
+                        }
 
                     }
                 }
@@ -46,6 +64,36 @@ public class Entity_Exit : Entity
         else
         {
             //teleport to empty space
+            bool roomFound = false;
+            while (!roomFound)
+            {
+                int randRoom = Random.Range(0, dun.dungeonRooms.Count);
+
+                if (dun.dungeonRooms[randRoom].entity == null)
+                {
+                    //check for any characters.
+                    bool roomEmpty = true;
+                    GameManager gm = Singleton.instance.GameManager;
+                    int i = 0;
+                    while (roomEmpty && i < gm.turnOrder.Count)
+                    {
+                        if (gm.turnOrder[i].room == dun.dungeonRooms[randRoom])
+                        {
+                            roomEmpty = false;
+                            dun.UpdateCharacterRoom(character, dun.dungeonRooms[randRoom]);
+                        }
+                        else
+                            i++;
+                    }
+
+                    if (roomEmpty)
+                    {
+                        roomFound = true;
+                        dun.UpdateCharacterRoom(character, dun.dungeonRooms[randRoom]);
+                    }
+
+                }
+            }
         }
     }
 
