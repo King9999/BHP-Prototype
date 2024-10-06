@@ -6,7 +6,7 @@ using UnityEngine;
  * teleported to a random empty space. Monsters can use exits to warp. */
 public class Entity_Exit : Entity
 {
-    public Sprite exitSprite;
+    //public Sprite exitSprite;
 
     //can use the below code to check the radius for when adding objects to dungeon in the Dungeon script. If another object is colliding with
     //the sphere, this object's position is re-rolled.

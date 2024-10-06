@@ -22,6 +22,9 @@ public class Dungeon : MonoBehaviour
     public float baseCreditsChance;             //determines whether a chest contains credits or an item
     public float creditsChanceMod;               //modified by dungeon mods.
 
+    [Header("---Exit Point---")]
+    public Entity_Exit exitPointPrefab;
+
     //private readonly Hashtable occupiedPositions = new();
     private Dictionary<Vector3, Room> occupiedPositions = new Dictionary<Vector3, Room>();
     // Start is called before the first frame update
@@ -95,7 +98,7 @@ public class Dungeon : MonoBehaviour
         //TODO 2: Need a way to recycle rooms, and only instantiate more rooms when necessary.
 
         HunterManager hm = Singleton.instance.HunterManager;
-
+        bool roomFound;     //this will be used many times
 
         //get average hunter level of all player-controlled hunters to add CPU Hunters. Average hunter level
         //is used later for other calculations.
@@ -130,6 +133,7 @@ public class Dungeon : MonoBehaviour
         int roomCount = 50 * hm.hunters.Count;
         GameObject roomContainer = new GameObject();
         roomContainer.name = "Dungeon Rooms";
+        roomContainer.transform.SetParent(this.transform);
 
         while (dungeonRooms.Count < roomCount)
         {
@@ -232,7 +236,7 @@ public class Dungeon : MonoBehaviour
         {
             //pick a random room and place hunter there. Hunters should be placed in a way so that they aren't too close 
             //to each other.
-            bool roomFound = false;
+            roomFound = false;
             while (!roomFound)
             {
                 int randRoom = Random.Range(0, dungeonRooms.Count);
@@ -254,7 +258,7 @@ public class Dungeon : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("Object too close to other objects, finding another location");
+                        Debug.Log("Hunter too close to other objects, finding another location");
                         occupiedLocations.Add(randRoom);
                     }
                 }
@@ -267,10 +271,11 @@ public class Dungeon : MonoBehaviour
         ItemManager im = Singleton.instance.ItemManager;
         GameObject chestContainer = new GameObject();
         chestContainer.name = "Treasure Chests";
+        chestContainer.transform.SetParent(this.transform);
 
         for (int i = 0; i < chestCount; i++)
         {
-            bool roomFound = false;
+            roomFound = false;
             while (!roomFound)
             {
                 int randRoom = Random.Range(0, dungeonRooms.Count);
@@ -320,9 +325,40 @@ public class Dungeon : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("Object too close to other objects, finding another location");
+                        Debug.Log("Chest too close to other objects, finding another location");
                         occupiedLocations.Add(randRoom);
                     }
+                }
+            }
+        }
+
+        /*******Exit Point*********/
+        GameObject exitContainer = new GameObject();
+        exitContainer.name = "Exit Point";
+        exitContainer.transform.SetParent(this.transform);
+
+        roomFound = false;
+        while (!roomFound)
+        {
+            int randRoom = Random.Range(0, dungeonRooms.Count);
+            if (!occupiedLocations.Contains(randRoom))
+            {
+                //check if this object collides with nearby objects. If true, find another location.
+                Vector3 roomPos = dungeonRooms[randRoom].transform.position;
+                Collider[] colliders = Physics.OverlapSphere(roomPos, 2, 0, QueryTriggerInteraction.Collide);
+                if (colliders.Length <= 0)
+                {
+                    roomFound = true;
+                    Entity_Exit exitPoint = Instantiate(exitPointPrefab);
+                    exitPoint.transform.SetParent(exitContainer.transform);
+                    exitPoint.transform.position = new Vector3(roomPos.x, roomPos.y + 2f, roomPos.z);
+                    dungeonRooms[randRoom].entity = exitPoint;
+                    occupiedLocations.Add(randRoom);
+                }
+                else
+                {
+                    Debug.Log("Exit Point too close to other objects, finding another location");
+                    occupiedLocations.Add(randRoom);
                 }
             }
         }
