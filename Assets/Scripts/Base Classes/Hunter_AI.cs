@@ -25,4 +25,8 @@ public abstract class Hunter_AI : ScriptableObject
 
     //Some behaviours have special abilities that are triggered on their turn.
     public virtual void ActivateAbility(Hunter hunter) { }
+
+    //each behaviour has different algorithms for choosing a card to play
+    public virtual void ChooseCard() { }
+
 }

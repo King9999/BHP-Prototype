@@ -444,6 +444,11 @@ public class ItemManager : MonoBehaviour
 
         item.isTargetItem = targetItem;
 
+        if (item.isTargetItem)
+        {
+            item.itemName += " [TARGET]";
+        }
+
         chest.item = item;
     }
 
@@ -475,6 +480,13 @@ public class ItemManager : MonoBehaviour
         else if (item is Accessory acc)
         {
             GenerateMods(acc);
+        }
+
+        item.isTargetItem = targetItem;
+
+        if (item.isTargetItem)
+        {
+            item.itemName += " [TARGET]";
         }
 
         chest.item = item;
