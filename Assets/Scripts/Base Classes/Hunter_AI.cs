@@ -26,7 +26,31 @@ public abstract class Hunter_AI : ScriptableObject
     //Some behaviours have special abilities that are triggered on their turn.
     public virtual void ActivateAbility(Hunter hunter) { }
 
-    //each behaviour has different algorithms for choosing a card to play
-    public virtual void ChooseCard() { }
+    //choose a card based on behaviour.
+    public virtual Card ChooseCard(Hunter hunter) 
+    {
+        Card card = null;
+        List<Card> topCards = new List<Card>();
+
+        for (int i = 0; i < hunter.cards.Count; i++)
+        {
+            //movement cards are higher priority than trap cards, unless hunter is a ninja
+            //gather all of the field and versatile cards
+            if (hunter.cards[i].cardType == Card.CardType.Field || hunter.cards[i].cardType == Card.CardType.Versatile)
+            {
+                topCards.Add(hunter.cards[i]);
+            }
+
+        }
+
+        //look at the available cards and pick the most suitable one
+        for(int i = 0; i < topCards.Count; i++)
+        {
+            
+        }
+
+        return card;
+    }
+
 
 }

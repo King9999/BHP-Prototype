@@ -10,6 +10,8 @@ public abstract class Card : ScriptableObject
     public Sprite cardSprite;
     public enum CardType { Versatile, Field, Combat }
     public CardType cardType;
+    public int weight;          //used by AI to determine card priority. Value is out of 100. The higher, the better.
+                                //card weight varies by behaviour, as different behaviours value some cards more than others.
 
     //trigger conditions
     [Header("---Field Triggers---")]

@@ -35,7 +35,10 @@ public class HunterManager : MonoBehaviour
     GameObject hunterContainer;                     //hunters are stored here for organization
     [Header("---CPU Hunters----")]
     public List<Hunter_AI> hunterBehaviours;        //used by CPU Hunters
-    public float itemChanceMod;                     //used by dungeon mods to influence odds of CPU hunters carrying items. 
+    public float itemChanceMod;                     //used by dungeon mods to influence odds of CPU hunters carrying items.
+    public enum HunterAIState { Moving, UseSkill }  //Moving = looking for a space to move to. Will look for points of interest.
+                                                    //UseSkill = use a skill if CPU found a valid target during the Moving state.
+    public HunterAIState aiState;
 
     public static HunterManager instance;
 
@@ -192,6 +195,10 @@ public class HunterManager : MonoBehaviour
         }
     }
 
+    
+
+    
+
     public void CreateHunter()
     {
         if (hunters.Count >= maxHunters)
@@ -244,6 +251,7 @@ public class HunterManager : MonoBehaviour
         //hunters[0].inventory.Add(im.GenerateWeapon());  //adding weapon as a test
     }
 
+    #region CPU Hunter code
     //********create a hunter based on the given level.*********/
     struct Stats
     {
@@ -570,6 +578,45 @@ public class HunterManager : MonoBehaviour
         hunter.skillPoints = hunter.maxSkillPoints;
         return hunter;
     }
+
+    //CPU-controlled actions. Uses weight to determine priorities.
+    public void ChangeCPUHunterState(HunterAIState aiState, Hunter hunter)
+    {
+        GameManager gm = Singleton.instance.GameManager;
+
+        switch(aiState)
+        {
+            case HunterAIState.Moving:
+                StartCoroutine(MoveCPUHunter(hunter));
+                break;
+
+            case HunterAIState.UseSkill:
+                break;
+        }
+    }
+
+    /* Executes all actions for moving a hunter. Includes choosing a card, rolling dice, and moving hunter to new space. */
+    IEnumerator MoveCPUHunter(Hunter hunter)
+    {
+        //decide whether to use a card. Likelihood increases depending on behaviour.
+        GameManager gm = Singleton.instance.GameManager;
+        bool cardPicked = false;
+        int i = 0;
+        Card card = null;
+        while (!cardPicked && i < hunter.cards.Count)
+        {
+            card = hunter.cpuBehaviour.ChooseCard(hunter);
+
+            if (card != null)
+                cardPicked = true;
+            else
+                i++;
+
+            yield return null;
+        }
+    }
+
+    #endregion
 
     //adds basic attack skill and takes on properties of equipped weapon
     void AddBasicAttackSkill(Hunter hunter)

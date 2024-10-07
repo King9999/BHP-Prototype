@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
     public GameObject selectTile;
     public List<Character> turnOrder;
     int currentCharacter;
-    public List<Vector3> movementPositions, attackPositions;     //holds valid positions for moving and attacking
+    public List<Room> movementPositions, attackPositions;     //holds valid positions for moving and attacking
     public List<GameObject> moveTileList, moveTileBin, skillTileList, skillTileBin;          //bin is used for recycling instantiated move tiles
 
     bool runMovementCheck, runSkillCheck, moveTilesActive, skillTilesActive;
@@ -157,24 +157,24 @@ public class GameManager : MonoBehaviour
 
             //Dungeon dun = Singleton.instance.Dungeon;
             int totalMove = ActiveCharacter().mov + dice.RollSingleDie() + movementMod;
-            List<Vector3> moveRange = ShowMoveRange(ActiveCharacter(), totalMove);
+            List<Room> moveRange = ShowMoveRange(ActiveCharacter(), totalMove);
             Debug.Log("Total Move: " + totalMove);
 
-            foreach (Vector3 pos in moveRange)
+            foreach (Room pos in moveRange)
             {
                 //if there are existing move tile objects, activate those first before instantiating new ones.
                 if (moveTileBin.Count > 0)
                 {
                     GameObject lastTile = moveTileBin[0];
                     lastTile.SetActive(true);
-                    lastTile.transform.position = new Vector3(pos.x, 0.6f, pos.z);
+                    lastTile.transform.position = new Vector3(pos.transform.position.x, 0.6f, pos.transform.position.z);
                     moveTileList.Add(lastTile);
                     moveTileBin.Remove(lastTile);
                 }
                 else
                 {
                     GameObject tile = Instantiate(moveTilePrefab, moveTileContainer.transform);
-                    tile.transform.position = new Vector3(pos.x, 0.6f, pos.z);
+                    tile.transform.position = new Vector3(pos.transform.position.x, 0.6f, pos.transform.position.z);
                     moveTileList.Add(tile);
                 }
                 
@@ -226,24 +226,24 @@ public class GameManager : MonoBehaviour
             runSkillCheck = false;
 
             //Dungeon dun = Singleton.instance.Dungeon;
-            List<Vector3> skillRange = ShowSkillRange(ActiveCharacter(), selectedSkill.minRange, selectedSkill.maxRange);
+            List<Room> skillRange = ShowSkillRange(ActiveCharacter(), selectedSkill.minRange, selectedSkill.maxRange);
             Debug.Log(selectedSkill.skillName + "'s range: " + selectedSkill.minRange + " min, " + selectedSkill.maxRange + " max");
 
-            foreach (Vector3 pos in skillRange)
+            foreach (Room pos in skillRange)
             {
                 //if there are existing move tile objects, activate those first before instantiating new ones.
                 if (skillTileBin.Count > 0)
                 {
                     GameObject lastTile = skillTileBin[0];
                     lastTile.SetActive(true);
-                    lastTile.transform.position = new Vector3(pos.x, 0.6f, pos.z);
+                    lastTile.transform.position = new Vector3(pos.transform.position.x, 0.6f, pos.transform.position.z);
                     skillTileList.Add(lastTile);
                     skillTileBin.Remove(lastTile);
                 }
                 else
                 {
                     GameObject tile = Instantiate(skillTilePrefab, skillTileContainer.transform);
-                    tile.transform.position = new Vector3(pos.x, 0.6f, pos.z);
+                    tile.transform.position = new Vector3(pos.transform.position.x, 0.6f, pos.transform.position.z);
                     skillTileList.Add(tile);
                 }
 
@@ -429,9 +429,9 @@ public class GameManager : MonoBehaviour
     /// <param name="character">The active character.</param>
     /// <param name="spaceCount">The total number of spaces the character can move.</param>
     /// <returns>The list of valid spaces the character can move.</returns>
-    public List<Vector3> ShowMoveRange(Character character, int spaceCount)
+    public List<Room> ShowMoveRange(Character character, int spaceCount)
     {
-        List<Vector3>  validPositions = new List<Vector3>();
+        List<Room>  validPositions = new List<Room>();
         Dungeon dungeon = Singleton.instance.Dungeon;
         char[,] grid = dungeon.dungeonGrid;
 
@@ -563,7 +563,7 @@ public class GameManager : MonoBehaviour
                 //check if we still have space to move here 
                 if (currentSpaceCount <= spaceCount)
                 {
-                    Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                    Room newPos = GetRoomPosition(currentRow, currentCol);
                     if (!validPositions.Contains(newPos))
                         validPositions.Add(newPos);
                 }
@@ -595,7 +595,7 @@ public class GameManager : MonoBehaviour
                     //check if we still have space to move here 
                     if (currentSpaceCount <= spaceCount)
                     {
-                        Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                        Room newPos = GetRoomPosition(currentRow, currentCol);
                         if (!validPositions.Contains(newPos))
                             validPositions.Add(newPos);
                     }
@@ -628,7 +628,7 @@ public class GameManager : MonoBehaviour
                     //check if we still have space to move here 
                     if (currentSpaceCount <= spaceCount)
                     {
-                        Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                        Room newPos = GetRoomPosition(currentRow, currentCol);
                         if (!validPositions.Contains(newPos))
                             validPositions.Add(newPos);
                     }
@@ -665,7 +665,7 @@ public class GameManager : MonoBehaviour
                 //check if we still have space to move here 
                 if (currentSpaceCount <= spaceCount)
                 {
-                    Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                    Room newPos = GetRoomPosition(currentRow, currentCol);
                     if (!validPositions.Contains(newPos))
                         validPositions.Add(newPos);
                 }
@@ -696,7 +696,7 @@ public class GameManager : MonoBehaviour
                     //check if we still have space to move here 
                     if (currentSpaceCount <= spaceCount)
                     {
-                        Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                        Room newPos = GetRoomPosition(currentRow, currentCol);
                         if (!validPositions.Contains(newPos))
                             validPositions.Add(newPos);
                     }
@@ -729,7 +729,7 @@ public class GameManager : MonoBehaviour
                     //check if we still have space to move here 
                     if (currentSpaceCount <= spaceCount)
                     {
-                        Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                        Room newPos = GetRoomPosition(currentRow, currentCol);
                         if (!validPositions.Contains(newPos))
                             validPositions.Add(newPos);
                     }
@@ -766,7 +766,7 @@ public class GameManager : MonoBehaviour
                 //check if we still have space to move here 
                 if (currentSpaceCount <= spaceCount)
                 {
-                    Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                    Room newPos = GetRoomPosition(currentRow, currentCol);
                     if (!validPositions.Contains(newPos))
                         validPositions.Add(newPos);
                 }
@@ -797,7 +797,7 @@ public class GameManager : MonoBehaviour
                     //check if we still have space to move here 
                     if (currentSpaceCount <= spaceCount)
                     {
-                        Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                        Room newPos = GetRoomPosition(currentRow, currentCol);
                         if (!validPositions.Contains(newPos))
                             validPositions.Add(newPos);
                     }
@@ -830,7 +830,7 @@ public class GameManager : MonoBehaviour
                     //check if we still have space to move here 
                     if (currentSpaceCount <= spaceCount)
                     {
-                        Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                        Room newPos = GetRoomPosition(currentRow, currentCol);
                         if (!validPositions.Contains(newPos))
                             validPositions.Add(newPos);
                     }
@@ -852,9 +852,9 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public List<Vector3> ShowSkillRange(Character character, int minRange, int maxRange)
+    public List<Room> ShowSkillRange(Character character, int minRange, int maxRange)
     {
-        List<Vector3> validPositions = new List<Vector3>();
+        List<Room> validPositions = new List<Room>();
         Dungeon dungeon = Singleton.instance.Dungeon;
         char[,] grid = dungeon.dungeonGrid;
 
@@ -931,7 +931,7 @@ public class GameManager : MonoBehaviour
             currentSpaceCount++;
             if (currentSpaceCount >= minRange && grid[currentRow, currentCol] == '1')
             {
-                Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                Room newPos = GetRoomPosition(currentRow, currentCol);
                 if (!validPositions.Contains(newPos))
                     validPositions.Add(newPos);
             }
@@ -947,7 +947,7 @@ public class GameManager : MonoBehaviour
                 currentSpaceCount++;
                 if (grid[currentRow, currentCol] == '1')
                 {
-                    Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                    Room newPos = GetRoomPosition(currentRow, currentCol);
                     if (!validPositions.Contains(newPos))
                         validPositions.Add(newPos);
                 }
@@ -963,7 +963,7 @@ public class GameManager : MonoBehaviour
                 currentSpaceCount++;
                 if (grid[currentRow, currentCol] == '1')
                 {
-                    Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                    Room newPos = GetRoomPosition(currentRow, currentCol);
                     if (!validPositions.Contains(newPos))
                         validPositions.Add(newPos);
                 }
@@ -986,7 +986,7 @@ public class GameManager : MonoBehaviour
             //add new position
             if (currentSpaceCount >= minRange && grid[currentRow, currentCol] == '1')
             {
-                Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                Room newPos = GetRoomPosition(currentRow, currentCol);
                 if (!validPositions.Contains(newPos))
                     validPositions.Add(newPos);
             }
@@ -1000,7 +1000,7 @@ public class GameManager : MonoBehaviour
                 currentSpaceCount++;
                 if (grid[currentRow, currentCol] == '1')
                 {
-                    Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                    Room newPos = GetRoomPosition(currentRow, currentCol);
                     if (!validPositions.Contains(newPos))
                         validPositions.Add(newPos);
                 }
@@ -1016,7 +1016,7 @@ public class GameManager : MonoBehaviour
                 currentSpaceCount++;
                 if (grid[currentRow, currentCol] == '1')
                 {
-                    Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                    Room newPos = GetRoomPosition(currentRow, currentCol);
                     if (!validPositions.Contains(newPos))
                         validPositions.Add(newPos);
                 }
@@ -1038,7 +1038,7 @@ public class GameManager : MonoBehaviour
             //add new position
             if (currentSpaceCount >= minRange && grid[currentRow, currentCol] == '1')
             {
-                Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                Room newPos = GetRoomPosition(currentRow, currentCol);
                 if (!validPositions.Contains(newPos))
                     validPositions.Add(newPos);
             }
@@ -1052,7 +1052,7 @@ public class GameManager : MonoBehaviour
                 currentSpaceCount++;
                 if (grid[currentRow, currentCol] == '1')
                 {
-                    Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                    Room newPos = GetRoomPosition(currentRow, currentCol);
                     if (!validPositions.Contains(newPos))
                         validPositions.Add(newPos);
                 }
@@ -1068,7 +1068,7 @@ public class GameManager : MonoBehaviour
                 currentSpaceCount++;
                 if (grid[currentRow, currentCol] == '1')
                 {
-                    Vector3 newPos = GetRoomPosition(currentRow, currentCol);
+                    Room newPos = GetRoomPosition(currentRow, currentCol);
                     if (!validPositions.Contains(newPos))
                         validPositions.Add(newPos);
                 }
@@ -1082,7 +1082,7 @@ public class GameManager : MonoBehaviour
         return validPositions;
     }
 
-    Vector3 GetRoomPosition(int row, int col)
+    Room GetRoomPosition(int row, int col)
     {
         bool roomFound = false;
         int i = 0;
@@ -1101,7 +1101,8 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        return room.transform.position;
+        return room;
+        //return room.transform.position;
     }
 
     Vector3 GetRoomsInDirection(RaycastHit hit)
