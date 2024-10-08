@@ -12,7 +12,10 @@ public class Card_PerfectDefense : Card
         cardDetails_field = "100% chance to avoid traps";
         cardDetails_combat = "Reduce all damage against user to 0. Debuff chance against user is 0%";
     }
-
+    private void OnEnable()
+    {
+        weight = 80;
+    }
     public override void ActivateCard_Field(Hunter user)
     {
         base.ActivateCard_Field(user);

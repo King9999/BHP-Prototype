@@ -13,7 +13,10 @@ public class Card_MoveOne : Card
         cardDetails_field = "Adds 1 space to total MOV";
         cardDetails_combat = "+10% chance to run away";
     }
-
+    private void OnEnable()
+    {
+        weight = 50;
+    }
     public override void ActivateCard_Field(Hunter user)
     {
         GameManager gm = Singleton.instance.GameManager;

@@ -12,7 +12,10 @@ public class Card_Pierce : Card
         cardDetails_combat = "Ignores target's total defense. No effect vs. Perfect Defense";
     }
 
-    
+    private void OnEnable()
+    {
+        weight = 80;
+    }
     public override void ActivateCard_Combat(Hunter user)
     {
         base.ActivateCard_Combat(user);

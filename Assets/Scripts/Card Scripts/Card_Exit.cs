@@ -13,7 +13,10 @@ public class Card_Exit : Card
         cardDetails_field = "Teleport to the dungeon exit. If the user doesn't have the target item, they are sent to a random location.";
         cardDetails_combat = "100% chance to run away";
     }
-
+    private void OnEnable()
+    {
+        weight = 80;
+    }
     public override void ActivateCard_Field(Hunter user)
     {
         GameManager gm = Singleton.instance.GameManager;

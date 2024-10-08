@@ -11,7 +11,10 @@ public class Card_SuperCharge : Card
         cardName = "Super Charge";
         cardDetails_field = "+30% to super meter";
     }
-
+    private void OnEnable()
+    {
+        weight = 50;
+    }
     public override void ActivateCard_Field(Hunter user)
     {
         base.ActivateCard_Field(user);

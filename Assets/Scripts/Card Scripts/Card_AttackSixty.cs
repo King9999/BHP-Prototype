@@ -12,7 +12,10 @@ public class Card_AttackSixty : Card
         cardName = "Attack +60";
         cardDetails_combat = "+60% ATP";
     }
-
+    private void OnEnable()
+    {
+        weight = 70;
+    }
     public override void ActivateCard_Combat(Hunter user)
     {
         user.atpMod += atpMod;

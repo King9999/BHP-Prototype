@@ -11,6 +11,10 @@ public class Card_DefenseTwenty : Card
         cardDetails_field = "+20% chance to avoid traps";
         cardDetails_combat = "+20% DFP";
     }
+    private void OnEnable()
+    {
+        weight = 50;
+    }
 
     public override void ActivateCard_Field(Hunter user)
     {

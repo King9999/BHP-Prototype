@@ -37,6 +37,7 @@ public class Hunter : Character
     public Weapon equippedWeapon;
     public Armor equippedArmor;
     public Accessory equippedAccessory;
+    public SuperAbility super;
 
     public List<Item> inventory;          //10 items max
     //public List<Item> stash;              //100 items max. THIS SHOULD BE ATTACHED TO HUNTER, ONLY 1 STASH SHARED BETWEEN ALL HUNTERS
@@ -337,5 +338,20 @@ public class Hunter : Character
 
         CardManager cm = Singleton.instance.CardManager;
         cm.DrawCard(this, cm.deck);
+    }
+
+    public bool HasTargetItem()
+    {
+        bool targetFound = false;
+        int i = 0;
+        while (!targetFound && i < inventory.Count)
+        {
+            if (inventory[i].isTargetItem)
+                targetFound = true;
+            else
+                i++;
+        }
+
+        return targetFound;
     }
 }

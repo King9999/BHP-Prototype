@@ -22,7 +22,7 @@ public class Entity_Exit : Entity
         if (character is Hunter hunter)
         {
             //check for target item
-            if (HunterHasTargetItem(hunter))
+            if (hunter.HasTargetItem())
             {
                 //game is over, target has been found.
                 Debug.Log(hunter.characterName + "is the winner!");
@@ -98,7 +98,7 @@ public class Entity_Exit : Entity
         }
     }
 
-    private bool HunterHasTargetItem(Hunter hunter)
+    /*private bool HunterHasTargetItem(Hunter hunter)
     {
         bool targetFound = false;
         int i = 0;
@@ -111,6 +111,6 @@ public class Entity_Exit : Entity
         }
               
         return targetFound;
-    }
+    }*/
 
 }

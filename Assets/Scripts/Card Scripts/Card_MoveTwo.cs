@@ -12,7 +12,10 @@ public class Card_MoveTwo : Card
         cardDetails_field = "Adds 2 spaces to total MOV";
         cardDetails_combat = "+20% chance to run away";
     }
-
+    private void OnEnable()
+    {
+        weight = 60;
+    }
     public override void ActivateCard_Field(Hunter user)
     {
         GameManager gm = Singleton.instance.GameManager;

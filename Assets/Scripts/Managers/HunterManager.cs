@@ -605,7 +605,7 @@ public class HunterManager : MonoBehaviour
         Card card = null;
         while (!cardPicked && i < hunter.cards.Count)
         {
-            card = hunter.cpuBehaviour.ChooseCard(hunter);
+            card = hunter.cpuBehaviour.ChooseCard_Field(hunter);
 
             if (card != null)
                 cardPicked = true;

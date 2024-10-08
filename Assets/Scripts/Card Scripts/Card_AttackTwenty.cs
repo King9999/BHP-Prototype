@@ -13,6 +13,11 @@ public class Card_AttackTwenty : Card
         cardDetails_combat = "+20% ATP";
     }
 
+    private void OnEnable()
+    {
+        weight = 50;
+    }
+
     public override void ActivateCard_Combat(Hunter user)
     {
         user.atpMod += atpMod;

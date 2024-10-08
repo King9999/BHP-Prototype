@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /* CPU Hunters use a scriptable object that control their behaviour. These objects will have toggles that determine a hunter's
@@ -27,8 +29,11 @@ public abstract class Hunter_AI : ScriptableObject
     public virtual void ActivateAbility(Hunter hunter) { }
 
     //choose a card based on behaviour.
-    public virtual Card ChooseCard(Hunter hunter) 
+    public virtual Card ChooseCard_Field(Hunter hunter) 
     {
+        if (hunter.cards.Count <= 0)
+            return null;
+
         Card card = null;
         List<Card> topCards = new List<Card>();
 
@@ -38,15 +43,76 @@ public abstract class Hunter_AI : ScriptableObject
             //gather all of the field and versatile cards
             if (hunter.cards[i].cardType == Card.CardType.Field || hunter.cards[i].cardType == Card.CardType.Versatile)
             {
+                //behaviours change the weight of cards
+
+                //general conditions
+                if (hunter.HasTargetItem() && hunter.cards[i] is Card_Exit exitCard)
+                {
+                    exitCard.weight = 100;
+                }
+
+                if (hunter.super.superMeter >= 0.7f && hunter.cards[i] is Card_SuperCharge superCard)
+                {
+                    superCard.weight = 90;
+                }
+
+                //behaviour-specific conditions
+                //ninja
+                if (hunter.cpuBehaviour.behaviourType == BehaviourType.Ninja && hunter.cards[i].fieldCardType == Card.FieldCardType.Trap)
+                {
+                    hunter.cards[i].weight = 90;
+                }
+
+                //opportunist
+                if (hunter.cpuBehaviour.behaviourType == BehaviourType.Opportunist)
+                {
+                    if (hunter.HasTargetItem() && hunter.cards[i].fieldCardType == Card.FieldCardType.TrapAvoidance)
+                    {
+                        hunter.cards[i].weight = 90;
+                    }
+
+                    if (hunter.HasTargetItem() && hunter.cards[i].fieldCardType == Card.FieldCardType.Movement)
+                    {
+                        hunter.cards[i].weight = 90;
+                    }
+                }
+                    
+
                 topCards.Add(hunter.cards[i]);
+
             }
 
         }
 
         //look at the available cards and pick the most suitable one
+        if (topCards.Count <= 0)
+            return null; //no cards
+
+        int totalWeight = 0;
+
+
         for(int i = 0; i < topCards.Count; i++)
         {
-            
+            totalWeight += topCards[i].weight;
+        }
+
+        
+        int j = 0;
+        bool cardFound = false;
+        topCards = topCards.OrderByDescending(x => x.weight).ToList();  //sort by highest weight
+        int randWeight = UnityEngine.Random.Range(0, totalWeight);
+        while (!cardFound && j < topCards.Count)
+        {
+            if (randWeight <= topCards[j].weight)
+            {
+                cardFound = true;
+                card = topCards[j];
+            }
+            else
+            {
+                randWeight -= topCards[j].weight;
+                j++;
+            }
         }
 
         return card;

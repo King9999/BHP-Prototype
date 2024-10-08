@@ -13,6 +13,11 @@ public class Card_AttackForty : Card
         cardDetails_combat = "+40% ATP";
     }
 
+    private void OnEnable()
+    {
+        weight = 60;
+    }
+
     public override void ActivateCard_Combat(Hunter user)
     {
         user.atpMod += atpMod;
