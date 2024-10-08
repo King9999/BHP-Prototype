@@ -404,6 +404,7 @@ public class HunterManager : MonoBehaviour
 
         //get random gear to equip. CPU Hunters always have a weapon. Certain behaviours have specific weapon types
         ItemManager im = Singleton.instance.ItemManager;
+        SkillManager sm = Singleton.instance.SkillManager;
         Item item = null;
         if (hunter.cpuBehaviour.behaviourType == Hunter_AI.BehaviourType.Mage)
         {
@@ -425,7 +426,7 @@ public class HunterManager : MonoBehaviour
             //if item has a chip slot, then get a skill
             if (wpn.hasChipSlot && wpn.itemSkill == null)
             {
-                SkillManager sm = Singleton.instance.SkillManager;
+                
                 bool skillFound = false;
                 while (!skillFound)
                 {
@@ -483,7 +484,7 @@ public class HunterManager : MonoBehaviour
                 //if item has a chip slot, then get a skill
                 if (armor.hasChipSlot && armor.itemSkill == null)
                 {
-                    SkillManager sm = Singleton.instance.SkillManager;
+                    //SkillManager sm = Singleton.instance.SkillManager;
                     
                     if (Random.value <= 0.5f)
                         armor.itemSkill = sm.AddSkill(sm.activeSkillList);
@@ -522,7 +523,7 @@ public class HunterManager : MonoBehaviour
                 //if item has a chip slot, then get a skill
                 if (acc.hasChipSlot && acc.itemSkill == null)
                 {
-                    SkillManager sm = Singleton.instance.SkillManager;
+                    //SkillManager sm = Singleton.instance.SkillManager;
 
                     if (Random.value <= 0.5f)
                         acc.itemSkill = sm.AddSkill(sm.activeSkillList);
@@ -569,7 +570,10 @@ public class HunterManager : MonoBehaviour
         Debug.Log("Number of items CPU Hunter will carry: " + itemCount);
 
         //Test purposes only
-        hunter.spd = 0;
+        //hunter.spd = 0;
+
+        //Add random super
+        hunter.super = sm.AddSuper();
 
         //give hunter a random name TODO: Get a name from a file.
         hunter.characterName = "CPU " + hunters.Count;
@@ -602,18 +606,21 @@ public class HunterManager : MonoBehaviour
         GameManager gm = Singleton.instance.GameManager;
         bool cardPicked = false;
         int i = 0;
-        Card card = null;
-        while (!cardPicked && i < hunter.cards.Count)
+        //Card card = null;
+        /*while (!cardPicked && i < hunter.cards.Count)
         {
             card = hunter.cpuBehaviour.ChooseCard_Field(hunter);
 
-            if (card != null)
-                cardPicked = true;
-            else
-                i++;
-
-            yield return null;
-        }
+        if (card != null)
+            cardPicked = true;
+        else
+            i++;
+        card = hunter.cpuBehaviour.ChooseCard_Field(hunter);
+        yield return null;
+        }*/
+        Card card = hunter.cpuBehaviour.ChooseCard_Field(hunter);
+        Debug.Log(hunter.characterName + " is playing card " + card.cardName);
+        yield return null;
     }
 
     #endregion

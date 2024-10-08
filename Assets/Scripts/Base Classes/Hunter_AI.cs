@@ -107,6 +107,7 @@ public abstract class Hunter_AI : ScriptableObject
             {
                 cardFound = true;
                 card = topCards[j];
+                Debug.Log("CPU chose card " + card.cardName);
             }
             else
             {

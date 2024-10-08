@@ -1205,16 +1205,18 @@ public class GameManager : MonoBehaviour
             CardManager cm = Singleton.instance.CardManager;
             cm.DrawCard(hunter, cm.deck);
             Debug.Log("Hunter " + hunter.characterName + " drew a card");
-        }
 
-        if (!character.cpuControlled)
-        {
+
             HunterManager hm = Singleton.instance.HunterManager;
-            hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Default);
-        }
-        else
-        {
-            //CPU takes action.
+            if (!hunter.cpuControlled)
+            {
+                hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Default);
+            }
+            else
+            {
+                //CPU takes action.
+                hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.Moving, hunter);
+            }
         }
         //hm.ui.ShowHunterMenu(true, character);
     }

@@ -11,6 +11,9 @@ public class SuperAbility_FullHeal : SuperAbility
     void Reset()
     {
         skillName = "Full Heal";
+        skillID = "sa_fullHeal";
+        skillDetails = "Restores HP to full, and removes all debuffs including Injured.";
+        chargeRate = 1;
         chargePentalty = 0.5f;
     }
 

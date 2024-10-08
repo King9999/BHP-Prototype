@@ -6,6 +6,7 @@ using UnityEngine;
 public class SkillManager : MonoBehaviour
 {
     public List<Skill> activeSkillList, passiveSkillList;
+    public List<SuperAbility> superList;
 
     public static SkillManager instance;
     void Awake()
@@ -56,5 +57,33 @@ public class SkillManager : MonoBehaviour
             return skillList[i];
         else
             return null;
+    }
+
+    //add random super
+    public SuperAbility AddSuper()
+    {
+        int randSuper = Random.Range(0, superList.Count);
+        return Instantiate(superList[randSuper]);
+    }
+
+    public SuperAbility AddSuper(string skillID)
+    {
+        bool skillFound = false;
+        int i = 0;
+        SuperAbility super = null;
+        while (!skillFound && i < superList.Count)
+        {
+            if (superList[i].skillID.Equals(skillID))
+            {
+                skillFound = true;
+                super = Instantiate(superList[i]);
+            }
+            else
+            {
+                i++;
+            }
+        }
+
+        return super;
     }
 }

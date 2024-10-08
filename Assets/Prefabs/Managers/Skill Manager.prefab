@@ -49,3 +49,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1371dba28c3ad034e87cfdbd0315f025, type: 2}
   passiveSkillList:
   - {fileID: 11400000, guid: 20eb87eeabc366e4594506061cd5f447, type: 2}
+  superList:
+  - {fileID: 11400000, guid: 0952982a457ec5942864f6c81b368a91, type: 2}
