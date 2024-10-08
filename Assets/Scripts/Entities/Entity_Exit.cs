@@ -35,28 +35,10 @@ public class Entity_Exit : Entity
                 {
                     int randRoom = Random.Range(0, dun.dungeonRooms.Count);
 
-                    if (dun.dungeonRooms[randRoom].entity == null)
+                    if (dun.dungeonRooms[randRoom].entity == null && dun.dungeonRooms[randRoom].character == null)
                     {
-                        //check for any characters.
-                        bool roomEmpty = true;
-                        GameManager gm = Singleton.instance.GameManager;
-                        int i = 0;
-                        while (roomEmpty && i < gm.turnOrder.Count)
-                        {
-                            if (gm.turnOrder[i].room == dun.dungeonRooms[randRoom])
-                            {
-                                roomEmpty = false;
-                                
-                            }
-                            else
-                                i++;
-                        }
-
-                        if (roomEmpty)
-                        {
-                            roomFound = true;
-                            dun.UpdateCharacterRoom(hunter, dun.dungeonRooms[randRoom]);
-                        }
+                        roomFound = true;
+                        dun.UpdateCharacterRoom(hunter, dun.dungeonRooms[randRoom]);
 
                     }
                 }
@@ -70,30 +52,12 @@ public class Entity_Exit : Entity
             {
                 int randRoom = Random.Range(0, dun.dungeonRooms.Count);
 
-                if (dun.dungeonRooms[randRoom].entity == null)
+                if (dun.dungeonRooms[randRoom].entity == null && dun.dungeonRooms[randRoom].character == null)
                 {
-                    //check for any characters.
-                    bool roomEmpty = true;
-                    GameManager gm = Singleton.instance.GameManager;
-                    int i = 0;
-                    while (roomEmpty && i < gm.turnOrder.Count)
-                    {
-                        if (gm.turnOrder[i].room == dun.dungeonRooms[randRoom])
-                        {
-                            roomEmpty = false;
-                            dun.UpdateCharacterRoom(character, dun.dungeonRooms[randRoom]);
-                        }
-                        else
-                            i++;
-                    }
-
-                    if (roomEmpty)
-                    {
-                        roomFound = true;
-                        dun.UpdateCharacterRoom(character, dun.dungeonRooms[randRoom]);
-                    }
-
+                    roomFound = true;
+                    dun.UpdateCharacterRoom(character, dun.dungeonRooms[randRoom]);
                 }
+                    
             }
         }
     }

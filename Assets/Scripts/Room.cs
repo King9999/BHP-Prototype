@@ -18,6 +18,7 @@ public class Room : MonoBehaviour
     public int roomID;                  //easy way to identify a room
     public int row, col;                //room's position in 2D array
     public Entity entity;               //can be a chest, spawn point, exit, or terminal.
+    public Character character;         //reference to a Hunter or monster.
 
     //constants for node direction
     public int FORWARD { get; } = 0;        //this is "up"

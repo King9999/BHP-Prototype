@@ -270,6 +270,8 @@ public class HunterManager : MonoBehaviour
         //get a behaviour, which will determine stat growth.
         int randBehaviour = Random.Range(0, hunterBehaviours.Count);
         hunter.cpuBehaviour = Instantiate(hunterBehaviours[randBehaviour]);
+        //EffectManager em = Singleton.instance.EffectManager;
+        //em.AddEffect(StatusEffect.Effect.Berserk, hunter);
 
         //generate stats. First use the starting allocation points.
         List<Stats> stats = new List<Stats>();
@@ -604,23 +606,54 @@ public class HunterManager : MonoBehaviour
     {
         //decide whether to use a card. Likelihood increases depending on behaviour.
         GameManager gm = Singleton.instance.GameManager;
-        bool cardPicked = false;
-        int i = 0;
-        //Card card = null;
-        /*while (!cardPicked && i < hunter.cards.Count)
-        {
-            card = hunter.cpuBehaviour.ChooseCard_Field(hunter);
+        CardManager cm = Singleton.instance.CardManager;
 
-        if (card != null)
-            cardPicked = true;
-        else
-            i++;
-        card = hunter.cpuBehaviour.ChooseCard_Field(hunter);
-        yield return null;
-        }*/
-        Card card = hunter.cpuBehaviour.ChooseCard_Field(hunter);
-        Debug.Log(hunter.characterName + " is playing card " + card.cardName);
-        yield return null;
+        cm.selectedCard = hunter.cpuBehaviour.ChooseCard_Field(hunter);
+        
+        if (cm.selectedCard != null)
+        {
+            cm.selectedCard.ActivateCard_Field(hunter);
+            Debug.Log(hunter.characterName + " is playing card " + cm.selectedCard.cardName);
+        }
+        yield return new WaitForSeconds(2);
+
+        //roll dice; show die UI and roll die after a second.
+        gm.dice.ShowSingleDieUI(true);
+        yield return new WaitForSeconds(1);
+
+        //show move tiles. This code is identical to the code in the Update look of GameManager.
+        int totalMove = hunter.mov + gm.dice.RollSingleDie() + gm.movementMod;
+        List<Room> moveRange = gm.ShowMoveRange(hunter, totalMove);
+        Debug.Log("Total Move for " + hunter.characterName + ": " + totalMove);
+
+        foreach (Room pos in moveRange)
+        {
+            //if there are existing move tile objects, activate those first before instantiating new ones.
+            if (gm.moveTileBin.Count > 0)
+            {
+                GameObject lastTile = gm.moveTileBin[0];
+                lastTile.SetActive(true);
+                lastTile.transform.position = new Vector3(pos.transform.position.x, 0.6f, pos.transform.position.z);
+                gm.moveTileList.Add(lastTile);
+                gm.moveTileBin.Remove(lastTile);
+            }
+            else
+            {
+                GameObject tile = Instantiate(gm.moveTilePrefab, gm.moveTileContainer.transform);
+                tile.transform.position = new Vector3(pos.transform.position.x, 0.6f, pos.transform.position.z);
+                gm.moveTileList.Add(tile);
+            }
+
+        }
+
+        if (gm.moveTileBin.Count <= 0)
+        {
+            gm.moveTileBin.TrimExcess();
+        }
+
+        //search tiles for a room to move to.
+
+
     }
 
     #endregion

@@ -96,6 +96,8 @@ public class Dungeon : MonoBehaviour
     public void UpdateCharacterRoom(Character character, Room room)
     {
         Vector3 roomPos = room.transform.position;
+        character.room.character = null;
+        room.character = character;
         character.room = room;
         character.transform.position = new Vector3(roomPos.x, character.transform.position.y, roomPos.z);
     }
@@ -262,6 +264,7 @@ public class Dungeon : MonoBehaviour
                         //2 is added to Y so hunter is above the room and not falling through it
                         hunter.transform.position = new Vector3(roomPos.x, roomPos.y + 2, roomPos.z);
                         hunter.room = dungeonRooms[randRoom];
+                        dungeonRooms[randRoom].character = hunter;
                         occupiedLocations.Add(randRoom);
                     }
                     else

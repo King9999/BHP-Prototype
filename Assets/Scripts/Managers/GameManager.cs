@@ -1215,6 +1215,8 @@ public class GameManager : MonoBehaviour
             else
             {
                 //CPU takes action.
+                //activate any behaviour-specific abilities.
+                hunter.cpuBehaviour.ActivateAbility(hunter);
                 hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.Moving, hunter);
             }
         }
@@ -1317,6 +1319,22 @@ public class GameManager : MonoBehaviour
             Debug.Log(room.transform.position + "\n");
         }*/
 
+        //find the character's current location in the dungeon and remove reference
+        int k = 0;
+        bool charFound = false;
+        while(!charFound && k < turnOrder.Count)
+        {
+            if (turnOrder[k].room == character.room)
+            {
+                charFound = true;
+                turnOrder[k].room.character = null;
+            }
+            else
+            {
+                k++;
+            }
+        }
+
         //start moving character TODO: MUST UPDATE CODE TO INCLUDE FOG OF WAR CONDITIONS
         int j = 0;
         float speed = 8;
@@ -1332,9 +1350,26 @@ public class GameManager : MonoBehaviour
                     nextPos, speed * Time.deltaTime);
                 yield return null;
             }
+
+            //update room reference to character.
+            Debug.Log("Previous room " + character.room.roomID);
+            character.room.character = null;
+            destinationRooms[j].character = character;
             character.room = destinationRooms[j];
+            Debug.Log("New room " + character.room.roomID);
+            //character.room = destinationRooms[j];
+            /*if (j == 0)
+            {
+                destinationRooms[j].character = character;
+            }
+            else
+            {
+                destinationRooms[j].character = character;
+                destinationRooms[j - 1].character = null;
+            }*/
             j++;
         }
+
 
         //hide select tile and dice UI
         selectTile.SetActive(false);

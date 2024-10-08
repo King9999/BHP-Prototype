@@ -33,7 +33,29 @@ public class Hunter_AI_Aggro : Hunter_AI
         if (Random.value <= 0.3f)
         {
             //add berserk
-            //hunter.debuffs.Add(new CharacterEffect_Dizzy());
+            //StatusEffect_Berserk berserk = new();     //want to check if this code works
+            //if (hunter.debuffs.Contains(berserk))
+            bool berserkFound = false;
+            int i = 0;
+            while (!berserkFound && i < hunter.debuffs.Count)
+            {
+                if (hunter.debuffs[i].effect == StatusEffect.Effect.Berserk)
+                    berserkFound = true;
+                else
+                    i++;
+            }
+
+            if (!berserkFound)
+            {
+                EffectManager em = Singleton.instance.EffectManager;
+                em.AddEffect(StatusEffect.Effect.Berserk, hunter);
+                Debug.Log("Berserk triggered for " + hunter.characterName);
+            }
+            else
+            {
+                Debug.Log(" Berserk already active for " + hunter.characterName);
+            }
+
         }
     }
 
