@@ -17,3 +17,8 @@ MonoBehaviour:
   cardDetails_combat: Ignores target's total defense. No effect vs. Perfect Defense
   cardSprite: {fileID: 0}
   cardType: 2
+  fieldCardType: 0
+  weight: 80
+  triggerWhenDiceRolled: 0
+  triggerAfterMoving: 0
+  triggerWhenTrapSprung: 0

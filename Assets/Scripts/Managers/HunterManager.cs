@@ -626,6 +626,10 @@ public class HunterManager : MonoBehaviour
         List<Room> moveRange = gm.ShowMoveRange(hunter, totalMove);
         Debug.Log("Total Move for " + hunter.characterName + ": " + totalMove);
 
+        //keep a list of characters and entities in range
+        List<Character> charactersInRange = new List<Character>();
+        List<Entity> entitiesInRange = new List<Entity>();
+
         foreach (Room pos in moveRange)
         {
             //if there are existing move tile objects, activate those first before instantiating new ones.
@@ -644,6 +648,17 @@ public class HunterManager : MonoBehaviour
                 gm.moveTileList.Add(tile);
             }
 
+            //check each tile and look for entities or characters.
+            if (pos.character != null)
+            {
+                charactersInRange.Add(pos.character);
+            }
+
+            if (pos.entity != null && !pos.entity.playerInteracted)
+            {
+                entitiesInRange.Add(pos.entity);
+            }
+
         }
 
         if (gm.moveTileBin.Count <= 0)
@@ -651,7 +666,81 @@ public class HunterManager : MonoBehaviour
             gm.moveTileBin.TrimExcess();
         }
 
-        //search tiles for a room to move to.
+        /*******find a character to attack. *******/
+        Character targetChar = null;
+        bool targetItemFound = false;
+        bool bullyTargetFound = false;
+        bool lootFound = false;
+        if (charactersInRange.Count > 0)
+        {
+            int i = 0;
+            bool charFound = false;
+            while (!charFound && i < charactersInRange.Count)
+            {
+                //The hunter with the target item is high priority. Also includes bully-specific condition.
+                if (charactersInRange[i] is Hunter targetHunter && targetHunter.HasTargetItem())
+                {
+                    targetItemFound = true;
+                    charFound = true;
+                    targetChar = charactersInRange[i];
+                }
+                else if(hunter.cpuBehaviour is Hunter_AI_Bully bully && bully.bullyTarget == charactersInRange[i])
+                {
+                    bullyTargetFound = true;
+                    charFound = true;
+                    targetChar = charactersInRange[i];
+                }
+                else if(charactersInRange[i] is Hunter hunterCarryingItem && hunterCarryingItem.inventory.Count > 0)
+                {
+                    lootFound = true;
+                    charFound = true;
+                    targetChar = charactersInRange[i];
+                }
+                else
+                {
+                    i++;
+                }
+
+            }
+
+            //if we get here, just pick a random hunter to target
+            if (!charFound)
+            {
+                int randChar = Random.Range(0, charactersInRange.Count);
+                targetChar = charactersInRange[randChar];
+            }
+        }
+
+        /******check for entities******/
+        Entity targetEntity = null;
+        if (entitiesInRange.Count > 0)
+        {
+
+        }
+
+        if (targetChar == null && targetEntity == null)
+        {
+            //nothing of interest, move to a random spot. Move the full distance.
+        }
+        else
+        {
+           //choose between moving towards an entity or towards a character. Entities are preferred over
+           //character, unless the character has the target item.
+
+        }
+        //move CPU
+
+        //clear move tiles
+        /*for (int j = 0; j < gm.moveTileList.Count; j++)
+        {
+            gm.moveTileList[j].SetActive(false);
+            gm.moveTileBin.Add(gm.moveTileList[j]);
+        }
+        gm.moveTileList.Clear();
+        gm.moveTileList.TrimExcess();
+        Vector3 destinationPos = new Vector3(selectTile.transform.position.x, 0, selectTile.transform.position.z);
+        StartCoroutine(MoveCharacter(ActiveCharacter(), destinationPos));*/
+
 
 
     }

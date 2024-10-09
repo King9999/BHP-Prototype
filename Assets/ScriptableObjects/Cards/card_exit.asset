@@ -18,6 +18,8 @@ MonoBehaviour:
   cardDetails_combat: 100% chance to run away
   cardSprite: {fileID: 0}
   cardType: 0
+  fieldCardType: 0
+  weight: 40
   triggerWhenDiceRolled: 1
   triggerAfterMoving: 0
   triggerWhenTrapSprung: 0

@@ -17,6 +17,8 @@ MonoBehaviour:
   cardDetails_combat: +20% DFP
   cardSprite: {fileID: 0}
   cardType: 0
+  fieldCardType: 2
+  weight: 50
   triggerWhenDiceRolled: 0
   triggerAfterMoving: 0
   triggerWhenTrapSprung: 1

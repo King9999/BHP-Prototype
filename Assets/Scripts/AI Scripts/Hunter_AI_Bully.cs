@@ -16,6 +16,8 @@ BULLY BEHAVIOUR
 [CreateAssetMenu(menuName = "AI Behaviour/Hunter/Bully", fileName = "ai_bully")]
 public class Hunter_AI_Bully : Hunter_AI
 {
+    public Hunter bullyTarget;      //bully will always target this hunter when possible.
+
     // Start is called before the first frame update
     void Reset()
     {
@@ -30,5 +32,48 @@ public class Hunter_AI_Bully : Hunter_AI
         rollMnt = 25;
     }
 
+    public override void ActivateAbility(Hunter hunter)
+    {
+        //find a hunter to target.
+        if (bullyTarget == null)
+        {
+            HunterManager hm = Singleton.instance.HunterManager;
+
+            //first check if one of the hunters has the target item
+            bool hunterFound = false;
+            int i = 0;
+            while (!hunterFound && i < hm.hunters.Count)
+            {
+                if (hm.hunters[i] == hunter)
+                {
+                    i++;
+                    continue;
+                }
+
+                if (hm.hunters[i].HasTargetItem())
+                {
+                    hunterFound = true;
+                    bullyTarget = hm.hunters[i];
+                }
+                else
+                {
+                    i++;
+                }
+
+            }
+
+            //if we get here, no hunters have the target item. Pick a random hunter to bully.
+            while (bullyTarget == null)
+            {
+                int randHunter = Random.Range(0, hm.hunters.Count);
+
+                if (hm.hunters[randHunter] == hunter)
+                    continue;
+
+                bullyTarget = hm.hunters[randHunter];
+
+            }
+        }
+    }
 
 }

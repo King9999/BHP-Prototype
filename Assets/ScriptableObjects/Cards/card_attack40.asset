@@ -17,3 +17,8 @@ MonoBehaviour:
   cardDetails_combat: +40% ATP
   cardSprite: {fileID: 0}
   cardType: 2
+  fieldCardType: 0
+  weight: 60
+  triggerWhenDiceRolled: 0
+  triggerAfterMoving: 0
+  triggerWhenTrapSprung: 0
