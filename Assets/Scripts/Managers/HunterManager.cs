@@ -823,17 +823,20 @@ public class HunterManager : MonoBehaviour
             if (targetItemFound || bullyTargetFound)
             {
                 //TODO: determine which skill is going to be used and move into range to use the skill.
-                gm.MoveCPUCharacter(hunter, targetChar.transform.position);
+                Vector3 newPos = new Vector3(targetChar.transform.position.x, 0, targetChar.transform.position.z);
+                gm.MoveCPUCharacter(hunter, newPos);
                 Debug.Log("Moving towards hunter with target item, or is a bully target");
             }
             else if (targetEntity != null && hunter.cpuBehaviour.canOpenChests)
             {
-                gm.MoveCPUCharacter(hunter, targetEntity.transform.position);
+                Vector3 newPos = new Vector3(targetEntity.transform.position.x, 0, targetEntity.transform.position.z);
+                gm.MoveCPUCharacter(hunter, newPos);
                 Debug.Log("moving to entity");
             }
             else //hunter has items in inventory, probably
             {
-                gm.MoveCPUCharacter(hunter, targetChar.transform.position);
+                Vector3 newPos = new Vector3(targetChar.transform.position.x, 0, targetChar.transform.position.z);
+                gm.MoveCPUCharacter(hunter, newPos);
                 Debug.Log("Moving towards character.");
             }
             
