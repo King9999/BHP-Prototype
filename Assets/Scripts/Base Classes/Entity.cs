@@ -9,17 +9,6 @@ public abstract class Entity : MonoBehaviour
     public EntityEffect effect;         //scriptable object
     //public Room room;                   //reference to the room the object is on.
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     /* activate an entity.
      * Hunter parameter: the hunter who activated the entity. They receive any bonuses/items the entity provides. */

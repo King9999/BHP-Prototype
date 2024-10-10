@@ -682,12 +682,20 @@ public class HunterManager : MonoBehaviour
         bool targetItemFound = false;
         bool bullyTargetFound = false;
         bool lootFound = false;
+        int monsterCount = 0;               //need this in case all characters are monsters and hunter can't target them.
         if (charactersInRange.Count > 0)
         {
             int i = 0;
             bool charFound = false;
             while (!charFound && i < charactersInRange.Count)
             {
+                if (charactersInRange[i] is Monster && !hunter.cpuBehaviour.canAttackMonsters)
+                {
+                    monsterCount++;
+                    i++;
+                    continue;
+                }
+
                 //The hunter with the target item is high priority. Also includes bully-specific condition.
                 if (charactersInRange[i] is Hunter targetHunter && targetHunter.HasTargetItem())
                 {
@@ -714,11 +722,26 @@ public class HunterManager : MonoBehaviour
 
             }
 
-            //if we get here, just pick a random hunter to target
-            if (!charFound)
+            //if we get here, just pick a random hunter to target. If all characters are monsters and hunter can't target
+            //monsters, this code is skipped.
+            if (monsterCount < charactersInRange.Count)
             {
-                int randChar = Random.Range(0, charactersInRange.Count);
-                targetChar = charactersInRange[randChar];
+                while (!charFound)
+                {
+                    int randChar = Random.Range(0, charactersInRange.Count);
+
+                    if (charactersInRange[randChar] is Monster && hunter.cpuBehaviour.canAttackMonsters)
+                    {
+                        targetChar = charactersInRange[randChar];
+                        charFound = true;
+                    }
+
+                    if (charactersInRange[randChar] is Hunter)
+                    {
+                        targetChar = charactersInRange[randChar];
+                        charFound = true;
+                    }
+                }
             }
         }
 
@@ -730,7 +753,14 @@ public class HunterManager : MonoBehaviour
             float shortestDistance = 0;
             for (int i = 0; i < entitiesInRange.Count; i++)
             {
-                if (i == 0)
+                //if this item is a chest and CPU can't open chests, we skip this entity.
+                if (entitiesInRange[i] is Entity_TreasureChest && !hunter.cpuBehaviour.canOpenChests)
+                    continue;
+
+                if (entitiesInRange[i] is Entity_Terminal && !hunter.cpuBehaviour.canUseTerminals)
+                    continue;
+
+                if (i <= 0 || shortestDistance <= 0)
                 {
                     shortestDistance = Vector3.Distance(hunter.transform.position, entitiesInRange[i].transform.position);
                     targetEntity = entitiesInRange[i];
@@ -761,13 +791,30 @@ public class HunterManager : MonoBehaviour
         if (targetChar == null && targetEntity == null)
         {
             //nothing of interest, move to a random spot. Move the full distance.
+            //TODO: may make it so that CPU looks for an out of range target and move towards it.
             gm.MoveCPUCharacter(hunter, moveRange[moveRange.Count - 1].transform.position);
         }
         else
         {
             //choose between moving towards an entity or towards a character. Entities are preferred over
             //character, unless the character has the target item.
-            Debug.Log("character or entity in range");
+            if (targetItemFound || bullyTargetFound)
+            {
+                //TODO: determine which skill is going to be used and move into range to use the skill.
+                gm.MoveCPUCharacter(hunter, targetChar.transform.position);
+                Debug.Log("Moving towards hunter with target item, or is a bully target");
+            }
+            else if (targetEntity != null && hunter.cpuBehaviour.canOpenChests)
+            {
+                gm.MoveCPUCharacter(hunter, targetEntity.transform.position);
+                Debug.Log("moving to entity");
+            }
+            else //hunter has items in inventory, probably
+            {
+                gm.MoveCPUCharacter(hunter, targetChar.transform.position);
+                Debug.Log("Moving towards character.");
+            }
+            
         }
         //move CPU
 
