@@ -25,6 +25,7 @@ public abstract class Monster : Character
     }
 
     public AI_State state;
+    public Monster_AI cpuBehaviour;
 
     private void Awake()
     {

@@ -195,6 +195,28 @@ public class HunterManager : MonoBehaviour
         }
     }
 
+    public Hunter_AI GetHunterAI(Hunter_AI.BehaviourType behaviourType)
+    {
+        bool behaviourFound = false;
+        int i = 0;
+        Hunter_AI hunterAI = null;
+        while (!behaviourFound && i < hunterBehaviours.Count)
+        {
+            if (behaviourType == hunterBehaviours[i].behaviourType)
+            {
+                behaviourFound = true;
+                hunterAI = hunterBehaviours[i];
+            }
+            else
+            {
+                i++;
+            }
+
+        }
+
+        return hunterAI;
+    }
+
     
 
     
