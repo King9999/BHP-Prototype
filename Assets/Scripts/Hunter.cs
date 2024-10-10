@@ -40,7 +40,8 @@ public class Hunter : Character
     public SuperAbility super;
 
     public List<Item> inventory;          //10 items max
-    //public List<Item> stash;              //100 items max. THIS SHOULD BE ATTACHED TO HUNTER, ONLY 1 STASH SHARED BETWEEN ALL HUNTERS
+    public Item targetItem;             //easy way to check if hunter has the target.
+    //public List<Item> stash;              //100 items max. THIS SHOULD NOT BE ATTACHED TO HUNTER, ONLY 1 STASH SHARED BETWEEN ALL HUNTERS
     public int credits;                     //money on hand
     public int maxInventoryCount { get; } = 10;
     //public int maxStashCount { get; } = 100;
@@ -342,7 +343,8 @@ public class Hunter : Character
 
     public bool HasTargetItem()
     {
-        bool targetFound = false;
+        return targetItem != null;
+        /*bool targetFound = false;
         int i = 0;
         while (!targetFound && i < inventory.Count)
         {
@@ -352,6 +354,6 @@ public class Hunter : Character
                 i++;
         }
 
-        return targetFound;
+        return targetFound;*/
     }
 }

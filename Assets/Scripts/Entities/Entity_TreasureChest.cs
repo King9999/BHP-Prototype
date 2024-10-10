@@ -36,6 +36,8 @@ public class Entity_TreasureChest : Entity
         if (item != null)
         {
             hunter.inventory.Add(item);
+            if (item.isTargetItem)
+                hunter.targetItem = hunter.inventory[hunter.inventory.Count - 1];
             Debug.Log(hunter.characterName + " obtained " + item.itemName);
             item = null;
         }

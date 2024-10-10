@@ -612,10 +612,18 @@ public class HunterManager : MonoBehaviour
         
         if (cm.selectedCard != null)
         {
-            cm.selectedCard.ActivateCard_Field(hunter);
+            hunter.cards.Remove(cm.selectedCard);
+            ui.activeCardText.text = "Active Card: " + cm.selectedCard.cardName;
+
+            //is this card a MOV card?
+            if (cm.selectedCard.triggerWhenDiceRolled == true)
+            {
+                cm.selectedCard.ActivateCard_Field(hunter);
+            }
+            //cm.selectedCard.ActivateCard_Field(hunter);
             Debug.Log(hunter.characterName + " is playing card " + cm.selectedCard.cardName);
         }
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
 
         //roll dice; show die UI and roll die after a second.
         gm.dice.ShowSingleDieUI(true);
@@ -666,6 +674,9 @@ public class HunterManager : MonoBehaviour
             gm.moveTileBin.TrimExcess();
         }
 
+        Debug.Log("Characters in range: " + charactersInRange.Count);
+        Debug.Log("Entities in range: " + entitiesInRange.Count);
+
         /*******find a character to attack. *******/
         Character targetChar = null;
         bool targetItemFound = false;
@@ -715,18 +726,48 @@ public class HunterManager : MonoBehaviour
         Entity targetEntity = null;
         if (entitiesInRange.Count > 0)
         {
+            //pick the closest entity
+            float shortestDistance = 0;
+            for (int i = 0; i < entitiesInRange.Count; i++)
+            {
+                if (i == 0)
+                {
+                    shortestDistance = Vector3.Distance(hunter.transform.position, entitiesInRange[i].transform.position);
+                    targetEntity = entitiesInRange[i];
+                    continue;
+                }
+
+                float distance = Vector3.Distance(hunter.transform.position, entitiesInRange[i].transform.position);
+                if (distance < shortestDistance)
+                {
+                    shortestDistance = distance;
+                    targetEntity = entitiesInRange[i];
+                }
+            }
 
         }
+
+        yield return new WaitForSeconds(1);
+
+        //clear move tiles and start moving character
+        for (int j = 0; j < gm.moveTileList.Count; j++)
+        {
+            gm.moveTileList[j].SetActive(false);
+            gm.moveTileBin.Add(gm.moveTileList[j]);
+        }
+        gm.moveTileList.Clear();
+        gm.moveTileList.TrimExcess();
 
         if (targetChar == null && targetEntity == null)
         {
             //nothing of interest, move to a random spot. Move the full distance.
+            gm.MoveCPUCharacter(hunter, moveRange[moveRange.Count - 1].transform.position);
         }
         else
         {
-           //choose between moving towards an entity or towards a character. Entities are preferred over
-           //character, unless the character has the target item.
-
+            //choose between moving towards an entity or towards a character. Entities are preferred over
+            //character, unless the character has the target item.
+            Debug.Log("character or entity in range");
         }
         //move CPU
 

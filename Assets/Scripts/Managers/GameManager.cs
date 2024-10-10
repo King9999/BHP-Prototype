@@ -1125,7 +1125,7 @@ public class GameManager : MonoBehaviour
     {
         HunterManager hm = Singleton.instance.HunterManager;
         hm.ui.ShowHunterMenuContainer(false);
-        currentCharacter = currentCharacter >= turnOrder.Count ? 0 : currentCharacter++;
+        currentCharacter = currentCharacter + 1 >= turnOrder.Count ? 0 : currentCharacter++;
 
         //clean up any buffs/debuffs/other effects or mods
         movementMod = 0;
@@ -1134,6 +1134,12 @@ public class GameManager : MonoBehaviour
         hm.ui.activeCardText.text = "";
 
         StartCoroutine(TakeTurn(ActiveCharacter()));
+    }
+
+    //used by CPU characters only.
+    public void MoveCPUCharacter(Character character, Vector3 destination)
+    {
+        StartCoroutine(MoveCharacter(character, destination));
     }
 
     #region Coroutines
