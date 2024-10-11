@@ -1125,7 +1125,7 @@ public class GameManager : MonoBehaviour
     {
         HunterManager hm = Singleton.instance.HunterManager;
         hm.ui.ShowHunterMenuContainer(false);
-        currentCharacter = currentCharacter + 1 >= turnOrder.Count ? 0 : currentCharacter++;
+        currentCharacter = currentCharacter + 1 >= turnOrder.Count ? 0 : currentCharacter + 1;
 
         //clean up any buffs/debuffs/other effects or mods
         movementMod = 0;
