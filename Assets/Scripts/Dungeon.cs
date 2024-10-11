@@ -277,7 +277,7 @@ public class Dungeon : MonoBehaviour
         }
 
         //hm.hunters[1].transform.position = new Vector3(hm.hunters[0].transform.position.x + 4, hm.hunters[0].transform.position.y, hm.hunters[0].transform.position.z);
-       
+        //UpdateCharacterRoom(hm.hunters[1], dungeonRooms[dungeonRooms.IndexOf(hm.hunters[0].room) + 1]);
 
         //add chests. Number of chests = hunter count + random number between 1 and 3.
         chestCount = hm.hunters.Count + Random.Range(1, 4);

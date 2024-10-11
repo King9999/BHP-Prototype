@@ -1161,6 +1161,18 @@ public class GameManager : MonoBehaviour
                     hm.ui.EnableButton(hm.ui.moveButton, false);
                     hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Default);
                 }
+                else
+                {
+                    //cpu takes action
+                    if (character.targetChar != null)
+                    {
+                        //attack
+                    }
+                    else
+                    {
+                        EndTurn();
+                    }
+                }
             }
         }
     }
@@ -1239,11 +1251,19 @@ public class GameManager : MonoBehaviour
         Dungeon dungeon = Singleton.instance.Dungeon;
         
         List<Room> destinationRooms = new List<Room>();
-        
+        List<Room> attackRange = new List<Room>();
+
+
         char[,] grid = dungeon.dungeonGrid;
         int currentRow = character.room.row;
         int currentCol = character.room.col;
         bool destinationFound = false;
+
+        if (cpuAttacking && character.targetChar != null)
+        {
+            //skill's origin is the target char, and CPU must walk into skill range to attack target.
+            attackRange = ShowSkillRange(character.targetChar, character.chosenSkill.minRange, character.chosenSkill.maxRange);
+        }
 
         while(!destinationFound)
         {
@@ -1379,12 +1399,12 @@ public class GameManager : MonoBehaviour
             {
                 //scan area using the chosen skill's attack range. If the target is in range, stop
                 //character where they are.
-                List<Room> attackRange = ShowSkillRange(character, character.chosenSkill.minRange, character.chosenSkill.maxRange);
+                //List<Room> attackRange = ShowSkillRange(character, character.chosenSkill.minRange, character.chosenSkill.maxRange);
                 bool targetFound = false;
                 int i = 0;
                 while (!targetFound && i < attackRange.Count)
                 {
-                    if (attackRange[i].character == character.targetChar)
+                    if (attackRange[i].roomID == character.room.roomID)
                     {
                         targetFound = true;
                         j = destinationRooms.Count; //want to end this loop so we don't move any further.
