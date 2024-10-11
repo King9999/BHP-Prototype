@@ -275,6 +275,8 @@ public class Dungeon : MonoBehaviour
                 }
             }
         }
+
+        //hm.hunters[1].transform.position = new Vector3(hm.hunters[0].transform.position.x + 4, hm.hunters[0].transform.position.y, hm.hunters[0].transform.position.z);
        
 
         //add chests. Number of chests = hunter count + random number between 1 and 3.

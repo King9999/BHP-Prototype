@@ -723,19 +723,19 @@ public class HunterManager : MonoBehaviour
                 {
                     targetItemFound = true;
                     charFound = true;
-                    targetChar = charactersInRange[i];
+                    hunter.targetChar = charactersInRange[i];
                 }
                 else if(hunter.cpuBehaviour is Hunter_AI_Bully bully && bully.bullyTarget == charactersInRange[i])
                 {
                     bullyTargetFound = true;
                     charFound = true;
-                    targetChar = charactersInRange[i];
+                    hunter.targetChar = charactersInRange[i];
                 }
                 else if(charactersInRange[i] is Hunter hunterCarryingItem && hunterCarryingItem.inventory.Count > 0)
                 {
                     lootFound = true;
                     charFound = true;
-                    targetChar = charactersInRange[i];
+                    hunter.targetChar = charactersInRange[i];
                 }
                 else
                 {
@@ -754,13 +754,13 @@ public class HunterManager : MonoBehaviour
 
                     if (charactersInRange[randChar] is Monster && hunter.cpuBehaviour.canAttackMonsters)
                     {
-                        targetChar = charactersInRange[randChar];
+                        hunter.targetChar = charactersInRange[randChar];
                         charFound = true;
                     }
 
                     if (charactersInRange[randChar] is Hunter)
                     {
-                        targetChar = charactersInRange[randChar];
+                        hunter.targetChar = charactersInRange[randChar];
                         charFound = true;
                     }
                 }
@@ -810,7 +810,7 @@ public class HunterManager : MonoBehaviour
         gm.moveTileList.Clear();
         gm.moveTileList.TrimExcess();
 
-        if (targetChar == null && targetEntity == null)
+        if (hunter.targetChar == null && targetEntity == null)
         {
             //nothing of interest, move to a random spot. Move the full distance.
             //TODO: may make it so that CPU looks for an out of range target and move towards it.
@@ -823,8 +823,9 @@ public class HunterManager : MonoBehaviour
             if (targetItemFound || bullyTargetFound)
             {
                 //TODO: determine which skill is going to be used and move into range to use the skill.
-                Vector3 newPos = new Vector3(targetChar.transform.position.x, 0, targetChar.transform.position.z);
-                gm.MoveCPUCharacter(hunter, newPos);
+                hunter.chosenSkill = GetSkill(hunter, hunter.targetChar);
+                Vector3 newPos = new Vector3(hunter.targetChar.transform.position.x, 0, hunter.targetChar.transform.position.z);
+                gm.MoveCPUCharacter(hunter, newPos, true);
                 Debug.Log("Moving towards hunter with target item, or is a bully target");
             }
             else if (targetEntity != null && hunter.cpuBehaviour.canOpenChests)
@@ -835,8 +836,9 @@ public class HunterManager : MonoBehaviour
             }
             else //hunter has items in inventory, probably
             {
-                Vector3 newPos = new Vector3(targetChar.transform.position.x, 0, targetChar.transform.position.z);
-                gm.MoveCPUCharacter(hunter, newPos);
+                hunter.chosenSkill = GetSkill(hunter, hunter.targetChar);
+                Vector3 newPos = new Vector3(hunter.targetChar.transform.position.x, 0, hunter.targetChar.transform.position.z);
+                gm.MoveCPUCharacter(hunter, newPos, true);
                 Debug.Log("Moving towards character.");
             }
             
@@ -867,6 +869,38 @@ public class HunterManager : MonoBehaviour
         attackSkill.minRange = 0;
         attackSkill.maxRange = 1;
         hunter.skills.Add(attackSkill);
+    }
+
+    //choose a random skill. Used by CPU Hunters.
+    ActiveSkill GetSkill(Hunter user, Character target)
+    {
+        ActiveSkill skill = null;
+        bool skillFound = false;
+        List<ActiveSkill> activeSkills = new List<ActiveSkill>();
+
+        //collect all of the active skills
+        foreach(Skill skl in user.skills)
+        {
+            if (skl is ActiveSkill actSkl)
+            {
+                activeSkills.Add(actSkl);
+            }
+        }
+
+        while (!skillFound)
+        {
+            int randSkill = Random.Range(0, activeSkills.Count);
+
+            if (activeSkills[randSkill].skillCost <= user.skillPoints ||
+                (activeSkills[randSkill].requiresCharges && activeSkills[randSkill].skillCharges > 0))
+            {
+                skill = activeSkills[randSkill];
+                skillFound = true;
+            }
+        }
+        
+
+        return skill;
     }
 
     #region Point Allocation

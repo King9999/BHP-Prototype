@@ -1137,9 +1137,9 @@ public class GameManager : MonoBehaviour
     }
 
     //used by CPU characters only.
-    public void MoveCPUCharacter(Character character, Vector3 destination)
+    public void MoveCPUCharacter(Character character, Vector3 destination, bool cpuAttacking = false)
     {
-        StartCoroutine(MoveCharacter(character, destination));
+        StartCoroutine(MoveCharacter(character, destination, cpuAttacking));
     }
 
     #region Coroutines
@@ -1229,7 +1229,7 @@ public class GameManager : MonoBehaviour
         //hm.ui.ShowHunterMenu(true, character);
     }
 
-    IEnumerator MoveCharacter(Character character, Vector3 destination)
+    IEnumerator MoveCharacter(Character character, Vector3 destination, bool cpuAttacking = false)
     {
         //get character's current position and search adjacent rooms.
         //find the room whose position is closest to the destination and record it.
@@ -1373,6 +1373,32 @@ public class GameManager : MonoBehaviour
                 destinationRooms[j].character = character;
                 destinationRooms[j - 1].character = null;
             }*/
+
+            /******Check if CPU character is in attack range*****/
+            if (cpuAttacking && character.chosenSkill != null)
+            {
+                //scan area using the chosen skill's attack range. If the target is in range, stop
+                //character where they are.
+                List<Room> attackRange = ShowSkillRange(character, character.chosenSkill.minRange, character.chosenSkill.maxRange);
+                bool targetFound = false;
+                int i = 0;
+                while (!targetFound && i < attackRange.Count)
+                {
+                    if (attackRange[i].character == character.targetChar)
+                    {
+                        targetFound = true;
+                        j = destinationRooms.Count; //want to end this loop so we don't move any further.
+                        Debug.Log(character.characterName + " found target " +  character.targetChar.characterName + 
+                            " and is using skill " + character.chosenSkill.skillName);
+                    }
+                    else
+                    {
+                        i++;
+                    }
+                }
+
+            }
+
             j++;
         }
 

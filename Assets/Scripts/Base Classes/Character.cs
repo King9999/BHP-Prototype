@@ -44,6 +44,9 @@ public abstract class Character : MonoBehaviour
 
 
     public List<Skill> skills;          //list of skills the avatar can choose from.
+    [Header("---Targeting---")]
+    public ActiveSkill chosenSkill;           //the skill the character will use.
+    public Character targetChar;
     //public List<Skill> skillEffects;    //list of skills this avatar is being affected by. Includes both permanent effects and those with durations.
     //public Dictionary<Skill, int> skillEffects;
 
