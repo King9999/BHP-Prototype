@@ -342,6 +342,7 @@ MonoBehaviour:
   defenderTotalDefense: {fileID: 2645462147475430669}
   damageText: {fileID: 2880842919829326861}
   statusText: {fileID: 3537730801090130293}
+  damageValues: []
   roomPrefab: {fileID: 4488165858551343332, guid: c20f33c859e16e346bb3db02b6eb8ef0, type: 3}
 --- !u!1 &1393822734859770294
 GameObject:
@@ -4246,6 +4247,10 @@ PrefabInstance:
     - target: {fileID: 8078895228826760701, guid: 0b78d17812a4fbf488b8067436a5a4d2, type: 3}
       propertyPath: m_Name
       value: Isometric Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 8078895228826760701, guid: 0b78d17812a4fbf488b8067436a5a4d2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

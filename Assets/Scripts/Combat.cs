@@ -27,6 +27,7 @@ public class Combat : MonoBehaviour
     public TextMeshProUGUI damageText;      //displays damage dealt or amount healed.
     private Color damageColor, reducedColor, healColor;              //red = damage, blue = reduced damage, green = heal
     public TextMeshProUGUI statusText;      //used for buffs/debuffs
+    public List<TextMeshProUGUI> damageValues;      //used for displaying lots of damage values at a time.
 
     [Header("---Combat Grid---")]
     public Room roomPrefab;
@@ -41,6 +42,7 @@ public class Combat : MonoBehaviour
         healColor = Color.green;
         damageText.gameObject.SetActive(false);
         statusText.gameObject.SetActive(false);
+        //damageValues.Add(Instantiate(damageText));  //Does this work?
 
         //populate grid
         battlefieldContainer = new GameObject("Battlefield");
@@ -53,8 +55,8 @@ public class Combat : MonoBehaviour
             {
                 Room newRoom = Instantiate(roomPrefab, battlefieldContainer.transform);
                 Vector3 roomScale = newRoom.transform.localScale;
-                newRoom.transform.position = new Vector3(newRoom.transform.position.x + (i * roomScale.x / 2), newRoom.transform.position.y,
-                    newRoom.transform.position.z + (j * roomScale.z / 2));
+                newRoom.transform.position = new Vector3(newRoom.transform.position.x + ((i * 2) * roomScale.x / 2), newRoom.transform.position.y,
+                    newRoom.transform.position.z + ((j * 2) * roomScale.z / 2));
                 fieldGrid[i, j] = newRoom;
             }
         }
