@@ -44,7 +44,7 @@ public class Entity_TreasureChest : Entity
         else  //chest contains money
         {
             hunter.credits += credits;
-            Debug.Log(hunter.characterName + " obtained " + credits + "CR");
+            Debug.Log(hunter.characterName + " obtained " + credits + " CR");
             credits = 0;
         }
         playerInteracted = true;

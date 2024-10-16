@@ -36,7 +36,7 @@ public class HunterManager : MonoBehaviour
     [Header("---CPU Hunters----")]
     public List<Hunter_AI> hunterBehaviours;        //used by CPU Hunters
     public float itemChanceMod;                     //used by dungeon mods to influence odds of CPU hunters carrying items.
-    public enum HunterAIState { Moving, UseSkill }  //Moving = looking for a space to move to. Will look for points of interest.
+    public enum HunterAIState { Idle, Moving, UseSkill }  //Moving = looking for a space to move to. Will look for points of interest.
                                                     //UseSkill = use a skill if CPU found a valid target during the Moving state.
     public HunterAIState aiState;
 
@@ -614,6 +614,9 @@ public class HunterManager : MonoBehaviour
 
         switch(aiState)
         {
+            case HunterAIState.Idle:
+                break;
+
             case HunterAIState.Moving:
                 StartCoroutine(MoveCPUHunter(hunter));
                 break;
@@ -831,6 +834,7 @@ public class HunterManager : MonoBehaviour
             else if (targetEntity != null && hunter.cpuBehaviour.canOpenChests)
             {
                 Vector3 newPos = new Vector3(targetEntity.transform.position.x, 0, targetEntity.transform.position.z);
+                hunter.targetChar = null;       //not targeting a character so must clear.
                 gm.MoveCPUCharacter(hunter, newPos);
                 Debug.Log("moving to entity");
             }

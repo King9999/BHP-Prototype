@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     //public List<Hunter> hunters;
     [Header("---Camera---")]
     public Camera gameCamera;       //isometric camera. Use this to move camera around the scene.
-    Vector3 defaultCameraPos { get; } = new Vector3(0, 5, 0);
+    Vector3 defaultCameraPos { get; } = new Vector3(0, 5, -10); //Z value has to be -10 so sprites aren't cut off at certain angles.
     //bool moveCameraToCharacter = false;
 
     [Header("---Dice---")]
@@ -1167,6 +1167,7 @@ public class GameManager : MonoBehaviour
                     if (character.targetChar != null)
                     {
                         //attack
+                        Debug.Log(character.characterName + " is attacking " + character.targetChar.characterName + "!");
                     }
                     else
                     {
@@ -1426,6 +1427,13 @@ public class GameManager : MonoBehaviour
         //hide select tile and dice UI
         selectTile.SetActive(false);
         dice.ShowSingleDieUI(false);
+
+        //change CPU HUnter state
+        if (character.cpuControlled)
+        {
+            HunterManager hm = Singleton.instance.HunterManager;
+            hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.Idle, (Hunter)character);
+        }
 
         //check if anything is on the space the hunter landed on
         CheckForEntities(character.room, character);

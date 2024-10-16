@@ -4,7 +4,9 @@ using TMPro;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-/* This is the combat system. It takes two character objects and two pairs of dice. */
+/* This is the combat system. It takes two character objects and two pairs of dice. Combat lasts for 1 round.
+ In cases where one character uses a ranged attack and the other character uses a melee counterattack, there will be a 
+gap in the battlefield to indicate the melee character can't counterattack. */
 public class Combat : MonoBehaviour
 {
     public Dice attackerDice, defenderDice;
@@ -26,6 +28,11 @@ public class Combat : MonoBehaviour
     private Color damageColor, reducedColor, healColor;              //red = damage, blue = reduced damage, green = heal
     public TextMeshProUGUI statusText;      //used for buffs/debuffs
 
+    [Header("---Combat Grid---")]
+    public Room roomPrefab;
+    private GameObject battlefieldContainer;
+    private Room[,] fieldGrid;        //used to layout the battlefield. In a ranged fight, there will be a gap to show that melee counters are ineffective.
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +41,23 @@ public class Combat : MonoBehaviour
         healColor = Color.green;
         damageText.gameObject.SetActive(false);
         statusText.gameObject.SetActive(false);
+
+        //populate grid
+        battlefieldContainer = new GameObject("Battlefield");
+        battlefieldContainer.transform.SetParent(this.transform);
+
+        fieldGrid = new Room[4, 4];
+        for (int i = 0; i < fieldGrid.GetLength(0); i++)
+        {
+            for (int j = 0; j < fieldGrid.GetLength(1); j++)
+            {
+                Room newRoom = Instantiate(roomPrefab, battlefieldContainer.transform);
+                Vector3 roomScale = newRoom.transform.localScale;
+                newRoom.transform.position = new Vector3(newRoom.transform.position.x + (i * roomScale.x / 2), newRoom.transform.position.y,
+                    newRoom.transform.position.z + (j * roomScale.z / 2));
+                fieldGrid[i, j] = newRoom;
+            }
+        }
     }
 
     private void OnEnable()
