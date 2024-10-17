@@ -280,6 +280,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7010778834776191588}
   - component: {fileID: 8184973170632225628}
+  - component: {fileID: 3927532106074996597}
   m_Layer: 0
   m_Name: Combat
   m_TagString: Untagged
@@ -344,6 +345,20 @@ MonoBehaviour:
   statusText: {fileID: 3537730801090130293}
   damageValues: []
   roomPrefab: {fileID: 4488165858551343332, guid: c20f33c859e16e346bb3db02b6eb8ef0, type: 3}
+  attackerRoom: {fileID: 0}
+  defenderRoom: {fileID: 0}
+--- !u!210 &3927532106074996597
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1328499790080358075}
+  m_Enabled: 1
+  m_SortingLayerID: -2082432395
+  m_SortingLayer: 3
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!1 &1393822734859770294
 GameObject:
   m_ObjectHideFlags: 0

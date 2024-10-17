@@ -33,6 +33,7 @@ public class Combat : MonoBehaviour
     public Room roomPrefab;
     private GameObject battlefieldContainer;
     private Room[,] fieldGrid;        //used to layout the battlefield. In a ranged fight, there will be a gap to show that melee counters are ineffective.
+    public Room attackerRoom, defenderRoom; //where the combatants are positioned.
 
     // Start is called before the first frame update
     void Start()
@@ -81,6 +82,12 @@ public class Combat : MonoBehaviour
         //the attacker always attacks first since they began the combat.
         //after the attacker finishes their turn, the attacker and defender switch roles.
         //the defender counterattacks with a basic attack with reduced power.
+
+        //hide Hunter UI and dungeon layout
+        HunterManager hm = Singleton.instance.HunterManager;
+        hm.ui.gameObject.SetActive(false);
+        Dungeon dun = Singleton.instance.Dungeon;
+        dun.gameObject.SetActive(false);
 
         //setup UI
         attackerNameText.text = attacker.characterName;
