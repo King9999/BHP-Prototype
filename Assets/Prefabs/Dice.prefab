@@ -52,7 +52,7 @@ GameObject:
   - component: {fileID: 7555015805542631463}
   - component: {fileID: 553024161018713362}
   m_Layer: 5
-  m_Name: Die 1 roll value
+  m_Name: Total dice roll value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +74,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -60.7, y: 35.7}
+  m_AnchoredPosition: {x: 1.1, y: 61.4}
   m_SizeDelta: {x: 75.2791, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7555015805542631463
@@ -191,7 +191,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8046112969137221229
 RectTransform:
   m_ObjectHideFlags: 0

@@ -84,10 +84,7 @@ public class Combat : MonoBehaviour
         //the defender counterattacks with a basic attack with reduced power.
 
         //hide Hunter UI and dungeon layout
-        HunterManager hm = Singleton.instance.HunterManager;
-        hm.ui.gameObject.SetActive(false);
-        Dungeon dun = Singleton.instance.Dungeon;
-        dun.gameObject.SetActive(false);
+        SetNonCombatUI(false);
 
         //setup UI
         attackerNameText.text = attacker.characterName;
@@ -161,6 +158,26 @@ public class Combat : MonoBehaviour
         else
             return 0;
     }
+
+    /* toggles non-releavant UI on or off */
+    private void SetNonCombatUI(bool toggle)
+    {
+        HunterManager hm = Singleton.instance.HunterManager;
+        Dungeon dun = Singleton.instance.Dungeon;
+
+        if (toggle == true)
+        {
+            hm.ui.gameObject.SetActive(true);
+            dun.gameObject.SetActive(true);
+        }
+        else
+        {
+            hm.ui.gameObject.SetActive(false);
+            dun.gameObject.SetActive(false);
+        }
+    }
+
+    #region Coroutines
 
     /* State is used to determine how the defender's rolls are simulated. */
     private IEnumerator SimulateDiceRoll(Dice attackerDice, Dice defenderDice, Character attacker, Character defender)
@@ -311,4 +328,5 @@ public class Combat : MonoBehaviour
 
         //if we get here, combat has ended.
     }
+    #endregion
 }
