@@ -9,9 +9,9 @@ using UnityEngine;
 gap in the battlefield to indicate the melee character can't counterattack. */
 public class Combat : MonoBehaviour
 {
-    public Dice attackerDice, defenderDice;
-    public int attackRollResult, defendRollResult;
-    public bool defenderCounterattacking, attackerTurnOver;
+    [SerializeField] private Dice attackerDice, defenderDice;
+    [SerializeField] private int attackRollResult, defendRollResult;
+    [SerializeField] private bool defenderCounterattacking, attackerTurnOver;
     public byte perfectDefenseMod;
     public float chanceToRun;               //affected by attacker and defender SPD
 
@@ -20,20 +20,21 @@ public class Combat : MonoBehaviour
 
 
     [Header("---UI---")]
-    public TextMeshProUGUI attackerNameText, defenderNameText;
-    public TextMeshProUGUI attackerHealthPoints, defenderHealthPoints, attackerSkillPoints, defenderSkillPoints;
-    public TextMeshProUGUI attackerDieOneGUI, attackerDieTwoGUI, attackerAtp_total, attackerTotalAttackDamage;
-    public TextMeshProUGUI defenderDieOneGUI, defenderDieTwoGUI, defenderDfp_total, defenderTotalDefense;
-    public TextMeshProUGUI damageText;      //displays damage dealt or amount healed.
+    [SerializeField] private TextMeshProUGUI attackerNameText, defenderNameText;
+    [SerializeField] private TextMeshProUGUI attackerHealthPoints, defenderHealthPoints, attackerSkillPoints, defenderSkillPoints;
+    [SerializeField] private TextMeshProUGUI attackerDieOneGUI, attackerDieTwoGUI, attackerAtp_total, attackerTotalAttackDamage;
+    [SerializeField] private TextMeshProUGUI defenderDieOneGUI, defenderDieTwoGUI, defenderDfp_total, defenderTotalDefense;
+    [SerializeField] private TextMeshProUGUI damageText;      //displays damage dealt or amount healed.
+    [SerializeField] private TextMeshProUGUI runChanceText;
     private Color damageColor, reducedColor, healColor;              //red = damage, blue = reduced damage, green = heal
-    public TextMeshProUGUI statusText;      //used for buffs/debuffs
-    public List<TextMeshProUGUI> damageValues;      //used for displaying lots of damage values at a time.
+    [SerializeField] private TextMeshProUGUI statusText;      //used for buffs/debuffs
+    [SerializeField] private List<TextMeshProUGUI> damageValues;      //used for displaying lots of damage values at a time.
 
     [Header("---Combat Grid---")]
-    public Room roomPrefab;
+    [SerializeField] private Room roomPrefab;
     private GameObject battlefieldContainer;
     private Room[,] fieldGrid;        //used to layout the battlefield. In a ranged fight, there will be a gap to show that melee counters are ineffective.
-    public Room attackerRoom, defenderRoom; //where the combatants are positioned.
+    [SerializeField] private Room attackerRoom, defenderRoom; //where the combatants are positioned.
 
     // Start is called before the first frame update
     /*void Start()
@@ -71,6 +72,7 @@ public class Combat : MonoBehaviour
     {
         damageText.gameObject.SetActive(false);
         statusText.gameObject.SetActive(false);
+        runChanceText.gameObject.SetActive(false);
     }
 
     public void InitSetup()
@@ -80,6 +82,7 @@ public class Combat : MonoBehaviour
         healColor = Color.green;
         damageText.gameObject.SetActive(false);
         statusText.gameObject.SetActive(false);
+        runChanceText.gameObject.SetActive(false);
         //damageValues.Add(Instantiate(damageText));  //Does this work?
 
         //populate grid
@@ -140,14 +143,14 @@ public class Combat : MonoBehaviour
 
         perfectDefenseMod = 1;  //default value
 
-        //run chance
+        //run chance. This is displayed when the defender hovers over the run button.
         chanceToRun = 1 - (attacker.spd * 0.01f * 2) + (defender.spd * 0.01f) + runMod;
         if (chanceToRun < 0)
             chanceToRun = 0;
 
 
 
-        //attacker takes their turn first
+        //attacker takes their turn first. Attack would've already been chosen, so all attacker does is pick a card.
         attackerTurnOver = false;
         defenderCounterattacking = false;
         //StartCoroutine(SimulateDiceRoll(attackerDice, defenderDice, attacker, defender));
