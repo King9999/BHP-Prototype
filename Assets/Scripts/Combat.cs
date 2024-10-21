@@ -36,7 +36,7 @@ public class Combat : MonoBehaviour
     public Room attackerRoom, defenderRoom; //where the combatants are positioned.
 
     // Start is called before the first frame update
-    void Start()
+    /*void Start()
     {
         damageColor = Color.red;
         reducedColor = Color.blue;
@@ -49,7 +49,7 @@ public class Combat : MonoBehaviour
         battlefieldContainer = new GameObject("Battlefield");
         battlefieldContainer.transform.SetParent(this.transform);
 
-        fieldGrid = new Room[4, 4];
+        fieldGrid = new Room[4, 5];
         for (int i = 0; i < fieldGrid.GetLength(0); i++)
         {
             for (int j = 0; j < fieldGrid.GetLength(1); j++)
@@ -61,7 +61,11 @@ public class Combat : MonoBehaviour
                 fieldGrid[i, j] = newRoom;
             }
         }
-    }
+
+        //get the rooms for combatants. They should be the middle column.
+        attackerRoom = fieldGrid[0, 2];
+        defenderRoom = fieldGrid[3, 2];
+    }*/
 
     private void OnEnable()
     {
@@ -69,6 +73,36 @@ public class Combat : MonoBehaviour
         statusText.gameObject.SetActive(false);
     }
 
+    public void InitSetup()
+    {
+        damageColor = Color.red;
+        reducedColor = Color.blue;
+        healColor = Color.green;
+        damageText.gameObject.SetActive(false);
+        statusText.gameObject.SetActive(false);
+        //damageValues.Add(Instantiate(damageText));  //Does this work?
+
+        //populate grid
+        battlefieldContainer = new GameObject("Battlefield");
+        battlefieldContainer.transform.SetParent(this.transform);
+
+        fieldGrid = new Room[4, 5];
+        for (int i = 0; i < fieldGrid.GetLength(0); i++)
+        {
+            for (int j = 0; j < fieldGrid.GetLength(1); j++)
+            {
+                Room newRoom = Instantiate(roomPrefab, battlefieldContainer.transform);
+                Vector3 roomScale = newRoom.transform.localScale;
+                newRoom.transform.position = new Vector3(newRoom.transform.position.x + ((i * 2) * roomScale.x / 2), newRoom.transform.position.y,
+                    newRoom.transform.position.z + ((j * 2) * roomScale.z / 2));
+                fieldGrid[i, j] = newRoom;
+            }
+        }
+
+        //get the rooms for combatants. They should be the middle column.
+        attackerRoom = fieldGrid[0, 2];
+        defenderRoom = fieldGrid[3, 2];
+    }
   
 
     /*public void OnRollDiceButton()
@@ -85,6 +119,15 @@ public class Combat : MonoBehaviour
 
         //hide Hunter UI and dungeon layout
         SetNonCombatUI(false);
+
+        //position the combatants
+        SetCharacterPosition(attacker, attackerRoom);
+        SetCharacterPosition(defender, defenderRoom);
+
+        //position the camera so that it's centered on the battlefield.
+        GameManager gm = Singleton.instance.GameManager;
+        //Vector3 newPos = fieldGrid[2, 2].transform.position;
+        gm.gameCamera.transform.position = new Vector3(-1, 5, -2);  //not sure if the camera will remain consistent with these values.
 
         //setup UI
         attackerNameText.text = attacker.characterName;
@@ -103,10 +146,11 @@ public class Combat : MonoBehaviour
             chanceToRun = 0;
 
 
+
         //attacker takes their turn first
         attackerTurnOver = false;
         defenderCounterattacking = false;
-        StartCoroutine(SimulateDiceRoll(attackerDice, defenderDice, attacker, defender));
+        //StartCoroutine(SimulateDiceRoll(attackerDice, defenderDice, attacker, defender));
         /*int totalAttackRoll = GetTotalRoll_Attacker(attacker);
         attackerDieOneGUI.text = attackerDice.die1.ToString();
         attackerDieTwoGUI.text = attackerDice.die2.ToString();
@@ -122,6 +166,13 @@ public class Combat : MonoBehaviour
 
         //calculate damage, starting with attacker dealing damage to defender.
         //use coroutine to 
+    }
+
+    //sets character's position to a room on the battlefield.
+    private void SetCharacterPosition(Character character, Room room)
+    {
+        room.character = character;
+        character.transform.position = new Vector3(room.transform.position.x, character.transform.position.y, room.transform.position.z);
     }
 
     private int GetTotalRoll_Attacker(Character character)
