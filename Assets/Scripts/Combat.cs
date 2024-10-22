@@ -16,7 +16,7 @@ public class Combat : MonoBehaviour
     public float chanceToRun;               //affected by attacker and defender SPD
 
     [Header("---Modifiers---")]
-    public float runMod;                    //modifier to run chance.
+    public float runMod, runPreventionMod;   //modifier to run chance. runPreventionMod is used by attacker to reduce chance to escape.
 
 
     [Header("---UI---")]
@@ -29,6 +29,8 @@ public class Combat : MonoBehaviour
     private Color damageColor, reducedColor, healColor;              //red = damage, blue = reduced damage, green = heal
     [SerializeField] private TextMeshProUGUI statusText;      //used for buffs/debuffs
     [SerializeField] private List<TextMeshProUGUI> damageValues;      //used for displaying lots of damage values at a time.
+    [SerializeField] private GameObject attackerMenu;
+    [SerializeField] private List<CardObject> hunterCards;      //used by both attacker and defender
 
     [Header("---Combat Grid---")]
     [SerializeField] private Room roomPrefab;
@@ -106,6 +108,11 @@ public class Combat : MonoBehaviour
         attackerRoom = fieldGrid[0, 2];
         defenderRoom = fieldGrid[3, 2];
     }
+
+    private void ShowAttackerMenu(bool toggle)
+    {
+        attackerMenu.gameObject.SetActive(toggle);
+    }
   
 
     /*public void OnRollDiceButton()
@@ -126,6 +133,8 @@ public class Combat : MonoBehaviour
         //position the combatants
         SetCharacterPosition(attacker, attackerRoom);
         SetCharacterPosition(defender, defenderRoom);
+        attacker.isAttacker = true;
+        defender.isDefender = true;
 
         //position the camera so that it's centered on the battlefield.
         GameManager gm = Singleton.instance.GameManager;
@@ -144,11 +153,11 @@ public class Combat : MonoBehaviour
         perfectDefenseMod = 1;  //default value
 
         //run chance. This is displayed when the defender hovers over the run button.
-        chanceToRun = 1 - (attacker.spd * 0.01f * 2) + (defender.spd * 0.01f) + runMod;
+        /*chanceToRun = 1 - (attacker.spd * 0.01f * 2 - runPreventionMod) + (defender.spd * 0.01f + runMod);
         if (chanceToRun < 0)
-            chanceToRun = 0;
+            chanceToRun = 0;*/
 
-
+        UpdateRunChance(attacker, defender, runPreventionMod, runMod);
 
         //attacker takes their turn first. Attack would've already been chosen, so all attacker does is pick a card.
         attackerTurnOver = false;
@@ -169,6 +178,13 @@ public class Combat : MonoBehaviour
 
         //calculate damage, starting with attacker dealing damage to defender.
         //use coroutine to 
+    }
+
+    public void UpdateRunChance(Character attacker, Character defender, float runPreventionMod, float runMod)
+    {
+        chanceToRun = 1 - (attacker.spd * 0.01f * 2 - runPreventionMod) + (defender.spd * 0.01f + runMod);
+        if (chanceToRun < 0)
+            chanceToRun = 0;
     }
 
     //sets character's position to a room on the battlefield.

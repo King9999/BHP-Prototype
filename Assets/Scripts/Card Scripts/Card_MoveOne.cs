@@ -5,13 +5,13 @@ using UnityEngine;
 /* In the field, adds 1 to total movement. In combat, +10% chance to run away from combat. */
 [CreateAssetMenu(menuName = "Cards/MOV +1", fileName = "card_move1", order = 2)]
 public class Card_MoveOne : Card
-{
+{ 
     // Start is called before the first frame update
     void Reset()
     {
         cardName = "MOV +1";
         cardDetails_field = "Adds 1 space to total MOV";
-        cardDetails_combat = "+10% chance to run away";
+        cardDetails_combat = "+10% chance to run away/prevent running away";
     }
     private void OnEnable()
     {
@@ -26,6 +26,9 @@ public class Card_MoveOne : Card
     public override void ActivateCard_Combat(Hunter user)
     {
         GameManager gm = Singleton.instance.GameManager;
-        gm.combatManager.runMod += 0.1f;
+        if (user.isAttacker)
+            gm.combatManager.runPreventionMod += 0.1f;
+        else
+            gm.combatManager.runMod += 0.1f;
     }
 }

@@ -10,7 +10,7 @@ public class Card_MoveTwo : Card
     {
         cardName = "MOV +2";
         cardDetails_field = "Adds 2 spaces to total MOV";
-        cardDetails_combat = "+20% chance to run away";
+        cardDetails_combat = "+20% chance to run away/prevent running away";
     }
     private void OnEnable()
     {
@@ -25,6 +25,9 @@ public class Card_MoveTwo : Card
     public override void ActivateCard_Combat(Hunter user)
     {
         GameManager gm = Singleton.instance.GameManager;
-        gm.combatManager.runMod += 0.2f;
+        if (user.isAttacker)
+            gm.combatManager.runPreventionMod += 0.2f;
+        else
+            gm.combatManager.runMod += 0.2f;
     }
 }

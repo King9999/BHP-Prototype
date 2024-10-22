@@ -141,6 +141,8 @@ public class GameManager : MonoBehaviour
         dice.dieImages[0].sprite = dice.diceSprites[0];
         dice.dieImages[1].sprite = dice.diceSprites[0];
         //gameCamera.transform.position = new Vector3(newCamPos.x - 4, 5, newCamPos.z + 4);
+
+        //combat setup
         combatManager.InitSetup();
         combatManager.gameObject.SetActive(false);
     }

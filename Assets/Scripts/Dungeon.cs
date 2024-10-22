@@ -9,24 +9,28 @@ using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCou
  */
 public class Dungeon : MonoBehaviour
 {
-    public List<Room> roomPrefabs;              //master list of room prefabs.
+    [SerializeField] private Room roomPrefab;              //master list of room prefabs.
     public List<Room> dungeonRooms, roomBin;    //roomBin is used to reuse already instantiated rooms.
     public char[,] dungeonGrid;                  //used for various things such as determining movement range
-    public int totalRows { get; set; }
-    public int totalCols { get; set; }
+    private int totalRows { get; set; }
+    private int totalCols { get; set; }
 
     [Header("---Treasure Chests---")]
-    public Entity_TreasureChest chestPrefab;
-    public List<Entity_TreasureChest> treasureChests;
-    public int chestCount;
+    [SerializeField]private Entity_TreasureChest chestPrefab;
+    [SerializeField] private List<Entity_TreasureChest> treasureChests;
+    [SerializeField]private int chestCount;
     public float baseCreditsChance;             //determines whether a chest contains credits or an item
     public float creditsChanceMod;               //modified by dungeon mods.
 
     [Header("---Exit Point---")]
     public Entity_Exit exitPointPrefab;
+    public Room exitRoom;                       //reference to exit point, used by other scripts
+
+    
+
 
     //private readonly Hashtable occupiedPositions = new();
-    private Dictionary<Vector3, Room> occupiedPositions = new Dictionary<Vector3, Room>();
+    private readonly Dictionary<Vector3, Room> occupiedPositions = new Dictionary<Vector3, Room>();
     // Start is called before the first frame update
     void Start()
     {
@@ -147,7 +151,7 @@ public class Dungeon : MonoBehaviour
 
         while (dungeonRooms.Count < roomCount)
         {
-            Room room = Instantiate(roomPrefabs[0]);
+            Room room = Instantiate(roomPrefab);
             room.transform.SetParent(roomContainer.transform);
             room.roomID = dungeonRooms.Count;
 
@@ -366,6 +370,7 @@ public class Dungeon : MonoBehaviour
                     exitPoint.transform.SetParent(exitContainer.transform);
                     exitPoint.transform.position = new Vector3(roomPos.x, roomPos.y + 2f, roomPos.z);
                     dungeonRooms[randRoom].entity = exitPoint;
+                    exitRoom = dungeonRooms[randRoom];
                     occupiedLocations.Add(randRoom);
                 }
                 else

@@ -123,7 +123,7 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         //StopCoroutine(RevertCard());
         coroutineActive = true;
         //originalPos = transform.position;
-        Vector3 newPos = new Vector3(originalPos.x, originalPos.y + 30, originalPos.z);
+        Vector3 newPos = new Vector3(originalPos.x, originalPos.y + 15, originalPos.z);
         float moveSpeed = 200;
         HunterManager hm = Singleton.instance.HunterManager;
 
