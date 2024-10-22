@@ -5,15 +5,16 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 /* Visual representation of Card scriptable object. */
 public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Card cardData;       //handles card activation also.
-    public Sprite cardSprite;
+    public Sprite cardSprite, invalidCardSprite;
     bool revertCardOn, animateCardOn, coroutineActive, origPosCaptured;
     bool mouseOnCard;       //used to check if mouse is hovering over a card.
-    public bool cardSelected;
+    public bool cardSelected, cardInvalid;      //cardInvalid = cannot select card.
     Vector3 originalPos;
 
     /*void OnEnable()
@@ -41,7 +42,7 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             StartCoroutine(AnimateCard());
         }
 
-        if (mouseOnCard && Input.GetMouseButtonDown(0))
+        if (mouseOnCard && !cardInvalid && Input.GetMouseButtonDown(0))
         {
             CardManager cm = Singleton.instance.CardManager;
             cm.selectedCard = cardData;
@@ -58,6 +59,11 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void ShowCard(bool toggle)
     {
         gameObject.SetActive(toggle);
+    }
+
+    public void UpdateCardSprite(Sprite sprite)
+    {
+        GetComponent<Image>().sprite = sprite;
     }
 
     public void OnPointerExit(PointerEventData pointer)
@@ -95,9 +101,21 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         //details are different if player is in combat or on the field
         GameManager gm = Singleton.instance.GameManager;
         if (gm.gameState == GameManager.GameState.Combat)
-            hm.ui.cardDetailsText.text = cardData.cardDetails_combat;
+        {
+            if (cardData.cardType == Card.CardType.Combat || cardData.cardType == Card.CardType.Versatile)
+                hm.ui.cardDetailsText.text = cardData.cardDetails_combat;
+            else
+                //cannot use this card in combat
+                hm.ui.cardDetailsText.text = "Can't use this card in combat.";
+        }
         else
-            hm.ui.cardDetailsText.text = cardData.cardDetails_field;
+        {
+            if (cardData.cardType == Card.CardType.Field || cardData.cardType == Card.CardType.Versatile)
+                hm.ui.cardDetailsText.text = cardData.cardDetails_field;
+            else
+                //can't use this card in the field
+                hm.ui.cardDetailsText.text = "Can't use this card in the field.";
+        }
     }
 
     IEnumerator AnimateCard()

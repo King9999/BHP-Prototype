@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -240,15 +241,35 @@ public class HunterUI : MonoBehaviour
             {
                 for (int i = 0; i < hunter.cards.Count; i++)
                 {
+                    hunterCards[i].ShowCard(true);
+                    hunterCards[i].cardData = hunter.cards[i];
                     if (hunter.cards[i].cardType == Card.CardType.Field || hunter.cards[i].cardType == Card.CardType.Versatile)
                     {
-                        hunterCards[currentCardIndex].ShowCard(true);
-                        hunterCards[currentCardIndex].cardData = hunter.cards[i];
-                        hunterCards[currentCardIndex].cardSprite = hunter.cards[i].cardSprite;
-                        currentCardIndex++;
+                        //hunterCards[currentCardIndex].ShowCard(true);
+                        //hunterCards[i].cardData = hunter.cards[i];
+                        //hunterCards[currentCardIndex].cardSprite = hunter.cards[i].cardSprite;
+                        hunterCards[i].UpdateCardSprite(hunterCards[i].cardSprite);
+                        hunterCards[i].cardInvalid = false;
+                        //currentCardIndex++;
+                    }
+                    else
+                    {
+                        //can't use this card
+                        hunterCards[i].cardInvalid = true;
+                        hunterCards[i].UpdateCardSprite(hunterCards[i].invalidCardSprite);
                     }
                     
                 }
+
+                //sort cards
+                /*var sorted = from card in hunterCards
+                             orderby card descending
+                             select card;
+                foreach (var card in sorted)
+                {
+                    
+                }*/
+                hunterCards = hunterCards.OrderByDescending(x => !x.cardInvalid).ToList();  //sorting isn't consistent for some reason
             }
         }
         else
