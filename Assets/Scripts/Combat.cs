@@ -30,13 +30,15 @@ public class Combat : MonoBehaviour
     [SerializeField] private TextMeshProUGUI statusText;      //used for buffs/debuffs
     [SerializeField] private List<TextMeshProUGUI> damageValues;      //used for displaying lots of damage values at a time.
     [SerializeField] private GameObject attackerMenu;
-    [SerializeField] private List<CardObject> hunterCards;      //used by both attacker and defender
+    [SerializeField] private GameObject defenderMenu;
+    [SerializeField] private List<CardObject> attackerCards, defenderCards;  
 
     [Header("---Combat Grid---")]
     [SerializeField] private Room roomPrefab;
     private GameObject battlefieldContainer;
     private Room[,] fieldGrid;        //used to layout the battlefield. In a ranged fight, there will be a gap to show that melee counters are ineffective.
     [SerializeField] private Room attackerRoom, defenderRoom; //where the combatants are positioned.
+    private bool attackersTurn;         //used to keep track of who's taking their turn
 
     // Start is called before the first frame update
     /*void Start()
@@ -85,6 +87,8 @@ public class Combat : MonoBehaviour
         damageText.gameObject.SetActive(false);
         statusText.gameObject.SetActive(false);
         runChanceText.gameObject.SetActive(false);
+        ShowAttackerMenu(false);
+        ShowDefenderMenu(false);
         //damageValues.Add(Instantiate(damageText));  //Does this work?
 
         //populate grid
@@ -113,7 +117,12 @@ public class Combat : MonoBehaviour
     {
         attackerMenu.gameObject.SetActive(toggle);
     }
-  
+
+    private void ShowDefenderMenu(bool toggle)
+    {
+        defenderMenu.gameObject.SetActive(toggle);
+    }
+
 
     /*public void OnRollDiceButton()
     {
@@ -135,6 +144,7 @@ public class Combat : MonoBehaviour
         SetCharacterPosition(defender, defenderRoom);
         attacker.isAttacker = true;
         defender.isDefender = true;
+        attackersTurn = true;
 
         //position the camera so that it's centered on the battlefield.
         GameManager gm = Singleton.instance.GameManager;
@@ -151,6 +161,8 @@ public class Combat : MonoBehaviour
         defenderSkillPoints.text = defender.skillPoints + "/" + defender.maxSkillPoints;
 
         perfectDefenseMod = 1;  //default value
+        runPreventionMod = 0;
+        runMod = 0;
 
         //run chance. This is displayed when the defender hovers over the run button.
         /*chanceToRun = 1 - (attacker.spd * 0.01f * 2 - runPreventionMod) + (defender.spd * 0.01f + runMod);
@@ -182,7 +194,7 @@ public class Combat : MonoBehaviour
 
     public void UpdateRunChance(Character attacker, Character defender, float runPreventionMod, float runMod)
     {
-        chanceToRun = 1 - (attacker.spd * 0.01f * 2 - runPreventionMod) + (defender.spd * 0.01f + runMod);
+        chanceToRun = 1 - (attacker.spd * 0.01f * 2 + runPreventionMod) + (defender.spd * 0.01f + runMod);
         if (chanceToRun < 0)
             chanceToRun = 0;
     }

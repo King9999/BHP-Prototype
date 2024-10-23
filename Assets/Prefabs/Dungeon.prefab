@@ -44,9 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b91320dd57261a9468e756b7ba558829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomPrefabs:
-  - {fileID: 4488165858551343332, guid: 7de4d52e97e3b2745b88a85ba00aa947, type: 3}
-  - {fileID: 8051038483525043625, guid: 12958950ac7abe74eacf22c204413faf, type: 3}
+  roomPrefab: {fileID: 4488165858551343332, guid: c20f33c859e16e346bb3db02b6eb8ef0, type: 3}
   dungeonRooms: []
   roomBin: []
   chestPrefab: {fileID: 8108700228875914378, guid: 1d79c1cd00478164d9f0fa5d00b752e3, type: 3}
@@ -55,3 +53,4 @@ MonoBehaviour:
   baseCreditsChance: 0
   creditsChanceMod: 0
   exitPointPrefab: {fileID: 4055752968429102390, guid: 076813608e6342f45b91191c38745a4a, type: 3}
+  exitRoom: {fileID: 0}
