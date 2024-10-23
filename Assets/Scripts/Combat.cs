@@ -29,9 +29,9 @@ public class Combat : MonoBehaviour
     private Color damageColor, reducedColor, healColor;              //red = damage, blue = reduced damage, green = heal
     [SerializeField] private TextMeshProUGUI statusText;      //used for buffs/debuffs
     [SerializeField] private List<TextMeshProUGUI> damageValues;      //used for displaying lots of damage values at a time.
-    [SerializeField] private GameObject attackerMenu;
+    [SerializeField] private GameObject cardMenu;
     [SerializeField] private GameObject defenderMenu;
-    [SerializeField] private List<CardObject> attackerCards, defenderCards;  
+    [SerializeField] private List<CardObject> hunterCards;      //used by both attacker and defender
 
     [Header("---Combat Grid---")]
     [SerializeField] private Room roomPrefab;
@@ -87,7 +87,7 @@ public class Combat : MonoBehaviour
         damageText.gameObject.SetActive(false);
         statusText.gameObject.SetActive(false);
         runChanceText.gameObject.SetActive(false);
-        ShowAttackerMenu(false);
+        ShowCardMenu(false);
         ShowDefenderMenu(false);
         //damageValues.Add(Instantiate(damageText));  //Does this work?
 
@@ -113,9 +113,9 @@ public class Combat : MonoBehaviour
         defenderRoom = fieldGrid[3, 2];
     }
 
-    private void ShowAttackerMenu(bool toggle)
+    private void ShowCardMenu(bool toggle)
     {
-        attackerMenu.gameObject.SetActive(toggle);
+        cardMenu.gameObject.SetActive(toggle);
     }
 
     private void ShowDefenderMenu(bool toggle)
