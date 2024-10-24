@@ -168,7 +168,7 @@ public class GameManager : MonoBehaviour
             //Dungeon dun = Singleton.instance.Dungeon;
             int totalMove = ActiveCharacter().mov + dice.RollSingleDie() + movementMod;
             List<Room> moveRange = ShowMoveRange(ActiveCharacter(), totalMove);
-            Debug.Log("Total Move: " + totalMove);
+            Debug.LogFormat("Total Move: {0}", totalMove);
 
             foreach (Room pos in moveRange)
             {
@@ -224,7 +224,7 @@ public class GameManager : MonoBehaviour
                 }
                 moveTileList.Clear();
                 moveTileList.TrimExcess();
-                Debug.Log("New destination: " + selectTile.transform.position);
+                Debug.LogFormat("New destination: {0}", selectTile.transform.position);
                 Vector3 destinationPos = new Vector3(selectTile.transform.position.x, 0, selectTile.transform.position.z);
                 StartCoroutine(MoveCharacter(ActiveCharacter(), destinationPos));
             }
@@ -237,9 +237,10 @@ public class GameManager : MonoBehaviour
 
             //Dungeon dun = Singleton.instance.Dungeon;
             List<Room> skillRange = ShowSkillRange(ActiveCharacter(), selectedSkill.minRange, selectedSkill.maxRange);
-            Debug.Log(selectedSkill.skillName + "'s range: " + selectedSkill.minRange + " min, " + selectedSkill.maxRange + " max");
+            Debug.LogFormat("{0}'s range: {1} min, {2} max", selectedSkill.skillName, selectedSkill.minRange, selectedSkill.maxRange);
 
-            foreach (Room pos in skillRange)
+            DisplaySkillTiles(skillRange);
+            /*foreach (Room pos in skillRange)
             {
                 //if there are existing move tile objects, activate those first before instantiating new ones.
                 if (skillTileBin.Count > 0)
@@ -262,7 +263,7 @@ public class GameManager : MonoBehaviour
             if (skillTileBin.Count <= 0)
             {
                 skillTileBin.TrimExcess();
-            }
+            }*/
             skillTilesActive = true;
             selectTile.SetActive(true);
         }
@@ -315,6 +316,34 @@ public class GameManager : MonoBehaviour
                 //StartCoroutine(MoveCharacter(ActiveCharacter(), destinationPos));
                 //TODO: Add coroutine to begin combat
             }
+        }
+    }
+
+    private void DisplaySkillTiles(List<Room> skillRooms)
+    {
+        foreach (Room pos in skillRooms)
+        {
+            //if there are existing move tile objects, activate those first before instantiating new ones.
+            if (skillTileBin.Count > 0)
+            {
+                GameObject lastTile = skillTileBin[0];
+                lastTile.SetActive(true);
+                lastTile.transform.position = new Vector3(pos.transform.position.x, 0.6f, pos.transform.position.z);
+                skillTileList.Add(lastTile);
+                skillTileBin.Remove(lastTile);
+            }
+            else
+            {
+                GameObject tile = Instantiate(skillTilePrefab, skillTileContainer.transform);
+                tile.transform.position = new Vector3(pos.transform.position.x, 0.6f, pos.transform.position.z);
+                skillTileList.Add(tile);
+            }
+
+        }
+
+        if (skillTileBin.Count <= 0)
+        {
+            skillTileBin.TrimExcess();
         }
     }
 
@@ -1204,7 +1233,8 @@ public class GameManager : MonoBehaviour
                     if (character.targetChar != null)
                     {
                         //attack
-                        Debug.Log(character.characterName + " is attacking " + character.targetChar.characterName + "!");
+                        Debug.LogFormat("{0} is attacking {1}!", character.characterName, character.targetChar.characterName);
+                        StartCombat(character, character.targetChar);
                     }
                     else
                     {
@@ -1273,7 +1303,21 @@ public class GameManager : MonoBehaviour
                 //CPU takes action.
                 //activate any behaviour-specific abilities.
                 hunter.cpuBehaviour.ActivateAbility(hunter);
-                hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.Moving, hunter);
+                //Before moving, check if the hunter is already in attack range by checking all applicable skills.
+                //Use basic attack to check.
+                ActiveSkill basicAttack = hunter.skills[0] as ActiveSkill;
+                List<Room> skillRange = ShowSkillRange(hunter, basicAttack.minRange, basicAttack.maxRange);
+                List<Character> targetChars = hunter.CPU_CheckCharactersInRange(skillRange);
+                
+                if (targetChars.Count > 0)
+                {
+                    //hunter.chosenSkill
+                    hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.UseSkill, hunter);
+                }
+                else
+                {
+                    hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.Moving, hunter);
+                }
             }
         }
         //hm.ui.ShowHunterMenu(true, character);

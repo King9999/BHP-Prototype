@@ -629,6 +629,7 @@ public class HunterManager : MonoBehaviour
     /* Executes all actions for moving a hunter. Includes choosing a card, rolling dice, and moving hunter to new space. */
     IEnumerator MoveCPUHunter(Hunter hunter)
     {
+
         //decide whether to use a card. Likelihood increases depending on behaviour.
         GameManager gm = Singleton.instance.GameManager;
         CardManager cm = Singleton.instance.CardManager;
@@ -657,7 +658,7 @@ public class HunterManager : MonoBehaviour
         //show move tiles. This code is identical to the code in the Update look of GameManager.
         int totalMove = hunter.mov + gm.dice.RollSingleDie() + gm.movementMod;
         List<Room> moveRange = gm.ShowMoveRange(hunter, totalMove);
-        Debug.Log("Total Move for " + hunter.characterName + ": " + totalMove);
+        Debug.LogFormat("Total Move for {0}: {1}", hunter.characterName, totalMove);
 
         //keep a list of characters and entities in range
         List<Character> charactersInRange = new List<Character>();
@@ -699,8 +700,8 @@ public class HunterManager : MonoBehaviour
             gm.moveTileBin.TrimExcess();
         }
 
-        Debug.Log("Characters in range: " + charactersInRange.Count);
-        Debug.Log("Entities in range: " + entitiesInRange.Count);
+        Debug.LogFormat("Characters in range: {0}", charactersInRange.Count);
+        Debug.LogFormat("Entities in range: {0}", entitiesInRange.Count);
 
         /*******find a character to attack. *******/
         Character targetChar = null;

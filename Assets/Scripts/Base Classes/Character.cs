@@ -111,5 +111,25 @@ public abstract class Character : MonoBehaviour
 
     public void Attack() { }
     public void Defend() { }
+
+    /// <summary>
+    /// Checks for valid targets in a given range. Used by CPU characters.
+    /// </summary>
+    /// <param name="skillRange">the rooms to check for any characters</param>
+    /// <returns>The list of valid characters.</returns>
+    public List<Character> CPU_CheckCharactersInRange(List<Room> skillRange) 
+    {
+        List<Character> targetChars = new List<Character>();
+
+        foreach (Room room in skillRange)
+        {
+            if (room.character != null)
+            {
+                targetChars.Add(room.character);
+            }
+        }
+
+        return targetChars;
+    }
     
 }
