@@ -38,6 +38,7 @@ public class Singleton : MonoBehaviour
 
         instance = this;
         Application.runInBackground = false;
+        Debug.unityLogger.logEnabled = Debug.isDebugBuild;      //disables all calls to Debug.Log in the finished build.
 
         //PlayerPrefs.DeleteAll();
         ItemModManager = GetComponentInChildren<ItemModManager>();

@@ -282,7 +282,7 @@ public class GameManager : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 skillTilesActive = false;
-                //clear move tiles
+                //clear skill tiles
                 for (int i = 0; i < skillTileList.Count; i++)
                 {
                     skillTileList[i].SetActive(false);
@@ -292,6 +292,26 @@ public class GameManager : MonoBehaviour
                 skillTileList.TrimExcess();
                 Debug.Log("New destination: " + selectTile.transform.position);
                 Vector3 destinationPos = new Vector3(selectTile.transform.position.x, 0, selectTile.transform.position.z);
+                //get the room that was clicked, and check if a character was targeted.
+                int j = 0;
+                bool charFound = false;
+                while (!charFound && j < turnOrder.Count)
+                {
+                    if (destinationPos.x == turnOrder[j].transform.position.x && destinationPos.z == turnOrder[j].transform.position.z)
+                    {
+                        charFound = true;
+                        Debug.LogFormat(turnOrder[j].gameObject, "Targeting {0}", turnOrder[j]);
+                    }
+                    else
+                    {
+                        j++;
+                    }
+                }
+
+                if (charFound)
+                {
+                    StartCombat(ActiveCharacter(), turnOrder[j]);
+                }
                 //StartCoroutine(MoveCharacter(ActiveCharacter(), destinationPos));
                 //TODO: Add coroutine to begin combat
             }
@@ -400,6 +420,13 @@ public class GameManager : MonoBehaviour
         }
         else
             return 0;
+    }
+
+    private void StartCombat(Character attacker, Character defender)
+    {
+        selectTile.gameObject.SetActive(false);
+        combatManager.gameObject.SetActive(true);
+        combatManager.StartCombat(attacker, defender);
     }
 
     void CheckForEntities(Room room, Character character)
