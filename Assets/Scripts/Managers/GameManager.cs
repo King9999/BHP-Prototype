@@ -504,8 +504,8 @@ public class GameManager : MonoBehaviour
         int startRow = character.room.row;
         int startCol = character.room.col;
 
-        Debug.Log("Max Rows " + grid.GetLength(0));
-        Debug.Log("Max Cols " + grid.GetLength(1));
+        //Debug.Log("Max Rows " + grid.GetLength(0));
+        //Debug.Log("Max Cols " + grid.GetLength(1));
 
         //search in the cardinal directions. At each point in the grid, search surrounding points for walkable space.
         /*****search right******/
@@ -523,9 +523,9 @@ public class GameManager : MonoBehaviour
 
             //add new position. If the previous space was invalid, we add 3 + number of invalid spaces to space count because
             //it takes that many spaces to get around them.
-            if (grid[currentRow, currentCol] == '1')
+            if (grid[currentRow, currentCol].Equals('1'))
             {
-                if (grid[currentRow, currentCol - 1] == '0')
+                if (grid[currentRow, currentCol - 1].Equals('0'))
                 {
                     currentSpaceCount += 3 + consecutiveGaps;
                     consecutiveGaps = 0;
@@ -552,9 +552,9 @@ public class GameManager : MonoBehaviour
             while (currentRow - 1 >= 0 && currentSpaceCount < spaceCount)
             {
                 currentRow--;
-                if (grid[currentRow, currentCol] == '1')  //search up
+                if (grid[currentRow, currentCol].Equals('1'))  //search up
                 {
-                    if (grid[currentRow + 1, currentCol] == '0')
+                    if (grid[currentRow + 1, currentCol].Equals('0'))
                     {
                         currentSpaceCount += 3 + consecutiveGaps;
                         consecutiveGaps = 0;
@@ -581,9 +581,9 @@ public class GameManager : MonoBehaviour
             while (currentRow + 1 < grid.GetLength(0) && currentSpaceCount < spaceCount)
             {
                 currentRow++;
-                if (grid[currentRow, currentCol] == '1')
+                if (grid[currentRow, currentCol].Equals('1'))
                 {
-                    if (grid[currentRow - 1, currentCol] == '0')
+                    if (grid[currentRow - 1, currentCol].Equals('0'))
                     {
                         currentSpaceCount += 3 + consecutiveGaps;
                         consecutiveGaps = 0;
@@ -617,9 +617,9 @@ public class GameManager : MonoBehaviour
         {
             currentCol--;
             //add new position
-            if (grid[currentRow, currentCol] == '1')
+            if (grid[currentRow, currentCol].Equals('1'))
             {
-                if (grid[currentRow, currentCol + 1] == '0')
+                if (grid[currentRow, currentCol + 1].Equals('0'))
                 {
                     currentSpaceCount += 3 + consecutiveGaps;
                     consecutiveGaps = 0;
@@ -648,9 +648,9 @@ public class GameManager : MonoBehaviour
             while (currentRow - 1 >= 0 && currentSpaceCount < spaceCount)
             {
                 currentRow--;
-                if (grid[currentRow, currentCol] == '1')
+                if (grid[currentRow, currentCol].Equals('1'))
                 {
-                    if (grid[currentRow + 1, currentCol] == '0')
+                    if (grid[currentRow + 1, currentCol].Equals('0'))
                     {
                         currentSpaceCount += 3 + consecutiveGaps;
                         consecutiveGaps = 0;
@@ -681,9 +681,9 @@ public class GameManager : MonoBehaviour
             while(currentRow + 1 < grid.GetLength(0) && currentSpaceCount < spaceCount)
             {
                 currentRow++;
-                if (grid[currentRow, currentCol] == '1')
+                if (grid[currentRow, currentCol].Equals('1'))
                 {
-                    if (grid[currentRow - 1, currentCol] == '0')
+                    if (grid[currentRow - 1, currentCol].Equals('0'))
                     {
                         currentSpaceCount += 3 + consecutiveGaps;
                         consecutiveGaps = 0;
@@ -721,9 +721,9 @@ public class GameManager : MonoBehaviour
         {
             currentRow--;
             //add new position
-            if (grid[currentRow, currentCol] == '1')
+            if (grid[currentRow, currentCol].Equals('1'))
             {
-                if (grid[currentRow + 1, currentCol] == '0')
+                if (grid[currentRow + 1, currentCol].Equals('0'))
                     currentSpaceCount += 3 + consecutiveGaps;
                 else
                     currentSpaceCount++;
@@ -749,9 +749,9 @@ public class GameManager : MonoBehaviour
             while (currentCol + 1 < grid.GetLength(1) && currentSpaceCount < spaceCount)
             {
                 currentCol++;
-                if (grid[currentRow, currentCol] == '1')
+                if (grid[currentRow, currentCol].Equals('1'))
                 {
-                    if (grid[currentRow, currentCol - 1] == '0')
+                    if (grid[currentRow, currentCol - 1].Equals('0'))
                     {
                         currentSpaceCount += 3 + consecutiveGaps;
                         consecutiveGaps = 0;
@@ -782,9 +782,9 @@ public class GameManager : MonoBehaviour
             while(currentCol - 1 >= 0 && currentSpaceCount < spaceCount)
             {
                 currentCol--;
-                if (grid[currentRow, currentCol] == '1')
+                if (grid[currentRow, currentCol].Equals('1'))
                 {
-                    if (grid[currentRow, currentCol + 1] == '0')
+                    if (grid[currentRow, currentCol + 1].Equals('0'))
                     {
                         currentSpaceCount += 3 + consecutiveGaps;
                         consecutiveGaps = 0;
@@ -822,9 +822,9 @@ public class GameManager : MonoBehaviour
         {
             currentRow++;
             //add new position
-            if (grid[currentRow, currentCol] == '1')
+            if (grid[currentRow, currentCol].Equals('1'))
             {
-                if (grid[currentRow - 1, currentCol] == '0')
+                if (grid[currentRow - 1, currentCol].Equals('0'))
                     currentSpaceCount += 3 + consecutiveGaps;
                 else
                     currentSpaceCount++;
@@ -850,9 +850,9 @@ public class GameManager : MonoBehaviour
             while (currentCol + 1 < grid.GetLength(1) && currentSpaceCount < spaceCount)
             {
                 currentCol++;
-                if (grid[currentRow, currentCol] == '1')
+                if (grid[currentRow, currentCol].Equals('1'))
                 {
-                    if (grid[currentRow, currentCol - 1] == '0')
+                    if (grid[currentRow, currentCol - 1].Equals('0'))
                     {
                         currentSpaceCount += 3 + consecutiveGaps;
                         consecutiveGaps = 0;
@@ -883,9 +883,9 @@ public class GameManager : MonoBehaviour
             while (currentCol - 1 >= 0 && currentSpaceCount < spaceCount)
             {
                 currentCol--;
-                if (grid[currentRow, currentCol] == '1')
+                if (grid[currentRow, currentCol].Equals('1'))
                 {
-                    if (grid[currentRow, currentCol + 1] == '0')
+                    if (grid[currentRow, currentCol + 1].Equals('0'))
                     {
                         currentSpaceCount += 3 + consecutiveGaps;
                         consecutiveGaps = 0;
@@ -927,8 +927,8 @@ public class GameManager : MonoBehaviour
         int startRow = character.room.row;
         int startCol = character.room.col;
 
-        Debug.Log("Max Rows " + grid.GetLength(0));
-        Debug.Log("Max Cols " + grid.GetLength(1));
+        //Debug.Log("Max Rows " + grid.GetLength(0));
+        //Debug.Log("Max Cols " + grid.GetLength(1));
 
         //search in the cardinal directions. At each point in the grid, search surrounding points for targetable space.
         /*****search right******/
@@ -946,7 +946,7 @@ public class GameManager : MonoBehaviour
             currentSpaceCount++;
 
             //if we haven't reached the minimum range, this current space isn't valid. But we must still check surrounding spaces.
-            if (currentSpaceCount >= minRange && grid[currentRow, currentCol] == '1')
+            if (currentSpaceCount >= minRange && grid[currentRow, currentCol].Equals('1'))
             {
                 validPositions.Add(GetRoomPosition(currentRow, currentCol));
 
@@ -961,7 +961,7 @@ public class GameManager : MonoBehaviour
             {
                 currentRow--;
                 currentSpaceCount++;
-                if (grid[currentRow, currentCol] == '1')  //search up
+                if (grid[currentRow, currentCol].Equals('1'))  //search up
                 {
                     validPositions.Add(GetRoomPosition(currentRow, currentCol));
                 }
@@ -975,7 +975,7 @@ public class GameManager : MonoBehaviour
             {
                 currentRow++;
                 currentSpaceCount++;
-                if (grid[currentRow, currentCol] == '1')
+                if (grid[currentRow, currentCol].Equals('1'))
                 {
                     validPositions.Add(GetRoomPosition(currentRow, currentCol));
                 }
@@ -995,7 +995,7 @@ public class GameManager : MonoBehaviour
         {
             currentCol--;
             currentSpaceCount++;
-            if (currentSpaceCount >= minRange && grid[currentRow, currentCol] == '1')
+            if (currentSpaceCount >= minRange && grid[currentRow, currentCol].Equals('1'))
             {
                 Room newPos = GetRoomPosition(currentRow, currentCol);
                 if (!validPositions.Contains(newPos))
@@ -1011,7 +1011,7 @@ public class GameManager : MonoBehaviour
             {
                 currentRow--;
                 currentSpaceCount++;
-                if (grid[currentRow, currentCol] == '1')
+                if (grid[currentRow, currentCol].Equals('1'))
                 {
                     Room newPos = GetRoomPosition(currentRow, currentCol);
                     if (!validPositions.Contains(newPos))
@@ -1027,7 +1027,7 @@ public class GameManager : MonoBehaviour
             {
                 currentRow++;
                 currentSpaceCount++;
-                if (grid[currentRow, currentCol] == '1')
+                if (grid[currentRow, currentCol].Equals('1'))
                 {
                     Room newPos = GetRoomPosition(currentRow, currentCol);
                     if (!validPositions.Contains(newPos))
@@ -1050,7 +1050,7 @@ public class GameManager : MonoBehaviour
             currentRow--;
             currentSpaceCount++;
             //add new position
-            if (currentSpaceCount >= minRange && grid[currentRow, currentCol] == '1')
+            if (currentSpaceCount >= minRange && grid[currentRow, currentCol].Equals('1'))
             {
                 Room newPos = GetRoomPosition(currentRow, currentCol);
                 if (!validPositions.Contains(newPos))
@@ -1064,7 +1064,7 @@ public class GameManager : MonoBehaviour
             {
                 currentCol++;
                 currentSpaceCount++;
-                if (grid[currentRow, currentCol] == '1')
+                if (grid[currentRow, currentCol].Equals('1'))
                 {
                     Room newPos = GetRoomPosition(currentRow, currentCol);
                     if (!validPositions.Contains(newPos))
@@ -1080,7 +1080,7 @@ public class GameManager : MonoBehaviour
             {
                 currentCol--;
                 currentSpaceCount++;
-                if (grid[currentRow, currentCol] == '1')
+                if (grid[currentRow, currentCol].Equals('1'))
                 {
                     Room newPos = GetRoomPosition(currentRow, currentCol);
                     if (!validPositions.Contains(newPos))
@@ -1102,7 +1102,7 @@ public class GameManager : MonoBehaviour
             currentRow++;
             currentSpaceCount++;
             //add new position
-            if (currentSpaceCount >= minRange && grid[currentRow, currentCol] == '1')
+            if (currentSpaceCount >= minRange && grid[currentRow, currentCol].Equals('1'))
             {
                 Room newPos = GetRoomPosition(currentRow, currentCol);
                 if (!validPositions.Contains(newPos))
@@ -1116,7 +1116,7 @@ public class GameManager : MonoBehaviour
             {
                 currentCol++;
                 currentSpaceCount++;
-                if (grid[currentRow, currentCol] == '1')
+                if (grid[currentRow, currentCol].Equals('1'))
                 {
                     Room newPos = GetRoomPosition(currentRow, currentCol);
                     if (!validPositions.Contains(newPos))
@@ -1132,7 +1132,7 @@ public class GameManager : MonoBehaviour
             {
                 currentCol--;
                 currentSpaceCount++;
-                if (grid[currentRow, currentCol] == '1')
+                if (grid[currentRow, currentCol].Equals('1'))
                 {
                     Room newPos = GetRoomPosition(currentRow, currentCol);
                     if (!validPositions.Contains(newPos))
@@ -1254,7 +1254,7 @@ public class GameManager : MonoBehaviour
         //move camera to the active character
         yield return MoveCameraToCharacter(character);
 
-        Debug.Log(character.characterName + "'s turn");
+        Debug.LogFormat("{0}'s turn", character.characterName);
 
         //update buffs/debuffs
         for(int i = 0; i < character.buffs.Count; i++)
@@ -1290,7 +1290,7 @@ public class GameManager : MonoBehaviour
         {
             CardManager cm = Singleton.instance.CardManager;
             cm.DrawCard(hunter, cm.deck);
-            Debug.Log("Hunter " + hunter.characterName + " drew a card");
+            Debug.LogFormat("Hunter {0} drew a card", hunter.characterName);
 
 
             HunterManager hm = Singleton.instance.HunterManager;
@@ -1303,15 +1303,33 @@ public class GameManager : MonoBehaviour
                 //CPU takes action.
                 //activate any behaviour-specific abilities.
                 hunter.cpuBehaviour.ActivateAbility(hunter);
+
                 //Before moving, check if the hunter is already in attack range by checking all applicable skills.
-                //Use basic attack to check.
-                ActiveSkill basicAttack = hunter.skills[0] as ActiveSkill;
-                List<Room> skillRange = ShowSkillRange(hunter, basicAttack.minRange, basicAttack.maxRange);
-                List<Character> targetChars = hunter.CPU_CheckCharactersInRange(skillRange);
-                
-                if (targetChars.Count > 0)
+                //Pick basic attack for checking, will choose another skill later
+                List<Room> skillRange = new List<Room>();
+                List<Character> targetChars = new List<Character>();
+                List<ActiveSkill> activeSkills = new List<ActiveSkill>();
+                for (int i = 0; i < hunter.skills.Count; i++)
                 {
-                    //hunter.chosenSkill
+                    if (hunter.skills[i] is ActiveSkill activeSkill && activeSkill.skillCost <= hunter.skillPoints)
+                    {
+                        skillRange = ShowSkillRange(hunter, activeSkill.minRange, activeSkill.maxRange);
+                        targetChars = hunter.CPU_CheckCharactersInRange(skillRange);
+                        if (targetChars.Count > 0)
+                        {
+                            activeSkills.Add(activeSkill);
+                        }
+                    }
+                    
+                }
+                //ActiveSkill basicAttack = hunter.skills[0] as ActiveSkill;
+                //List<Room> skillRange = ShowSkillRange(hunter, basicAttack.minRange, basicAttack.maxRange);
+                //List<Character> targetChars = hunter.CPU_CheckCharactersInRange(skillRange);
+                
+                if (activeSkills.Count > 0)
+                {
+                    int randSkill = Random.Range(0, activeSkills.Count);
+                    hunter.chosenSkill = activeSkills[randSkill];
                     hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.UseSkill, hunter);
                 }
                 else
@@ -1352,19 +1370,19 @@ public class GameManager : MonoBehaviour
             List<Room> adjacentRooms = new List<Room>();
 
             //search up
-            if (currentRow - 1 >= 0 && grid[currentRow - 1, currentCol] == '1')
+            if (currentRow - 1 >= 0 && grid[currentRow - 1, currentCol].Equals('1'))
                 adjacentRooms.Add(dungeon.GetRoom(currentRow - 1, currentCol));
 
             //search down
-            if (currentRow + 1 < grid.GetLength(0) && grid[currentRow + 1, currentCol] == '1')
+            if (currentRow + 1 < grid.GetLength(0) && grid[currentRow + 1, currentCol].Equals('1'))
                 adjacentRooms.Add(dungeon.GetRoom(currentRow + 1, currentCol));
 
             //search left
-            if (currentCol - 1 >= 0 && grid[currentRow, currentCol - 1] == '1')
+            if (currentCol - 1 >= 0 && grid[currentRow, currentCol - 1].Equals('1'))
                 adjacentRooms.Add(dungeon.GetRoom(currentRow, currentCol - 1));
 
             //search right
-            if (currentCol + 1 < grid.GetLength(1) && grid[currentRow, currentCol + 1] == '1')
+            if (currentCol + 1 < grid.GetLength(1) && grid[currentRow, currentCol + 1].Equals('1'))
                 adjacentRooms.Add(dungeon.GetRoom(currentRow, currentCol + 1));
 
             //if we haven't found the destination, find the room closest to the destination
@@ -1460,11 +1478,11 @@ public class GameManager : MonoBehaviour
             }
 
             //update room reference to character.
-            Debug.Log("Previous room " + character.room.roomID);
+            Debug.LogFormat("Previous room {0}", character.room.roomID);
             character.room.character = null;
             destinationRooms[j].character = character;
             character.room = destinationRooms[j];
-            Debug.Log("New room " + character.room.roomID);
+            Debug.LogFormat("New room {0}", character.room.roomID);
             //character.room = destinationRooms[j];
             /*if (j == 0)
             {
@@ -1490,8 +1508,8 @@ public class GameManager : MonoBehaviour
                     {
                         targetFound = true;
                         j = destinationRooms.Count; //want to end this loop so we don't move any further.
-                        Debug.Log(character.characterName + " found target " +  character.targetChar.characterName + 
-                            " and is using skill " + character.chosenSkill.skillName);
+                        Debug.LogFormat("{0} found target {1} and is using skill {2}", character.characterName,
+                            character.targetChar.characterName, character.chosenSkill.skillName);
                     }
                     else
                     {

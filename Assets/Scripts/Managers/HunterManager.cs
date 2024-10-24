@@ -608,7 +608,7 @@ public class HunterManager : MonoBehaviour
     }
 
     //CPU-controlled actions. Uses weight to determine priorities.
-    public void ChangeCPUHunterState(HunterAIState aiState, Hunter hunter)
+    public void ChangeCPUHunterState(HunterAIState aiState, Hunter hunter/*, List<Character> targets = null*/)
     {
         GameManager gm = Singleton.instance.GameManager;
 
@@ -618,16 +618,18 @@ public class HunterManager : MonoBehaviour
                 break;
 
             case HunterAIState.Moving:
-                StartCoroutine(MoveCPUHunter(hunter));
+                StartCoroutine(CPU_MoveHunter(hunter));
                 break;
 
             case HunterAIState.UseSkill:
+                Debug.LogFormat("{0} is using skill {1}", hunter.characterName, hunter.chosenSkill);
+                StartCoroutine(CPU_UseSkill(hunter));
                 break;
         }
     }
 
     /* Executes all actions for moving a hunter. Includes choosing a card, rolling dice, and moving hunter to new space. */
-    IEnumerator MoveCPUHunter(Hunter hunter)
+    IEnumerator CPU_MoveHunter(Hunter hunter)
     {
 
         //decide whether to use a card. Likelihood increases depending on behaviour.
@@ -639,7 +641,7 @@ public class HunterManager : MonoBehaviour
         if (cm.selectedCard != null)
         {
             hunter.cards.Remove(cm.selectedCard);
-            ui.activeCardText.text = "Active Card: " + cm.selectedCard.cardName;
+            ui.activeCardText.text = string.Format("Active Card: {0}", cm.selectedCard.cardName);
 
             //is this card a MOV card?
             if (cm.selectedCard.triggerWhenDiceRolled == true)
@@ -647,7 +649,7 @@ public class HunterManager : MonoBehaviour
                 cm.selectedCard.ActivateCard_Field(hunter);
             }
             //cm.selectedCard.ActivateCard_Field(hunter);
-            Debug.Log(hunter.characterName + " is playing card " + cm.selectedCard.cardName);
+            Debug.LogFormat("{0} is playing card {1}", hunter.characterName, cm.selectedCard.cardName);
         }
         yield return new WaitForSeconds(1);
 
@@ -863,6 +865,11 @@ public class HunterManager : MonoBehaviour
 
 
 
+    }
+
+    IEnumerator CPU_UseSkill(Hunter hunter)
+    {
+        yield return null;
     }
 
     #endregion
