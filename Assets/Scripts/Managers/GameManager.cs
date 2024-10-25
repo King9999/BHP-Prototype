@@ -92,10 +92,10 @@ public class GameManager : MonoBehaviour
         ChangeGameState(gameState);
 
         /**** USE THE NEXT 4 LINES TO GET SEED FOR BUG TESTING*****/
-        //System.Random random = new System.Random();
-        //int seed = random.Next();
-        //Random.InitState(seed);
-        //Debug.Log("Seed: " + seed);
+        /*System.Random random = new System.Random();
+        int seed = random.Next();
+        Random.InitState(seed);
+        Debug.LogFormat("Seed: {0}", seed);*/
 
         //create dungeon. dungeon mods are activated before the dungeon is generated.
         Dungeon dungeon = Singleton.instance.Dungeon;
@@ -319,11 +319,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void DisplaySkillTiles(List<Room> skillRooms)
+    public void DisplaySkillTiles(List<Room> skillRooms)
     {
         foreach (Room pos in skillRooms)
         {
-            //if there are existing move tile objects, activate those first before instantiating new ones.
+            //if there are existing skill tile objects, activate those first before instantiating new ones.
             if (skillTileBin.Count > 0)
             {
                 GameObject lastTile = skillTileBin[0];
@@ -451,8 +451,9 @@ public class GameManager : MonoBehaviour
             return 0;
     }
 
-    private void StartCombat(Character attacker, Character defender)
+    public void StartCombat(Character attacker, Character defender)
     {
+        characterActed = true;
         selectTile.gameObject.SetActive(false);
         combatManager.gameObject.SetActive(true);
         combatManager.StartCombat(attacker, defender);
@@ -1221,9 +1222,9 @@ public class GameManager : MonoBehaviour
             if (characterMoved)
             {
                 yield return MoveCameraToCharacter(character);
+                HunterManager hm = Singleton.instance.HunterManager;
                 if (!character.cpuControlled)
                 {
-                    HunterManager hm = Singleton.instance.HunterManager;
                     hm.ui.EnableButton(hm.ui.moveButton, false);
                     hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Default);
                 }
@@ -1234,7 +1235,8 @@ public class GameManager : MonoBehaviour
                     {
                         //attack
                         Debug.LogFormat("{0} is attacking {1}!", character.characterName, character.targetChar.characterName);
-                        StartCombat(character, character.targetChar);
+                        //StartCombat(character, character.targetChar);
+                        hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.UseSkill, (Hunter)character);
                     }
                     else
                     {
@@ -1329,7 +1331,9 @@ public class GameManager : MonoBehaviour
                 if (activeSkills.Count > 0)
                 {
                     int randSkill = Random.Range(0, activeSkills.Count);
+                    int randTarget = Random.Range(0, targetChars.Count);
                     hunter.chosenSkill = activeSkills[randSkill];
+                    hunter.targetChar = targetChars[randTarget];
                     hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.UseSkill, hunter);
                 }
                 else

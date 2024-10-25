@@ -867,9 +867,27 @@ public class HunterManager : MonoBehaviour
 
     }
 
+    //use a skill on a target. This code is only executed when a target is selected.
     IEnumerator CPU_UseSkill(Hunter hunter)
     {
-        yield return null;
+        //display the skill's range
+        GameManager gm = Singleton.instance.GameManager;
+        List<Room> skillRange = gm.ShowSkillRange(hunter, hunter.chosenSkill.minRange, hunter.chosenSkill.maxRange);
+
+        gm.DisplaySkillTiles(skillRange);
+
+        yield return new WaitForSeconds(1);
+        
+        for (int i = 0; i < gm.skillTileList.Count; i++)
+        {
+            gm.skillTileList[i].SetActive(false);
+            gm.skillTileBin.Add(gm.skillTileList[i]);
+        }
+        gm.skillTileList.Clear();
+        gm.skillTileList.TrimExcess();
+
+        //Start combat
+        gm.StartCombat(hunter, hunter.targetChar);
     }
 
     #endregion
