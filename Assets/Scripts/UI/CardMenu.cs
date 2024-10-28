@@ -58,7 +58,17 @@ public class CardMenu : MonoBehaviour
         ShowCursor(false, Vector3.zero);
         if (toggle == true)
         {
-            Vector3 menuPos = new Vector3(character.transform.position.x, character.transform.position.y - 6, character.transform.position.z);
+            Vector3 menuPos = Vector3.zero;
+            GameManager gm = Singleton.instance.GameManager;
+
+            if (gm.gameState == GameManager.GameState.Dungeon)
+            {
+                menuPos = new Vector3(character.transform.position.x, character.transform.position.y + 6, character.transform.position.z);
+            }
+            else if (gm.gameState == GameManager.GameState.Combat)
+            {
+                menuPos = new Vector3(character.transform.position.x - 16, character.transform.position.y - 5.5f, character.transform.position.z);
+            }
             transform.position = Camera.main.WorldToScreenPoint(menuPos);
 
             //get hunter cards
