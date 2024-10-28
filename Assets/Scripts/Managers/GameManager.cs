@@ -160,7 +160,8 @@ public class GameManager : MonoBehaviour
 
                 ActiveCharacter().targetChar = character; 
             }
-            StartCombat(ActiveCharacter(), ActiveCharacter().targetChar);
+            ChangeGameState(gameState = GameState.Combat);
+            //StartCombat(ActiveCharacter(), ActiveCharacter().targetChar);
         }
     }
 
@@ -307,6 +308,7 @@ public class GameManager : MonoBehaviour
                     if (destinationPos.x == turnOrder[j].transform.position.x && destinationPos.z == turnOrder[j].transform.position.z)
                     {
                         charFound = true;
+                        ActiveCharacter().targetChar = turnOrder[j];
                         Debug.LogFormat(turnOrder[j].gameObject, "Targeting {0}", turnOrder[j]);
                     }
                     else
@@ -317,7 +319,8 @@ public class GameManager : MonoBehaviour
 
                 if (charFound)
                 {
-                    StartCombat(ActiveCharacter(), turnOrder[j]);
+                    ChangeGameState(gameState = GameState.Combat);
+                    //StartCombat(ActiveCharacter(), turnOrder[j]);
                 }
                 //StartCoroutine(MoveCharacter(ActiveCharacter(), destinationPos));
                 //TODO: Add coroutine to begin combat
@@ -374,6 +377,10 @@ public class GameManager : MonoBehaviour
         {
             case GameState.HunterSetup:
                 //show the setup screen where player allocates points.
+                break;
+
+            case GameState.Combat:
+                StartCombat(ActiveCharacter(), ActiveCharacter().targetChar);
                 break;
         }
     }
