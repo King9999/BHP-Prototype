@@ -236,8 +236,8 @@ public class HunterUI : MonoBehaviour
 
             //get hunter cards
             GameManager gm = Singleton.instance.GameManager;
-            int currentCardIndex = 0;
-            if (gm.ActiveCharacter() is Hunter hunter)
+            //int currentCardIndex = 0;
+            if (character is Hunter hunter)
             {
                 for (int i = 0; i < hunter.cards.Count; i++)
                 {

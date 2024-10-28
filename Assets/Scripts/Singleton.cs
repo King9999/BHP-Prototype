@@ -19,6 +19,7 @@ public class Singleton : MonoBehaviour
     public SkillManager SkillManager { get; private set; }
     public HunterUI HunterUI { get; set; }
     public Dungeon Dungeon { get; private set; }
+    public CardMenu CardMenu { get; set; }
     //public UI UI { get; set; }
     //public AudioManager AudioManager { get; private set; }
     //public TitleManager TitleManager {get; private set;}

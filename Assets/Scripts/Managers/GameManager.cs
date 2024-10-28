@@ -153,8 +153,14 @@ public class GameManager : MonoBehaviour
         //testing combat transition.
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            combatManager.gameObject.SetActive(true);
-            combatManager.StartCombat(ActiveCharacter(), ActiveCharacter());
+            foreach (Character character in turnOrder)
+            {
+                if (character == ActiveCharacter())
+                    continue;
+
+                ActiveCharacter().targetChar = character; 
+            }
+            StartCombat(ActiveCharacter(), ActiveCharacter().targetChar);
         }
     }
 

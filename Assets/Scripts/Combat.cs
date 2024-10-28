@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using static HunterManager;
 
 /* This is the combat system. It takes two character objects and two pairs of dice. Combat lasts for 1 round.
  In cases where one character uses a ranged attack and the other character uses a melee counterattack, there will be a 
@@ -29,9 +31,10 @@ public class Combat : MonoBehaviour
     private Color damageColor, reducedColor, healColor;              //red = damage, blue = reduced damage, green = heal
     [SerializeField] private TextMeshProUGUI statusText;      //used for buffs/debuffs
     [SerializeField] private List<TextMeshProUGUI> damageValues;      //used for displaying lots of damage values at a time.
-    [SerializeField] private GameObject cardMenu;
+    //[SerializeField] private GameObject cardMenu;
     [SerializeField] private GameObject defenderMenu;
     [SerializeField] private List<CardObject> hunterCards;      //used by both attacker and defender
+    [SerializeField] private CardMenu cardMenu;
 
     [Header("---Combat Grid---")]
     [SerializeField] private Room roomPrefab;
@@ -39,6 +42,13 @@ public class Combat : MonoBehaviour
     private Room[,] fieldGrid;        //used to layout the battlefield. In a ranged fight, there will be a gap to show that melee counters are ineffective.
     [SerializeField] private Room attackerRoom, defenderRoom; //where the combatants are positioned.
     private bool attackersTurn;         //used to keep track of who's taking their turn
+
+    //combat states
+    private enum CombatState { AttackerTurn, DefenderTurn, BeginCombat}
+    [Header("---Combat State---")]
+    [SerializeField] private CombatState combatState;
+    private Coroutine combatCoroutine;
+    
 
     // Start is called before the first frame update
     /*void Start()
@@ -87,7 +97,8 @@ public class Combat : MonoBehaviour
         damageText.gameObject.SetActive(false);
         statusText.gameObject.SetActive(false);
         runChanceText.gameObject.SetActive(false);
-        ShowCardMenu(false);
+        cardMenu.ShowMenu(false);
+        //ShowCardMenu(false);
         ShowDefenderMenu(false);
         //damageValues.Add(Instantiate(damageText));  //Does this work?
 
@@ -113,14 +124,84 @@ public class Combat : MonoBehaviour
         defenderRoom = fieldGrid[3, 2];
     }
 
-    private void ShowCardMenu(bool toggle)
+    private void ShowCardMenu(bool toggle, Character character = null)
     {
         cardMenu.gameObject.SetActive(toggle);
+        if (toggle == true)
+        {
+            Vector3 menuPos = new Vector3(character.transform.position.x, character.transform.position.y - 6, character.transform.position.z);
+            cardMenu.transform.position = Camera.main.WorldToScreenPoint(menuPos);
+
+            //get hunter cards
+            if (character is Hunter hunter)
+            {
+                for (int i = 0; i < hunter.cards.Count; i++)
+                {
+                    hunterCards[i].ShowCard(true);
+                    hunterCards[i].cardData = hunter.cards[i];
+                    if (hunter.cards[i].cardType == Card.CardType.Combat || hunter.cards[i].cardType == Card.CardType.Versatile)
+                    { 
+                        hunterCards[i].UpdateCardSprite(hunterCards[i].cardSprite);
+                        hunterCards[i].cardInvalid = false;
+                    }
+                    else
+                    {
+                        //can't use this card
+                        hunterCards[i].cardInvalid = true;
+                        hunterCards[i].UpdateCardSprite(hunterCards[i].invalidCardSprite);
+                    }
+
+                }
+
+                //sort cards NOTE: will this help with sorting the cards consistently?
+                /*var sorted = from card in hunterCards
+                             orderby card descending
+                             select card;
+                foreach (var card in sorted)
+                {
+                    
+                }*/
+                hunterCards = hunterCards.OrderByDescending(x => !x.cardInvalid).ToList();  //sorting isn't consistent for some reason
+            }
+        }
+        else
+        {
+            foreach (CardObject card in hunterCards)
+            {
+                card.ShowCard(false);
+            }
+        }
     }
 
-    private void ShowDefenderMenu(bool toggle)
+    private void ShowDefenderMenu(bool toggle, Character character = null)
     {
         defenderMenu.gameObject.SetActive(toggle);
+        if (toggle == true)
+        {
+            Vector3 menuPos = new Vector3(character.transform.position.x, character.transform.position.y + 6, character.transform.position.z);
+            defenderMenu.transform.position = Camera.main.WorldToScreenPoint(menuPos);
+        }
+    }
+
+    private void ChangeCombatState(CombatState state)
+    {
+        switch (state)
+        {
+            case CombatState.AttackerTurn:
+                cardMenu.ShowMenu(true, attackerRoom.character, Card.CardType.Combat);
+                //ShowCardMenu(true, attackerRoom.character);
+                break;
+
+            case CombatState.DefenderTurn:
+                cardMenu.ShowMenu(false);
+                //ShowCardMenu(false);
+                ShowDefenderMenu(true, defenderRoom.character);
+                break;
+
+            case CombatState.BeginCombat:
+                //run coroutine here to handle combat resolution, animations, etc.
+                break;
+        }
     }
 
 
@@ -174,6 +255,10 @@ public class Combat : MonoBehaviour
         //attacker takes their turn first. Attack would've already been chosen, so all attacker does is pick a card.
         attackerTurnOver = false;
         defenderCounterattacking = false;
+
+        //attacker goes first, display card menu
+        ChangeCombatState(combatState = CombatState.AttackerTurn);
+        
         //StartCoroutine(SimulateDiceRoll(attackerDice, defenderDice, attacker, defender));
         /*int totalAttackRoll = GetTotalRoll_Attacker(attacker);
         attackerDieOneGUI.text = attackerDice.die1.ToString();
@@ -190,6 +275,7 @@ public class Combat : MonoBehaviour
 
         //calculate damage, starting with attacker dealing damage to defender.
         //use coroutine to 
+
     }
 
     public void UpdateRunChance(Character attacker, Character defender, float runPreventionMod, float runMod)
@@ -257,6 +343,30 @@ public class Combat : MonoBehaviour
             hm.ui.gameObject.SetActive(false);
             dun.gameObject.SetActive(false);
         }
+    }
+
+    public void OnSelectCardButtonPressed()
+    {
+        //cannot proceed if no card was selected.
+        CardManager cm = Singleton.instance.CardManager;
+        if (cm.selectedCard == null)
+            return;
+
+        if (combatState == CombatState.AttackerTurn)
+            ChangeCombatState(combatState = CombatState.DefenderTurn);
+        else
+            ChangeCombatState(combatState = CombatState.BeginCombat);
+    }
+
+    public void OnSkipCardButtonPressed()
+    {
+        CardManager cm = Singleton.instance.CardManager;
+        cm.selectedCard = null;
+
+        if (combatState == CombatState.AttackerTurn)
+            ChangeCombatState(combatState = CombatState.DefenderTurn);
+        else
+            ChangeCombatState(combatState = CombatState.BeginCombat);
     }
 
     #region Coroutines

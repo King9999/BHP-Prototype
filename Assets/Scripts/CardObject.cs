@@ -13,7 +13,7 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public Card cardData;       //handles card activation also.
     public Sprite cardSprite, invalidCardSprite;
     bool revertCardOn, animateCardOn, coroutineActive, origPosCaptured;
-    bool mouseOnCard;       //used to check if mouse is hovering over a card.
+    public bool mouseOnCard;       //used to check if mouse is hovering over a card.
     public bool cardSelected, cardInvalid;      //cardInvalid = cannot select card.
     Vector3 originalPos;
 
@@ -51,8 +51,10 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             //change the sort layer
             //GetComponent<SortingGroup>().sortingOrder = 2;
 
-            HunterManager hm = Singleton.instance.HunterManager;
-            hm.ui.ShowCardCursor(true, this.transform.position);
+            //HunterManager hm = Singleton.instance.HunterManager;
+            //hm.ui.ShowCardCursor(true, this.transform.position);
+            CardMenu cardMenu = Singleton.instance.CardMenu;
+            cardMenu.ShowCursor(true, this.transform.position);
         }
     }
 
@@ -72,8 +74,10 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         animateCardOn = false;
         mouseOnCard = false;
         Debug.Log("Mouse is on card: " + mouseOnCard);
-            HunterManager hm = Singleton.instance.HunterManager;
-        hm.ui.ShowCardDetails(false);
+        //HunterManager hm = Singleton.instance.HunterManager;
+        //hm.ui.ShowCardDetails(false);
+        CardMenu cm = Singleton.instance.CardMenu;
+        cm.ShowCardDetails(false);
         //hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.SelectCard);
 
         
@@ -86,35 +90,40 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         revertCardOn = false;
         mouseOnCard = true;
         Debug.Log("Mouse is on card: " + mouseOnCard);
-        HunterManager hm = Singleton.instance.HunterManager;
-        hm.ui.ShowCardDetails(true);
+        CardMenu cm = Singleton.instance.CardMenu;
+        cm.ShowCardDetails(true);
+        //HunterManager hm = Singleton.instance.HunterManager;
+        //hm.ui.ShowCardDetails(true);
             //hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.CardDetails);
-            GetDetails(cardData);
+         GetDetails(cardData);
         
     }
 
     void GetDetails(Card cardData)
     {
-        HunterManager hm = Singleton.instance.HunterManager;
-        hm.ui.cardNameText.text = cardData.cardName;
+        //HunterManager hm = Singleton.instance.HunterManager;
+       // hm.ui.cardNameText.text = cardData.cardName;
+
+        CardMenu cm = Singleton.instance.CardMenu;
+        cm.cardNameText.text = cardData.cardName;
 
         //details are different if player is in combat or on the field
         GameManager gm = Singleton.instance.GameManager;
         if (gm.gameState == GameManager.GameState.Combat)
         {
             if (cardData.cardType == Card.CardType.Combat || cardData.cardType == Card.CardType.Versatile)
-                hm.ui.cardDetailsText.text = cardData.cardDetails_combat;
+                cm.cardDetailsText.text = cardData.cardDetails_combat;
             else
                 //cannot use this card in combat
-                hm.ui.cardDetailsText.text = "Can't use this card in combat.";
+                cm.cardDetailsText.text = "Can't use this card in combat.";
         }
         else
         {
             if (cardData.cardType == Card.CardType.Field || cardData.cardType == Card.CardType.Versatile)
-                hm.ui.cardDetailsText.text = cardData.cardDetails_field;
+                cm.cardDetailsText.text = cardData.cardDetails_field;
             else
                 //can't use this card in the field
-                hm.ui.cardDetailsText.text = "Can't use this card in the field.";
+                cm.cardDetailsText.text = "Can't use this card in the field.";
         }
     }
 
@@ -125,13 +134,14 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         //originalPos = transform.position;
         Vector3 newPos = new Vector3(originalPos.x, originalPos.y + 15, originalPos.z);
         float moveSpeed = 200;
-        HunterManager hm = Singleton.instance.HunterManager;
+        //HunterManager hm = Singleton.instance.HunterManager;
+        CardMenu cm = Singleton.instance.CardMenu;
 
         while (transform.position.y < newPos.y)
         {
             transform.position = new Vector3(transform.position.x, transform.position.y + moveSpeed * Time.deltaTime, transform.position.z);
-            if (hm.ui.cardCursor.activeSelf && cardSelected)
-                hm.ui.cardCursor.transform.position = transform.position;
+            if (cm.cardCursor.activeSelf && cardSelected)
+                cm.cardCursor.transform.position = transform.position;
             yield return null;
         }
         coroutineActive = false;
@@ -145,13 +155,14 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         float moveSpeed = 200;
         //Vector3 originalPos = transform.position;
         //Vector3 newPos = new Vector3(transform.position.x, transform.position.y - 30, transform.position.z);
-        HunterManager hm = Singleton.instance.HunterManager;
+        //HunterManager hm = Singleton.instance.HunterManager;
+        CardMenu cm = Singleton.instance.CardMenu;
 
         while (transform.position.y > originalPos.y)
         {
             transform.position = new Vector3(transform.position.x, transform.position.y - moveSpeed * Time.deltaTime, transform.position.z);
-            if (hm.ui.cardCursor.activeSelf && cardSelected)
-                hm.ui.cardCursor.transform.position = transform.position;
+            if (cm.cardCursor.activeSelf && cardSelected)
+                cm.cardCursor.transform.position = transform.position;
             yield return null;
         }
         coroutineActive = false;
