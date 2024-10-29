@@ -841,7 +841,7 @@ public class HunterManager : MonoBehaviour
                 gm.MoveCPUCharacter(hunter, newPos);
                 Debug.Log("moving to entity");
             }
-            else //hunter has items in inventory, probably
+            else //hunter has items in inventory, probably TODO: there's an error here, this code is sometimes executed without a target.
             {
                 hunter.chosenSkill = GetSkill(hunter, hunter.targetChar);
                 Vector3 newPos = new Vector3(hunter.targetChar.transform.position.x, 0, hunter.targetChar.transform.position.z);

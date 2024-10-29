@@ -298,14 +298,16 @@ public class GameManager : MonoBehaviour
                 }
                 skillTileList.Clear();
                 skillTileList.TrimExcess();
-                Debug.Log("New destination: " + selectTile.transform.position);
+                Debug.LogFormat("Select Tile space: {0}", selectTile.transform.position);
                 Vector3 destinationPos = new Vector3(selectTile.transform.position.x, 0, selectTile.transform.position.z);
                 //get the room that was clicked, and check if a character was targeted.
                 int j = 0;
                 bool charFound = false;
                 while (!charFound && j < turnOrder.Count)
                 {
-                    if (destinationPos.x == turnOrder[j].transform.position.x && destinationPos.z == turnOrder[j].transform.position.z)
+                    if (Mathf.Approximately(destinationPos.x, turnOrder[j].transform.position.x) && 
+                        Mathf.Approximately(destinationPos.z, turnOrder[j].transform.position.z))
+                    //if (destinationPos.x == turnOrder[j].transform.position.x && destinationPos.z == turnOrder[j].transform.position.z)
                     {
                         charFound = true;
                         ActiveCharacter().targetChar = turnOrder[j];

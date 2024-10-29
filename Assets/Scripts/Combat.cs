@@ -35,6 +35,7 @@ public class Combat : MonoBehaviour
     [SerializeField] private GameObject defenderMenu;
     [SerializeField] private List<CardObject> hunterCards;      //used by both attacker and defender
     [SerializeField] private CardMenu cardMenu;
+    [SerializeField] private TextMeshProUGUI activeCard_attackerText, activeCard_defenderText;
 
     [Header("---Combat Grid---")]
     [SerializeField] private Room roomPrefab;
@@ -42,11 +43,12 @@ public class Combat : MonoBehaviour
     private Room[,] fieldGrid;        //used to layout the battlefield. In a ranged fight, there will be a gap to show that melee counters are ineffective.
     [SerializeField] private Room attackerRoom, defenderRoom; //where the combatants are positioned.
     private bool attackersTurn;         //used to keep track of who's taking their turn
+    public Card attackersCard, defendersCard;   //used by CardObject to get reference to chosen cards        
 
     //combat states
-    private enum CombatState { AttackerTurn, DefenderTurn, BeginCombat}
+    public enum CombatState { AttackerTurn, DefenderTurn, BeginCombat}
     [Header("---Combat State---")]
-    [SerializeField] private CombatState combatState;
+    [SerializeField] public CombatState combatState;
     private Coroutine combatCoroutine;
     
 
@@ -87,6 +89,8 @@ public class Combat : MonoBehaviour
         damageText.gameObject.SetActive(false);
         statusText.gameObject.SetActive(false);
         runChanceText.gameObject.SetActive(false);
+        activeCard_attackerText.text = "";
+        activeCard_defenderText.text = "";
     }
 
     public void InitSetup()
@@ -349,24 +353,49 @@ public class Combat : MonoBehaviour
     {
         //cannot proceed if no card was selected.
         CardManager cm = Singleton.instance.CardManager;
-        if (cm.selectedCard == null)
-            return;
+        //if (cm.selectedCard == null)
+            //return;
 
         if (combatState == CombatState.AttackerTurn)
+        {
+            if (attackersCard == null)
+                return;
+
+            activeCard_attackerText.text = string.Format("Active Card: {0}", attackersCard.cardName);
+            if (attackerRoom.character is Hunter hunter)
+            {
+                hunter.cards.Remove(attackersCard);
+            }
             ChangeCombatState(combatState = CombatState.DefenderTurn);
-        else
+        }
+        else if (combatState == CombatState.DefenderTurn)
+        {
+            if (defendersCard == null)
+                return;
+
+            activeCard_defenderText.text = string.Format("Active Card: {0}", defendersCard.cardName);
+            if (defenderRoom.character is Hunter hunter)
+            {
+                hunter.cards.Remove(defendersCard);
+            }
             ChangeCombatState(combatState = CombatState.BeginCombat);
+        }
     }
 
     public void OnSkipCardButtonPressed()
     {
         CardManager cm = Singleton.instance.CardManager;
-        cm.selectedCard = null;
 
         if (combatState == CombatState.AttackerTurn)
+        {
+            attackersCard = null;
             ChangeCombatState(combatState = CombatState.DefenderTurn);
+        }
         else
+        {
+            defendersCard = null;
             ChangeCombatState(combatState = CombatState.BeginCombat);
+        }
     }
 
     #region Coroutines
