@@ -46,7 +46,7 @@ public class Combat : MonoBehaviour
     public Card attackersCard, defendersCard;   //used by CardObject to get reference to chosen cards        
 
     //combat states
-    public enum CombatState { AttackerTurn, DefenderTurn, BeginCombat}
+    public enum CombatState { AttackerTurn, DefenderTurn, DefenderChooseCard, BeginCombat}
     [Header("---Combat State---")]
     [SerializeField] public CombatState combatState;
     private Coroutine combatCoroutine;
@@ -202,7 +202,13 @@ public class Combat : MonoBehaviour
                 ShowDefenderMenu(true, defenderRoom.character);
                 break;
 
+            case CombatState.DefenderChooseCard:
+                ShowDefenderMenu(false);
+                cardMenu.ShowMenu(true, defenderRoom.character, Card.CardType.Combat);
+                break;
+
             case CombatState.BeginCombat:
+                cardMenu.ShowMenu(false);
                 //run coroutine here to handle combat resolution, animations, etc.
                 break;
         }
@@ -349,6 +355,7 @@ public class Combat : MonoBehaviour
         }
     }
 
+    #region Button Methods
     public void OnSelectCardButtonPressed()
     {
         //cannot proceed if no card was selected.
@@ -397,6 +404,36 @@ public class Combat : MonoBehaviour
             ChangeCombatState(combatState = CombatState.BeginCombat);
         }
     }
+
+    public void OnCounterAttackButtonPressed()
+    {
+        //perform a basic attack with a 50% damage reduction. Passive skill effects apply.
+        ChangeCombatState(combatState = CombatState.DefenderChooseCard);
+    }
+
+    public void OnGuardButtonPressed()
+    {
+        //roll 2 dice to reduce damage, with a chance of perfect guard
+        ChangeCombatState(combatState = CombatState.DefenderChooseCard);
+    }
+
+    public void OnEscapeButtonPressed()
+    {
+        Character attacker = attackerRoom.character;
+        Character defender = defenderRoom.character;
+        UpdateRunChance(attacker, defender, runPreventionMod, runMod);
+        ChangeCombatState(combatState = CombatState.DefenderChooseCard);
+    }
+
+    public void OnSurrenderButtonPressed()
+    {
+        Hunter hunter = defenderRoom.character as Hunter;
+        if (hunter.inventory.Count <= 0)
+            return;
+
+        //open defender's inventory so they can choose an item to give to attacker.
+    }
+    #endregion
 
     #region Coroutines
 
