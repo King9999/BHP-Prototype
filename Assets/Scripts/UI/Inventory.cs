@@ -10,17 +10,21 @@ public class Inventory : MonoBehaviour
     public List<ItemObject> items;
     public GameObject detailsWindow;
     public TextMeshProUGUI creditsText, itemTypeText, itemDetailsText;         //creditsText is money on hand
+    private int emptyIndex;         //tracks which item object has available space.
 
     // Start is called before the first frame update
     void Start()
     {
         Singleton.instance.Inventory = this;
+        emptyIndex = 0;
     }
 
     public void AddItem(Item item)
     {
         //look for available space to add item.
-        bool spaceFound = false;
+        items[emptyIndex].item = item;
+        emptyIndex++;
+        /*bool spaceFound = false;
         int i = 0;
         while (!spaceFound && i < items.Count)
         {
@@ -33,7 +37,7 @@ public class Inventory : MonoBehaviour
             {
                 i++;
             }
-        }
+        }*/
     }
 
     public void RemoveItem(Item item)
@@ -60,6 +64,7 @@ public class Inventory : MonoBehaviour
             if (items[j].item != null)
                 continue;
 
+            emptyIndex = j;             //found an empty space
             if (j + 1 < items.Count)
             {
                 ItemObject copy = items[j + 1];
@@ -68,5 +73,15 @@ public class Inventory : MonoBehaviour
             }
         }
         //items = items.OrderBy(x => x.item != null).ToList();
+    }
+
+    public bool InventoryFull()
+    {
+        return emptyIndex >= items.Count;
+    }
+
+    public void ShowItemDetails(bool toggle)
+    {
+        detailsWindow.SetActive(toggle);
     }
 }

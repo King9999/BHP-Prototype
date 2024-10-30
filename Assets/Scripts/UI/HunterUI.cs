@@ -44,11 +44,12 @@ public class HunterUI : MonoBehaviour
     public TextMeshProUGUI hunterMenu_hunterNameText;
     public TextMeshProUGUI hunterMenu_actionText;
     public GameObject[] hunterHudObjects;
-    public List<ItemObject> inventory;                  //shows a hunter's collected items.
+    //public List<ItemObject> inventory;                  //shows a hunter's collected items.
     public GameObject detailsWindow;
     public TextMeshProUGUI itemTypeText, itemDetailsText, moneyText;
     public TextMeshProUGUI activeCardText;      //displays the currently used card in the field.
     public TextMeshProUGUI deckCountText;
+    public Inventory inventory;
 
     //skills menu
     public GameObject skillMenuObject, skillDetailsWindow, selectTargetMenu;
@@ -319,10 +320,13 @@ public class HunterUI : MonoBehaviour
 
     public void ShowInventory(bool toggle)
     {
-        inventoryMenuObject.SetActive(toggle);
-        ShowDetailsWindow(false);
-        itemDetailsText.text = "";
-        itemTypeText.text = "";
+        //Inventory inventory = Singleton.instance.Inventory;
+        inventory.gameObject.SetActive(toggle);
+        inventory.ShowItemDetails(false);
+        //inventoryMenuObject.SetActive(toggle);
+        //ShowDetailsWindow(false);
+        //itemDetailsText.text = "";
+        //itemTypeText.text = "";
         if (toggle == true)
         {
             //populate inventory
@@ -331,29 +335,42 @@ public class HunterUI : MonoBehaviour
             {
                 for (int i = 0; i < hunter.inventory.Count; i++)
                 {
-                    inventory[i].gameObject.SetActive(true);
-                    inventory[i].item = hunter.inventory[i];
+                    inventory.items[i].gameObject.SetActive(true);
+                    inventory.items[i].item = hunter.inventory[i];
+                    //inventory.AddItem(hunter.inventory[i]);
+                    //inventory[i].gameObject.SetActive(true);
+                    //inventory[i].item = hunter.inventory[i];
 
                     //consumables are marked for easy reading.
-                    if (inventory[i].item is Consumable consumable)
+                    Item item = inventory.items[i].item;
+                    if (item is Consumable)
+                        inventory.items[i].itemNameText.text = string.Format("{0}(Usable)", hunter.inventory[i].itemName);
+                    else
+                        inventory.items[i].itemNameText.text = hunter.inventory[i].itemName;
+                    /*if (inventory[i].item is Consumable consumable)
                         inventory[i].itemNameText.text = hunter.inventory[i].itemName + "(Usable)";
                     else
-                        inventory[i].itemNameText.text = hunter.inventory[i].itemName;
+                        inventory[i].itemNameText.text = hunter.inventory[i].itemName;*/
                     //inventory[i].GetDetails(hunter.inventory[i]);
                 }
 
                 //update money
-                moneyText.text = "Money: " + hunter.credits + " CR";
+                inventory.creditsText.text = string.Format("Money: {0} CR", hunter.credits);
+                //moneyText.text = "Money: " + hunter.credits + " CR";
             }
 
             
         }
         else
         {
-            for (int i = 0; i < inventory.Count; i++)
+            for (int i = 0; i < inventory.items.Count; i++)
+            {
+                inventory.items[i].gameObject.SetActive(false);
+            }
+            /*for (int i = 0; i < inventory.Count; i++)
             {
                 inventory[i].gameObject.SetActive(false);
-            }
+            }*/
         }
     }
 
