@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 290, y: 128}
+  m_AnchoredPosition: {x: 290, y: 287}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &434308437720593711
@@ -462,6 +462,8 @@ MonoBehaviour:
   roomPrefab: {fileID: 4488165858551343332, guid: c20f33c859e16e346bb3db02b6eb8ef0, type: 3}
   attackerRoom: {fileID: 0}
   defenderRoom: {fileID: 0}
+  attackersCard: {fileID: 0}
+  defendersCard: {fileID: 0}
   combatState: 0
 --- !u!1 &1393822734859770294
 GameObject:

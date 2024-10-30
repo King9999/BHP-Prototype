@@ -131,5 +131,30 @@ public abstract class Character : MonoBehaviour
 
         return targetChars;
     }
+
+    //this method will be used to display different animations.
+    public void ChangeCharacterState(CharacterState state)
+    {
+        switch(state)
+        {
+            case CharacterState.Idle:
+                break;
+
+            case CharacterState.Attacking:
+                break;
+
+            case CharacterState.Guarding:
+                break;
+
+            case CharacterState.Moving:
+                break;
+
+            case CharacterState.Resting:
+                break;
+
+            case CharacterState.Injured:
+                break;
+        }
+    }
     
 }

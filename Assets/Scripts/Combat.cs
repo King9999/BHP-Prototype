@@ -414,6 +414,8 @@ public class Combat : MonoBehaviour
     public void OnGuardButtonPressed()
     {
         //roll 2 dice to reduce damage, with a chance of perfect guard
+        Character defender = defenderRoom.character;
+        defender.ChangeCharacterState(defender.characterState = Character.CharacterState.Guarding);
         ChangeCombatState(combatState = CombatState.DefenderChooseCard);
     }
 
@@ -422,6 +424,7 @@ public class Combat : MonoBehaviour
         Character attacker = attackerRoom.character;
         Character defender = defenderRoom.character;
         UpdateRunChance(attacker, defender, runPreventionMod, runMod);
+        defender.ChangeCharacterState(defender.characterState = Character.CharacterState.Moving); //must increase animation speed temporarily
         ChangeCombatState(combatState = CombatState.DefenderChooseCard);
     }
 
@@ -432,6 +435,8 @@ public class Combat : MonoBehaviour
             return;
 
         //open defender's inventory so they can choose an item to give to attacker.
+        HunterManager hm = Singleton.instance.HunterManager;
+        
     }
     #endregion
 
