@@ -43,7 +43,7 @@ public class Hunter : Character
     public Item targetItem;             //easy way to check if hunter has the target.
     //public List<Item> stash;              //100 items max. THIS SHOULD NOT BE ATTACHED TO HUNTER, ONLY 1 STASH SHARED BETWEEN ALL HUNTERS
     public int credits;                     //money on hand
-    public int maxInventoryCount { get; } = 10;
+    public int maxInventorySize { get; } = 10;
     //public int maxStashCount { get; } = 100;
 
     [Header("---Cards---")]

@@ -104,6 +104,13 @@ public class Inventory : MonoBehaviour
         {
             for (int i = 0; i < hunter.inventory.Count; i++)
             {
+                //if inventory is full, show extra inventory
+                if (i >= hunter.maxInventorySize)
+                {
+                    ShowExtraItemInventory(true, items[i].item);
+                    continue;
+                }
+
                 items[i].gameObject.SetActive(true);
                 items[i].item = hunter.inventory[i];
 
@@ -136,10 +143,21 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public bool ExtraInventoryOpen()
+    {
+        return extraItemInventory.activeSelf;
+    }
+
     //method for Back button
     public void OnBackButtonPressed()
     {
         //close inventory
         ShowInventory(false);
+    }
+
+    public void OnDropItemButtonPressed()
+    {
+        extraItem.item = null;
+        ShowExtraItemInventory(false);
     }
 }

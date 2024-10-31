@@ -92,6 +92,7 @@ public class Combat : MonoBehaviour
         runChanceText.gameObject.SetActive(false);
         activeCard_attackerText.text = "";
         activeCard_defenderText.text = "";
+        inventory.ShowInventory(false);
     }
 
     public void InitSetup()
@@ -99,10 +100,11 @@ public class Combat : MonoBehaviour
         damageColor = Color.red;
         reducedColor = Color.blue;
         healColor = Color.green;
-        damageText.gameObject.SetActive(false);
-        statusText.gameObject.SetActive(false);
-        runChanceText.gameObject.SetActive(false);
+        //damageText.gameObject.SetActive(false);
+        //statusText.gameObject.SetActive(false);
+        //runChanceText.gameObject.SetActive(false);
         cardMenu.ShowMenu(false);
+        //inventory.ShowInventory(false);
         //ShowCardMenu(false);
         ShowDefenderMenu(false);
         //damageValues.Add(Instantiate(damageText));  //Does this work?
