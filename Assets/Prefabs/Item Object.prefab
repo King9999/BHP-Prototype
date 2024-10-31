@@ -109,7 +109,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 12}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4965655629559186176
@@ -184,8 +184,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 419.85913, y: 7.3527}
-  m_SizeDelta: {x: 697.7183, y: 64.7053}
+  m_AnchoredPosition: {x: 546.88354, y: 7.3527}
+  m_SizeDelta: {x: 951.7673, y: 64.7053}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8490720440525936076
 CanvasRenderer:
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -339,8 +339,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   item: {fileID: 0}
   itemNameText: {fileID: 4369980454886690996}
-  detailsText: {fileID: 0}
-  itemTypeText: {fileID: 0}
   itemLevelText: {fileID: 0}
   priceText: {fileID: 0}
   isKeyItemText: {fileID: 0}

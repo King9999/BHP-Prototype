@@ -36,6 +36,7 @@ public class Combat : MonoBehaviour
     [SerializeField] private List<CardObject> hunterCards;      //used by both attacker and defender
     [SerializeField] private CardMenu cardMenu;
     [SerializeField] private TextMeshProUGUI activeCard_attackerText, activeCard_defenderText;
+    [SerializeField] private Inventory inventory;               //used by defender to surrender an item.
 
     [Header("---Combat Grid---")]
     [SerializeField] private Room roomPrefab;
@@ -435,8 +436,7 @@ public class Combat : MonoBehaviour
             return;
 
         //open defender's inventory so they can choose an item to give to attacker.
-        HunterManager hm = Singleton.instance.HunterManager;
-        
+        inventory.ShowInventory(true, hunter);       
     }
     #endregion
 
