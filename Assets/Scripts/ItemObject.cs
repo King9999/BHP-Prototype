@@ -31,6 +31,8 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         //sr.sprite = item.sprite;
         highlightColor = new Color(128, 0, 0, 0.5f);
         normalColor = itemBackground.color;
+
+        
     }
 
    
@@ -38,6 +40,12 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         itemNameText.text = item.itemName;
         itemImage.sprite = item.sprite;
+
+        //consumables are marked with (Usable)
+        if (item is Consumable)
+        {
+            itemNameText.text = string.Format("{0}(Usable)", item.itemName);
+        }
     }
 
     private void ClearItemData()
@@ -240,20 +248,33 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
     }
 
+    //button method used by ItemObject itself.
     public void OnItemSelected()
     {
         //mouse button code. Different options based on the item.
         GameManager gm = Singleton.instance.GameManager;
-        if (item is Consumable consumable)
+        Hunter hunter = gm.ActiveCharacter() as Hunter;
+        Inventory inv = Singleton.instance.Inventory;
+
+        //first, must check if there's too many items in inventory. The buttons' functionality changes if true.
+        if (inv.ExtraInventoryOpen())
         {
-            if (gm.ActiveCharacter() is Hunter hunter)
+            //swap item that was clicked with the extra item.
+            inv.SwapItems(this, inv.extraItem);
+        }
+        else
+        {
+            if (item is Consumable consumable)
             {
+                //if (gm.ActiveCharacter() is Hunter hunter)
+                //{
                 consumable.ActivateEffect(hunter);
                 hunter.inventory.Remove(item);
                 ClearItemData();
                 HunterManager hm = Singleton.instance.HunterManager;
                 hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Inventory);
                 gameObject.SetActive(false);
+                //}
             }
         }
     }

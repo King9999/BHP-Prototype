@@ -8,7 +8,7 @@ using System.Linq;
 public class Inventory : MonoBehaviour
 {
     public List<ItemObject> items;
-    [SerializeField] private ItemObject extraItem;        //used when there's no room in inventory.
+    public ItemObject extraItem;        //used when there's no room in inventory.
     [SerializeField]private GameObject detailsWindow;
     [SerializeField] private GameObject extraItemInventory;
 
@@ -20,6 +20,7 @@ public class Inventory : MonoBehaviour
     {
         Singleton.instance.Inventory = this;
         //emptyIndex = 0;
+        
     }
 
     public void AddItem(Item item)
@@ -46,7 +47,7 @@ public class Inventory : MonoBehaviour
         if (!spaceFound)
         {
             //no space, player must make room.
-            ShowExtraItemInventory(true, extraItem: item);
+            ShowExtraItemInventory(true, item);
         }
     }
 
@@ -105,21 +106,17 @@ public class Inventory : MonoBehaviour
             for (int i = 0; i < hunter.inventory.Count; i++)
             {
                 //if inventory is full, show extra inventory
-                if (i >= hunter.maxInventorySize)
+                HunterManager hm = Singleton.instance.HunterManager;
+                if (i >= hm.MaxInventorySize)
                 {
-                    ShowExtraItemInventory(true, items[i].item);
+                    ShowExtraItemInventory(true, hunter.inventory[i]);
                     continue;
                 }
 
                 items[i].gameObject.SetActive(true);
                 items[i].item = hunter.inventory[i];
-
-                //consumables are marked for easy reading.
-                Item item = items[i].item;
-                if (item is Consumable)
-                    items[i].itemNameText.text = string.Format("{0}(Usable)", hunter.inventory[i].itemName);
-                else
-                    items[i].itemNameText.text = hunter.inventory[i].itemName;
+                items[i].GetItemData(items[i].item);
+               
             }
 
             //update money
@@ -134,12 +131,28 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void ShowExtraItemInventory(bool toggle, Item extraItem = null)
+    /// <summary>
+    /// Swaps two items in item objects.
+    /// </summary>
+    /// <param name="itemA">The first item to switch to the second item object.</param>
+    /// <param name="itemB">The second item to switch to the first item object.</param>
+    public void SwapItems(ItemObject itemA, ItemObject itemB)
+    {
+        Item objCopy = itemA.item;
+        itemA.item = itemB.item;
+        itemB.item = objCopy;
+        itemA.GetItemData(itemA.item);
+        itemB.GetItemData(itemB.item);
+        //extraItem.GetItemData(extraItem.item);
+    }
+
+    public void ShowExtraItemInventory(bool toggle, Item item = null)
     {
         extraItemInventory.SetActive(toggle);
         if (toggle == true)
         {
-            this.extraItem.item = extraItem;
+            extraItem.item = item;
+            extraItem.GetItemData(item);
         }
     }
 
@@ -151,13 +164,41 @@ public class Inventory : MonoBehaviour
     //method for Back button
     public void OnBackButtonPressed()
     {
+        //if extra inventory is open, cannot proceed.
+        if (ExtraInventoryOpen())
+            return;
+
         //close inventory
         ShowInventory(false);
     }
 
+    //button method for Drop Item button. Also checks character state, and will open inventory again
+    //if there's somehow still too many items.
     public void OnDropItemButtonPressed()
     {
+        //if item is the target item or key item, cannot proceed.
+        if (extraItem.item.isTargetItem || extraItem.item.isKeyItem)
+        {
+            Debug.Log("Item is important! Must take it!");
+            return;
+        }
+
+        GameManager gm = Singleton.instance.GameManager;
+        Hunter hunter = gm.ActiveCharacter() as Hunter;
+
+        //remove item from hunter inventory
+        hunter.inventory.Remove(extraItem.item);
         extraItem.item = null;
-        ShowExtraItemInventory(false);
+        ShowInventory(false);
+        
+        gm.CharacterState(gm.ActiveCharacter());
+    }
+
+    //used by Items button in the field
+    public void OnItemButtonPressed()
+    {
+       GameManager gm = Singleton.instance.GameManager;
+       Hunter hunter = gm.ActiveCharacter() as Hunter;
+       ShowInventory(true, hunter);
     }
 }

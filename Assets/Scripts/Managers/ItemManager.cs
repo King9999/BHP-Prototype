@@ -7,11 +7,11 @@ using UnityEngine;
 /* Manages all items in the game. Used to generate items dynamically */
 public class ItemManager : MonoBehaviour
 {
-    //public List<Weapon> masterWeaponList;
     public static ItemManager instance;
     public float maxItemModBaseChance;      //chance that a non-unique item has 3 mods 
     public float itemModBonusChance;        //dungeon mod can increase chance for 3 mods
-    public LootTable masterLootTable, lootTable;    //lootTable is instance of masterLootTable. masterLootTable is never accessed.
+    [SerializeField] private LootTable masterLootTable;
+    public LootTable lootTable;    //lootTable is instance of masterLootTable. masterLootTable is never accessed.
 
     [Header("---Dungeon Mods---")]
     public List<DungeonMod> dungeonMods;

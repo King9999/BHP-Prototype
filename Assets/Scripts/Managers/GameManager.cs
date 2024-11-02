@@ -145,6 +145,12 @@ public class GameManager : MonoBehaviour
         //combat setup
         combatManager.InitSetup();
         combatManager.gameObject.SetActive(false);
+
+        //testing item swap
+        /*for (int i = 0; i < hm.MaxInventorySize; i++)
+        {
+            hm.hunters[0].inventory.Add(im.lootTable.GetItem(Table.ItemType.Consumable));
+        }*/
     }
 
     // Update is called once per frame
@@ -1218,6 +1224,12 @@ public class GameManager : MonoBehaviour
         StartCoroutine(TakeTurn(ActiveCharacter()));
     }
 
+    //runs CheckCharacterState coroutine from elsewhere
+    public void CharacterState(Character character)
+    {
+        StartCoroutine(CheckCharacterState(character));
+    }
+
     //used by CPU characters only.
     public void MoveCPUCharacter(Character character, Vector3 destination, bool cpuAttacking = false)
     {
@@ -1240,23 +1252,41 @@ public class GameManager : MonoBehaviour
                 HunterManager hm = Singleton.instance.HunterManager;
                 if (!character.cpuControlled)
                 {
-                    hm.ui.EnableButton(hm.ui.moveButton, false);
-                    hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Default);
+                    //check if hunter has too many items in inventory.
+                    if (character is Hunter hunter && hunter.inventory.Count > hm.MaxInventorySize)
+                    {
+                        hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.TooManyItems);
+                    }
+                    else
+                    {
+                        hm.ui.EnableButton(hm.ui.moveButton, false);
+                        hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Default);
+                    }
                 }
                 else
                 {
                     //cpu takes action
-                    if (character.targetChar != null)
+                    //does hunter have too many items?
+                    if (character is Hunter hunter && hunter.inventory.Count > hm.MaxInventorySize)
                     {
-                        //attack
-                        Debug.LogFormat("{0} is attacking {1}!", character.characterName, character.targetChar.characterName);
-                        //StartCombat(character, character.targetChar);
-                        hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.UseSkill, (Hunter)character);
+                        Debug.LogFormat("{0} is removing extra item", character.characterName);
+                        hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.RemovingExtraItem, hunter);
                     }
                     else
                     {
-                        EndTurn();
+                        if (character.targetChar != null)
+                        {
+                            //attack
+                            Debug.LogFormat("{0} is attacking {1}!", character.characterName, character.targetChar.characterName);
+                            //StartCombat(character, character.targetChar);
+                            hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.UseSkill, (Hunter)character);
+                        }
+                        else
+                        {
+                            EndTurn();
+                        }
                     }
+                    
                 }
             }
         }
@@ -1550,7 +1580,7 @@ public class GameManager : MonoBehaviour
         if (character.cpuControlled)
         {
             HunterManager hm = Singleton.instance.HunterManager;
-            hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.Idle, (Hunter)character);
+            hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.Idle, character as Hunter);
         }
 
         //check if anything is on the space the hunter landed on

@@ -18,9 +18,10 @@ public class HunterManager : MonoBehaviour
     public List<Hunter> hunters;
     public Hunter hunterPrefab;
     public ActiveSkill basicAttackSkill;          //when a hunter is created, they get an attack skill that must be instantiated
-    private int maxHunters { get; } = 4;
+    private int MaxHunters { get; } = 4;
+    public int MaxInventorySize { get; } = 10;
     public int currentHunter;               //iterator to track current hunter's turn
-    private int allocationPoint { get; } = 1;
+    private int AllocationPoint { get; } = 1;
     public int startingAllocationPoints;
     public bool newHunter;  //if true, hunter was just created. The starting AP don't raise hunter level, so no bonus HP/SP
     public int rivalCount;  //used to generate CPU hunters during dungeon generation.
@@ -29,14 +30,14 @@ public class HunterManager : MonoBehaviour
     public MenuState state;
 
     public enum HunterMenuState { Default, SelectCard, CardDetails, RollDiceToMove, SelectMoveTile, SelectSkillTile, Rest, ActionSubmenu, Inventory, 
-        InventoryItemDetails, SkillMenu, SkillDetails, ChooseAttackTarget }
+        InventoryItemDetails, TooManyItems, SkillMenu, SkillDetails, ChooseAttackTarget }
     public HunterMenuState hunterMenuState;
 
     GameObject hunterContainer;                     //hunters are stored here for organization
     [Header("---CPU Hunters----")]
     public List<Hunter_AI> hunterBehaviours;        //used by CPU Hunters
     public float itemChanceMod;                     //used by dungeon mods to influence odds of CPU hunters carrying items.
-    public enum HunterAIState { Idle, Moving, UseSkill }  //Moving = looking for a space to move to. Will look for points of interest.
+    public enum HunterAIState { Idle, Moving, UseSkill, RemovingExtraItem }  //Moving = looking for a space to move to. Will look for points of interest.
                                                     //UseSkill = use a skill if CPU found a valid target during the Moving state.
     public HunterAIState aiState;
 
@@ -117,6 +118,7 @@ public class HunterManager : MonoBehaviour
     public void ChangeHunterMenuState(HunterMenuState state)
     {
         GameManager gm = Singleton.instance.GameManager;
+        Inventory inv = Singleton.instance.Inventory;
         switch(state)
         {
             case HunterMenuState.Default:
@@ -165,9 +167,10 @@ public class HunterManager : MonoBehaviour
                 break;
 
             case HunterMenuState.Inventory:
-                ui.ShowInventory(true);
+            case HunterMenuState.TooManyItems:
+                inv.ShowInventory(true, gm.ActiveCharacter() as Hunter);    //if TooManyItems, should also show extra item inventory
                 ui.ShowHunterMenu_ActionSubmenu(false);
-                ui.ShowDetailsWindow(false);
+                //ui.ShowDetailsWindow(false);
                 break;
 
             case HunterMenuState.InventoryItemDetails:
@@ -223,7 +226,7 @@ public class HunterManager : MonoBehaviour
 
     public void CreateHunter()
     {
-        if (hunters.Count >= maxHunters)
+        if (hunters.Count >= MaxHunters)
             return;
 
         Hunter hunter = Instantiate(hunterPrefab);
@@ -1011,56 +1014,56 @@ public class HunterManager : MonoBehaviour
     {
         if (startingAllocationPoints <= 0)
             return;
-        AllocatePoint_STR(hunters[currentHunter], allocationPoint);
+        AllocatePoint_STR(hunters[currentHunter], AllocationPoint);
     }
 
     public void OnAllocateVitButtonPressed()
     {
         if (startingAllocationPoints <= 0)
             return;
-        AllocatePoint_VIT(hunters[currentHunter], allocationPoint);
+        AllocatePoint_VIT(hunters[currentHunter], AllocationPoint);
     }
 
     public void OnAllocateSpdButtonPressed()
     {
         if (startingAllocationPoints <= 0)
             return;
-        AllocatePoint_SPD(hunters[currentHunter], allocationPoint);
+        AllocatePoint_SPD(hunters[currentHunter], AllocationPoint);
     }
 
     public void OnAllocateMntButtonPressed()
     {
         if (startingAllocationPoints <= 0)
             return;
-        AllocatePoint_MNT(hunters[currentHunter], allocationPoint);
+        AllocatePoint_MNT(hunters[currentHunter], AllocationPoint);
     }
 
     public void OnDeallocateStrButtonPressed()
     {
         if (hunters[currentHunter].strPoints <= 0 || startingAllocationPoints >= 16)
             return;
-        AllocatePoint_STR(hunters[currentHunter], -allocationPoint);
+        AllocatePoint_STR(hunters[currentHunter], -AllocationPoint);
     }
 
     public void OnDeallocateVitButtonPressed()
     {
         if (hunters[currentHunter].vitPoints <= 0 || startingAllocationPoints >= 16)
             return;
-        AllocatePoint_VIT(hunters[currentHunter], -allocationPoint);
+        AllocatePoint_VIT(hunters[currentHunter], -AllocationPoint);
     }
 
     public void OnDeallocateSpdButtonPressed()
     {
         if (hunters[currentHunter].spdPoints <= 0 || startingAllocationPoints >= 16)
             return;
-        AllocatePoint_SPD(hunters[currentHunter], -allocationPoint);
+        AllocatePoint_SPD(hunters[currentHunter], -AllocationPoint);
     }
 
     public void OnDeallocateMntButtonPressed()
     {
         if (hunters[currentHunter].mntPoints <= 0 || startingAllocationPoints >= 16)
             return;
-        AllocatePoint_MNT(hunters[currentHunter], -allocationPoint);
+        AllocatePoint_MNT(hunters[currentHunter], -AllocationPoint);
     }
 
     public void OnEquipmentSelectButtonPressed()

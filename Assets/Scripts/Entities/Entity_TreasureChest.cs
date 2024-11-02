@@ -36,15 +36,19 @@ public class Entity_TreasureChest : Entity
         if (item != null)
         {
             hunter.inventory.Add(item);
+
             if (item.isTargetItem)
+            {
+                //TODO: play some fanfare and special animation
                 hunter.targetItem = hunter.inventory[hunter.inventory.Count - 1];
-            Debug.Log(hunter.characterName + " obtained " + item.itemName);
+            }
+            Debug.LogFormat("{0} obtained {1}", hunter.characterName, item.itemName);
             item = null;
         }
         else  //chest contains money
         {
             hunter.credits += credits;
-            Debug.Log(hunter.characterName + " obtained " + credits + " CR");
+            Debug.LogFormat("{0} obtained {1} CR", hunter.characterName, credits);
             credits = 0;
         }
         playerInteracted = true;
