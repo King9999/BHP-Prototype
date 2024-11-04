@@ -4,7 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using static HunterManager;
+using UnityEngine.Events;
 
 /* This is the combat system. It takes two character objects and two pairs of dice. Combat lasts for 1 round.
  In cases where one character uses a ranged attack and the other character uses a melee counterattack, there will be a 
@@ -15,7 +15,7 @@ public class Combat : MonoBehaviour
     [SerializeField] private int attackRollResult, defendRollResult;
     [SerializeField] private bool defenderCounterattacking, attackerTurnOver;
     public byte perfectDefenseMod;
-    public float chanceToRun;               //affected by attacker and defender SPD
+    public float runChance;               //affected by attacker and defender SPD
 
     [Header("---Modifiers---")]
     public float runMod, runPreventionMod;   //modifier to run chance. runPreventionMod is used by attacker to reduce chance to escape.
@@ -47,7 +47,7 @@ public class Combat : MonoBehaviour
     public Card attackersCard, defendersCard;   //used by CardObject to get reference to chosen cards        
 
     //combat states
-    public enum CombatState { AttackerTurn, DefenderTurn, DefenderChooseCard, BeginCombat}
+    public enum CombatState { AttackerTurn, DefenderTurn, DefenderChooseCard, BeginCombat, RunAway}
     [Header("---Combat State---")]
     [SerializeField] public CombatState combatState;
     private Coroutine combatCoroutine;
@@ -207,12 +207,18 @@ public class Combat : MonoBehaviour
 
             case CombatState.DefenderChooseCard:
                 ShowDefenderMenu(false);
+                runChanceText.gameObject.SetActive(false);
                 cardMenu.ShowMenu(true, defenderRoom.character, Card.CardType.Combat);
                 break;
 
             case CombatState.BeginCombat:
                 cardMenu.ShowMenu(false);
                 //run coroutine here to handle combat resolution, animations, etc.
+                break;
+
+            case CombatState.RunAway:
+                cardMenu.ShowMenu(false);
+                //run couroutine to handle running away
                 break;
         }
     }
@@ -259,9 +265,9 @@ public class Combat : MonoBehaviour
         runMod = 0;
 
         //run chance. This is displayed when the defender hovers over the run button.
-        /*chanceToRun = 1 - (attacker.spd * 0.01f * 2 - runPreventionMod) + (defender.spd * 0.01f + runMod);
-        if (chanceToRun < 0)
-            chanceToRun = 0;*/
+        /*runChance = 1 - (attacker.spd * 0.01f * 2 - runPreventionMod) + (defender.spd * 0.01f + runMod);
+        if (runChance < 0)
+            runChance = 0;*/
 
         UpdateRunChance(attacker, defender, runPreventionMod, runMod);
 
@@ -293,9 +299,9 @@ public class Combat : MonoBehaviour
 
     public void UpdateRunChance(Character attacker, Character defender, float runPreventionMod, float runMod)
     {
-        chanceToRun = 1 - (attacker.spd * 0.01f * 2 + runPreventionMod) + (defender.spd * 0.01f + runMod);
-        if (chanceToRun < 0)
-            chanceToRun = 0;
+        runChance = 1 - (attacker.spd * 0.02f + runPreventionMod) + (defender.spd * 0.01f + runMod);
+        runChance = runChance < 0 ? 0 : runChance;
+        runChance = runChance > 1 ? 1 : runChance;
     }
 
     //sets character's position to a room on the battlefield.
@@ -429,6 +435,21 @@ public class Combat : MonoBehaviour
         UpdateRunChance(attacker, defender, runPreventionMod, runMod);
         defender.ChangeCharacterState(defender.characterState = Character.CharacterState.Moving); //must increase animation speed temporarily
         ChangeCombatState(combatState = CombatState.DefenderChooseCard);
+    }
+
+    //displays text when mouse cursor hovers over button
+    public void OnEscapeButtonHover()
+    {
+        Character attacker = attackerRoom.character;
+        Character defender = defenderRoom.character;
+        UpdateRunChance(attacker, defender, runPreventionMod, runMod);
+        runChanceText.gameObject.SetActive(true);
+        runChanceText.text = string.Format("{0}% chance to escape", runChance * 100);
+    }
+
+    public void OnEscapeButtonExitHover()
+    {
+        runChanceText.gameObject.SetActive(false);
     }
 
     public void OnSurrenderButtonPressed()
