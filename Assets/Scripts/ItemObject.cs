@@ -271,8 +271,8 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 consumable.ActivateEffect(hunter);
                 hunter.inventory.Remove(item);
                 ClearItemData();
-                HunterManager hm = Singleton.instance.HunterManager;
-                hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Inventory);
+                //HunterManager hm = Singleton.instance.HunterManager;
+                //hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Inventory);
                 gameObject.SetActive(false);
                 //}
             }

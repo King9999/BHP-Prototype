@@ -1339,6 +1339,7 @@ MonoBehaviour:
   extraItem: {fileID: 5735520019401754273}
   detailsWindow: {fileID: 7253917524818572850}
   extraItemInventory: {fileID: 8218979182793684593}
+  backButton: {fileID: 4936664087415394630}
   creditsText: {fileID: 607996645891645426}
   itemTypeText: {fileID: 465076837876143791}
   itemDetailsText: {fileID: 6932561324692351955}

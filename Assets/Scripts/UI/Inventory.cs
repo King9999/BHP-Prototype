@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Linq;
+using UnityEngine.UI;
 
 //UI for displaying a hunter's items that can be taken by other hunters.
 public class Inventory : MonoBehaviour
@@ -11,6 +12,7 @@ public class Inventory : MonoBehaviour
     public ItemObject extraItem;        //used when there's no room in inventory.
     [SerializeField]private GameObject detailsWindow;
     [SerializeField] private GameObject extraItemInventory;
+    [SerializeField] private Button backButton;         
 
     public TextMeshProUGUI creditsText, itemTypeText, itemDetailsText;         //creditsText is money on hand
     //private byte emptyIndex;         //tracks which item object has available space.
@@ -20,7 +22,6 @@ public class Inventory : MonoBehaviour
     {
         Singleton.instance.Inventory = this;
         //emptyIndex = 0;
-        
     }
 
     public void AddItem(Item item)
@@ -101,6 +102,10 @@ public class Inventory : MonoBehaviour
         gameObject.SetActive(toggle);
         ShowItemDetails(false);
         ShowExtraItemInventory(false);
+
+        if (!backButton.gameObject.activeSelf)
+            backButton.gameObject.SetActive(true);
+
         if (toggle == true)
         {
             for (int i = 0; i < hunter.inventory.Count; i++)
@@ -153,6 +158,9 @@ public class Inventory : MonoBehaviour
         {
             extraItem.item = item;
             extraItem.GetItemData(item);
+
+            //hide back button
+            backButton.gameObject.SetActive(false);
         }
     }
 
