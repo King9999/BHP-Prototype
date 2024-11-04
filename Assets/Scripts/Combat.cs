@@ -27,6 +27,7 @@ public class Combat : MonoBehaviour
     [SerializeField] private TextMeshProUGUI attackerDieOneGUI, attackerDieTwoGUI, attackerAtp_total, attackerTotalAttackDamage;
     [SerializeField] private TextMeshProUGUI defenderDieOneGUI, defenderDieTwoGUI, defenderDfp_total, defenderTotalDefense;
     [SerializeField] private TextMeshProUGUI damageText;      //displays damage dealt or amount healed.
+    [SerializeField] private GameObject runChanceUI;
     [SerializeField] private TextMeshProUGUI runChanceText;
     private Color damageColor, reducedColor, healColor;              //red = damage, blue = reduced damage, green = heal
     [SerializeField] private TextMeshProUGUI statusText;      //used for buffs/debuffs
@@ -89,7 +90,7 @@ public class Combat : MonoBehaviour
     {
         damageText.gameObject.SetActive(false);
         statusText.gameObject.SetActive(false);
-        runChanceText.gameObject.SetActive(false);
+        EnableRunChanceUI(false);
         activeCard_attackerText.text = "";
         activeCard_defenderText.text = "";
         inventory.ShowInventory(false);
@@ -182,33 +183,35 @@ public class Combat : MonoBehaviour
 
     private void ShowDefenderMenu(bool toggle, Character character = null)
     {
-        defenderMenu.gameObject.SetActive(toggle);
+        defenderMenu.SetActive(toggle);
         if (toggle == true)
         {
-            Vector3 menuPos = new Vector3(character.transform.position.x, character.transform.position.y + 6, character.transform.position.z);
+            Vector3 menuPos = new Vector3(character.transform.position.x + 11, character.transform.position.y - 4f, character.transform.position.z);
             defenderMenu.transform.position = Camera.main.WorldToScreenPoint(menuPos);
         }
     }
 
     private void ChangeCombatState(CombatState state)
     {
+        Character attacker = attackerRoom.character;
+        Character defender = defenderRoom.character;
         switch (state)
         {
             case CombatState.AttackerTurn:
-                cardMenu.ShowMenu(true, attackerRoom.character, Card.CardType.Combat);
+                cardMenu.ShowMenu(true, attacker, Card.CardType.Combat);
                 //ShowCardMenu(true, attackerRoom.character);
                 break;
 
             case CombatState.DefenderTurn:
                 cardMenu.ShowMenu(false);
                 //ShowCardMenu(false);
-                ShowDefenderMenu(true, defenderRoom.character);
+                ShowDefenderMenu(true, defender);
                 break;
 
             case CombatState.DefenderChooseCard:
                 ShowDefenderMenu(false);
-                runChanceText.gameObject.SetActive(false);
-                cardMenu.ShowMenu(true, defenderRoom.character, Card.CardType.Combat);
+                EnableRunChanceUI(false);
+                cardMenu.ShowMenu(true, defender, Card.CardType.Combat);
                 break;
 
             case CombatState.BeginCombat:
@@ -302,6 +305,7 @@ public class Combat : MonoBehaviour
         runChance = 1 - (attacker.spd * 0.02f + runPreventionMod) + (defender.spd * 0.01f + runMod);
         runChance = runChance < 0 ? 0 : runChance;
         runChance = runChance > 1 ? 1 : runChance;
+        runChanceText.text = string.Format("{0}% chance to escape", runChance * 100);
     }
 
     //sets character's position to a room on the battlefield.
@@ -364,6 +368,11 @@ public class Combat : MonoBehaviour
         }
     }
 
+    public void EnableRunChanceUI(bool toggle)
+    {
+        runChanceUI.SetActive(toggle);
+    }
+
     #region Button Methods
     public void OnSelectCardButtonPressed()
     {
@@ -417,6 +426,8 @@ public class Combat : MonoBehaviour
     public void OnCounterAttackButtonPressed()
     {
         //perform a basic attack with a 50% damage reduction. Passive skill effects apply.
+        Character defender = defenderRoom.character;
+        defender.ChangeCharacterState(defender.characterState = Character.CharacterState.Attacking);
         ChangeCombatState(combatState = CombatState.DefenderChooseCard);
     }
 
@@ -443,13 +454,12 @@ public class Combat : MonoBehaviour
         Character attacker = attackerRoom.character;
         Character defender = defenderRoom.character;
         UpdateRunChance(attacker, defender, runPreventionMod, runMod);
-        runChanceText.gameObject.SetActive(true);
-        runChanceText.text = string.Format("{0}% chance to escape", runChance * 100);
+        EnableRunChanceUI(true);
     }
 
     public void OnEscapeButtonExitHover()
     {
-        runChanceText.gameObject.SetActive(false);
+        EnableRunChanceUI(false);
     }
 
     public void OnSurrenderButtonPressed()

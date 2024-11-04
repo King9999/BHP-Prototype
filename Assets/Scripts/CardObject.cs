@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 /* Visual representation of Card scriptable object. */
-public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public Card cardData;       //handles card activation also.
     public Sprite cardSprite, invalidCardSprite;
@@ -42,7 +42,7 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             StartCoroutine(AnimateCard());
         }
 
-        if (mouseOnCard && !cardInvalid && Input.GetMouseButtonDown(0))
+        /*if (mouseOnCard && !cardInvalid && Input.GetMouseButtonDown(0))
         {
             GameManager gm = Singleton.instance.GameManager;
             if (gm.gameState == GameManager.GameState.Combat)
@@ -66,7 +66,7 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             //hm.ui.ShowCardCursor(true, this.transform.position);
             CardMenu cardMenu = Singleton.instance.CardMenu;
             cardMenu.ShowCursor(true, this.transform.position);
-        }
+        }*/
     }
 
     public void ShowCard(bool toggle)
@@ -108,6 +108,38 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             //hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.CardDetails);
          GetDetails(cardData);
         
+    }
+
+    public void OnPointerClick(PointerEventData pointer)
+    {
+        if (cardInvalid)
+            return;
+
+        //if (/*mouseOnCard &&*/ !cardInvalid )
+        //{
+            GameManager gm = Singleton.instance.GameManager;
+            if (gm.gameState == GameManager.GameState.Combat)
+            {
+                if (gm.combatManager.combatState == Combat.CombatState.AttackerTurn)
+                    gm.combatManager.attackersCard = cardData;
+                else
+                    gm.combatManager.defendersCard = cardData;
+            }
+            else
+            {
+                CardManager cm = Singleton.instance.CardManager;
+                cm.selectedCard = cardData;
+                Debug.LogFormat("{0} selected", cm.selectedCard);
+            }
+
+            //change the sort layer
+            //GetComponent<SortingGroup>().sortingOrder = 2;
+
+            //HunterManager hm = Singleton.instance.HunterManager;
+            //hm.ui.ShowCardCursor(true, this.transform.position);
+            CardMenu cardMenu = Singleton.instance.CardMenu;
+            cardMenu.ShowCursor(true, this.transform.position);
+        //}
     }
 
     void GetDetails(Card cardData)
