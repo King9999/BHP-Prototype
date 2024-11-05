@@ -1511,6 +1511,7 @@ public class GameManager : MonoBehaviour
         }
 
         //start moving character TODO: MUST UPDATE CODE TO INCLUDE FOG OF WAR CONDITIONS
+        character.ChangeCharacterState(character.characterState = Character.CharacterState.Moving);
         int j = 0;
         float speed = 8;
         while(j < destinationRooms.Count && character.transform.position != destination)

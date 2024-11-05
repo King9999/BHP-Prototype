@@ -69,6 +69,8 @@ public class HunterManager : MonoBehaviour
         //state = MenuState.PointAlloc;
         ChangeState(state = MenuState.NameEntry);
         CreateHunter();
+
+
     }
 
     //this is used to enable hunters when ready to be placed in the dungeon.
@@ -260,11 +262,14 @@ public class HunterManager : MonoBehaviour
         startingAllocationPoints = 16;
         ui.allocationPointsText.text = startingAllocationPoints + " Allocation Points Remaining";
 
+        //set up animations
+        hunter.animations[0].sprites = Resources.LoadAll<Sprite>("Run Cycle").ToList();
+
         //testing out cards
         //CardManager cm = Singleton.instance.CardManager;
         //cm.DrawCard(hunter, cm.deck, 5);
 
-        
+
 
         //give hunter a weapon
         /*ItemManager im = ItemManager.instance;

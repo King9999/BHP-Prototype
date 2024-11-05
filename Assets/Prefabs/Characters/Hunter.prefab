@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -63,6 +63,8 @@ MonoBehaviour:
   mov: 0
   evd: 0
   cpuControlled: 0
+  isAttacker: 0
+  isDefender: 0
   hpMod: 1
   spMod: 1
   atpMod: 1
@@ -75,6 +77,8 @@ MonoBehaviour:
   attackSpark: {fileID: 0}
   attackSound: {fileID: 0}
   skills: []
+  chosenSkill: {fileID: 0}
+  targetChar: {fileID: 0}
   resistPoison: 0
   resistDizzy: 0
   resistBlind: 0
@@ -86,6 +90,9 @@ MonoBehaviour:
   resistWeak: 0
   characterState: 0
   room: {fileID: 0}
+  animations:
+  - characterState: 3
+    sprites: []
   debuffs: []
   buffs: []
   currentAllocationPoints: 0
@@ -95,13 +102,15 @@ MonoBehaviour:
   vitPoints: 0
   mntPoints: 0
   hunterLevel: 1
-  isAI: 0
+  cpuBehaviour: {fileID: 0}
   equippedWeapon: {fileID: 0}
   equippedArmor: {fileID: 0}
   equippedAccessory: {fileID: 0}
+  super: {fileID: 0}
   inventory: []
-  stash: []
+  targetItem: {fileID: 0}
   credits: 0
+  cards: []
 --- !u!212 &3247727559695982901
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -143,7 +152,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1317809963, guid: 4aca974a0ea82d0409eace5f3da55c36, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 95c723fbe5ae6be4e8672b76774f78dc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -200,5 +209,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.2
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}

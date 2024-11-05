@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -53,7 +54,7 @@ public abstract class Character : MonoBehaviour
 
     //resists are a value from 0 to 1. This allows multiple sources of a resist to take effect,
     //and makes it easier to recalculate values when equipping/unequipping sources.
-    [Header("Ailment Status")]
+    [Header("---Ailment Status---")]
     public float resistPoison;
     public float resistDizzy;
     public float resistBlind;
@@ -73,6 +74,19 @@ public abstract class Character : MonoBehaviour
 
     [Header("---Room Location---")]
     public Room room;           //the room in the dungeon this character is currently occupying. Fast way to get a refernce to a room.
+
+    //animations are contained here.
+    [Serializable]
+    public class CharacterAnimation
+    {
+        public CharacterState characterState;  //refers to the other characterState
+        public List<Sprite> sprites;
+    }
+    [Header("---Animations---")]
+    public List<CharacterAnimation> animations;
+    bool looping;       //used to repeat animation indefinitely
+    SpriteRenderer sr;
+    bool animateCoroutineOn;
     /* DEBUFF DETAILS
         -------------
         Poisoned = Target loses (5% * duration count) of HP each turn. Lasts 3 turns.
@@ -86,7 +100,7 @@ public abstract class Character : MonoBehaviour
         Weak = Roll 1 die for attacks/skills 
         Unlucky = when attacking or defending, all rolls for the afflicted user occur twice, and the worst of the two results is applied.*/
 
-  
+   
     public enum Debuff
     {
         Poisoned, Dizzy, Blind, Injured, Berserk, DisableLeg, DisableSkill, DisableSuper, Weak, Unlucky
@@ -105,12 +119,19 @@ public abstract class Character : MonoBehaviour
     {
         Regen, Empowered, Haste, SecondWind, Lucky
     }
+
+    [Header("---Status Effects---")]
     public List<StatusEffect> debuffs;     //Characters can have up to 3 buffs and debuffs. Adding a 4th overwrites the oldest effect.
     public List<StatusEffect> buffs;
     protected int maxEffects { get; } = 3;
 
     public void Attack() { }
     public void Defend() { }
+
+    private void OnEnable()
+    {
+        sr = gameObject.GetComponent<SpriteRenderer>();
+    }
 
     /// <summary>
     /// Checks for valid targets in a given range. Used by CPU characters.
@@ -135,6 +156,7 @@ public abstract class Character : MonoBehaviour
     //this method will be used to display different animations.
     public void ChangeCharacterState(CharacterState state)
     {
+        animateCoroutineOn = false; //stops current animation
         switch(state)
         {
             case CharacterState.Idle:
@@ -147,6 +169,7 @@ public abstract class Character : MonoBehaviour
                 break;
 
             case CharacterState.Moving:
+                StartCoroutine(AnimateCharacter(state, looping: true));
                 break;
 
             case CharacterState.Resting:
@@ -155,6 +178,52 @@ public abstract class Character : MonoBehaviour
             case CharacterState.Injured:
                 break;
         }
+    }
+
+    /// <summary>
+    /// Play given animation.
+    /// </summary>
+    /// <param name="state">The state containing the animation set to play.</param>
+    /// <param name="looping">If true, animation repeats infinitely.</param>
+    /// <returns></returns>
+    IEnumerator AnimateCharacter(CharacterState state, bool looping = false)
+    {
+        //find the animation set.
+        bool stateFound = false;
+        int i = 0;
+        while(!stateFound && i < animations.Count)
+        {
+            if (state == animations[i].characterState)
+            {
+                stateFound = true;
+            }
+            else
+            {
+                i++;
+            }
+        }
+
+        if (!stateFound)
+            //can't continue further
+            yield return null;
+
+        int j = 0;
+        float animationTime = 0.016f;
+        animateCoroutineOn = true;
+        while (animateCoroutineOn && j < animations[i].sprites.Count)
+        {
+            sr.sprite = animations[i].sprites[j];
+            yield return new WaitForSeconds(animationTime);
+
+            //j is reset to first animation frame if looping is true
+            j = (j + 1 >= animations[i].sprites.Count && looping == true) ? 0 : j + 1;
+            
+        }
+
+
+        
+        //once state is found, run the frames.
+        yield return null;
     }
     
 }
