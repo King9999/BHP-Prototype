@@ -271,15 +271,12 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             //use item
             if (item is Consumable consumable)
             {
-                //if (gm.ActiveCharacter() is Hunter hunter)
-                //{
                 consumable.ActivateEffect(hunter);
                 hunter.inventory.Remove(item);
                 ClearItemData();
                 //HunterManager hm = Singleton.instance.HunterManager;
                 //hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Inventory);
                 gameObject.SetActive(false);
-                //}
             }
         }
     }

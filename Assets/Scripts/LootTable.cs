@@ -40,7 +40,7 @@ public class LootTable : ScriptableObject
             //float weight = UnityEngine.Random.value;
             float randValue = UnityEngine.Random.value;
             int randWeight = Mathf.RoundToInt(curve.Evaluate(randValue) * 3000);
-            Debug.Log("Random value " + i + ": " + randWeight);
+            Debug.LogFormat("Random value {0}: {1}", i, randWeight);
         }
     }
    
@@ -58,8 +58,8 @@ public class LootTable : ScriptableObject
         }
 
         int randValue = Mathf.RoundToInt(curve.Evaluate(UnityEngine.Random.value) * totalWeight);// UnityEngine.Random.Range(0, totalWeight);
-        Debug.Log("Total Weight: " + totalWeight);
-        Debug.Log("Init. Rand value (GetTable): " + randValue);
+        Debug.LogFormat("Total Weight: {0}", totalWeight);
+        Debug.LogFormat("Init. Rand value (GetTable): {0}", randValue);
 
         int j = 0;
         bool tableFound = false;
@@ -71,40 +71,15 @@ public class LootTable : ScriptableObject
                 //create this item
                 //tableIndex = j;
                 tableFound = true;
-                Debug.Log("Acessing table " + j + ", rand value is " + randValue);
+                Debug.LogFormat("Acessing table {0}, rand value is {1}", j, randValue);
             }
             else
             {
                 randValue -= itemTables[j].tableWeight;
-                Debug.Log("Rand value is now " + randValue);
+                Debug.LogFormat("Rand value is now {0}", randValue);
                 j++;
             }
         }
-
-        //access list of items based on tableIndex
-        /*Table chosenTable = new Table();
-        switch (tableIndex)
-        {
-            case VALUABLES:
-                chosenTable = valuables;
-                break;
-
-            case CONSUMABLES:
-                chosenTable = consumables;
-                break;
-
-            case EQUIPMENT:
-                chosenTable = equipment;
-                break;
-
-            case DUNGEON_MODS:
-                chosenTable = dungeonMods;
-                break;
-
-            case DATA_LOGS:
-                chosenTable = dataLogs;
-                break;
-        }*/
 
         return itemTables[j];
         
@@ -144,7 +119,7 @@ public class LootTable : ScriptableObject
         //Debug.Log("---Getting random value from GetItem---");
         int randValue = Mathf.RoundToInt(curve.Evaluate(UnityEngine.Random.value) * totalWeight); //UnityEngine.Random.Range(0, totalWeight);
         //Debug.Log("total weight: " + totalWeight);
-        Debug.Log("Init. Rand value (GetItem): " + randValue);
+        Debug.LogFormat("Init. Rand value (GetItem): {0}", randValue);
 
         j = 0;
         bool itemFound = false;
@@ -167,7 +142,7 @@ public class LootTable : ScriptableObject
 
         if (itemFound)
         {
-            Debug.Log("Generating random item " + table.item[j].item.itemName);
+            Debug.LogFormat("Generating random item {0}", table.item[j].item.itemName);
             return Instantiate(table.item[j].item);
         }
         else
@@ -217,7 +192,7 @@ public class LootTable : ScriptableObject
 
         if (itemFound)
         {
-            Debug.Log("Generating specific item " + table.item[j].item.itemName);
+            Debug.LogFormat("Generating specific item {0}", table.item[j].item.itemName);
             return Instantiate(table.item[j].item);
         }
         else

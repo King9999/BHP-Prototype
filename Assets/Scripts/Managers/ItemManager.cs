@@ -164,14 +164,14 @@ public class ItemManager : MonoBehaviour
                     {
                         weapon.itemMods.Add(itemMod);
                         weapon.hasChipSlot = true;
-                        mods += itemMod.modName + "\n";
+                        mods += string.Format("{0}\n", itemMod.modName);
                         j += 2;     //chip slot takes up 2 mod slots
                     }
                 }
                 else
                 {
                     weapon.itemMods.Add(itemMod);
-                    mods += itemMod.modName + "\n";
+                    mods += string.Format("{0}\n", itemMod.modName);
                     j++;
                 }
             }
@@ -189,7 +189,7 @@ public class ItemManager : MonoBehaviour
         }
         weapon.itemName += rank;
 
-        Debug.Log("Weapon mods for " + weapon.itemName + ":\n" + mods);
+        Debug.LogFormat("Weapon mods for {0}:\n{1}", weapon.itemName, mods);
         //return weapon;
     }
 
@@ -257,14 +257,14 @@ public class ItemManager : MonoBehaviour
                     {
                         armor.itemMods.Add(itemMod);
                         armor.hasChipSlot = true;
-                        mods += itemMod.modName + "\n";
+                        mods += string.Format("{0}\n", itemMod.modName);
                         j += 2;     //chip slot takes up 2 mod slots
                     }
                 }
                 else
                 {
                     armor.itemMods.Add(itemMod);
-                    mods += itemMod.modName + "\n";
+                    mods += string.Format("{0}\n", itemMod.modName);
                     j++;
                 }
             }
@@ -282,7 +282,7 @@ public class ItemManager : MonoBehaviour
         }
         armor.itemName += rank;
 
-        Debug.Log("armor mods for " + armor.itemName + ":\n" + mods);
+        Debug.LogFormat("armor mods for {0}:\n{1}", armor.itemName, mods);
     }
 
     public void GenerateMods(Accessory acc)
@@ -348,14 +348,14 @@ public class ItemManager : MonoBehaviour
                     {
                         acc.itemMods.Add(itemMod);
                         acc.hasChipSlot = true;
-                        mods += itemMod.modName + "\n";
+                        mods += string.Format("{0}\n", itemMod.modName);
                         j += 2;     //chip slot takes up 2 mod slots
                     }
                 }
                 else
                 {
                     acc.itemMods.Add(itemMod);
-                    mods += itemMod.modName + "\n";
+                    mods += string.Format("{0}\n", itemMod.modName);
                     j++;
                 }
             }
@@ -373,7 +373,7 @@ public class ItemManager : MonoBehaviour
         }
         acc.itemName += rank;
 
-        Debug.Log("acc mods for " + acc.itemName + ":\n" + mods);
+        Debug.LogFormat("acc mods for {0}:\n{1}", acc.itemName, mods);
 
     }
 
@@ -446,7 +446,7 @@ public class ItemManager : MonoBehaviour
 
         if (item.isTargetItem)
         {
-            item.itemName += " [TARGET]";
+            item.itemName = string.Format("{0} [TARGET]", item.itemName);
         }
 
         chest.item = item;
@@ -486,7 +486,7 @@ public class ItemManager : MonoBehaviour
 
         if (item.isTargetItem)
         {
-            item.itemName += " [TARGET]";
+            item.itemName = string.Format("{0} [TARGET]", item.itemName);
         }
 
         chest.item = item;

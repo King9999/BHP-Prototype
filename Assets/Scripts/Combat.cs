@@ -256,12 +256,12 @@ public class Combat : MonoBehaviour
 
         //setup UI
         attackerNameText.text = attacker.characterName;
-        attackerHealthPoints.text = attacker.healthPoints + "/" + attacker.maxHealthPoints;
-        attackerSkillPoints.text = attacker.skillPoints + "/" + attacker.maxSkillPoints;
+        attackerHealthPoints.text = string.Format("{0} / {1}", attacker.healthPoints, attacker.maxHealthPoints);
+        attackerSkillPoints.text = string.Format("{0} / {1}", attacker.skillPoints, attacker.maxSkillPoints);
 
         defenderNameText.text = defender.characterName;
-        defenderHealthPoints.text = defender.healthPoints + "/" + defender.maxHealthPoints;
-        defenderSkillPoints.text = defender.skillPoints + "/" + defender.maxSkillPoints;
+        defenderHealthPoints.text = string.Format("{0} / {1}",defender.healthPoints, defender.maxHealthPoints);
+        defenderSkillPoints.text = string.Format("{0} / {1}", defender.skillPoints, defender.maxSkillPoints);
 
         perfectDefenseMod = 1;  //default value
         runPreventionMod = 0;
@@ -526,11 +526,11 @@ public class Combat : MonoBehaviour
             }
 
             //display the final result
-            attackerAtp_total.text = "ATP\n+" + attacker.atp;
+            attackerAtp_total.text = string.Format("ATP\n+{0}", attacker.atp);
             attackRollResult += Mathf.RoundToInt(attacker.atp * attacker.atpMod);
             attackerTotalAttackDamage.text = attackRollResult.ToString();
 
-            defenderDfp_total.text = "DFP\n+" + defender.dfp;
+            defenderDfp_total.text = string.Format("DFP\n+{0}", defender.dfp);
             defendRollResult += Mathf.RoundToInt(defender.dfp * defender.dfpMod);
             defenderTotalDefense.text = defendRollResult.ToString();
 
@@ -561,11 +561,11 @@ public class Combat : MonoBehaviour
             }
 
             //display the final result
-            defenderDfp_total.text = "ATP\n+" + defender.atp;   //ATP is shown here since defender is always on the right side
+            defenderDfp_total.text = string.Format("ATP\n+{0}", defender.atp);   //ATP is shown here since defender is always on the right side
             attackRollResult += (int)defender.atp;
             defenderTotalDefense.text = attackRollResult.ToString();
 
-            attackerAtp_total.text = "DFP\n+" + attacker.dfp;
+            attackerAtp_total.text = string.Format("DFP\n+{0}", attacker.dfp);
             defendRollResult += (int)attacker.dfp;
             attackerTotalAttackDamage.text = defendRollResult.ToString();
 
@@ -592,10 +592,10 @@ public class Combat : MonoBehaviour
         GameManager gm = Singleton.instance.GameManager;
 
         if (!attackerTurnOver)
-            defenderHealthPoints.text = defender.healthPoints + "/" + defender.maxHealthPoints;
+            defenderHealthPoints.text = string.Format("{0} / {1}", defender.healthPoints, defender.maxHealthPoints);
         else
             //updating attacker's HP since defender is counterattacking. defender is still referenced because the attacker is currently defending
-            attackerHealthPoints.text = defender.healthPoints + "/" + defender.maxHealthPoints;
+            attackerHealthPoints.text = string.Format("{0} / {1}", defender.healthPoints, defender.maxHealthPoints);
 
         //animate damage
         float duration = 1;
