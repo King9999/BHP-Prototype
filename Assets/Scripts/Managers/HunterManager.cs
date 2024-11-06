@@ -263,7 +263,8 @@ public class HunterManager : MonoBehaviour
         ui.allocationPointsText.text = startingAllocationPoints + " Allocation Points Remaining";
 
         //set up animations
-        hunter.animations[0].sprites = Resources.LoadAll<Sprite>("Run Cycle").ToList();
+        hunter.animations[0].sprites = Resources.LoadAll<Sprite>("Idle").ToList();
+        hunter.animations[1].sprites = Resources.LoadAll<Sprite>("Run Cycle").ToList();
 
         //testing out cards
         //CardManager cm = Singleton.instance.CardManager;

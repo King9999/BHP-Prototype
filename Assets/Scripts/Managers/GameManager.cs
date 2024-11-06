@@ -1572,6 +1572,8 @@ public class GameManager : MonoBehaviour
             j++;
         }
 
+        //change animation to idle
+        character.ChangeCharacterState(character.characterState = Character.CharacterState.Idle);
 
         //hide select tile and dice UI
         selectTile.SetActive(false);

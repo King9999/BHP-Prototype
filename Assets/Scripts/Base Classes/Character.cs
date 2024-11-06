@@ -157,9 +157,12 @@ public abstract class Character : MonoBehaviour
     public void ChangeCharacterState(CharacterState state)
     {
         animateCoroutineOn = false; //stops current animation
+        StopAllCoroutines();
+
         switch(state)
         {
             case CharacterState.Idle:
+                StartCoroutine(AnimateCharacter(state, looping: true));
                 break;
 
             case CharacterState.Attacking:
