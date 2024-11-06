@@ -27,8 +27,8 @@ public class Combat : MonoBehaviour
     [SerializeField] private TextMeshProUGUI attackerDieOneGUI, attackerDieTwoGUI, attackerAtp_total, attackerTotalAttackDamage;
     [SerializeField] private TextMeshProUGUI defenderDieOneGUI, defenderDieTwoGUI, defenderDfp_total, defenderTotalDefense;
     [SerializeField] private TextMeshProUGUI damageText;      //displays damage dealt or amount healed.
-    [SerializeField] private GameObject runChanceUI;
-    [SerializeField] private TextMeshProUGUI runChanceText;
+    [SerializeField] private GameObject tooltipUI;              //context sensitive UI for defender menu buttons
+    [SerializeField] private TextMeshProUGUI tooltipText;
     private Color damageColor, reducedColor, healColor;              //red = damage, blue = reduced damage, green = heal
     [SerializeField] private TextMeshProUGUI statusText;      //used for buffs/debuffs
     [SerializeField] private List<TextMeshProUGUI> damageValues;      //used for displaying lots of damage values at a time.
@@ -90,7 +90,7 @@ public class Combat : MonoBehaviour
     {
         damageText.gameObject.SetActive(false);
         statusText.gameObject.SetActive(false);
-        EnableRunChanceUI(false);
+        EnableTooltipUI(false);
         activeCard_attackerText.text = "";
         activeCard_defenderText.text = "";
         inventory.ShowInventory(false);
@@ -210,7 +210,7 @@ public class Combat : MonoBehaviour
 
             case CombatState.DefenderChooseCard:
                 ShowDefenderMenu(false);
-                EnableRunChanceUI(false);
+                EnableTooltipUI(false);
                 cardMenu.ShowMenu(true, defender, Card.CardType.Combat);
                 break;
 
@@ -305,7 +305,7 @@ public class Combat : MonoBehaviour
         runChance = 1 - (attacker.spd * 0.02f + runPreventionMod) + (defender.spd * 0.01f + runMod);
         runChance = runChance < 0 ? 0 : runChance;
         runChance = runChance > 1 ? 1 : runChance;
-        runChanceText.text = string.Format("{0}% chance to escape", runChance * 100);
+        
     }
 
     //sets character's position to a room on the battlefield.
@@ -368,9 +368,9 @@ public class Combat : MonoBehaviour
         }
     }
 
-    public void EnableRunChanceUI(bool toggle)
+    public void EnableTooltipUI(bool toggle)
     {
-        runChanceUI.SetActive(toggle);
+        tooltipUI.SetActive(toggle);
     }
 
     #region Button Methods
@@ -448,19 +448,7 @@ public class Combat : MonoBehaviour
         ChangeCombatState(combatState = CombatState.DefenderChooseCard);
     }
 
-    //displays text when mouse cursor hovers over button
-    public void OnEscapeButtonHover()
-    {
-        Character attacker = attackerRoom.character;
-        Character defender = defenderRoom.character;
-        UpdateRunChance(attacker, defender, runPreventionMod, runMod);
-        EnableRunChanceUI(true);
-    }
-
-    public void OnEscapeButtonExitHover()
-    {
-        EnableRunChanceUI(false);
-    }
+    
 
     public void OnSurrenderButtonPressed()
     {
@@ -470,6 +458,41 @@ public class Combat : MonoBehaviour
 
         //open defender's inventory so they can choose an item to give to attacker.
         inventory.ShowInventory(true, hunter);       
+    }
+    #endregion
+
+    #region Button Hover Methods
+    public void OnCounterAttackButtonHover()
+    {
+        EnableTooltipUI(true);
+        tooltipText.text = "Perform basic attack that inflicts 50% damage";
+    }
+
+    public void OnGuardButtonHover()
+    {
+        EnableTooltipUI(true);
+        tooltipText.text = "Reduce damage. Perfect Defense if a 12 is rolled";
+    }
+
+    public void OnSurrenderButtonHover()
+    {
+        EnableTooltipUI(true);
+        tooltipText.text = "Give an item to attacker, then run away";
+    }
+
+    //displays text when mouse cursor hovers over escape button
+    public void OnEscapeButtonHover()
+    {
+        Character attacker = attackerRoom.character;
+        Character defender = defenderRoom.character;
+        UpdateRunChance(attacker, defender, runPreventionMod, runMod);
+        EnableTooltipUI(true);
+        tooltipText.text = string.Format("{0}% chance to escape", runChance * 100);
+    }
+
+    public void OnButtonExitHover()
+    {
+        EnableTooltipUI(false);
     }
     #endregion
 
