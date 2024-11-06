@@ -262,8 +262,13 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             //swap item that was clicked with the extra item.
             inv.SwapItems(this, inv.extraItem);
         }
+        else if (gm.gameState == GameManager.GameState.Combat && gm.combatManager.combatState == Combat.CombatState.Surrendering)
+        {
+            //clicking the item transfers the item over to the attacker.
+        }
         else
         {
+            //use item
             if (item is Consumable consumable)
             {
                 //if (gm.ActiveCharacter() is Hunter hunter)

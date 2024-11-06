@@ -48,9 +48,9 @@ public class Combat : MonoBehaviour
     public Card attackersCard, defendersCard;   //used by CardObject to get reference to chosen cards        
 
     //combat states
-    public enum CombatState { AttackerTurn, DefenderTurn, DefenderChooseCard, BeginCombat, RunAway}
+    public enum CombatState { AttackerTurn, DefenderTurn, DefenderChooseCard, BeginCombat, Surrendering, RunAway}
     [Header("---Combat State---")]
-    [SerializeField] public CombatState combatState;
+    public CombatState combatState;
     private Coroutine combatCoroutine;
     
 

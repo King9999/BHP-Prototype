@@ -247,12 +247,10 @@ public class HunterManager : MonoBehaviour
         ui.hunterDfpText.text = hunter.dfp.ToString();
         ui.hunterMnpText.text = hunter.mnp.ToString();
         ui.hunterRstText.text = hunter.rst.ToString();
-        ui.hunterEvdText.text = (hunter.evd * 100) + "%";
+        ui.hunterEvdText.text = string.Format("{0}%", (hunter.evd * 100));
         ui.hunterMovText.text = hunter.mov.ToString();
-        ui.hunterHpText.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
-        ui.hunterSpText.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
-        //ui.hunterHuds[newestHunter].hunterHpText.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
-        //ui.hunterHuds[newestHunter].hunterSpText.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
+        ui.hunterHpText.text = string.Format("{0} / {1}", hunter.healthPoints, hunter.maxHealthPoints);
+        ui.hunterSpText.text = string.Format("{0} / {1}", hunter.skillPoints, hunter.maxSkillPoints);
 
         //point allocation values
         ui.strPointsText.text = hunter.strPoints.ToString();
@@ -260,7 +258,7 @@ public class HunterManager : MonoBehaviour
         ui.mntPointsText.text = hunter.mntPoints.ToString();
         ui.spdPointsText.text = hunter.spdPoints.ToString();
         startingAllocationPoints = 16;
-        ui.allocationPointsText.text = startingAllocationPoints + " Allocation Points Remaining";
+        ui.allocationPointsText.text = string.Format("{0} Allocation Points Remaining", startingAllocationPoints);
 
         //set up animations
         hunter.animations[0].sprites = Resources.LoadAll<Sprite>("Idle").ToList();
@@ -495,7 +493,7 @@ public class HunterManager : MonoBehaviour
                     if (wpn.itemMods[i].modID.ToLower().Equals("itemMod_ChipSlot".ToLower()))
                     {
                         modFound = true;
-                        wpn.itemMods[i].modName = "[" + wpn.itemSkill.skillType + " skill] " + wpn.itemSkill.skillName;
+                        wpn.itemMods[i].modName = string.Format("[{0} skill] {1}", wpn.itemSkill.skillType, wpn.itemSkill.skillName);
                     }
                     else
                         i++;
@@ -534,7 +532,7 @@ public class HunterManager : MonoBehaviour
                         if (armor.itemMods[i].modID.ToLower().Equals("itemMod_ChipSlot".ToLower()))
                         {
                             modFound = true;
-                            armor.itemMods[i].modName = "[" + armor.itemSkill.skillType + " skill] " + armor.itemSkill.skillName;
+                            armor.itemMods[i].modName = string.Format("[{0} skill] {1}", armor.itemSkill.skillType, armor.itemSkill.skillName);
                         }
                         else
                             i++;
@@ -571,7 +569,7 @@ public class HunterManager : MonoBehaviour
                         if (acc.itemMods[i].modID.ToLower().Equals("itemMod_ChipSlot".ToLower()))
                         {
                             modFound = true;
-                            acc.itemMods[i].modName = "[" + acc.itemSkill.skillType + " skill] " + acc.itemSkill.skillName;
+                            acc.itemMods[i].modName = string.Format("[{0} skill] {1}", acc.itemSkill.skillType, acc.itemSkill.skillName);
                         }
                         else
                             i++;
@@ -586,7 +584,7 @@ public class HunterManager : MonoBehaviour
         //Chance to have items = (CPU Hunter level x 0.01) / 2 + any dungeon modifiers that influence the probability
         //Number of items = 60 % chance for 1 item, 35 % chance for 2 items, 5 % chance for 3 items.
         float itemChance = hunterLevel * 0.01f / 2 * (1 + itemChanceMod);
-        Debug.Log("Chance for CPU Hunter to have items: " +  itemChance);
+        Debug.LogFormat("Chance for CPU Hunter to have items: {0}", itemChance);
         int itemCount = 0;
         if (Random.value <= itemChance)
         {
@@ -600,7 +598,7 @@ public class HunterManager : MonoBehaviour
             else
                 itemCount = 1;
         }
-        Debug.Log("Number of items CPU Hunter will carry: " + itemCount);
+        Debug.LogFormat("Number of items CPU Hunter will carry: {0}", itemCount);
 
         //Test purposes only
         //hunter.spd = 0;
@@ -609,8 +607,8 @@ public class HunterManager : MonoBehaviour
         hunter.super = sm.AddSuper();
 
         //give hunter a random name TODO: Get a name from a file.
-        hunter.characterName = "CPU " + hunters.Count;
-        hunter.name = "Hunter - " + hunter.characterName;
+        hunter.characterName = string.Format("CPU {0}",hunters.Count);
+        hunter.name = string.Format("Hunter - {0}", hunter.characterName);
         hunter.healthPoints = hunter.maxHealthPoints;
         hunter.skillPoints = hunter.maxSkillPoints;
         return hunter;
@@ -956,11 +954,10 @@ public class HunterManager : MonoBehaviour
         ui.hunterStrText.text = hunter.str.ToString();
         ui.strPointsText.text = hunter.strPoints.ToString();
         ui.hunterAtpText.text = hunter.atp.ToString();
-        ui.hunterHpText.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
-        ui.hunterSpText.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
-
+        ui.hunterHpText.text = string.Format("{0} / {1}", hunter.healthPoints, hunter.maxHealthPoints);
+        ui.hunterSpText.text = string.Format("{0} / {1}", hunter.skillPoints, hunter.maxSkillPoints);
         
-        ui.allocationPointsText.text = startingAllocationPoints + " Allocation Points Remaining";
+        ui.allocationPointsText.text = string.Format("{0} Allocation Points Remaining", startingAllocationPoints);
     }
 
     
@@ -974,11 +971,11 @@ public class HunterManager : MonoBehaviour
         ui.hunterSpdText.text = hunter.spd.ToString();
         ui.spdPointsText.text = hunter.spdPoints.ToString();
         ui.hunterMovText.text = hunter.mov.ToString();
-        ui.hunterEvdText.text = (hunter.evd * 100) + "%";
-        ui.hunterHpText.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
-        ui.hunterSpText.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
+        ui.hunterEvdText.text = string.Format("{0}%", (hunter.evd * 100));
+        ui.hunterHpText.text = string.Format("{0} / {1}", hunter.healthPoints, hunter.maxHealthPoints);
+        ui.hunterSpText.text = string.Format("{0} / {1}", hunter.skillPoints, hunter.maxSkillPoints);
 
-        ui.allocationPointsText.text = startingAllocationPoints + " Allocation Points Remaining";
+        ui.allocationPointsText.text = string.Format("{0} Allocation Points Remaining", startingAllocationPoints);
     }
 
     void AllocatePoint_VIT(Hunter hunter, int amount)
@@ -991,10 +988,10 @@ public class HunterManager : MonoBehaviour
         ui.hunterVitText.text = hunter.vit.ToString();
         ui.vitPointsText.text = hunter.vitPoints.ToString();
         ui.hunterDfpText.text = hunter.dfp.ToString();
-        ui.hunterHpText.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
-        ui.hunterSpText.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
+        ui.hunterHpText.text = string.Format("{0} / {1}", hunter.healthPoints, hunter.maxHealthPoints);
+        ui.hunterSpText.text = string.Format("{0} / {1}", hunter.skillPoints, hunter.maxSkillPoints);
 
-        ui.allocationPointsText.text = startingAllocationPoints + " Allocation Points Remaining";
+        ui.allocationPointsText.text = string.Format("{0} Allocation Points Remaining", startingAllocationPoints);
     }
 
     void AllocatePoint_MNT(Hunter hunter, int amount)
@@ -1007,10 +1004,10 @@ public class HunterManager : MonoBehaviour
         ui.mntPointsText.text = hunter.mntPoints.ToString();
         ui.hunterRstText.text = hunter.rst.ToString();
         ui.hunterMnpText.text = hunter.mnp.ToString();
-        ui.hunterHpText.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
-        ui.hunterSpText.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
+        ui.hunterHpText.text = string.Format("{0} / {1}", hunter.healthPoints, hunter.maxHealthPoints);
+        ui.hunterSpText.text = string.Format("{0} / {1}", hunter.skillPoints, hunter.maxSkillPoints);
 
-        ui.allocationPointsText.text = startingAllocationPoints + " Allocation Points Remaining";
+        ui.allocationPointsText.text = string.Format("{0} Allocation Points Remaining", startingAllocationPoints);
     }
 
     #endregion
@@ -1082,7 +1079,7 @@ public class HunterManager : MonoBehaviour
     {
         if (state == HunterManager.MenuState.NameEntry)
         {
-            if(ui.nameEntryField.text == "")
+            if(ui.nameEntryField.text.Equals(""))
             {
                 Debug.Log("Name cannot be empty!");
                 return;
@@ -1090,7 +1087,7 @@ public class HunterManager : MonoBehaviour
             else
             {
                 hunters[hunters.Count - 1].characterName = ui.nameEntryField.text;
-                hunters[hunters.Count - 1].name = "Hunter - " + ui.nameEntryField.text; //object name
+                hunters[hunters.Count - 1].name = string.Format("Hunter - {0}", ui.nameEntryField.text); //object name
             }
         }
             
@@ -1152,19 +1149,18 @@ public class HunterManager : MonoBehaviour
         {
             case 0:
                 item = im.lootTable.GetItem(Table.ItemType.Weapon, "weapon_beamSword");
-                Debug.Log("Item is " + item);
                 break;
 
             case 1:
                 item = im.lootTable.GetItem(Table.ItemType.Weapon, "weapon_railGun");
-                Debug.Log("Item is " + item);
                 break;
 
             case 2:
                 item = im.lootTable.GetItem(Table.ItemType.Weapon, "weapon_augmenter");
-                Debug.Log("Item is " + item);
                 break;
         }
+
+        Debug.LogFormat("Item is {0}", item);
         Hunter hunter = hunters[hunters.Count - 1];
 
         //add basic attack skill to hunter.
@@ -1187,7 +1183,7 @@ public class HunterManager : MonoBehaviour
 
         //save the number of rivals, it will be needed during dungeon generation.
         rivalCount = ui.RivalDropdownValue();
-        Debug.Log("rival count: " + rivalCount);
+        Debug.LogFormat("rival count: {0}", rivalCount);
 
         ChangeState(state = MenuState.ShowHunterHuds);
         //move to game scene
@@ -1273,7 +1269,7 @@ public class HunterManager : MonoBehaviour
             if (cm.selectedCard != null)
             {
                 hunter.cards.Remove(cm.selectedCard);
-                ui.activeCardText.text = "Active Card: " + cm.selectedCard.cardName;
+                ui.activeCardText.text = string.Format("Active Card: {0}", cm.selectedCard.cardName);
 
                 //is this card a MOV card?
                 if (cm.selectedCard.triggerWhenDiceRolled == true)

@@ -104,7 +104,7 @@ public class Inventory : MonoBehaviour
         ShowExtraItemInventory(false);
 
         if (!backButton.gameObject.activeSelf)
-            backButton.gameObject.SetActive(true);
+            ShowBackButton(true);
 
         if (toggle == true)
         {
@@ -160,8 +160,13 @@ public class Inventory : MonoBehaviour
             extraItem.GetItemData(item);
 
             //hide back button
-            backButton.gameObject.SetActive(false);
+            ShowBackButton(false);
         }
+    }
+
+    public void ShowBackButton(bool toggle)
+    {
+        backButton.gameObject.SetActive(toggle);
     }
 
     public bool ExtraInventoryOpen()
