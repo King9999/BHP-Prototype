@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 /* Every character has this skill. It costs nothing to use, and its effects change with the equipped weapon. */
@@ -19,13 +20,40 @@ public class ActiveSkill_BasicAttack : ActiveSkill
         weaponRestriction = WeaponRestriction.None;
     }
 
+    //if character has a melee weapon, they run up to target to strike. Otherwise, they attack from a distance.
     public override void ActivateSkill(Character user, Character target)
     {
-        base.ActivateSkill(user, target);
+        //base.ActivateSkill(user, target);
 
+        //yield return Animate(user);
         //roll dice and add result to total damage
         int diceRoll = dice.RollDice(); 
         int singleDieRoll = dice.RollSingleDie();
         float totalDamage = Mathf.Round(user.atp + diceRoll) * dmgMod - (target.dfp + singleDieRoll);
     }
+
+    public override IEnumerator Animate(Character character, Vector3 destination)
+    {
+        //different function depending on whether weapon is ranged or melee
+        Hunter hunter = character as Hunter;
+        //if (hunter.equippedWeapon.weaponType == Weapon.WeaponType.BeamSword)
+        //{
+            float moveSpeed = 16;
+            //run up to target
+            while(hunter.transform.position != destination)
+            {
+                hunter.transform.position = Vector3.MoveTowards(hunter.transform.position, destination, moveSpeed * Time.deltaTime);
+                yield return null;
+            }
+
+            //attack animation
+
+        //}
+       // else
+        //{
+            //ranged attack. Just call sprite animation
+           // yield return null;
+        //}
+    }
+
 }

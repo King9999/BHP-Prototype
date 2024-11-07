@@ -125,7 +125,10 @@ public abstract class Character : MonoBehaviour
     public List<StatusEffect> buffs;
     protected int maxEffects { get; } = 3;
 
-    public void Attack() { }
+    public void Attack(ActiveSkill skill, Character target) 
+    {
+        StartCoroutine(skill.Animate(this, target.transform.position)); 
+    }
     public void Defend() { }
 
     private void OnEnable()
@@ -228,5 +231,13 @@ public abstract class Character : MonoBehaviour
         //once state is found, run the frames.
         yield return null;
     }
+
+    //performs movement before damage is calculated.
+    protected virtual IEnumerator AnimateAttack(Character attacker, Character defender)
+    {
+        yield return null;
+    }
+
     
+
 }

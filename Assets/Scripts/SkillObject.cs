@@ -39,6 +39,7 @@ public class SkillObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         GameManager gm = Singleton.instance.GameManager;
         HunterManager hm = Singleton.instance.HunterManager;
         gm.selectedSkill = skill;
+        gm.ActiveCharacter().chosenSkill = skill;
         gm.GetSkillRange();
         hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.SelectSkillTile);
         //gm.ShowSkillRange(gm.ActiveCharacter(), skill.minRange, skill.maxRange);

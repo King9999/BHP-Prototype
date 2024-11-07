@@ -422,8 +422,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f083d8c3319e6d34781b07427399dc74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackerDice: {fileID: 8169326217820166817, guid: 9c41fa98499bd664398fd8fb218b5732, type: 3}
-  defenderDice: {fileID: 8169326217820166817, guid: 9c41fa98499bd664398fd8fb218b5732, type: 3}
+  attackerDice: {fileID: 579631466056966815}
+  defenderDice: {fileID: 3197270375115214596}
   attackRollResult: 0
   defendRollResult: 0
   defenderCounterattacking: 0
@@ -7696,6 +7696,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4933637988929015975, guid: 9c41fa98499bd664398fd8fb218b5732, type: 3}
   m_PrefabInstance: {fileID: 6701842911978034597}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3197270375115214596 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8169326217820166817, guid: 9c41fa98499bd664398fd8fb218b5732, type: 3}
+  m_PrefabInstance: {fileID: 6701842911978034597}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec5b57242214c74ab3675260f18e04f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7086763652058058627
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8519,6 +8530,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c41fa98499bd664398fd8fb218b5732, type: 3}
+--- !u!114 &579631466056966815 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8169326217820166817, guid: 9c41fa98499bd664398fd8fb218b5732, type: 3}
+  m_PrefabInstance: {fileID: 8742618647073273918}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec5b57242214c74ab3675260f18e04f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &4405585631850178713 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4933637988929015975, guid: 9c41fa98499bd664398fd8fb218b5732, type: 3}

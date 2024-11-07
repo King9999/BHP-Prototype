@@ -28,8 +28,8 @@ public class Card_Exit : Card
     {
         GameManager gm = Singleton.instance.GameManager;
         if (user.isAttacker)
-            gm.combatManager.runPreventionMod = 1;
+            gm.combatManager.runPreventionMod += 1;
         else
-            gm.combatManager.runMod = 1;
+            gm.combatManager.runMod += 1;
     }
 }

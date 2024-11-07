@@ -107,5 +107,10 @@ public class Dice : MonoBehaviour
         {
             showSingleDie = false;
         }
-    }    
+    }
+    
+    public bool RolledTwelve()
+    {
+        return die1 + die2 >= 12;
+    }
 }

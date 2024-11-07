@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -14,11 +15,13 @@ public class Combat : MonoBehaviour
     [SerializeField] private Dice attackerDice, defenderDice;
     [SerializeField] private int attackRollResult, defendRollResult;
     [SerializeField] private bool defenderCounterattacking, attackerTurnOver;
-    public byte perfectDefenseMod;
-    public float runChance;               //affected by attacker and defender SPD
 
     [Header("---Modifiers---")]
     public float runMod, runPreventionMod;   //modifier to run chance. runPreventionMod is used by attacker to reduce chance to escape.
+    public int perfectDefenseMod, criticalDamageMod;          //defense mod is 0 when defender rolls a 12
+    public float runChance;                //affected by attacker and defender SPD
+
+
 
 
     [Header("---UI---")]
@@ -44,7 +47,7 @@ public class Combat : MonoBehaviour
     private GameObject battlefieldContainer;
     private Room[,] fieldGrid;        //used to layout the battlefield. In a ranged fight, there will be a gap to show that melee counters are ineffective.
     [SerializeField] private Room attackerRoom, defenderRoom; //where the combatants are positioned.
-    private bool attackersTurn;         //used to keep track of who's taking their turn
+    private bool attackersTurn, defendersTurn;         //used to keep track of who's taking their turn
     public Card attackersCard, defendersCard;   //used by CardObject to get reference to chosen cards        
 
     //combat states
@@ -217,6 +220,7 @@ public class Combat : MonoBehaviour
             case CombatState.BeginCombat:
                 cardMenu.ShowMenu(false);
                 //run coroutine here to handle combat resolution, animations, etc.
+                StartCoroutine(SimulateDiceRoll(attackerDice, defenderDice, attacker, defender));
                 break;
 
             case CombatState.RunAway:
@@ -266,6 +270,7 @@ public class Combat : MonoBehaviour
         perfectDefenseMod = 1;  //default value
         runPreventionMod = 0;
         runMod = 0;
+        criticalDamageMod = 1;
 
         //run chance. This is displayed when the defender hovers over the run button.
         /*runChance = 1 - (attacker.spd * 0.01f * 2 - runPreventionMod) + (defender.spd * 0.01f + runMod);
@@ -377,9 +382,12 @@ public class Combat : MonoBehaviour
     public void OnSelectCardButtonPressed()
     {
         //cannot proceed if no card was selected.
-        CardManager cm = Singleton.instance.CardManager;
+       // CardManager cm = Singleton.instance.CardManager;
         //if (cm.selectedCard == null)
-            //return;
+        //return;
+
+        Hunter attacker = attackerRoom.character as Hunter;
+        Hunter defender = defenderRoom.character as Hunter;
 
         if (combatState == CombatState.AttackerTurn)
         {
@@ -387,10 +395,8 @@ public class Combat : MonoBehaviour
                 return;
 
             activeCard_attackerText.text = string.Format("Active Card: {0}", attackersCard.cardName);
-            if (attackerRoom.character is Hunter hunter)
-            {
-                hunter.cards.Remove(attackersCard);
-            }
+            attacker.cards.Remove(attackersCard);
+            attackersCard.ActivateCard_Combat(attacker);
             ChangeCombatState(combatState = CombatState.DefenderTurn);
         }
         else if (combatState == CombatState.DefenderTurn)
@@ -399,10 +405,8 @@ public class Combat : MonoBehaviour
                 return;
 
             activeCard_defenderText.text = string.Format("Active Card: {0}", defendersCard.cardName);
-            if (defenderRoom.character is Hunter hunter)
-            {
-                hunter.cards.Remove(defendersCard);
-            }
+            defender.cards.Remove(defendersCard);
+            defendersCard.ActivateCard_Combat(defender);
             ChangeCombatState(combatState = CombatState.BeginCombat);
         }
     }
@@ -501,7 +505,52 @@ public class Combat : MonoBehaviour
     /* State is used to determine how the defender's rolls are simulated. */
     private IEnumerator SimulateDiceRoll(Dice attackerDice, Dice defenderDice, Character attacker, Character defender)
     {
-        if (!attackerTurnOver && !defenderCounterattacking)
+        float rollDuration = 0.4f;
+        attackerTotalAttackDamage.text = "";
+        defenderTotalDefense.text = "";
+
+        //attacker attacks first
+        //if (attackersTurn)
+        //{
+            //roll dice for both attacker and defender
+            //NOTE: When ShowDiceUI is enabled, it immediately begins rolling
+            attackerDice.ShowDiceUI(true);
+
+            //if defender is not guarding, then only 1 die is rolled.
+            if (defender.characterState == Character.CharacterState.Guarding)
+            {
+                defenderDice.ShowDiceUI(true);
+            }
+            else
+            {
+                defenderDice.ShowSingleDieUI(true);
+            }
+
+            float currentTime = Time.time;
+            yield return new WaitForSeconds(1);
+
+        //get roll results.
+            attackRollResult = attackerDice.RollDice();
+            defendRollResult = (defender.characterState == Character.CharacterState.Guarding) ? defenderDice.RollDice() : defenderDice.RollSingleDie();
+            perfectDefenseMod = defenderDice.RolledTwelve() ? 0 : 1;
+            criticalDamageMod = attackerDice.RolledTwelve() ? 2 : 1;
+
+        //attack is performed.
+        yield return new WaitForSeconds(1);
+        yield return Attack(attacker, defender);
+
+        //damage is dealt. If defender is alive and is not the current attacker, they take their turn.
+        /*if (!defendersTurn && defender.characterState != Character.CharacterState.Guarding)
+        {
+            defendersTurn = true;
+            yield return SimulateDiceRoll(defenderDice, attackerDice, defender, attacker);
+        }*/
+        
+        //if we get here, combat is over.
+
+        //}
+
+        /*if (!attackerTurnOver )
         {
             //show random values for a duration then get the rolled values
             float rollDuration = 0.4f;
@@ -510,8 +559,11 @@ public class Combat : MonoBehaviour
             defenderTotalDefense.text = "";
             //int attackRollResult = 0;
             //int defendRollResult = 0;
+
+            
             while (Time.time < currentTime + rollDuration)
             {
+                
                 attackRollResult = attackerDice.RollDice();
                 attackerDieOneGUI.text = attackerDice.die1.ToString();
                 attackerDieTwoGUI.text = attackerDice.die2.ToString();
@@ -520,9 +572,12 @@ public class Combat : MonoBehaviour
                 //state = Character.CharacterState.Guarding;
                 //defendRollResult = defender.characterState == Character.CharacterState.Guarding ? defenderDice.RollDice() : defenderDice.RollSingleDie();
 
+                
                 //roll dice for defender. check the defender's roll for perfect defense
                 if (defender.characterState == Character.CharacterState.Guarding)
                 {
+                    defenderDice.ShowDiceUI(true);
+
                     defenderCounterattacking = false;
                     defendRollResult = defenderDice.RollDice();
                     if (defenderDice.die1 + defenderDice.die2 >= 12)
@@ -537,6 +592,7 @@ public class Combat : MonoBehaviour
                 }
                 else
                 {
+                    defenderDice.ShowSingleDieUI(true);
                     defendRollResult = defenderDice.RollSingleDie();
                     defenderCounterattacking = true;
                     perfectDefenseMod = 1;
@@ -557,8 +613,10 @@ public class Combat : MonoBehaviour
             defendRollResult += Mathf.RoundToInt(defender.dfp * defender.dfpMod);
             defenderTotalDefense.text = defendRollResult.ToString();
 
-            //attackerTurnOver = true;
-            yield return ResolveDamage(attacker, defender);
+            attackerTurnOver = true;
+            //yield return ResolveDamage(attacker, defender);
+            yield return new WaitForSeconds(1);
+            yield return Attack(attacker, defender);
         }
         else  //defender attacks their attacker
         {
@@ -593,8 +651,19 @@ public class Combat : MonoBehaviour
             attackerTotalAttackDamage.text = defendRollResult.ToString();
 
             defenderCounterattacking = false;
-            yield return ResolveDamage(defender, attacker);
-        }
+
+            //attacker begins their attack first
+            //yield return ResolveDamage(defender, attacker);
+            yield return new WaitForSeconds(1);
+            yield return Attack(attacker, defender);
+        }*/
+    }
+
+    IEnumerator Attack(Character attacker, Character defender)
+    {
+        // attacker.chosenSkill.ActivateSkill(attacker, defender);
+        attacker.Attack(attacker.chosenSkill, defender);
+        yield return null;
     }
 
     private IEnumerator ResolveDamage(Character attacker, Character defender)
@@ -603,7 +672,7 @@ public class Combat : MonoBehaviour
         if (damage < 0)
             damage = 0;
 
-        defender.healthPoints -= damage;
+        defender.healthPoints -= damage * criticalDamageMod;
         if (defender.healthPoints < 0)
             defender.healthPoints = 0;
 

@@ -13,4 +13,10 @@ public abstract class ActiveSkill : Skill
     public Dice dice;
     public enum SkillAttribute { Damage, Restorative, Buff, Debuff }
     public SkillAttribute attribute;
+
+    //moves/animates the character when skill is activated.
+    public virtual IEnumerator Animate(Character character) { yield return null; }
+
+    //this is used when the character moves towards its target
+    public virtual IEnumerator Animate(Character character, Vector3 destination) { yield return null; }
 }
