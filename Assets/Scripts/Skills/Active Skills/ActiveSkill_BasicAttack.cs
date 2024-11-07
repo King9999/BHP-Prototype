@@ -38,9 +38,23 @@ public class ActiveSkill_BasicAttack : ActiveSkill
         Hunter hunter = character as Hunter;
         //if (hunter.equippedWeapon.weaponType == Weapon.WeaponType.BeamSword)
         //{
-            float moveSpeed = 16;
-            //run up to target
-            while(hunter.transform.position != destination)
+            float moveSpeed = 12;
+
+        //get the space in fron of target
+        float direction = destination.x - hunter.transform.position.x;
+        float newX = 0;
+        if (destination.x >= hunter.transform.position.x)
+        {
+            newX = destination.x - 2;
+        }
+        else
+        {
+            newX = destination.x + 2;
+        }
+
+        destination = new Vector3(newX, destination.y, destination.z);
+            //run up to space in front of target
+            while (hunter.transform.position != destination)
             {
                 hunter.transform.position = Vector3.MoveTowards(hunter.transform.position, destination, moveSpeed * Time.deltaTime);
                 yield return null;
