@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 
 public abstract class ActiveSkill : Skill
@@ -11,7 +12,7 @@ public abstract class ActiveSkill : Skill
     public int minRange, maxRange;      //skills can have their own range, separate from the equipped weapon.
                                         //
     public Dice dice;
-    public enum SkillAttribute { Damage, Restorative, Buff, Debuff }
+    public enum SkillAttribute { PhysDamage, PsychDamage, Restorative, Buff, Debuff }
     public SkillAttribute attribute;
 
     //moves/animates the character when skill is activated.
@@ -19,4 +20,17 @@ public abstract class ActiveSkill : Skill
 
     //this is used when the character moves towards its target
     public virtual IEnumerator Animate(Character character, Vector3 destination) { yield return null; }
+    public virtual float CalculateDamage(Character attacker, Character defender, int attackDiceRoll, int defenderDiceRoll) 
+    {
+        float totalDamage = 0;
+        if (attribute == SkillAttribute.PhysDamage)
+        {
+            totalDamage = Mathf.RoundToInt((attacker.atp * attacker.atpMod + attackDiceRoll) * dmgMod - (defender.dfp * defender.dfpMod + defenderDiceRoll));
+        }
+        else if (attribute == SkillAttribute.PsychDamage)
+        {
+            totalDamage = Mathf.RoundToInt((attacker.mnp * attacker.mnpMod + attackDiceRoll) * dmgMod - (defender.rst * defender.rstMod + defenderDiceRoll));
+        }
+        return totalDamage; 
+    }
 }

@@ -41,13 +41,13 @@ public class ActiveSkill_BasicAttack : ActiveSkill
             float moveSpeed = 12;
 
         //get the space in fron of target
-        float direction = destination.x - hunter.transform.position.x;
+        //float direction = destination.x - hunter.transform.position.x;
         float newX = 0;
-        if (destination.x >= hunter.transform.position.x)
+        if (destination.x > hunter.transform.position.x)
         {
             newX = destination.x - 2;
         }
-        else
+        else if (destination.x < hunter.transform.position.x)
         {
             newX = destination.x + 2;
         }

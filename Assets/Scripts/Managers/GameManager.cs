@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI monsterAtp, monsterDfp, monsterMnp, monsterRst, monsterEvd, monsterHp, monsterSp, monsterMov, monsterSpd;
     public TextMeshProUGUI attackerDieOneGUI, attackerDieTwoGUI, attackerAtp_total, attackerTotalAttackDamage;
     public TextMeshProUGUI defenderDieOneGUI, defenderDieTwoGUI, defenderDfp_total, defenderTotalDefense;
+    [SerializeField]private TextMeshProUGUI seedText;           //for debugging only
 
     [Header("---Inventory---")]
     public GameObject inventoryContainer;
@@ -91,11 +92,12 @@ public class GameManager : MonoBehaviour
         gameState = GameState.Dungeon;
         ChangeGameState(gameState);
 
-        /**** USE THE NEXT 4 LINES TO GET SEED FOR BUG TESTING*****/
-        /*System.Random random = new System.Random();
+        /**** USE THE NEXT 5 LINES TO GET SEED FOR BUG TESTING*****/
+        System.Random random = new System.Random();
         int seed = random.Next();
         Random.InitState(seed);
-        Debug.LogFormat("Seed: {0}", seed);*/
+        Debug.LogFormat("Seed: {0}", seed);
+        seedText.text = string.Format("Seed: {0}", seed);
 
         //create dungeon. dungeon mods are activated before the dungeon is generated.
         Dungeon dungeon = Singleton.instance.Dungeon;

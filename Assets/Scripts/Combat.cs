@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using TMPro;
+using UnityEditor.Compilation;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Events;
@@ -20,6 +21,7 @@ public class Combat : MonoBehaviour
     public float runMod, runPreventionMod;   //modifier to run chance. runPreventionMod is used by attacker to reduce chance to escape.
     public int perfectDefenseMod, criticalDamageMod;          //defense mod is 0 when defender rolls a 12
     public float runChance;                //affected by attacker and defender SPD
+    public float counterAttackMod;
 
 
 
@@ -271,6 +273,7 @@ public class Combat : MonoBehaviour
         runPreventionMod = 0;
         runMod = 0;
         criticalDamageMod = 1;
+        counterAttackMod = 1;
 
         //run chance. This is displayed when the defender hovers over the run button.
         /*runChance = 1 - (attacker.spd * 0.01f * 2 - runPreventionMod) + (defender.spd * 0.01f + runMod);
@@ -281,7 +284,7 @@ public class Combat : MonoBehaviour
 
         //attacker takes their turn first. Attack would've already been chosen, so all attacker does is pick a card.
         attackerTurnOver = false;
-        defenderCounterattacking = false;
+        defenderCounterattacking = true;
 
         //attacker goes first, display card menu
         ChangeCombatState(combatState = CombatState.AttackerTurn);
@@ -519,6 +522,7 @@ public class Combat : MonoBehaviour
             //if defender is not guarding, then only 1 die is rolled.
             if (defender.characterState == Character.CharacterState.Guarding)
             {
+                defenderCounterattacking = false;
                 defenderDice.ShowDiceUI(true);
             }
             else
@@ -532,8 +536,13 @@ public class Combat : MonoBehaviour
         //get roll results.
             attackRollResult = attackerDice.RollDice();
             defendRollResult = (defender.characterState == Character.CharacterState.Guarding) ? defenderDice.RollDice() : defenderDice.RollSingleDie();
-            perfectDefenseMod = defenderDice.RolledTwelve() ? 0 : 1;
-            criticalDamageMod = attackerDice.RolledTwelve() ? 2 : 1;
+       // this.attackerDice = attackerDice;
+        //this.defenderDice = defenderDice;
+        //apply mods
+        perfectDefenseMod = defenderDice.RolledTwelve() ? 0 : 1;
+        criticalDamageMod = attackerDice.RolledTwelve() ? 2 : 1;
+        counterAttackMod = attacker.isDefender ? 0.5f : 1;
+
 
         //attack is performed.
         yield return new WaitForSeconds(1);
@@ -664,17 +673,19 @@ public class Combat : MonoBehaviour
         // attacker.chosenSkill.ActivateSkill(attacker, defender);
         attacker.Attack(attacker.chosenSkill, defender);
         yield return null;
+
+        yield return ResolveDamage(attacker, defender);
     }
 
     private IEnumerator ResolveDamage(Character attacker, Character defender)
     {
-        int damage = (attackRollResult - defendRollResult) * perfectDefenseMod;
-        if (damage < 0)
-            damage = 0;
+        Debug.Log("Dealing damage");
+
+        float damage = attacker.chosenSkill.CalculateDamage(attacker, defender, attackRollResult, defendRollResult);
+        damage = (damage < 0) ? 0 : damage * perfectDefenseMod * counterAttackMod;
 
         defender.healthPoints -= damage * criticalDamageMod;
-        if (defender.healthPoints < 0)
-            defender.healthPoints = 0;
+        defender.healthPoints = (defender.healthPoints < 0) ? 0 : defender.healthPoints;
 
         damageText.color = damageColor;
         damageText.text = damage.ToString();
@@ -708,10 +719,13 @@ public class Combat : MonoBehaviour
         //check if defender counterattacks, otherwise combat is over.
         
         attackerTurnOver = true;
-        if (attackerTurnOver && defenderCounterattacking)
+        if (/*attackerTurnOver &&*/ defenderCounterattacking)
         {
+            defenderCounterattacking = false;
+            //defender always uses basic attack
+            defender.chosenSkill = defender.skills[0] as ActiveSkill;
             yield return new WaitForSeconds(1);
-            yield return SimulateDiceRoll(attackerDice, defenderDice, attacker, defender);
+            yield return SimulateDiceRoll(defenderDice, attackerDice, defender, attacker);
         }
 
         //if we get here, combat has ended.

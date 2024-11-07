@@ -18,6 +18,8 @@ public class Weapon : Item
     public bool isEquipped;
     public enum WeaponType { BeamSword, Railgun, Augmenter }
     public WeaponType weaponType;
+    public enum DamageType { Physical, Psychic }
+    public DamageType damageType;
 
     void Reset()
     {
