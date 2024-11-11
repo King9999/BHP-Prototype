@@ -1191,7 +1191,10 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        return room;
+        if (i >= dungeon.dungeonRooms.Count)
+            return null;
+        else
+            return room;
         //return room.transform.position;
     }
 

@@ -65,9 +65,9 @@ public class Dice : MonoBehaviour
 
         //check if there's a bonus 
         GameManager gm = Singleton.instance.GameManager;
-        if (gm.movementMod > 0)
+        if (gm.movementMod > 0 || gm.ActiveCharacter().mov > 0)
         {
-            die1_text.text += "<color=green>+" + gm.movementMod + "</color>";
+            die1_text.text = string.Format("{0}<color=green>+{1}</color>", die1, gm.movementMod + gm.ActiveCharacter().mov);
         }
 
         return die1;

@@ -25,11 +25,11 @@ public abstract class ActiveSkill : Skill
         float totalDamage = 0;
         if (attribute == SkillAttribute.PhysDamage)
         {
-            totalDamage = Mathf.RoundToInt((attacker.atp * attacker.atpMod + attackDiceRoll) * dmgMod - (defender.dfp * defender.dfpMod + defenderDiceRoll));
+            totalDamage = (attacker.atp * attacker.atpMod + attackDiceRoll) * dmgMod - (defender.dfp * defender.dfpMod + defenderDiceRoll);
         }
         else if (attribute == SkillAttribute.PsychDamage)
         {
-            totalDamage = Mathf.RoundToInt((attacker.mnp * attacker.mnpMod + attackDiceRoll) * dmgMod - (defender.rst * defender.rstMod + defenderDiceRoll));
+            totalDamage = (attacker.mnp * attacker.mnpMod + attackDiceRoll) * dmgMod - (defender.rst * defender.rstMod + defenderDiceRoll);
         }
         return totalDamage; 
     }

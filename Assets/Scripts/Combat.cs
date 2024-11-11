@@ -682,7 +682,7 @@ public class Combat : MonoBehaviour
         Debug.Log("Dealing damage");
 
         float damage = attacker.chosenSkill.CalculateDamage(attacker, defender, attackRollResult, defendRollResult);
-        damage = (damage < 0) ? 0 : damage * perfectDefenseMod * counterAttackMod;
+        damage = (damage < 1) ? 0 : Mathf.Round(damage * perfectDefenseMod * counterAttackMod);
 
         defender.healthPoints -= damage * criticalDamageMod;
         defender.healthPoints = (defender.healthPoints < 0) ? 0 : defender.healthPoints;
