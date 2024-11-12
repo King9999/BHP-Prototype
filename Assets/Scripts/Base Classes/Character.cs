@@ -127,7 +127,7 @@ public abstract class Character : MonoBehaviour
 
     public void Attack(ActiveSkill skill, Character target) 
     {
-        StartCoroutine(skill.Animate(this, target.transform.position)); 
+        StartCoroutine(skill.Animate(this, target)); 
     }
     public void Defend() { }
 

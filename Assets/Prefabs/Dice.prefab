@@ -912,8 +912,8 @@ MonoBehaviour:
   dieImages:
   - {fileID: 4706577101427313610}
   - {fileID: 8388510719468655116}
-  die1_text: {fileID: 553024161018713362}
-  die2_text: {fileID: 8498295087831347086}
+  singleDieText: {fileID: 2253996844494142132}
+  TwoDiceText: {fileID: 553024161018713362}
   diceContainer1: {fileID: 800378897450880108}
   diceContainer2: {fileID: 4461534720554331198}
 --- !u!1 &8989443337159327033

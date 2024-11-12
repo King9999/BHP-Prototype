@@ -19,17 +19,23 @@ public abstract class ActiveSkill : Skill
     public virtual IEnumerator Animate(Character character) { yield return null; }
 
     //this is used when the character moves towards its target
-    public virtual IEnumerator Animate(Character character, Vector3 destination) { yield return null; }
+    public virtual IEnumerator Animate(Character character, Character target) { yield return null; }
     public virtual float CalculateDamage(Character attacker, Character defender, int attackDiceRoll, int defenderDiceRoll) 
     {
         float totalDamage = 0;
+        float totalAttack_Atp = (attacker.atp * attacker.atpMod + attackDiceRoll) * dmgMod;
+        float totalAttack_Mnp = (attacker.mnp * attacker.mnpMod + attackDiceRoll) * dmgMod;
+        float totalDefense_Dfp = defender.dfp * defender.dfpMod + defenderDiceRoll;
+        float totalDefense_Rst = defender.rst * defender.rstMod + defenderDiceRoll;
         if (attribute == SkillAttribute.PhysDamage)
         {
-            totalDamage = (attacker.atp * attacker.atpMod + attackDiceRoll) * dmgMod - (defender.dfp * defender.dfpMod + defenderDiceRoll);
+            Debug.LogFormat("Total Attack (ATP): {0}, Total Defense (DFP): {1}", totalAttack_Atp, totalDefense_Dfp);
+            totalDamage = totalAttack_Atp - totalDefense_Dfp;
         }
         else if (attribute == SkillAttribute.PsychDamage)
         {
-            totalDamage = (attacker.mnp * attacker.mnpMod + attackDiceRoll) * dmgMod - (defender.rst * defender.rstMod + defenderDiceRoll);
+            Debug.LogFormat("Total Attack (MNP): {0}, Total Defense (RST): {1}", totalAttack_Mnp, totalDefense_Rst);
+            totalDamage = totalAttack_Mnp - totalDefense_Rst;
         }
         return totalDamage; 
     }

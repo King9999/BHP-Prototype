@@ -32,7 +32,7 @@ public class ActiveSkill_BasicAttack : ActiveSkill
         float totalDamage = Mathf.Round(user.atp + diceRoll) * dmgMod - (target.dfp + singleDieRoll);
     }
 
-    public override IEnumerator Animate(Character character, Vector3 destination)
+    public override IEnumerator Animate(Character character, Character target/*Vector3 destination*/)
     {
         //different function depending on whether weapon is ranged or melee
         Hunter hunter = character as Hunter;
@@ -41,6 +41,7 @@ public class ActiveSkill_BasicAttack : ActiveSkill
             float moveSpeed = 12;
 
             //get the space in fron of target
+            Vector3 destination = target.transform.position;
             //float direction = destination.x - hunter.transform.position.x;
             float newX = 0;
             if (destination.x > hunter.transform.position.x)
@@ -63,7 +64,7 @@ public class ActiveSkill_BasicAttack : ActiveSkill
 
             //deal damage, then return to original position.
             GameManager gm = Singleton.instance.GameManager;
-            gm.combatManager.DoDamage(hunter);
+            gm.combatManager.DoDamage(hunter, target);
 
             yield return new WaitForSeconds(0.5f);
             hunter.transform.position = originalPos;
@@ -72,7 +73,7 @@ public class ActiveSkill_BasicAttack : ActiveSkill
         {
             //ranged attack. Just call sprite animation
             GameManager gm = Singleton.instance.GameManager;
-            gm.combatManager.DoDamage(hunter);
+            gm.combatManager.DoDamage(hunter, target);
 
             yield return new WaitForSeconds(0.5f);
             //yield return null;

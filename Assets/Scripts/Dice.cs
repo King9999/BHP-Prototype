@@ -11,7 +11,7 @@ public class Dice : MonoBehaviour
     public int die1, die2;
     public Sprite[] diceSprites;
     public Image[] dieImages;     //0 is die 1, 1 is die 2
-    public TextMeshProUGUI die1_text, die2_text;
+    public TextMeshProUGUI singleDieText, TwoDiceText;
     bool showDice, showSingleDie;
     public GameObject diceContainer1, diceContainer2;   //dice container 2 shows single die roll
 
@@ -50,8 +50,8 @@ public class Dice : MonoBehaviour
         die2 = Random.Range(1, 7);
         dieImages[0].sprite = diceSprites[die1 - 1];
         dieImages[1].sprite = diceSprites[die2 - 1];
-        die1_text.text = die1.ToString();
-        die2_text.text = die2.ToString();
+        TwoDiceText.text = string.Format("{0}", die1 + die2);
+        //die2_text.text = die2.ToString();
         return die1 + die2;
     }
 
@@ -61,13 +61,13 @@ public class Dice : MonoBehaviour
         die1 = Random.Range(1, 7);
         die2 = 0;
         dieImages[0].sprite = diceSprites[die1 - 1];
-        die1_text.text = die1.ToString();
+        singleDieText.text = die1.ToString();
 
         //check if there's a bonus 
         GameManager gm = Singleton.instance.GameManager;
-        if (gm.movementMod > 0 || gm.ActiveCharacter().mov > 0)
+        if (gm.gameState != GameManager.GameState.Combat && (gm.movementMod > 0 || gm.ActiveCharacter().mov > 0))
         {
-            die1_text.text = string.Format("{0}<color=green>+{1}</color>", die1, gm.movementMod + gm.ActiveCharacter().mov);
+            singleDieText.text = string.Format("{0}<color=green>+{1}</color>", die1, gm.movementMod + gm.ActiveCharacter().mov);
         }
 
         return die1;
@@ -81,9 +81,9 @@ public class Dice : MonoBehaviour
             showDice = true;
             Image[] images = diceContainer1.GetComponentsInChildren<Image>();
             dieImages[0] = images[1];   //because there are 2 image objects, we want the die image located at index 1.
-            die1_text = diceContainer1.GetComponentInChildren<TextMeshProUGUI>();
-            die1_text.text = "";
-            die2_text.text = "";
+            TwoDiceText = diceContainer1.GetComponentInChildren<TextMeshProUGUI>();
+            TwoDiceText.text = "";
+            //die2_text.text = "";
         }
         else
         {
@@ -99,9 +99,9 @@ public class Dice : MonoBehaviour
             showSingleDie = true;
             Image[] images = diceContainer2.GetComponentsInChildren<Image>();
             dieImages[0] = images[1]; //because there are 2 image objects, we want the die image located at index 1.
-            die1_text = diceContainer2.GetComponentInChildren<TextMeshProUGUI>();
-            die1_text.text = "";
-            die2_text.text = "";
+            singleDieText = diceContainer2.GetComponentInChildren<TextMeshProUGUI>();
+            singleDieText.text = "";
+            //die2_text.text = "";
         }
         else
         {

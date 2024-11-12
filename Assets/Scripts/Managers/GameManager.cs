@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
 
         /**** USE THE NEXT 5 LINES TO GET SEED FOR BUG TESTING*****/
         System.Random random = new System.Random();
-        int seed = random.Next();
+        int seed = 654978383; // random.Next();
         Random.InitState(seed);
         Debug.LogFormat("Seed: {0}", seed);
         seedText.text = string.Format("Seed: {0}", seed);
