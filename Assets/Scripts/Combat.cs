@@ -674,7 +674,13 @@ public class Combat : MonoBehaviour
         attacker.Attack(attacker.chosenSkill, defender);
         yield return null;
 
-        yield return ResolveDamage(attacker, defender);
+        //yield return ResolveDamage(attacker, defender);
+    }
+
+    public void DoDamage(Character attacker)
+    {
+        Character defender = defenderRoom.character;
+        StartCoroutine(ResolveDamage(attacker, defender));
     }
 
     private IEnumerator ResolveDamage(Character attacker, Character defender)

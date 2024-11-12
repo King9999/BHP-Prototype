@@ -36,23 +36,24 @@ public class ActiveSkill_BasicAttack : ActiveSkill
     {
         //different function depending on whether weapon is ranged or melee
         Hunter hunter = character as Hunter;
-        //if (hunter.equippedWeapon.weaponType == Weapon.WeaponType.BeamSword)
-        //{
+        if (hunter.equippedWeapon.weaponType == Weapon.WeaponType.BeamSword)
+        {
             float moveSpeed = 12;
 
-        //get the space in fron of target
-        //float direction = destination.x - hunter.transform.position.x;
-        float newX = 0;
-        if (destination.x > hunter.transform.position.x)
-        {
-            newX = destination.x - 2;
-        }
-        else if (destination.x < hunter.transform.position.x)
-        {
-            newX = destination.x + 2;
-        }
+            //get the space in fron of target
+            //float direction = destination.x - hunter.transform.position.x;
+            float newX = 0;
+            if (destination.x > hunter.transform.position.x)
+            {
+                newX = destination.x - 2;
+            }
+            else if (destination.x < hunter.transform.position.x)
+            {
+                newX = destination.x + 2;
+            }
 
-        destination = new Vector3(newX, destination.y, destination.z);
+            destination = new Vector3(newX, destination.y, destination.z);
+            Vector3 originalPos = hunter.transform.position;
             //run up to space in front of target
             while (hunter.transform.position != destination)
             {
@@ -60,14 +61,22 @@ public class ActiveSkill_BasicAttack : ActiveSkill
                 yield return null;
             }
 
-            //attack animation
+            //deal damage, then return to original position.
+            GameManager gm = Singleton.instance.GameManager;
+            gm.combatManager.DoDamage(hunter);
 
-        //}
-       // else
-        //{
+            yield return new WaitForSeconds(0.5f);
+            hunter.transform.position = originalPos;
+        }
+        else
+        {
             //ranged attack. Just call sprite animation
-           // yield return null;
-        //}
+            GameManager gm = Singleton.instance.GameManager;
+            gm.combatManager.DoDamage(hunter);
+
+            yield return new WaitForSeconds(0.5f);
+            //yield return null;
+        }
     }
 
 }
