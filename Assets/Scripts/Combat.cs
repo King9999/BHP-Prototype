@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor.Compilation;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -589,7 +590,11 @@ public class Combat : MonoBehaviour
         damageText.color = damageColor;
         damageText.text = damage.ToString();
         damageText.gameObject.SetActive(true);
-        damageText.transform.position = Camera.main.WorldToScreenPoint(defender.transform.position);
+
+        //set position based on who's the current defender
+        float xPos = defender.isDefender ? 6 : -1;
+        Vector3 newPos = new Vector3(defender.transform.position.x + xPos, defender.transform.position.y, defender.transform.position.z);
+        damageText.transform.position = Camera.main.WorldToScreenPoint(newPos);
 
         //update HP
         GameManager gm = Singleton.instance.GameManager;
