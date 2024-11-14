@@ -63,8 +63,11 @@ public class ActiveSkill_BasicAttack : ActiveSkill
             }
 
             //deal damage, then return to original position.
-            GameManager gm = Singleton.instance.GameManager;
-            gm.combatManager.DoDamage(hunter, target);
+            //GameManager gm = Singleton.instance.GameManager;
+            //gm.combatManager.DoDamage(hunter, target);
+
+            Combat combat = Singleton.instance.Combat;
+            combat.DoDamage(hunter, target);
 
             yield return new WaitForSeconds(0.5f);
             hunter.transform.position = originalPos;

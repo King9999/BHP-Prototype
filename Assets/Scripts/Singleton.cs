@@ -30,6 +30,9 @@ public class Singleton : MonoBehaviour
     //public SaveState saveState;
     //public bool saveStateFound;
 
+    public Combat Combat { get; set; }
+    public Character attacker, defender;        //used to transfer character data to and from combat.
+
     void Awake()
     {
         if (instance != null && instance != this)

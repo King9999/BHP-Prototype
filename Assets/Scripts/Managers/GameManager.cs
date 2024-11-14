@@ -1,23 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using static GameManager;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
-using static UnityEditor.PlayerSettings;
-using static UnityEditor.Progress;
+using UnityEngine.SceneManagement;
 
 /* handles the game state */
 public class GameManager : MonoBehaviour
 {
-    //hunter stats
-    //[Header("---Hunter---")]
-    //public Hunter hunterPrefab;
-    //public List<Hunter> hunters;
+    public GameObject gameViewController;   //used to hide/show all gameobjects in the scene. Is hidden when combat scene is active.
     [Header("---Camera---")]
     public Camera gameCamera;       //isometric camera. Use this to move camera around the scene.
     Vector3 defaultCameraPos { get; } = new Vector3(0, 5, -10); //Z value has to be -10 so sprites aren't cut off at certain angles.
@@ -29,21 +20,21 @@ public class GameManager : MonoBehaviour
     public int defenderTotalRoll;   //single die roll + DFP + any other bonuses
 
     [Header("---UI---")]
-    public TextMeshProUGUI hunterName;
+    /*public TextMeshProUGUI hunterName;
     public TextMeshProUGUI hunterStr, hunterVit, hunterMnt, hunterSpd, hunterAtp, hunterDfp, hunterMnp, hunterRst, hunterEvd, hunterHp, hunterSp, hunterMov;
     public TextMeshProUGUI strPointsGUI, spdPointsGUI, vitPointsGUI, mntPointsGUI;
     public TextMeshProUGUI equippedWeaponText, equippedArmorText, equippedAccText;
     public TextMeshProUGUI monsterName;
     public TextMeshProUGUI monsterAtp, monsterDfp, monsterMnp, monsterRst, monsterEvd, monsterHp, monsterSp, monsterMov, monsterSpd;
     public TextMeshProUGUI attackerDieOneGUI, attackerDieTwoGUI, attackerAtp_total, attackerTotalAttackDamage;
-    public TextMeshProUGUI defenderDieOneGUI, defenderDieTwoGUI, defenderDfp_total, defenderTotalDefense;
+    public TextMeshProUGUI defenderDieOneGUI, defenderDieTwoGUI, defenderDfp_total, defenderTotalDefense;*/
     [SerializeField]private TextMeshProUGUI seedText;           //for debugging only
 
-    [Header("---Inventory---")]
+    /*[Header("---Inventory---")]
     public GameObject inventoryContainer;
     public GameObject skillContainer;
     public List<ItemObject> hunterInventory;
-    public List<SkillObject> hunterSkills;
+    public List<SkillObject> hunterSkills;*/
 
     [Header("---Combat---")]
     public Combat combatManager;
@@ -169,7 +160,11 @@ public class GameManager : MonoBehaviour
                 ActiveCharacter().targetChar = character; 
             }
             ChangeGameState(gameState = GameState.Combat);
-            //StartCombat(ActiveCharacter(), ActiveCharacter().targetChar);
+            /*Singleton.instance.attacker = ActiveCharacter();
+            Singleton.instance.defender = ActiveCharacter().targetChar;
+            SceneManager.LoadScene("Battle", LoadSceneMode.Additive);
+            //SceneManager.UnloadSceneAsync("Battle");          //use this to unload combat when it's done.
+            gameViewController.SetActive(false);*/
         }
     }
 
@@ -390,7 +385,13 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.Combat:
-                StartCombat(ActiveCharacter(), ActiveCharacter().targetChar);
+                Singleton s = Singleton.instance;
+                s.attacker = ActiveCharacter();
+                s.defender = ActiveCharacter().targetChar;
+                SceneManager.LoadScene("Battle", LoadSceneMode.Additive);
+                //SceneManager.UnloadSceneAsync("Battle");          //use this to unload combat when it's done.
+                gameViewController.SetActive(false);
+                //StartCombat(ActiveCharacter(), ActiveCharacter().targetChar);
                 break;
         }
     }
@@ -404,7 +405,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        monsterName.text = monster.characterName;
+        /*monsterName.text = monster.characterName;
         monsterAtp.text = monster.atp.ToString();
         monsterDfp.text = monster.dfp.ToString();
         monsterMnp.text = monster.mnp.ToString();
@@ -413,7 +414,7 @@ public class GameManager : MonoBehaviour
         monsterMov.text = monster.mov.ToString();
         monsterSpd.text = monster.spd.ToString();
         monsterHp.text = monster.healthPoints + "/" + monster.maxHealthPoints;
-        monsterSp.text = monster.skillPoints + "/" + monster.maxSkillPoints;
+        monsterSp.text = monster.skillPoints + "/" + monster.maxSkillPoints;*/
     }
 
 

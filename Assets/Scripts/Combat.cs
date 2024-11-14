@@ -17,6 +17,8 @@ public class Combat : MonoBehaviour
     [SerializeField] private Dice attackerDice, defenderDice;
     [SerializeField] private int attackRollResult, defendRollResult;
     [SerializeField] private bool defenderCounterattacking, attackerTurnOver;
+    [SerializeField] private Camera combatCamera;
+    Vector3 defaultCameraPos { get; } = new Vector3(0, 5, -10);
 
     [Header("---Modifiers---")]
     public float runMod, runPreventionMod;   //modifier to run chance. runPreventionMod is used by attacker to reduce chance to escape.
@@ -59,7 +61,7 @@ public class Combat : MonoBehaviour
     [Header("---Combat State---")]
     public CombatState combatState;
     private Coroutine combatCoroutine;
-    
+
 
     // Start is called before the first frame update
     /*void Start()
@@ -92,6 +94,13 @@ public class Combat : MonoBehaviour
         attackerRoom = fieldGrid[0, 2];
         defenderRoom = fieldGrid[3, 2];
     }*/
+
+    private void Start()
+    {
+        Singleton.instance.Combat = this;
+        InitSetup();
+        StartCombat(Singleton.instance.attacker, Singleton.instance.defender);
+    }
 
     private void OnEnable()
     {
@@ -137,6 +146,9 @@ public class Combat : MonoBehaviour
         //get the rooms for combatants. They should be the middle column.
         attackerRoom = fieldGrid[0, 2];
         defenderRoom = fieldGrid[3, 2];
+
+        combatCamera.transform.position = defaultCameraPos;
+
     }
 
     private void ShowCardMenu(bool toggle, Character character = null)
@@ -250,6 +262,7 @@ public class Combat : MonoBehaviour
         //hide Hunter UI and dungeon layout
         SetNonCombatUI(false);
 
+
         //position the combatants
         SetCharacterPosition(attacker, attackerRoom);
         SetCharacterPosition(defender, defenderRoom);
@@ -260,7 +273,8 @@ public class Combat : MonoBehaviour
         //position the camera so that it's centered on the battlefield.
         GameManager gm = Singleton.instance.GameManager;
         //Vector3 newPos = fieldGrid[2, 2].transform.position;
-        gm.gameCamera.transform.position = new Vector3(-1, 5, -2);  //not sure if the camera will remain consistent with these values.
+        //gm.gameCamera.transform.position = new Vector3(-1, 5, -2);  //not sure if the camera will remain consistent with these values.
+        combatCamera.transform.position = new Vector3(-1, 5, -2);
 
         //setup UI
         attackerNameText.text = attacker.characterName;
