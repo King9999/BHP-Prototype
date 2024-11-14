@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 /* handles the game state */
 public class GameManager : MonoBehaviour
@@ -80,8 +81,8 @@ public class GameManager : MonoBehaviour
     {
         Singleton.instance.GameManager = this;      //master singleton captures
         Debug.Log("Hunter Manager status: " + Singleton.instance.HunterManager);
-        gameState = GameState.Dungeon;
-        ChangeGameState(gameState);
+       // gameState = GameState.Dungeon;
+        //ChangeGameState(gameState);
 
         /**** USE THE NEXT 5 LINES TO GET SEED FOR BUG TESTING*****/
         System.Random random = new System.Random();
@@ -130,7 +131,7 @@ public class GameManager : MonoBehaviour
         gameCamera.transform.position = defaultCameraPos;
         //moveCameraToCharacter = true;
         currentCharacter = 0;
-        StartCoroutine(TakeTurn(ActiveCharacter()));
+        //StartCoroutine(TakeTurn(ActiveCharacter()));
         dice.dieImages[0].sprite = dice.diceSprites[0];
         dice.dieImages[1].sprite = dice.diceSprites[0];
         //gameCamera.transform.position = new Vector3(newCamPos.x - 4, 5, newCamPos.z + 4);
@@ -144,6 +145,7 @@ public class GameManager : MonoBehaviour
         {
             hm.hunters[0].inventory.Add(im.lootTable.GetItem(Table.ItemType.Consumable));
         }*/
+        ChangeGameState(gameState = GameState.Dungeon);
     }
 
     // Update is called once per frame
@@ -157,7 +159,8 @@ public class GameManager : MonoBehaviour
                 if (character == ActiveCharacter())
                     continue;
 
-                ActiveCharacter().targetChar = character; 
+                ActiveCharacter().targetChar = character;
+                ActiveCharacter().chosenSkill = ActiveCharacter().skills[0] as ActiveSkill;
             }
             ChangeGameState(gameState = GameState.Combat);
             /*Singleton.instance.attacker = ActiveCharacter();
@@ -324,6 +327,7 @@ public class GameManager : MonoBehaviour
 
                 if (charFound)
                 {
+                    selectTile.SetActive(false);
                     ChangeGameState(gameState = GameState.Combat);
                     //StartCombat(ActiveCharacter(), turnOrder[j]);
                 }
@@ -380,14 +384,22 @@ public class GameManager : MonoBehaviour
     {
         switch(gameState)
         {
+            
             case GameState.HunterSetup:
                 //show the setup screen where player allocates points.
                 break;
 
+            case GameState.Dungeon:
+                StartCoroutine(CheckCharacterState(ActiveCharacter()));
+                break;
+
             case GameState.Combat:
+                characterActed = true;
                 Singleton s = Singleton.instance;
                 s.attacker = ActiveCharacter();
                 s.defender = ActiveCharacter().targetChar;
+                s.attackerLastRoom = ActiveCharacter().room;
+                s.defenderLastRoom = ActiveCharacter().targetChar.room;
                 SceneManager.LoadScene("Battle", LoadSceneMode.Additive);
                 //SceneManager.UnloadSceneAsync("Battle");          //use this to unload combat when it's done.
                 gameViewController.SetActive(false);
@@ -478,7 +490,7 @@ public class GameManager : MonoBehaviour
     public void StartCombat(Character attacker, Character defender)
     {
         characterActed = true;
-        selectTile.gameObject.SetActive(false);
+        selectTile.SetActive(false);
         combatManager.gameObject.SetActive(true);
         combatManager.StartCombat(attacker, defender);
     }
@@ -1249,13 +1261,18 @@ public class GameManager : MonoBehaviour
         {
             EndTurn();
         }
+        else if (!characterActed && !characterMoved)
+        {
+            StartCoroutine(TakeTurn(character));
+        }
         else
         {
+            HunterManager hm = Singleton.instance.HunterManager;
             //disable move button if moved, or other buttons if character took action.
-            if (characterMoved)
+            if (characterMoved && !characterActed)
             {
                 yield return MoveCameraToCharacter(character);
-                HunterManager hm = Singleton.instance.HunterManager;
+                
                 if (!character.cpuControlled)
                 {
                     //check if hunter has too many items in inventory.
@@ -1294,6 +1311,12 @@ public class GameManager : MonoBehaviour
                     }
                     
                 }
+            }
+            else if (!characterMoved && characterActed)
+            {
+                //move character
+                if (character.cpuControlled)
+                    hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.Moving, (Hunter)character);
             }
         }
     }

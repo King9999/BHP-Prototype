@@ -8,6 +8,7 @@ using UnityEditor.Compilation;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 /* This is the combat system. It takes two character objects and two pairs of dice. Combat lasts for 1 round.
  In cases where one character uses a ranged attack and the other character uses a melee counterattack, there will be a 
@@ -285,6 +286,7 @@ public class Combat : MonoBehaviour
         defenderHealthPoints.text = string.Format("{0} / {1}",defender.healthPoints, defender.maxHealthPoints);
         defenderSkillPoints.text = string.Format("{0} / {1}", defender.skillPoints, defender.maxSkillPoints);
 
+        //set up mod values
         perfectDefenseMod = 1;  //default value
         runPreventionMod = 0;
         runMod = 0;
@@ -293,10 +295,6 @@ public class Combat : MonoBehaviour
         defenseBoost = 0.5f;
 
         //run chance. This is displayed when the defender hovers over the run button.
-        /*runChance = 1 - (attacker.spd * 0.01f * 2 - runPreventionMod) + (defender.spd * 0.01f + runMod);
-        if (runChance < 0)
-            runChance = 0;*/
-
         UpdateRunChance(attacker, defender, runPreventionMod, runMod);
 
         //attacker takes their turn first. Attack would've already been chosen, so all attacker does is pick a card.
@@ -306,24 +304,25 @@ public class Combat : MonoBehaviour
         //attacker goes first, display card menu
         ChangeCombatState(combatState = CombatState.AttackerTurn);
         
-        //StartCoroutine(SimulateDiceRoll(attackerDice, defenderDice, attacker, defender));
-        /*int totalAttackRoll = GetTotalRoll_Attacker(attacker);
-        attackerDieOneGUI.text = attackerDice.die1.ToString();
-        attackerDieTwoGUI.text = attackerDice.die2.ToString();
-        attackerAtp_total.text = "ATP\n+" + attacker.atp;
-        attackerTotalAttackDamage.text = totalAttackRoll.ToString();
-
-        //defender
-        int totalDefendRoll = GetTotalRoll_Defender(defender);
-        defenderDieOneGUI.text = defenderDice.die1.ToString();
-        defenderDieTwoGUI.text = defenderDice.die2.ToString();
-        defenderDfp_total.text = "DFP\n+" + defender.dfp;
-        defenderTotalDefense.text = totalDefendRoll.ToString();*/
-
-        //calculate damage, starting with attacker dealing damage to defender.
-        //use coroutine to 
-
     }
+
+    //clean up. Must restore Game Manager and update UI.
+    private void EndCombat()
+    {
+        Singleton s = Singleton.instance;
+        GameManager gm = s.GameManager;
+        Room attackerLastRoom = s.attackerLastRoom;
+        Room defenderLastRoom = s.defenderLastRoom;
+        Dungeon dun = Singleton.instance.Dungeon;
+        SetNonCombatUI(true);
+        SceneManager.UnloadSceneAsync("Battle");
+        gm.gameViewController.SetActive(true);
+        dun.UpdateCharacterRoom(s.attacker, attackerLastRoom);
+        dun.UpdateCharacterRoom(s.defender, defenderLastRoom);
+        gm.ChangeGameState(gm.gameState = GameManager.GameState.Dungeon);
+    }
+    
+   
 
     public void UpdateRunChance(Character attacker, Character defender, float runPreventionMod, float runMod)
     {
@@ -648,6 +647,8 @@ public class Combat : MonoBehaviour
         }
 
         //if we get here, combat has ended.
+        yield return new WaitForSeconds(2);
+        EndCombat();
     }
     #endregion
 }

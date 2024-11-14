@@ -31,7 +31,9 @@ public class Singleton : MonoBehaviour
     //public bool saveStateFound;
 
     public Combat Combat { get; set; }
-    public Character attacker, defender;        //used to transfer character data to and from combat.
+    [Header("---combat data---")]
+    public Character attacker, defender;                //used to transfer character data to and from combat.
+    public Room attackerLastRoom, defenderLastRoom;     //characters are placed back to where they were before combat began.
 
     void Awake()
     {

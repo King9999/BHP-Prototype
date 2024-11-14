@@ -96,7 +96,11 @@ public class Dungeon : MonoBehaviour
         return room;
     }
 
-    //also updates character world position in the dungeon
+    /// <summary>
+    /// Places character into a given room. Will also update their world position.
+    /// </summary>
+    /// <param name="character">The character to be moved.</param>
+    /// <param name="room">The room to place the character.</param>
     public void UpdateCharacterRoom(Character character, Room room)
     {
         Vector3 roomPos = room.transform.position;
