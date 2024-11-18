@@ -112,7 +112,7 @@ public class HunterManager : MonoBehaviour
 
             case MenuState.ShowHunterHuds:
                 ui.ShowRivalHunterMenu(false);
-                ui.ShowHunterHuds(true);
+                //ui.ShowHunterHuds(true);
                 break;
         }
     }

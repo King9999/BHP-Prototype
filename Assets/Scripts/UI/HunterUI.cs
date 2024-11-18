@@ -153,8 +153,8 @@ public class HunterUI : MonoBehaviour
             {
                 hunterHudObjects[i].SetActive(true);
                 hunterHuds[i].hunterNameText.text = hunter.characterName;
-                hunterHuds[i].hunterHpText.text = hunter.healthPoints + "/" + hunter.maxHealthPoints;
-                hunterHuds[i].hunterSpText.text = hunter.skillPoints + "/" + hunter.maxSkillPoints;
+                hunterHuds[i].hunterHpText.text = string.Format("{0}/{1}", hunter.healthPoints, hunter.maxHealthPoints);
+                hunterHuds[i].hunterSpText.text = string.Format("{0}/{1}", hunter.skillPoints, hunter.maxSkillPoints);
                 //TODO: Add super meter slider here
                 hunterHuds[i].superMeterUI.value = 0;
                 i++;

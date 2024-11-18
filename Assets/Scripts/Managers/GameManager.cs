@@ -100,11 +100,13 @@ public class GameManager : MonoBehaviour
         im.SortTableWeight(im.lootTable.itemTables);
         dungeon.CreateDungeon();
 
-        //TODO: Set up turn order based on characters' SPD.
+        //Show UI for each hunter.
         HunterManager hm = Singleton.instance.HunterManager;
-        
+
+        hm.ui.ShowHunterHuds(true);
+
         //add all hunters to turn order, then sort.
-        foreach(Character hunter in hm.hunters)
+        foreach (Character hunter in hm.hunters)
         {
             turnOrder.Add(hunter);
         }
