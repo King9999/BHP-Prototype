@@ -317,19 +317,22 @@ public class Combat : MonoBehaviour
         Room defenderLastRoom = s.defenderLastRoom;
         Dungeon dun = Singleton.instance.Dungeon;
         SetNonCombatUI(true);
+
+        //update hunter UI
+        HunterManager hm = Singleton.instance.HunterManager;
+        for (int i = 0; i < hm.hunters.Count; i++)
+        {
+            hm.ui.hunterHuds[i].hunterHpText.text = string.Format("{0}/{1}", hm.hunters[i].healthPoints, hm.hunters[i].maxHealthPoints);
+            hm.ui.hunterHuds[i].hunterSpText.text = string.Format("{0}/{1}", hm.hunters[i].skillPoints, hm.hunters[i].maxSkillPoints);
+        }
+
         SceneManager.UnloadSceneAsync("Battle");
         gm.gameViewController.SetActive(true);
         dun.UpdateCharacterRoom(s.attacker, attackerLastRoom);
         dun.UpdateCharacterRoom(s.defender, defenderLastRoom);
         gm.ChangeGameState(gm.gameState = GameManager.GameState.Dungeon);
 
-        //update hunter UI
-        HunterManager hm = Singleton.instance.HunterManager;
-        for(int i = 0; i < hm.hunters.Count; i++)
-        {
-            hm.ui.hunterHuds[i].hunterHpText.text = string.Format("{0}/{1}", hm.hunters[i].healthPoints, hm.hunters[i].maxHealthPoints);
-            hm.ui.hunterHuds[i].hunterSpText.text = string.Format("{0}/{1}", hm.hunters[i].skillPoints, hm.hunters[i].maxSkillPoints);
-        }
+        
     }
     
    
@@ -402,7 +405,7 @@ public class Combat : MonoBehaviour
         }
     }
 
-    public void EnableTooltipUI(bool toggle)
+    private void EnableTooltipUI(bool toggle)
     {
         tooltipUI.SetActive(toggle);
     }

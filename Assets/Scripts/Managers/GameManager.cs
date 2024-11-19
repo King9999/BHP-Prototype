@@ -1213,6 +1213,36 @@ public class GameManager : MonoBehaviour
         //return room.transform.position;
     }
 
+    /// <summary>
+    /// Updates hunter's super meter by given amount
+    /// </summary>
+    /// <param name="hunter"></param>
+    /// <param name="amount">The amount of meter to give. max value is 1.</param>
+    private void UpdateSuperMeter(Hunter hunter, float amount)
+    {
+        if (amount < 0 || amount > 1)
+        {
+            Debug.LogError("Meter amount must be between 0 and 1!");
+            return;
+        }
+
+        HunterManager hm = Singleton.instance.HunterManager;
+        bool defenderFound = false;
+        int i = 0;
+        while (!defenderFound && i < hm.hunters.Count)
+        {
+            if (hm.hunters[i] == hunter)
+            {
+                defenderFound = true;
+                hm.ui.hunterHuds[i].superMeterUI.value += amount;
+            }
+            else
+            {
+                i++;
+            }
+        }
+    }
+
     Vector3 GetRoomsInDirection(RaycastHit hit)
     {
         //List<Vector3> positions = new List<Vector3>();
@@ -1372,6 +1402,11 @@ public class GameManager : MonoBehaviour
 
 
             HunterManager hm = Singleton.instance.HunterManager;
+
+            //gain super meter
+            UpdateSuperMeter(hunter, hm.SuperMeterGain_turnStart);
+
+
             if (!hunter.cpuControlled)
             {
                 hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Default);
