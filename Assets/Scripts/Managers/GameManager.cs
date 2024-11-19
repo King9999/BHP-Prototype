@@ -11,8 +11,8 @@ public class GameManager : MonoBehaviour
 {
     public GameObject gameViewController;   //used to hide/show all gameobjects in the scene. Is hidden when combat scene is active.
     [Header("---Camera---")]
-    public Camera gameCamera;       //isometric camera. Use this to move camera around the scene.
-    Vector3 defaultCameraPos { get; } = new Vector3(0, 5, -10); //Z value has to be -10 so sprites aren't cut off at certain angles.
+    public Camera gameCamera;               //isometric camera. Use this to move camera around the scene.
+    private Vector3 defaultCameraPos { get; } = new Vector3(0, 5, -10); //Z value has to be -10 so sprites aren't cut off at certain angles.
     //bool moveCameraToCharacter = false;
 
     [Header("---Dice---")]
@@ -21,35 +21,21 @@ public class GameManager : MonoBehaviour
     public int defenderTotalRoll;   //single die roll + DFP + any other bonuses
 
     [Header("---UI---")]
-    /*public TextMeshProUGUI hunterName;
-    public TextMeshProUGUI hunterStr, hunterVit, hunterMnt, hunterSpd, hunterAtp, hunterDfp, hunterMnp, hunterRst, hunterEvd, hunterHp, hunterSp, hunterMov;
-    public TextMeshProUGUI strPointsGUI, spdPointsGUI, vitPointsGUI, mntPointsGUI;
-    public TextMeshProUGUI equippedWeaponText, equippedArmorText, equippedAccText;
-    public TextMeshProUGUI monsterName;
-    public TextMeshProUGUI monsterAtp, monsterDfp, monsterMnp, monsterRst, monsterEvd, monsterHp, monsterSp, monsterMov, monsterSpd;
-    public TextMeshProUGUI attackerDieOneGUI, attackerDieTwoGUI, attackerAtp_total, attackerTotalAttackDamage;
-    public TextMeshProUGUI defenderDieOneGUI, defenderDieTwoGUI, defenderDfp_total, defenderTotalDefense;*/
     [SerializeField]private TextMeshProUGUI seedText;           //for debugging only
 
-    /*[Header("---Inventory---")]
-    public GameObject inventoryContainer;
-    public GameObject skillContainer;
-    public List<ItemObject> hunterInventory;
-    public List<SkillObject> hunterSkills;*/
+    [Header("---Turn order and count---")]
+    public List<Character> turnOrder;
+    public int turnCount;                       //tracks how many turns have passed in total since the game started.
 
     [Header("---Combat---")]
     public Combat combatManager;
 
-    [Header("---Loot Table---")]
-    public LootTable lootTable;
-
     [Header("---Movement & Attack Tile---")]
     public GameObject moveTileContainer, skillTileContainer;
     public GameObject moveTilePrefab, skillTilePrefab;
-    public GameObject selectTilePrefab;               //used to highligh move or attack tile.
+    public GameObject selectTilePrefab;               //used to highlight move or attack tile.
     public GameObject selectTile;
-    public List<Character> turnOrder;
-    int currentCharacter;
+    private int currentCharacter;
     public List<Room> movementPositions, attackPositions;     //holds valid positions for moving and attacking
     public List<GameObject> moveTileList, moveTileBin, skillTileList, skillTileBin;          //bin is used for recycling instantiated move tiles
 
@@ -1359,6 +1345,18 @@ public class GameManager : MonoBehaviour
     {
         characterActed = false;
         characterMoved = false;
+        turnCount++;
+        Debug.LogFormat("------Turn {0}------", turnCount);
+
+        //TODO: if monster spawns, they take their turn immediately.
+        HunterManager hm = Singleton.instance.HunterManager;
+        MonsterManager mm = Singleton.instance.MonsterManager;
+        if (mm.TimeToSpawnMonster())
+        {
+            Monster monster = mm.SpawnMonster(hm.AverageHunterLevel());
+            Debug.LogFormat("Monster is spawning. {0} is taking their turn", monster.characterName);
+            yield return TakeTurn(monster);
+        }
         //move camera to the active character
         yield return MoveCameraToCharacter(character);
 
@@ -1400,12 +1398,8 @@ public class GameManager : MonoBehaviour
             cm.DrawCard(hunter, cm.deck);
             Debug.LogFormat("Hunter {0} drew a card", hunter.characterName);
 
-
-            HunterManager hm = Singleton.instance.HunterManager;
-
             //gain super meter
             UpdateSuperMeter(hunter, hm.SuperMeterGain_turnStart);
-
 
             if (!hunter.cpuControlled)
             {
@@ -1452,6 +1446,10 @@ public class GameManager : MonoBehaviour
                     hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.Moving, hunter);
                 }
             }
+        }
+        else  //this is a monster, which is always CPU-controlled.
+        {
+
         }
         //hm.ui.ShowHunterMenu(true, character);
     }

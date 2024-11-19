@@ -24,10 +24,10 @@ public class Card_MoveThree : Card
 
     public override void ActivateCard_Combat(Hunter user)
     {
-        GameManager gm = Singleton.instance.GameManager;
+        Combat combat = Singleton.instance.Combat;
         if (user.isAttacker)
-            gm.combatManager.runPreventionMod += 0.3f;
+            combat.runPreventionMod += 0.3f;
         else
-            gm.combatManager.runMod += 0.3f;
+            combat.runMod += 0.3f;
     }
 }

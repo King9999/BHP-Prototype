@@ -41,7 +41,7 @@ public abstract class Monster : Character
     /* Generate monster stats based on the average level of the hunters.
      * The average will be calculated elsewhere.
      * */
-    public void InitialzeStats(int averageLevel)
+    public void InitializeStats(int averageLevel)
     {
         if (averageLevel < 1) return;
         //get average hunter level

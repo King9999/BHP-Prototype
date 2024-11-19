@@ -230,7 +230,19 @@ public class HunterManager : MonoBehaviour
         return hunterAI;
     }
 
-    
+    public int AverageHunterLevel()
+    {
+        int average = 0;
+
+        for (int i = 0; i < hunters.Count; i++)
+        {
+            average += hunters[i].hunterLevel;
+        }
+
+        average /= hunters.Count;
+
+        return average;
+    }
 
     
 

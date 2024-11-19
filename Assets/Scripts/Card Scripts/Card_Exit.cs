@@ -26,10 +26,10 @@ public class Card_Exit : Card
 
     public override void ActivateCard_Combat(Hunter user)
     {
-        GameManager gm = Singleton.instance.GameManager;
+        Combat combat = Singleton.instance.Combat;
         if (user.isAttacker)
-            gm.combatManager.runPreventionMod += 1;
+            combat.runPreventionMod += 1;
         else
-            gm.combatManager.runMod += 1;
+            combat.runMod += 1;
     }
 }

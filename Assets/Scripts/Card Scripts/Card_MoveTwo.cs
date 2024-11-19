@@ -24,10 +24,10 @@ public class Card_MoveTwo : Card
 
     public override void ActivateCard_Combat(Hunter user)
     {
-        GameManager gm = Singleton.instance.GameManager;
+        Combat combat = Singleton.instance.Combat;
         if (user.isAttacker)
-            gm.combatManager.runPreventionMod += 0.2f;
+            combat.runPreventionMod += 0.2f;
         else
-            gm.combatManager.runMod += 0.2f;
+            combat.runMod += 0.2f;
     }
 }

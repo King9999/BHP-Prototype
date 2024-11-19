@@ -8,7 +8,12 @@ public class MonsterManager : MonoBehaviour
     public List<Monster> masterMonsterList;
     public List<Monster> activeMonsters;        //monsters currently in the dungeon
     public List<Monster> graveyard;             //killed monsters go here and are reused when necessary.
+    public List<Entity_Spawner> spawners;
     public static MonsterManager instance;
+
+    private int spawnTimer { get; } = 8;
+    public int spawnMod;                        //used by dungeon mod to adjust spawn timer.
+    private int MaxMonsters { get; } = 8;       //doesn't include boss
 
     void Awake()
     {
@@ -21,22 +26,29 @@ public class MonsterManager : MonoBehaviour
         instance = this;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public int GetMonsterLimit()
     {
-        
+        HunterManager hm = Singleton.instance.HunterManager;
+        return MaxMonsters - hm.hunters.Count;
     }
 
-    // Update is called once per frame
-    void Update()
+    public bool TimeToSpawnMonster()
     {
-        
+        GameManager gm = Singleton.instance.GameManager;
+        return gm.turnCount % (spawnTimer - spawnMod) == 0;
     }
 
-    public void SpawnMonster(int monsterLevel)
+    public Monster SpawnMonster(int monsterLevel)
     {
-        Monster monster = Instantiate(masterMonsterList[0]);
-        monster.InitialzeStats(monsterLevel);
+        int randMonster = Random.Range(0, masterMonsterList.Count);
+        Monster monster = Instantiate(masterMonsterList[randMonster]);
+        monster.InitializeStats(monsterLevel);
+        
+
+        //TODO choose a spawner to spawn from.
+
+
         activeMonsters.Add(monster);
+        return monster;
     }
 }
