@@ -10,6 +10,7 @@ using JetBrains.Annotations;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor.PackageManager;
+//using System;
 
 /* This script handles hunter creation. The UI for hunter setup is here. */
 public class HunterManager : MonoBehaviour
@@ -40,6 +41,13 @@ public class HunterManager : MonoBehaviour
     public enum HunterAIState { Idle, Moving, UseSkill, RemovingExtraItem }  //Moving = looking for a space to move to. Will look for points of interest.
                                                     //UseSkill = use a skill if CPU found a valid target during the Moving state.
     public HunterAIState aiState;
+
+    //Super meter gain rates
+    //Automatically at the start of a Hunter’s turn(2.5%)
+    //Deal or take damage during combat(5%)
+
+    public float SuperMeterGain_turnStart { get; } = 0.025f;
+    public float SuperMeterGain_combatDamage { get; } = 0.05f;
 
     public static HunterManager instance;
 
@@ -249,8 +257,8 @@ public class HunterManager : MonoBehaviour
         ui.hunterRstText.text = hunter.rst.ToString();
         ui.hunterEvdText.text = string.Format("{0}%", (hunter.evd * 100));
         ui.hunterMovText.text = hunter.mov.ToString();
-        ui.hunterHpText.text = string.Format("{0} / {1}", hunter.healthPoints, hunter.maxHealthPoints);
-        ui.hunterSpText.text = string.Format("{0} / {1}", hunter.skillPoints, hunter.maxSkillPoints);
+        ui.hunterHpText.text = string.Format("{0}/{1}", hunter.healthPoints, hunter.maxHealthPoints);
+        ui.hunterSpText.text = string.Format("{0}/{1}", hunter.skillPoints, hunter.maxSkillPoints);
 
         //point allocation values
         ui.strPointsText.text = hunter.strPoints.ToString();

@@ -269,6 +269,8 @@ public class Combat : MonoBehaviour
         SetCharacterPosition(defender, defenderRoom);
         attacker.isAttacker = true;
         defender.isDefender = true;
+        attacker.isDefender = false;
+        defender.isAttacker = false;
         attackersTurn = true;
 
         //position the camera so that it's centered on the battlefield.
@@ -279,12 +281,12 @@ public class Combat : MonoBehaviour
 
         //setup UI
         attackerNameText.text = attacker.characterName;
-        attackerHealthPoints.text = string.Format("{0} / {1}", attacker.healthPoints, attacker.maxHealthPoints);
-        attackerSkillPoints.text = string.Format("{0} / {1}", attacker.skillPoints, attacker.maxSkillPoints);
+        attackerHealthPoints.text = string.Format("{0}/{1}", attacker.healthPoints, attacker.maxHealthPoints);
+        attackerSkillPoints.text = string.Format("{0}/{1}", attacker.skillPoints, attacker.maxSkillPoints);
 
         defenderNameText.text = defender.characterName;
-        defenderHealthPoints.text = string.Format("{0} / {1}",defender.healthPoints, defender.maxHealthPoints);
-        defenderSkillPoints.text = string.Format("{0} / {1}", defender.skillPoints, defender.maxSkillPoints);
+        defenderHealthPoints.text = string.Format("{0}/{1}",defender.healthPoints, defender.maxHealthPoints);
+        defenderSkillPoints.text = string.Format("{0}/{1}", defender.skillPoints, defender.maxSkillPoints);
 
         //set up mod values
         perfectDefenseMod = 1;  //default value
@@ -320,6 +322,14 @@ public class Combat : MonoBehaviour
         dun.UpdateCharacterRoom(s.attacker, attackerLastRoom);
         dun.UpdateCharacterRoom(s.defender, defenderLastRoom);
         gm.ChangeGameState(gm.gameState = GameManager.GameState.Dungeon);
+
+        //update hunter UI
+        HunterManager hm = Singleton.instance.HunterManager;
+        for(int i = 0; i < hm.hunters.Count; i++)
+        {
+            hm.ui.hunterHuds[i].hunterHpText.text = string.Format("{0}/{1}", hm.hunters[i].healthPoints, hm.hunters[i].maxHealthPoints);
+            hm.ui.hunterHuds[i].hunterSpText.text = string.Format("{0}/{1}", hm.hunters[i].skillPoints, hm.hunters[i].maxSkillPoints);
+        }
     }
     
    
@@ -395,6 +405,25 @@ public class Combat : MonoBehaviour
     public void EnableTooltipUI(bool toggle)
     {
         tooltipUI.SetActive(toggle);
+    }
+
+    private void UpdateSuperMeter(Hunter hunter)
+    {
+        HunterManager hm = Singleton.instance.HunterManager;
+        bool defenderFound = false;
+        int i = 0;
+        while (!defenderFound && i < hm.hunters.Count)
+        {
+            if (hm.hunters[i] == hunter)
+            {
+                defenderFound = true;
+                hm.ui.hunterHuds[i].superMeterUI.value += hm.SuperMeterGain_combatDamage;
+            }
+            else
+            {
+                i++;
+            }
+        }
     }
 
     #region Button Methods
@@ -606,17 +635,33 @@ public class Combat : MonoBehaviour
 
         //set position based on who's the current defender
         float xPos = defender.isDefender ? 6 : -1;
-        Vector3 newPos = new Vector3(defender.transform.position.x + xPos, defender.transform.position.y, defender.transform.position.z);
+        Vector3 newPos = new(defender.transform.position.x + xPos, defender.transform.position.y, defender.transform.position.z);
         damageText.transform.position = Camera.main.WorldToScreenPoint(newPos);
 
         //update HP
         GameManager gm = Singleton.instance.GameManager;
-
+        HunterManager hm = Singleton.instance.HunterManager;
         if (!attackerTurnOver)
-            defenderHealthPoints.text = string.Format("{0} / {1}", defender.healthPoints, defender.maxHealthPoints);
+        {
+            defenderHealthPoints.text = string.Format("{0}/{1}", defender.healthPoints, defender.maxHealthPoints);
+            //update super meter
+            if (defender is Hunter hunter)
+            {
+                UpdateSuperMeter(hunter);
+            }
+
+        }
         else
+        {
             //updating attacker's HP since defender is counterattacking. defender is still referenced because the attacker is currently defending
-            attackerHealthPoints.text = string.Format("{0} / {1}", defender.healthPoints, defender.maxHealthPoints);
+            attackerHealthPoints.text = string.Format("{0}/{1}", defender.healthPoints, defender.maxHealthPoints);
+
+            //update super meter
+            if (defender is Hunter hunter)
+            {
+                UpdateSuperMeter(hunter);
+            }
+        }
 
         //animate damage
         float duration = 1;
