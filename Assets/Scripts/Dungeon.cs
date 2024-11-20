@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 /* A dungeon consists of procedurally generated rooms. The creation of dungeons occurs in this script. 
@@ -108,10 +109,21 @@ public class Dungeon : MonoBehaviour
     public void UpdateCharacterRoom(Character character, Room room)
     {
         Vector3 roomPos = room.transform.position;
-        character.room.character = null;
+        if (character.room != null)
+            character.room.character = null;
         room.character = character;
         character.room = room;
         character.transform.position = new Vector3(roomPos.x, character.transform.position.y, roomPos.z);
+    }
+
+    public void UpdateEntityRoom(Entity entity, Room room)
+    {
+        Vector3 roomPos = room.transform.position;
+        if (entity.room != null)
+            entity.room.entity = null;
+        room.entity = entity;
+        entity.room = room;
+        entity.transform.position = new Vector3(roomPos.x, entity.transform.position.y, roomPos.z);
     }
 
     public void CreateDungeon()
@@ -274,8 +286,9 @@ public class Dungeon : MonoBehaviour
                         //Vector3 roomPos = dungeonRooms[randRoom].transform.position;
                         //2 is added to Y so hunter is above the room and not falling through it
                         hunter.transform.position = new Vector3(roomPos.x, roomPos.y + 2, roomPos.z);
-                        hunter.room = dungeonRooms[randRoom];
-                        dungeonRooms[randRoom].character = hunter;
+                        UpdateCharacterRoom(hunter, dungeonRooms[randRoom]);
+                        //hunter.room = dungeonRooms[randRoom];
+                        //dungeonRooms[randRoom].character = hunter;
                         occupiedLocations.Add(randRoom);
                     }
                     else
@@ -344,7 +357,8 @@ public class Dungeon : MonoBehaviour
                                 im.GenerateChestItem(chest);
                             }
                         }
-                        dungeonRooms[randRoom].entity = chest;
+                        UpdateEntityRoom(chest, dungeonRooms[randRoom]);
+                        //dungeonRooms[randRoom].entity = chest;
                         treasureChests.Add(chest);
                     }
                     else
@@ -376,7 +390,8 @@ public class Dungeon : MonoBehaviour
                     Entity_Exit exitPoint = Instantiate(exitPointPrefab);
                     exitPoint.transform.SetParent(exitContainer.transform);
                     exitPoint.transform.position = new Vector3(roomPos.x, roomPos.y + 2f, roomPos.z);
-                    dungeonRooms[randRoom].entity = exitPoint;
+                    UpdateEntityRoom(exitPoint, dungeonRooms[randRoom]);
+                    //dungeonRooms[randRoom].entity = exitPoint;
                     exitRoom = dungeonRooms[randRoom];
                     occupiedLocations.Add(randRoom);
                 }
@@ -416,7 +431,8 @@ public class Dungeon : MonoBehaviour
                         spawner.transform.position = new Vector3(roomPos.x, roomPos.y + 0.61f, roomPos.z);
                         occupiedLocations.Add(randRoom);
 
-                        dungeonRooms[randRoom].entity = spawner;
+                        UpdateEntityRoom(spawner, dungeonRooms[randRoom]);
+                        //dungeonRooms[randRoom].entity = spawner;
                         spawnPoints.Add(spawner);
                     }
                     else

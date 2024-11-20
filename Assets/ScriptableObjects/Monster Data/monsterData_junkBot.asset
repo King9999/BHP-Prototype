@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2956ec41c596ef47b60ab6e565df579, type: 3}
+  m_Name: monsterData_junkBot
+  m_EditorClassIdentifier: 
+  monsterName: Junk Bot
+  monsterLevel: 1
+  baseAtp: 4
+  baseDfp: 0
+  baseMnp: 0
+  baseEvd: 0.05
+  baseRst: 0
+  baseSpd: 2
+  baseMov: 0
+  baseHealthPoints: 30
+  baseSkillPoints: 4
+  minAttackRange: 1
+  maxAttackRange: 1
+  baseMoney: 10
+  growthRate: 0
+  dropTables:
+  - minLevel: 1
+    dropTable:
+    - item: {fileID: 0}
+      itemWeight: 0
+    - item: {fileID: 0}
+      itemWeight: 0
+  - minLevel: 10
+    dropTable:
+    - item: {fileID: 0}
+      itemWeight: 0
+    - item: {fileID: 0}
+      itemWeight: 0

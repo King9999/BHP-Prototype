@@ -664,6 +664,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2ab5ca597d63c642a6b0779f37d72d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attacker: {fileID: 0}
+  defender: {fileID: 0}
+  attackerLastRoom: {fileID: 0}
+  defenderLastRoom: {fileID: 0}
 --- !u!4 &1786605411
 Transform:
   m_ObjectHideFlags: 0

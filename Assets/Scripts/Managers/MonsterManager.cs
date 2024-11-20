@@ -8,7 +8,7 @@ public class MonsterManager : MonoBehaviour
     public List<Monster> masterMonsterList;
     public List<Monster> activeMonsters;        //monsters currently in the dungeon
     public List<Monster> graveyard;             //killed monsters go here and are reused when necessary.
-    public List<Entity_Spawner> spawners;
+    //public List<Entity_Spawner> spawners;
     public static MonsterManager instance;
 
     private int spawnTimer { get; } = 2;
@@ -42,11 +42,13 @@ public class MonsterManager : MonoBehaviour
     {
         int randMonster = Random.Range(0, masterMonsterList.Count);
         Monster monster = Instantiate(masterMonsterList[randMonster]);
-        monster.InitializeStats(monsterLevel);
-        
+        monster.InitializeStats(monsterLevel, monster.monsterData);
+
 
         //TODO choose a spawner to spawn from.
-
+        Dungeon dun = Singleton.instance.Dungeon;
+        int randSpawner = Random.Range(0, dun.spawnPoints.Count);
+        dun.UpdateCharacterRoom(monster, dun.spawnPoints[randSpawner].room);
 
         activeMonsters.Add(monster);
         return monster;

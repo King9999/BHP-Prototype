@@ -6,6 +6,7 @@ using UnityEngine;
     At higher levels, monsters gain more abilities to make them more of a threat. */
 public abstract class Monster : Character
 {
+    public MonsterData monsterData;
     public int monsterLevel = 1;            //this is equal to the average of the level of all hunters.
     public float baseAtp;
     public float baseDfp;
@@ -41,19 +42,24 @@ public abstract class Monster : Character
     /* Generate monster stats based on the average level of the hunters.
      * The average will be calculated elsewhere.
      * */
-    public void InitializeStats(int averageLevel)
+    public void InitializeStats(int averageLevel, MonsterData data)
     {
         if (averageLevel < 1) return;
-        //get average hunter level
-        /*int averageLevel = 0;
-        if (hunters != null)
-        {
-            foreach (Hunter hunter in hunters)
-            {
-                averageLevel += hunter.hunterLevel;
-            }
-            averageLevel /= hunters.Count;
-        }*/
+
+        //get monster data
+        characterName = data.monsterName;
+        baseAtp = data.baseAtp;
+        baseDfp = data.baseDfp;
+        baseMnp = data.baseMnp;
+        baseEvd = data.baseEvd;
+        baseRst = data.baseRst;
+        baseSpd = data.baseSpd;
+        baseHealthPoints = data.baseHealthPoints;
+        baseSkillPoints = data.baseSkillPoints;
+        minAttackRange = data.minAttackRange;
+        maxAttackRange = data.maxAttackRange;
+        growthRate = data.growthRate;
+
 
         //growth rate is 0 if average level is less than 5.
         growthRate = averageLevel < 5 ? 0 : 0.125f;

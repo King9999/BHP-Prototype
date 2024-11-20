@@ -1354,6 +1354,7 @@ public class GameManager : MonoBehaviour
         if (mm.TimeToSpawnMonster())
         {
             Monster monster = mm.SpawnMonster(hm.AverageHunterLevel());
+            turnOrder.Add(monster);
             Debug.LogFormat("Monster is spawning. {0} is taking their turn", monster.characterName);
             yield return TakeTurn(monster);
         }
