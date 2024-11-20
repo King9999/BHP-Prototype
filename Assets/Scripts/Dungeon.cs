@@ -17,14 +17,18 @@ public class Dungeon : MonoBehaviour
 
     [Header("---Treasure Chests---")]
     [SerializeField]private Entity_TreasureChest chestPrefab;
-    [SerializeField] private List<Entity_TreasureChest> treasureChests;
-    [SerializeField]private int chestCount;
+    [SerializeField]private List<Entity_TreasureChest> treasureChests;
     public float baseCreditsChance;             //determines whether a chest contains credits or an item
     public float creditsChanceMod;               //modified by dungeon mods.
 
     [Header("---Exit Point---")]
-    public Entity_Exit exitPointPrefab;
+    [SerializeField]private Entity_Exit exitPointPrefab;
     public Room exitRoom;                       //reference to exit point, used by other scripts
+
+    [Header("---Spawn Point---")]
+    [SerializeField]private Entity_Spawner spawnerPrefab;
+    public List<Entity_Spawner> spawnPoints;
+
 
     
 
@@ -149,8 +153,8 @@ public class Dungeon : MonoBehaviour
 
         /*****************DUNGEON GENERATION********************/
         int roomCount = 50 * hm.hunters.Count;
-        GameObject roomContainer = new GameObject();
-        roomContainer.name = "Dungeon Rooms";
+        GameObject roomContainer = new GameObject("Dungeon Rooms");
+        //roomContainer.name = "Dungeon Rooms";
         roomContainer.transform.SetParent(this.transform);
 
         while (dungeonRooms.Count < roomCount)
@@ -210,13 +214,12 @@ public class Dungeon : MonoBehaviour
 
         //the number of rows and columns is determined by adding the highest and lowest, then dividing by 2.
         //negative sign is ignored.
-        Debug.Log("Highest X: " + highestX + "\nLowestX: " + lowestX + "\nHighest Z: " + highestZ + "\nLowest Z: "
-            + lowestZ);
+        Debug.LogFormat("Highest X: {0}\nLowestX: {1}\nHighest Z: {2}\nLowest Z: {3}", highestX, lowestX, highestZ, lowestZ);
 
         totalRows = 1 + ((int)(Mathf.Abs(highestZ) + Mathf.Abs(lowestZ)) / 2); //1 is added to get an accurate grid
         totalCols = 1 + ((int)(Mathf.Abs(highestX) + Mathf.Abs(lowestX)) / 2);
         dungeonGrid = new char[totalRows, totalCols];
-        Debug.Log("Total Rows: " + totalRows + " total cols: " + totalCols);
+        Debug.LogFormat("Total Rows: {0} total cols: {1}", totalRows, totalCols);
 
         //populate the grid with the dungeon rooms. We start from row 0, col 0, which in world space would be 
         //the lowest X position and the highest Z position.
@@ -240,12 +243,12 @@ public class Dungeon : MonoBehaviour
                 {
                     dungeonGrid[i, j] = '0';
                 }
-                gridStr += dungeonGrid[i, j] + ", ";
+                gridStr += string.Format("{0}, ", dungeonGrid[i, j]);
             }
             gridStr += "\n";
         }
 
-        Debug.Log("Dungeon Grid\n--------\n" + gridStr);
+        Debug.LogFormat("Dungeon Grid\n--------\n{0}", gridStr);
 
         /* populate the dungeon with objects, including hunters. */
         //add all hunters
@@ -288,10 +291,10 @@ public class Dungeon : MonoBehaviour
         //UpdateCharacterRoom(hm.hunters[1], dungeonRooms[dungeonRooms.IndexOf(hm.hunters[0].room) + 1]);
 
         //add chests. Number of chests = hunter count + random number between 1 and 3.
-        chestCount = hm.hunters.Count + Random.Range(1, 4);
+        int chestCount = hm.hunters.Count + Random.Range(1, 4);
         ItemManager im = Singleton.instance.ItemManager;
-        GameObject chestContainer = new GameObject();
-        chestContainer.name = "Treasure Chests";
+        GameObject chestContainer = new GameObject("Treasure Chests");
+        //chestContainer.name = "Treasure Chests";
         chestContainer.transform.SetParent(this.transform);
 
         for (int i = 0; i < chestCount; i++)
@@ -325,16 +328,16 @@ public class Dungeon : MonoBehaviour
                         {
                             //add target item
                             im.GenerateChestItem(chest, Table.ItemType.Valuable, targetItem: true);
-                            Debug.Log("Target item " + chest.item.itemName + " generated");
+                            Debug.LogFormat("Target item {0} generated", chest.item.itemName);
                         }
                         else
                         {
-                            Debug.Log("Chance to generate credits: " + (baseCreditsChance + creditsChanceMod));
+                            Debug.LogFormat("Chance to generate credits: {0}", baseCreditsChance + creditsChanceMod);
                             if (Random.value <= baseCreditsChance + creditsChanceMod)
                             {
                                 chest.credits = 50 * averageHunterLevel;
                                 chest.credits += Random.Range(0, (chest.credits / 2) + 1);
-                                Debug.Log("Adding " + chest.credits + " CR to chest");
+                                Debug.LogFormat("Adding {0} CR to chest", chest.credits);
                             }
                             else
                             {
@@ -354,8 +357,8 @@ public class Dungeon : MonoBehaviour
         }
 
         /*******Exit Point*********/
-        GameObject exitContainer = new GameObject();
-        exitContainer.name = "Exit Point";
+        GameObject exitContainer = new GameObject("Exit Point");
+        //exitContainer.name = "Exit Point";
         exitContainer.transform.SetParent(this.transform);
 
         roomFound = false;
@@ -385,5 +388,44 @@ public class Dungeon : MonoBehaviour
             }
         }
 
+        /********Spawn Points**************/
+        GameObject spawnPointContainer = new GameObject("Spawn Point");
+        spawnPointContainer.transform.SetParent(transform);
+
+        //# of spawn points = # of hunters + random number between 1 and 2
+        int spawnerCount = hm.hunters.Count + Random.Range(1, 3);
+        for (int i = 0; i < spawnerCount; i++)
+        {
+            roomFound = false;
+            while (!roomFound)
+            {
+                int randRoom = Random.Range(0, dungeonRooms.Count);
+
+                if (!occupiedLocations.Contains(randRoom))
+                {
+                    //check if this object collides with nearby objects. If true, find another location.
+                    Vector3 roomPos = dungeonRooms[randRoom].transform.position;
+                    Collider[] colliders = Physics.OverlapSphere(roomPos, 2, 0, QueryTriggerInteraction.Collide);
+                    if (colliders.Length <= 0)
+                    {
+
+                        roomFound = true;
+                        Entity_Spawner spawner = Instantiate(spawnerPrefab, spawnPointContainer.transform);
+
+                        //0.61 is added to Y so spawner is above the room. It should lie above the move tiles.
+                        spawner.transform.position = new Vector3(roomPos.x, roomPos.y + 0.61f, roomPos.z);
+                        occupiedLocations.Add(randRoom);
+
+                        dungeonRooms[randRoom].entity = spawner;
+                        spawnPoints.Add(spawner);
+                    }
+                    else
+                    {
+                        Debug.Log("Spawner too close to other objects, finding another location");
+                        occupiedLocations.Add(randRoom);
+                    }
+                }
+            }
+        }
     }
 }

@@ -49,8 +49,9 @@ MonoBehaviour:
   roomBin: []
   chestPrefab: {fileID: 8108700228875914378, guid: 1d79c1cd00478164d9f0fa5d00b752e3, type: 3}
   treasureChests: []
-  chestCount: 0
   baseCreditsChance: 0
   creditsChanceMod: 0
   exitPointPrefab: {fileID: 4055752968429102390, guid: 076813608e6342f45b91191c38745a4a, type: 3}
   exitRoom: {fileID: 0}
+  spawnerPrefab: {fileID: 1534884772304732216, guid: 62e3a2cd25ab5ca4b9dee61c3f88694d, type: 3}
+  spawnPoints: []

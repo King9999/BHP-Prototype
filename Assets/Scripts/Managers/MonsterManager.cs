@@ -11,7 +11,7 @@ public class MonsterManager : MonoBehaviour
     public List<Entity_Spawner> spawners;
     public static MonsterManager instance;
 
-    private int spawnTimer { get; } = 8;
+    private int spawnTimer { get; } = 2;
     public int spawnMod;                        //used by dungeon mod to adjust spawn timer.
     private int MaxMonsters { get; } = 8;       //doesn't include boss
 
