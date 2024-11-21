@@ -355,7 +355,7 @@ public class GameManager : MonoBehaviour
 
     public Character ActiveCharacter()
     {
-        return turnOrder[currentCharacter];
+        return turnOrder[0/*currentCharacter*/];
     }
 
     public void GetMoveRange()
@@ -1249,7 +1249,11 @@ public class GameManager : MonoBehaviour
     {
         HunterManager hm = Singleton.instance.HunterManager;
         hm.ui.ShowHunterMenuContainer(false);
-        currentCharacter = currentCharacter + 1 >= turnOrder.Count ? 0 : currentCharacter + 1;
+
+        //push active character to end of queue
+        turnOrder.Add(ActiveCharacter());
+        turnOrder.RemoveAt(0);              //removes the active character from the first position
+        //currentCharacter = currentCharacter + 1 >= turnOrder.Count ? 0 : currentCharacter + 1;
 
         //clean up any buffs/debuffs/other effects or mods
         movementMod = 0;
@@ -1354,7 +1358,7 @@ public class GameManager : MonoBehaviour
         if (mm.TimeToSpawnMonster())
         {
             Monster monster = mm.SpawnMonster(hm.AverageHunterLevel());
-            turnOrder.Add(monster);
+            turnOrder.Insert(0, monster);
             Debug.LogFormat("Monster is spawning. {0} is taking their turn", monster.characterName);
             yield return TakeTurn(monster);
         }
