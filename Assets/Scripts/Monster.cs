@@ -59,6 +59,7 @@ public abstract class Monster : Character
         minAttackRange = data.minAttackRange;
         maxAttackRange = data.maxAttackRange;
         growthRate = data.growthRate;
+        cpuBehaviour = data.behaviour;
 
 
         //growth rate is 0 if average level is less than 5.

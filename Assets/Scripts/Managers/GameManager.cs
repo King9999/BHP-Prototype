@@ -1413,6 +1413,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 //CPU takes action.
+                hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.CPUTurn);
                 //activate any behaviour-specific abilities.
                 hunter.cpuBehaviour.ActivateAbility(hunter);
 
@@ -1454,7 +1455,9 @@ public class GameManager : MonoBehaviour
         }
         else  //this is a monster, which is always CPU-controlled.
         {
-
+            hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.CPUTurn);
+            Monster monster = character as Monster;
+            monster.MoveMonster(monster);
         }
         //hm.ui.ShowHunterMenu(true, character);
     }

@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//AI behaviours used mainly by monsters.
-public abstract class Monster_AI : ScriptableObject
+//Base AI behaviours used mainly by monsters. Base method for moving and attacking is stored here. This can be used
+//for when a monster doesn't have any special behaviours.
+[CreateAssetMenu(menuName = "Monster AI/Basic", fileName = "monsterAI_basic")]
+public class Monster_AI : ScriptableObject
 {
     //choose a random skill. Used by CPU Hunters.
     ActiveSkill GetSkill(Monster user, Hunter target)
@@ -42,7 +44,7 @@ public abstract class Monster_AI : ScriptableObject
 
         GameManager gm = Singleton.instance.GameManager;
 
-        //yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1);
 
         //roll dice; show die UI and roll die after a second.
         gm.dice.ShowSingleDieUI(true);
@@ -103,6 +105,7 @@ public abstract class Monster_AI : ScriptableObject
             monster.targetChar = huntersInRange[randChar];
         }
 
+        //monster.targetChar = null;
         /******check for entities******/
         Entity targetEntity = null;
         if (entitiesInRange.Count > 0)

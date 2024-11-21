@@ -11,7 +11,7 @@ public class MonsterManager : MonoBehaviour
     //public List<Entity_Spawner> spawners;
     public static MonsterManager instance;
 
-    private int spawnTimer { get; } = 2;
+    private int spawnTimer { get; } = 8;
     public int spawnMod;                        //used by dungeon mod to adjust spawn timer.
     private int MaxMonsters { get; } = 8;       //doesn't include boss
 
@@ -52,5 +52,10 @@ public class MonsterManager : MonoBehaviour
 
         activeMonsters.Add(monster);
         return monster;
+    }
+
+    public void MoveMonster(Monster monster)
+    {
+        StartCoroutine(monster.cpuBehaviour.MoveMonster(monster));
     }
 }

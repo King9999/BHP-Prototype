@@ -90,7 +90,11 @@ MonoBehaviour:
   resistWeak: 0
   characterState: 0
   room: {fileID: 0}
-  animations: []
+  animations:
+  - characterState: 0
+    sprites: []
+  - characterState: 3
+    sprites: []
   debuffs: []
   buffs: []
   monsterData: {fileID: 11400000, guid: cb1cdeda027526e46aea50a81ad160b0, type: 2}

@@ -21,7 +21,7 @@ public class MonsterData : ScriptableObject
     public int minAttackRange, maxAttackRange;      //range of standard attack.
     public int baseMoney;                //amount of money dropped scales with level.
     public float growthRate;            //increases stats. Not sure if I want individual rates for each stat yet.
-    //public MonsterDropTable dropTable;
+    public Monster_AI behaviour;
 
     [Serializable]
     public struct DropTable
