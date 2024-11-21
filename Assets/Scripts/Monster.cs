@@ -79,4 +79,9 @@ public abstract class Monster : Character
         healthPoints = maxHealthPoints;
         skillPoints = maxSkillPoints;
     }
+
+    public void MoveMonster(Monster monster)
+    {
+        StartCoroutine(cpuBehaviour.MoveMonster(monster));
+    }
 }
