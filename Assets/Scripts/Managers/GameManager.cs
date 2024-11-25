@@ -1355,7 +1355,7 @@ public class GameManager : MonoBehaviour
         //TODO: if monster spawns, they take their turn immediately.
         HunterManager hm = Singleton.instance.HunterManager;
         MonsterManager mm = Singleton.instance.MonsterManager;
-        if (mm.TimeToSpawnMonster())
+        if (mm.activeMonsters.Count < mm.GetMonsterLimit() && mm.TimeToSpawnMonster())
         {
             Monster monster = mm.SpawnMonster(hm.AverageHunterLevel());
             turnOrder.Insert(0, monster);

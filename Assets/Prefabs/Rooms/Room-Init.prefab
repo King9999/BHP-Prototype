@@ -265,6 +265,10 @@ MonoBehaviour:
     isSelected: 0
     direction: {x: 0, y: 0, z: -1}
   roomID: 0
+  row: 0
+  col: 0
+  entity: {fileID: 0}
+  character: {fileID: 0}
 --- !u!1 &8198283466456638509
 GameObject:
   m_ObjectHideFlags: 0

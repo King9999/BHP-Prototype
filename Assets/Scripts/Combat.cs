@@ -9,6 +9,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 /* This is the combat system. It takes two character objects and two pairs of dice. Combat lasts for 1 round.
  In cases where one character uses a ranged attack and the other character uses a melee counterattack, there will be a 
@@ -48,6 +49,9 @@ public class Combat : MonoBehaviour
     [SerializeField] private CardMenu cardMenu;
     [SerializeField] private TextMeshProUGUI activeCard_attackerText, activeCard_defenderText;
     [SerializeField] private Inventory inventory;               //used by defender to surrender an item.
+    [SerializeField] private GameObject skillNameUI;
+    [SerializeField] private TextMeshProUGUI skillNameText;
+    [SerializeField] private Image skillNameBackground;
 
     [Header("---Combat Grid---")]
     [SerializeField] private Room roomPrefab;
@@ -111,6 +115,7 @@ public class Combat : MonoBehaviour
         activeCard_attackerText.text = "";
         activeCard_defenderText.text = "";
         inventory.ShowInventory(false);
+        skillNameUI.SetActive(false);
     }
 
     public void InitSetup()
@@ -308,7 +313,7 @@ public class Combat : MonoBehaviour
         
     }
 
-    //clean up. Must restore Game Manager and update UI.
+    //clean up. Must restore Game Manager and update UI. The order of events here matters.
     private void EndCombat()
     {
         Singleton s = Singleton.instance;
@@ -331,7 +336,6 @@ public class Combat : MonoBehaviour
         dun.UpdateCharacterRoom(s.attacker, attackerLastRoom);
         dun.UpdateCharacterRoom(s.defender, defenderLastRoom);
         gm.ChangeGameState(gm.gameState = GameManager.GameState.Dungeon);
-
         
     }
     
@@ -428,6 +432,24 @@ public class Combat : MonoBehaviour
             }
         }
     }
+
+    private IEnumerator ShowSkillName(string skillName, Character skillUser)
+    {
+        skillNameUI.SetActive(true);
+       
+        Color attackerColor = new Color(0, 0, 0.5f, 0.5f);
+        Color defenderColor = new Color(0.5f, 0, 0, 0.5f);
+        //get skill name
+        skillNameText.text = skillUser.chosenSkill.skillName;
+
+        //change window colour based on who is attacking and defending.
+        skillNameBackground.color = skillUser.isAttacker ? attackerColor : defenderColor;
+
+        //turn off after a few seconds
+        yield return new WaitForSeconds(2);
+        skillNameUI.SetActive(false);
+        
+    }    
 
     #region Button Methods
     public void OnSelectCardButtonPressed()
@@ -607,6 +629,7 @@ public class Combat : MonoBehaviour
     IEnumerator Attack(Character attacker, Character defender)
     {
         // attacker.chosenSkill.ActivateSkill(attacker, defender);
+        StartCoroutine(ShowSkillName(attacker.chosenSkill.skillName, attacker));
         
         attacker.Attack(attacker.chosenSkill, defender);
         yield return null;
@@ -632,8 +655,9 @@ public class Combat : MonoBehaviour
         defender.healthPoints = (defender.healthPoints < 0) ? 0 : defender.healthPoints;
         Debug.LogFormat("Total damage to {0}: {1}", defender.characterName, damage);
 
-        damageText.color = damageColor;
-        damageText.text = damage.ToString();
+        //text changes if critical was performed, or if character is defending.
+        damageText.color = (defender.characterState == Character.CharacterState.Guarding) ? reducedColor : damageColor;
+        damageText.text = criticalDamageMod > 1 ? string.Format("{0}!!", damage) : damage.ToString();
         damageText.gameObject.SetActive(true);
 
         //set position based on who's the current defender
@@ -690,12 +714,16 @@ public class Combat : MonoBehaviour
             defenderCounterattacking = false;
             //defender always uses basic attack
             defender.chosenSkill = defender.skills[0] as ActiveSkill;
+
+            //reset the criticalmod
+            criticalDamageMod = 1;
+
             yield return new WaitForSeconds(1);
             yield return SimulateDiceRoll(defenderDice, attackerDice, defender, attacker);
         }
 
         //if we get here, combat has ended.
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
         EndCombat();
     }
     #endregion

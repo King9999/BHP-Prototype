@@ -27,6 +27,7 @@ MonoBehaviour:
   maxAttackRange: 1
   baseMoney: 10
   growthRate: 0
+  behaviour: {fileID: 11400000, guid: e26a36067dc708741bf848bcc411f47f, type: 2}
   dropTables:
   - minLevel: 1
     dropTable:

@@ -51,8 +51,8 @@ MonoBehaviour:
   room: {fileID: 0}
   item: {fileID: 0}
   credits: 0
-  openChest: {fileID: 21300000, guid: 0f71265a276af624c8ba260101fdfafd, type: 3}
-  closedChest: {fileID: 21300000, guid: a993a130a6fc1aa4181dc191e2400563, type: 3}
+  openChest: {fileID: 21300000, guid: 2f5d2f5ea32a26c44aa098050bece13e, type: 3}
+  closedChest: {fileID: 21300000, guid: f7dce0e5bc448ec4d8bbd42bf4140f67, type: 3}
 --- !u!212 &798181913494212562
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -94,12 +94,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a993a130a6fc1aa4181dc191e2400563, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f7dce0e5bc448ec4d8bbd42bf4140f67, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.36, y: 0.33}
+  m_Size: {x: 0.8, y: 0.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -124,5 +124,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.8, y: 0.8, z: 0.2}
+  m_Size: {x: 0.8, y: 0.8, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}

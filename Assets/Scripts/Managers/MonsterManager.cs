@@ -11,8 +11,8 @@ public class MonsterManager : MonoBehaviour
     //public List<Entity_Spawner> spawners;
     public static MonsterManager instance;
 
-    private int spawnTimer { get; } = 8;
-    public int spawnMod;                        //used by dungeon mod to adjust spawn timer.
+    private int spawnTimer { get; } = 8;        //minimum value is 3. Any less than that and hunters never get a turn.
+    public int spawnMod;                        //used by dungeon mod to adjust spawn timer. Value can never be more than 5.
     private int MaxMonsters { get; } = 8;       //doesn't include boss
 
     void Awake()
