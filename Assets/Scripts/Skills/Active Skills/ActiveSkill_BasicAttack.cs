@@ -21,7 +21,7 @@ public class ActiveSkill_BasicAttack : ActiveSkill
     }
 
     //if character has a melee weapon, they run up to target to strike. Otherwise, they attack from a distance.
-    public override void ActivateSkill(Character user, Character target)
+    /*public override void ActivateSkill(Character user, Character target)
     {
         //base.ActivateSkill(user, target);
 
@@ -30,7 +30,7 @@ public class ActiveSkill_BasicAttack : ActiveSkill
         int diceRoll = dice.RollDice(); 
         int singleDieRoll = dice.RollSingleDie();
         float totalDamage = Mathf.Round(user.atp + diceRoll) * dmgMod - (target.dfp + singleDieRoll);
-    }
+    }*/
 
     public override IEnumerator Animate(Character character, Character target/*Vector3 destination*/)
     {

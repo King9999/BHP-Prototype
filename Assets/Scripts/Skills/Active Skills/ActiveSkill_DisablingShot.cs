@@ -20,7 +20,7 @@ public class ActiveSkill_DisablingShot : ActiveSkill
         weaponRestriction = WeaponRestriction.Gun;
     }
 
-    public override void ActivateSkill(Character user, Character target)
+    /*public override void ActivateSkill(Character user, Character target)
     {
         base.ActivateSkill(user, target);
 
@@ -28,5 +28,5 @@ public class ActiveSkill_DisablingShot : ActiveSkill
         int diceRoll = dice.RollDice(); 
         int singleDieRoll = dice.RollSingleDie();
         float totalDamage = Mathf.Round(user.atp * dmgMod) + diceRoll - (target.dfp + singleDieRoll);
-    }
+    }*/
 }

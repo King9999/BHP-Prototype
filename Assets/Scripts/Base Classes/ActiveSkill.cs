@@ -11,7 +11,7 @@ public abstract class ActiveSkill : Skill
     public float dmgMod;      //multiplier of how much ATP or MNP affects the damage of the skill. 1 = 100% damage, < 1 = reduced damage, > 1 = more damage.
     public int minRange, maxRange;      //skills can have their own range, separate from the equipped weapon.
                                         //
-    public Dice dice;
+    //public Dice dice;
     public enum SkillAttribute { PhysDamage, PsychDamage, Restorative, Buff, Debuff }
     public SkillAttribute attribute;
 
@@ -39,4 +39,8 @@ public abstract class ActiveSkill : Skill
         }
         return totalDamage; 
     }
+
+    //used for skills that don't deal damage, or have additional effects after dealing damage.
+    public virtual void ApplyEffect(Character user, Character target) { }
+    public virtual float CalculateFixedDamage(Character target) { return 0; }
 }

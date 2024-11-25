@@ -643,6 +643,16 @@ public class Combat : MonoBehaviour
         StartCoroutine(ResolveDamage(attacker, defender));
     }
 
+    public void DoFixedDamage(Character target)
+    {
+        StartCoroutine(ResolveFixedDamage(target/*, damage*/));
+    }
+
+    public void ApplyEffect(Character target)
+    {
+        StartCoroutine(ResolveEffect(target));
+    }
+
     private IEnumerator ResolveDamage(Character attacker, Character defender)
     {
         Debug.Log("Dealing damage");
@@ -725,6 +735,98 @@ public class Combat : MonoBehaviour
         //if we get here, combat has ended.
         yield return new WaitForSeconds(3);
         EndCombat();
+    }
+
+    //special coroutine for skills that deal fixed damage that don't require dice roll.
+    IEnumerator ResolveFixedDamage(Character target/*, float damage*/)
+    {
+        Debug.Log("Dealing fixed damage");
+
+        float damage = target.chosenSkill.CalculateFixedDamage(target);
+        /*Debug.LogFormat("{0}'s counter attack mod: {1}", defender.characterName, counterAttackMod);
+        damage = (damage < 1) ? 0 : Mathf.Round(damage * perfectDefenseMod * counterAttackMod);
+
+        defender.healthPoints -= damage * criticalDamageMod;
+        defender.healthPoints = (defender.healthPoints < 0) ? 0 : defender.healthPoints;
+        Debug.LogFormat("Total damage to {0}: {1}", defender.characterName, damage);
+
+        //text changes if critical was performed, or if character is defending.
+        damageText.color = (defender.characterState == Character.CharacterState.Guarding) ? reducedColor : damageColor;
+        damageText.text = criticalDamageMod > 1 ? string.Format("{0}!!", damage) : damage.ToString();
+        damageText.gameObject.SetActive(true);
+
+        //set position based on who's the current defender
+        float xPos = defender.isDefender ? 6 : -1;
+        Vector3 newPos = new(defender.transform.position.x + xPos, defender.transform.position.y, defender.transform.position.z);
+        damageText.transform.position = Camera.main.WorldToScreenPoint(newPos);
+
+        //update HP
+        GameManager gm = Singleton.instance.GameManager;
+        HunterManager hm = Singleton.instance.HunterManager;
+        if (!attackerTurnOver)
+        {
+            defenderHealthPoints.text = string.Format("{0}/{1}", defender.healthPoints, defender.maxHealthPoints);
+            //update super meter
+            if (defender is Hunter hunter)
+            {
+                UpdateSuperMeter(hunter);
+            }
+
+        }
+        else
+        {
+            //updating attacker's HP since defender is counterattacking. defender is still referenced because the attacker is currently defending
+            attackerHealthPoints.text = string.Format("{0}/{1}", defender.healthPoints, defender.maxHealthPoints);
+
+            //update super meter
+            if (defender is Hunter hunter)
+            {
+                UpdateSuperMeter(hunter);
+            }
+        }
+
+        //animate damage
+        float duration = 1;
+        float currentTime = Time.time;
+        Vector3 textPos = damageText.transform.position;
+        Vector3 origPos = textPos;
+
+        while (Time.time < currentTime + duration)
+        {
+            textPos = new Vector3(textPos.x, textPos.y + 50 * Time.deltaTime, textPos.z);
+            damageText.transform.position = textPos;
+            yield return null;
+        }
+
+        damageText.transform.position = origPos;
+        damageText.gameObject.SetActive(false);
+
+        //check if defender counterattacks, otherwise combat is over.
+
+        attackerTurnOver = true;
+        if (attackerTurnOver && defenderCounterattacking)
+        {
+            defenderCounterattacking = false;
+            //defender always uses basic attack
+            defender.chosenSkill = defender.skills[0] as ActiveSkill;
+
+            //reset the criticalmod
+            criticalDamageMod = 1;
+
+            yield return new WaitForSeconds(1);
+            yield return SimulateDiceRoll(defenderDice, attackerDice, defender, attacker);
+        }
+
+        //if we get here, combat has ended.
+        yield return new WaitForSeconds(3);
+        EndCombat();*/
+        yield return null;
+    }
+
+    //for skills that don't deal damage
+    IEnumerator ResolveEffect(Character target)
+    {
+        yield return null;
     }
     #endregion
 }
