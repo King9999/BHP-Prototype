@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96586b9ee41b41d40ab8877d9065757b, type: 3}
   m_Name: activeSkill_RiskyTackle
   m_EditorClassIdentifier: 
-  skillID: 0
+  skillID: activeSkill_RiskyTackle
   skillName: Risky Tackle
-  skillDetails: Deal (2d6 + ATP) * 3 damage. User takes half the damage dealt.
+  skillDetails: Deal 3x damage. User takes half the damage dealt.
   skillCooldown: 0
   currentCooldown: 0
   skillInCooldown: 0
@@ -26,8 +26,9 @@ MonoBehaviour:
   usageType: 2
   skillCost: 5
   skillCharges: 0
+  maxCharges: 0
   requiresCharges: 0
-  dmgMod: 0
+  dmgMod: 3
   minRange: 0
   maxRange: 1
-  dice: {fileID: 0}
+  attribute: 0
