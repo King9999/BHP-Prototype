@@ -65,7 +65,7 @@ public class ActiveSkill_RiskyTackle : ActiveSkill
 
         Combat combat = Singleton.instance.Combat;
         combat.DoDamage(hunter, target);
-        combat.DoFixedDamage(hunter);
+        combat.DoFixedDamage(hunter, hunter);       //self-damage
 
         yield return new WaitForSeconds(0.5f);
         hunter.transform.position = originalPos;
@@ -89,7 +89,7 @@ public class ActiveSkill_RiskyTackle : ActiveSkill
     }
 
     //deal damage to user.
-    public override float CalculateFixedDamage(Character target) 
+    public override float CalculateFixedDamage(Character attacker, Character defender) 
     {
         return userDamage;
     }

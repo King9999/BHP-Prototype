@@ -42,5 +42,5 @@ public abstract class ActiveSkill : Skill
 
     //used for skills that don't deal damage, or have additional effects after dealing damage.
     public virtual void ApplyEffect(Character user, Character target) { }
-    public virtual float CalculateFixedDamage(Character target) { return 0; }
+    public virtual float CalculateFixedDamage(Character attacker, Character defender) { return 0; }
 }

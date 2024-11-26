@@ -55,7 +55,7 @@ public class Combat : MonoBehaviour
 
     [Header("---Combat Grid---")]
     [SerializeField] private Room roomPrefab;
-    private GameObject battlefieldContainer;
+    private GameObject battlefieldContainer, damageValueContainer;
     private Room[,] fieldGrid;        //used to layout the battlefield. In a ranged fight, there will be a gap to show that melee counters are ineffective.
     [SerializeField] private Room attackerRoom, defenderRoom; //where the combatants are positioned.
     private bool attackersTurn, defendersTurn;         //used to keep track of who's taking their turn
@@ -130,7 +130,12 @@ public class Combat : MonoBehaviour
         //inventory.ShowInventory(false);
         //ShowCardMenu(false);
         ShowDefenderMenu(false);
-        //damageValues.Add(Instantiate(damageText));  //Does this work?
+
+        //set up damage values. There should be at least 1.
+        damageValueContainer = new GameObject("Dmg Values");
+        damageValueContainer.transform.SetParent(GetComponentInChildren<Canvas>().transform);    //gets combat UI canvas
+        damageValues.Add(Instantiate(damageText, damageValueContainer.transform));
+        damageValues[0].gameObject.SetActive(false);
 
         //populate grid
         battlefieldContainer = new GameObject("Battlefield");
@@ -643,9 +648,9 @@ public class Combat : MonoBehaviour
         StartCoroutine(ResolveDamage(attacker, defender));
     }
 
-    public void DoFixedDamage(Character target)
+    public void DoFixedDamage(Character attacker, Character defender)
     {
-        StartCoroutine(ResolveFixedDamage(target/*, damage*/));
+        StartCoroutine(ResolveFixedDamage(attacker, defender));
     }
 
     public void ApplyEffect(Character target)
@@ -666,18 +671,22 @@ public class Combat : MonoBehaviour
         Debug.LogFormat("Total damage to {0}: {1}", defender.characterName, damage);
 
         //text changes if critical was performed, or if character is defending.
-        damageText.color = (defender.characterState == Character.CharacterState.Guarding) ? reducedColor : damageColor;
-        damageText.text = criticalDamageMod > 1 ? string.Format("{0}!!", damage) : damage.ToString();
-        damageText.gameObject.SetActive(true);
+        //damageText.color = (defender.characterState == Character.CharacterState.Guarding) ? reducedColor : damageColor;
+       // damageText.text = criticalDamageMod > 1 ? string.Format("{0}!!", damage) : damage.ToString();
+        //damageText.gameObject.SetActive(true);
+
+        damageValues[0].color = (defender.characterState == Character.CharacterState.Guarding) ? reducedColor : damageColor;
+        damageValues[0].text = criticalDamageMod > 1 ? string.Format("{0}!!", damage) : damage.ToString();
+        damageValues[0].gameObject.SetActive(true);
 
         //set position based on who's the current defender
         float xPos = defender.isDefender ? 6 : -1;
         Vector3 newPos = new(defender.transform.position.x + xPos, defender.transform.position.y, defender.transform.position.z);
-        damageText.transform.position = Camera.main.WorldToScreenPoint(newPos);
+        damageValues[0].transform.position = Camera.main.WorldToScreenPoint(newPos);
 
         //update HP
-        GameManager gm = Singleton.instance.GameManager;
-        HunterManager hm = Singleton.instance.HunterManager;
+        //GameManager gm = Singleton.instance.GameManager;
+        //HunterManager hm = Singleton.instance.HunterManager;
         if (!attackerTurnOver)
         {
             defenderHealthPoints.text = string.Format("{0}/{1}", defender.healthPoints, defender.maxHealthPoints);
@@ -703,18 +712,18 @@ public class Combat : MonoBehaviour
         //animate damage
         float duration = 1;
         float currentTime = Time.time;
-        Vector3 textPos = damageText.transform.position;
+        Vector3 textPos = damageValues[0].transform.position;
         Vector3 origPos = textPos;
 
         while (Time.time < currentTime + duration)
         {
             textPos = new Vector3(textPos.x, textPos.y + 50 * Time.deltaTime, textPos.z);
-            damageText.transform.position = textPos;
+            damageValues[0].transform.position = textPos;
             yield return null;
         }
 
-        damageText.transform.position = origPos;
-        damageText.gameObject.SetActive(false);
+        damageValues[0].transform.position = origPos;
+        damageValues[0].gameObject.SetActive(false);
 
         //check if defender counterattacks, otherwise combat is over.
         
@@ -738,21 +747,20 @@ public class Combat : MonoBehaviour
     }
 
     //special coroutine for skills that deal fixed damage that don't require dice roll.
-    IEnumerator ResolveFixedDamage(Character target/*, float damage*/)
+    IEnumerator ResolveFixedDamage(Character attacker, Character defender)
     {
         Debug.Log("Dealing fixed damage");
 
-        float damage = target.chosenSkill.CalculateFixedDamage(target);
-        /*Debug.LogFormat("{0}'s counter attack mod: {1}", defender.characterName, counterAttackMod);
-        damage = (damage < 1) ? 0 : Mathf.Round(damage * perfectDefenseMod * counterAttackMod);
+        float damage = attacker.chosenSkill.CalculateFixedDamage(attacker, defender);
+        damage = (damage < 1) ? 0 : Mathf.Round(damage);
 
-        defender.healthPoints -= damage * criticalDamageMod;
-        defender.healthPoints = (defender.healthPoints < 0) ? 0 : defender.healthPoints;
+        defender.healthPoints -= damage;
+        defender.healthPoints = (defender.healthPoints < 1) ? 0 : defender.healthPoints;
         Debug.LogFormat("Total damage to {0}: {1}", defender.characterName, damage);
 
         //text changes if critical was performed, or if character is defending.
-        damageText.color = (defender.characterState == Character.CharacterState.Guarding) ? reducedColor : damageColor;
-        damageText.text = criticalDamageMod > 1 ? string.Format("{0}!!", damage) : damage.ToString();
+        damageText.color = damageColor;
+        damageText.text = damage.ToString();
         damageText.gameObject.SetActive(true);
 
         //set position based on who's the current defender
@@ -761,9 +769,10 @@ public class Combat : MonoBehaviour
         damageText.transform.position = Camera.main.WorldToScreenPoint(newPos);
 
         //update HP
-        GameManager gm = Singleton.instance.GameManager;
-        HunterManager hm = Singleton.instance.HunterManager;
-        if (!attackerTurnOver)
+        //GameManager gm = Singleton.instance.GameManager;
+        //HunterManager hm = Singleton.instance.HunterManager;
+        defenderHealthPoints.text = string.Format("{0}/{1}", defender.healthPoints, defender.maxHealthPoints);
+        /*if (!attackerTurnOver)
         {
             defenderHealthPoints.text = string.Format("{0}/{1}", defender.healthPoints, defender.maxHealthPoints);
             //update super meter
@@ -783,7 +792,7 @@ public class Combat : MonoBehaviour
             {
                 UpdateSuperMeter(hunter);
             }
-        }
+        }*/
 
         //animate damage
         float duration = 1;
@@ -819,7 +828,7 @@ public class Combat : MonoBehaviour
 
         //if we get here, combat has ended.
         yield return new WaitForSeconds(3);
-        EndCombat();*/
+        EndCombat();
         yield return null;
     }
 
