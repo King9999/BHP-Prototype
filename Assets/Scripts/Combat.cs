@@ -726,6 +726,11 @@ public class Combat : MonoBehaviour
         damageValues[0].gameObject.SetActive(false);
 
         //check if defender counterattacks, otherwise combat is over.
+        if (defender.characterState == Character.CharacterState.Guarding)
+        {
+            defender.dfpMod -= defenseBoost;
+            defender.rstMod -= defenseBoost;
+        }
         
         attackerTurnOver = true;
         if (attackerTurnOver && defenderCounterattacking)
