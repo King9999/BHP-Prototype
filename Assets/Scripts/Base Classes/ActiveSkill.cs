@@ -23,10 +23,10 @@ public abstract class ActiveSkill : Skill
     public virtual float CalculateDamage(Character attacker, Character defender, int attackDiceRoll, int defenderDiceRoll) 
     {
         float totalDamage = 0;
-        float totalAttack_Atp = (attacker.atp * attacker.atpMod + attackDiceRoll) * dmgMod;
-        float totalAttack_Mnp = (attacker.mnp * attacker.mnpMod + attackDiceRoll) * dmgMod;
-        float totalDefense_Dfp = defender.dfp * defender.dfpMod + defenderDiceRoll;
-        float totalDefense_Rst = defender.rst * defender.rstMod + defenderDiceRoll;
+        float totalAttack_Atp = attacker.atp * attacker.atpMod * 0.8f + (attackDiceRoll * 0.1f);
+        float totalAttack_Mnp = attacker.mnp * attacker.mnpMod * 0.8f + (attackDiceRoll * 0.1f);
+        float totalDefense_Dfp = defender.dfp * defender.dfpMod * 0.8f + (defenderDiceRoll * 0.1f);
+        float totalDefense_Rst = defender.rst * defender.rstMod * 0.8f + (defenderDiceRoll * 0.1f);
         if (attribute == SkillAttribute.PhysDamage)
         {
             Debug.LogFormat("Total Attack (ATP): {0}, Total Defense (DFP): {1}", totalAttack_Atp, totalDefense_Dfp);

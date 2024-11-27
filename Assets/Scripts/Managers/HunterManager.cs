@@ -63,9 +63,8 @@ public class HunterManager : MonoBehaviour
         Singleton.instance.HunterManager = this;
 
         //create container for hunters
-        hunterContainer = new GameObject();
+        hunterContainer = new GameObject("Hunters");
         hunterContainer.transform.SetParent(this.transform);
-        hunterContainer.name = "Hunters";
         transform.SetParent(Singleton.instance.transform);
         ui.transform.SetParent(GetComponentInChildren<Canvas>().transform);     //Hunter UI must persist when scene changes.
         //DontDestroyOnLoad(instance);
