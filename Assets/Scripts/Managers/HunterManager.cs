@@ -80,6 +80,15 @@ public class HunterManager : MonoBehaviour
 
     }
 
+    private void OnEnable()
+    {
+        //set up card menu buttons.
+        CardMenu cm = Singleton.instance.CardMenu;
+        cm.backButton.onClick.AddListener(OnHunterMenuBackButtonPressed);
+        cm.selectCardButton.onClick.AddListener(OnSelectCardButtonPressed);
+        cm.skipButton.onClick.AddListener(OnSkipCardButtonPressed);
+    }
+
     //this is used to enable hunters when ready to be placed in the dungeon.
     public void ToggleHunter(Hunter hunter, bool toggle)
     {
@@ -128,13 +137,15 @@ public class HunterManager : MonoBehaviour
     {
         GameManager gm = Singleton.instance.GameManager;
         Inventory inv = Singleton.instance.Inventory;
+        CardMenu cm = Singleton.instance.CardMenu;
         switch(state)
         {
             case HunterMenuState.Default:
                 ui.ShowHunterMenuContainer(true);
                 ui.ShowHunterMenu_Main(true, gm.ActiveCharacter());
                 //hide all other UI
-                ui.ShowHunterMenu_DisplayCards(false);
+                //ui.ShowHunterMenu_DisplayCards(false);
+                cm.ShowMenu(false);
                 ui.ShowHunterMenu_RollDiceToMove(false);
                 ui.ShowHunterMenu_ActionSubmenu(false);
                 ui.ShowInventory(false);
@@ -150,7 +161,8 @@ public class HunterManager : MonoBehaviour
 
             case HunterMenuState.SelectCard:
                 ui.ShowHunterMenu_Main(false);
-                ui.ShowHunterMenu_DisplayCards(true, gm.ActiveCharacter());
+                //ui.ShowHunterMenu_DisplayCards(true, gm.ActiveCharacter());
+                cm.ShowMenu(true, gm.ActiveCharacter());
                 //ui.ShowCardsMenu(true, gm.ActiveCharacter());
                 gm.dice.ShowSingleDieUI(false);
                 ui.ShowHunterMenu_RollDiceToMove(false);
@@ -158,14 +170,16 @@ public class HunterManager : MonoBehaviour
                 break;
 
             case HunterMenuState.CardDetails:
-                ui.ShowCardDetails(true);
+                //ui.ShowCardDetails(true);
+                cm.ShowCardDetails(true);
                 break;
 
             case HunterMenuState.RollDiceToMove:
                 gm.dice.ShowSingleDieUI(true);
                 ui.ShowHunterMenu_RollDiceToMove(true, gm.ActiveCharacter());
                 ui.ShowHunterMenu_Main(false);
-                ui.ShowHunterMenu_DisplayCards(false);
+                //ui.ShowHunterMenu_DisplayCards(false);
+                cm.ShowMenu(false);
                 break;
 
             case HunterMenuState.SelectMoveTile:

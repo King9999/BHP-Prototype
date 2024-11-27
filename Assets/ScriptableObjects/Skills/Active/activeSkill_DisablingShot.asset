@@ -19,11 +19,16 @@ MonoBehaviour:
   currentCooldown: 0
   skillInCooldown: 0
   skillEffectDuration: 3
+  skillAnimation: {fileID: 0}
+  skillSfx: {fileID: 0}
+  skillType: 0
   weaponRestriction: 2
   usageType: 1
   skillCost: 6
   skillCharges: 0
+  maxCharges: 0
   requiresCharges: 0
-  dmgEffectiveness: 0.33
+  dmgMod: 0.2
   minRange: 2
-  maxRange: 4
+  maxRange: 3
+  attribute: 0

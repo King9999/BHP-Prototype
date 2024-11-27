@@ -116,6 +116,12 @@ public class Combat : MonoBehaviour
         activeCard_defenderText.text = "";
         inventory.ShowInventory(false);
         skillNameUI.SetActive(false);
+
+        //set up card menu buttons.
+        CardMenu cm = Singleton.instance.CardMenu;
+        //cm.backButton.onClick.AddListener();
+        cm.selectCardButton.onClick.AddListener(OnSelectCardButtonPressed);
+        cm.skipButton.onClick.AddListener(OnSkipCardButtonPressed);
     }
 
     public void InitSetup()
@@ -126,7 +132,7 @@ public class Combat : MonoBehaviour
         //damageText.gameObject.SetActive(false);
         //statusText.gameObject.SetActive(false);
         //runChanceText.gameObject.SetActive(false);
-        cardMenu.ShowMenu(false);
+        //cardMenu.ShowMenu(false);
         //inventory.ShowInventory(false);
         //ShowCardMenu(false);
         ShowDefenderMenu(false);
@@ -148,8 +154,8 @@ public class Combat : MonoBehaviour
             {
                 Room newRoom = Instantiate(roomPrefab, battlefieldContainer.transform);
                 Vector3 roomScale = newRoom.transform.localScale;
-                newRoom.transform.position = new Vector3(newRoom.transform.position.x + ((i * 2) * roomScale.x / 2), newRoom.transform.position.y,
-                    newRoom.transform.position.z + ((j * 2) * roomScale.z / 2));
+                newRoom.transform.position = new Vector3(newRoom.transform.position.x + (i * 2 * roomScale.x / 2), newRoom.transform.position.y,
+                    newRoom.transform.position.z + (j * 2 * roomScale.z / 2));
                 fieldGrid[i, j] = newRoom;
             }
         }
@@ -225,6 +231,7 @@ public class Combat : MonoBehaviour
     {
         Character attacker = attackerRoom.character;
         Character defender = defenderRoom.character;
+        CardMenu cardMenu = Singleton.instance.CardMenu;
         switch (state)
         {
             case CombatState.AttackerTurn:
@@ -327,6 +334,12 @@ public class Combat : MonoBehaviour
         Room defenderLastRoom = s.defenderLastRoom;
         Dungeon dun = Singleton.instance.Dungeon;
         SetNonCombatUI(true);
+
+        //update character states
+        Character attacker = attackerRoom.character;
+        Character defender = defenderRoom.character;
+        attacker.ChangeCharacterState(attacker.characterState = Character.CharacterState.Idle);
+        defender.ChangeCharacterState(defender.characterState = Character.CharacterState.Idle);
 
         //update hunter UI
         HunterManager hm = Singleton.instance.HunterManager;
@@ -477,7 +490,7 @@ public class Combat : MonoBehaviour
             attackersCard.ActivateCard_Combat(attacker);
             ChangeCombatState(combatState = CombatState.DefenderTurn);
         }
-        else if (combatState == CombatState.DefenderTurn)
+        else if (combatState == CombatState.DefenderChooseCard)
         {
             if (defendersCard == null)
                 return;

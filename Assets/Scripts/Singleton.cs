@@ -19,7 +19,7 @@ public class Singleton : MonoBehaviour
     public SkillManager SkillManager { get; private set; }
     public HunterUI HunterUI { get; set; }
     public Dungeon Dungeon { get; private set; }
-    public CardMenu CardMenu { get; set; }
+    public CardMenu CardMenu { get; private set; }
     public Inventory Inventory { get; set; }
     //public UI UI { get; set; }
     //public AudioManager AudioManager { get; private set; }
@@ -55,6 +55,8 @@ public class Singleton : MonoBehaviour
         CardManager = GetComponentInChildren<CardManager>();
         EffectManager = GetComponentInChildren<EffectManager>();
         SkillManager = GetComponentInChildren<SkillManager>();
+        CardMenu = GetComponentInChildren<CardMenu>();
+        this.CardMenu.gameObject.SetActive(false);
         //HunterManager = GetComponentInChildren<HunterManager>();
 
         DontDestroyOnLoad(instance);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Linq;
+using UnityEngine.UI;
 
 //UI for selecting a card to use either in the field or in combat.
 
@@ -13,10 +14,15 @@ public class CardMenu : MonoBehaviour
     public List<CardObject> hunterCards;
     private bool mouseOnCard, detailsWindowOpen;
 
+    [Header("---Buttons---")]
+    public Button backButton;
+    public Button selectCardButton;     //button functions change depending on which scene the game is on.
+    public Button skipButton;
+
     // Start is called before the first frame update
     void Start()
     {
-        Singleton.instance.CardMenu = this;
+        //Singleton.instance.CardMenu = this;
     }
 
     void Update()

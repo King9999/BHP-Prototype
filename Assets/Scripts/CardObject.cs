@@ -118,19 +118,20 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         //if (/*mouseOnCard &&*/ !cardInvalid )
         //{
             GameManager gm = Singleton.instance.GameManager;
-            if (gm.gameState == GameManager.GameState.Combat)
-            {
-                if (gm.combatManager.combatState == Combat.CombatState.AttackerTurn)
-                    gm.combatManager.attackersCard = cardData;
-                else
-                    gm.combatManager.defendersCard = cardData;
-            }
+        Combat combat = Singleton.instance.Combat;
+        if (gm.gameState == GameManager.GameState.Combat)
+        {
+            if (combat.combatState == Combat.CombatState.AttackerTurn)
+                combat.attackersCard = cardData;
             else
-            {
-                CardManager cm = Singleton.instance.CardManager;
-                cm.selectedCard = cardData;
-                Debug.LogFormat("{0} selected", cm.selectedCard);
-            }
+                combat.defendersCard = cardData;
+        }
+        else
+        {
+            CardManager cm = Singleton.instance.CardManager;
+            cm.selectedCard = cardData;
+            Debug.LogFormat("{0} selected", cm.selectedCard);
+        }
 
             //change the sort layer
             //GetComponent<SortingGroup>().sortingOrder = 2;
