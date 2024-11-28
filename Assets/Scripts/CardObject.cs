@@ -32,7 +32,8 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             originalPos = transform.position;
         }
 
-        if (revertCardOn && !coroutineActive)
+        //TODO: cards are not animating correctly, so I'm disabling the coroutines for now.
+        /*if (revertCardOn && !coroutineActive)
         {
             StartCoroutine(RevertCard());
         }
@@ -40,7 +41,7 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         if (animateCardOn && !coroutineActive)
         {
             StartCoroutine(AnimateCard());
-        }
+        }*/
 
         /*if (mouseOnCard && !cardInvalid && Input.GetMouseButtonDown(0))
         {

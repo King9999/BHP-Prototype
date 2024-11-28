@@ -75,8 +75,8 @@ public class ActiveSkill_BasicAttack : ActiveSkill
         else
         {
             //ranged attack. Just call sprite animation
-            GameManager gm = Singleton.instance.GameManager;
-            gm.combatManager.DoDamage(hunter, target);
+            Combat combat = Singleton.instance.Combat;
+            combat.DoDamage(hunter, target);
 
             yield return new WaitForSeconds(0.5f);
             //yield return null;

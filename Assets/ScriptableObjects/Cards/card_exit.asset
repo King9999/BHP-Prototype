@@ -15,7 +15,7 @@ MonoBehaviour:
   cardName: Exit!
   cardDetails_field: Teleport to the dungeon exit. If the user doesn't have the target
     item, they are sent to a random location.
-  cardDetails_combat: 100% chance to run away
+  cardDetails_combat: 100% chance to run away/prevent running away
   cardSprite: {fileID: 0}
   cardType: 0
   fieldCardType: 0

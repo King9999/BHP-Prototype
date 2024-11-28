@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     public int turnCount;                       //tracks how many turns have passed in total since the game started.
 
     [Header("---Combat---")]
-    public Combat combatManager;
+    //public Combat combatManager;
 
     [Header("---Movement & Attack Tile---")]
     public GameObject moveTileContainer, skillTileContainer;
@@ -125,8 +125,8 @@ public class GameManager : MonoBehaviour
         //gameCamera.transform.position = new Vector3(newCamPos.x - 4, 5, newCamPos.z + 4);
 
         //combat setup
-        combatManager.InitSetup();
-        combatManager.gameObject.SetActive(false);
+        //combatManager.InitSetup();
+        //combatManager.gameObject.SetActive(false);
 
         //testing item swap
         /*for (int i = 0; i < hm.MaxInventorySize; i++)
@@ -137,7 +137,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    /*void LateUpdate()
     {
         //testing combat transition.
         if (Input.GetKeyDown(KeyCode.Space))
@@ -155,9 +155,9 @@ public class GameManager : MonoBehaviour
             Singleton.instance.defender = ActiveCharacter().targetChar;
             SceneManager.LoadScene("Battle", LoadSceneMode.Additive);
             //SceneManager.UnloadSceneAsync("Battle");          //use this to unload combat when it's done.
-            gameViewController.SetActive(false);*/
+            gameViewController.SetActive(false);
         }
-    }
+    }*/
 
     private void Update()
     {
@@ -423,7 +423,7 @@ public class GameManager : MonoBehaviour
     {
         MonsterManager mm = Singleton.instance.MonsterManager;
         HunterManager hm = Singleton.instance.HunterManager;
-        combatManager.StartCombat(hm.hunters[0], mm.activeMonsters[0]);
+        //combatManager.StartCombat(hm.hunters[0], mm.activeMonsters[0]);
         //get rolls from both attacker and defender
         /*MonsterManager mm = MonsterManager.instance;
         //int diceResult = dice.RollDice();
@@ -479,8 +479,8 @@ public class GameManager : MonoBehaviour
     {
         characterActed = true;
         selectTile.SetActive(false);
-        combatManager.gameObject.SetActive(true);
-        combatManager.StartCombat(attacker, defender);
+        //combatManager.gameObject.SetActive(true);
+        //combatManager.StartCombat(attacker, defender);
     }
 
     void CheckForEntities(Room room, Character character)
