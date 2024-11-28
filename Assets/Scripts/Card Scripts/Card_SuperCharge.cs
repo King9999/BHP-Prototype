@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Cards/Super Charge", fileName = "card_superCharge", order = 3)]
 public class Card_SuperCharge : Card
 {
+    private const float superGain = 0.3f;
     void Reset()
     {
         cardName = "Super Charge";
@@ -17,7 +18,8 @@ public class Card_SuperCharge : Card
     }
     public override void ActivateCard_Field(Hunter user)
     {
-        base.ActivateCard_Field(user);
+        HunterManager hm = Singleton.instance.HunterManager;
+        hm.UpdateSuperMeter(user, superGain);
     }
 
 }

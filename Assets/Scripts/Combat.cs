@@ -343,11 +343,17 @@ public class Combat : MonoBehaviour
 
         //update hunter UI
         HunterManager hm = Singleton.instance.HunterManager;
-        for (int i = 0; i < hm.hunters.Count; i++)
+        if (attacker is Hunter hunterAttacker)
+            hm.UpdateHunterHUD(hunterAttacker);
+        if (defender is Hunter hunterDefender)
+            hm.UpdateHunterHUD(hunterDefender);
+
+        //TODO: must add UI updates for non-hunters.
+        /*for (int i = 0; i < hm.hunters.Count; i++)
         {
             hm.ui.hunterHuds[i].hunterHpText.text = string.Format("{0}/{1}", hm.hunters[i].healthPoints, hm.hunters[i].maxHealthPoints);
             hm.ui.hunterHuds[i].hunterSpText.text = string.Format("{0}/{1}", hm.hunters[i].skillPoints, hm.hunters[i].maxSkillPoints);
-        }
+        }*/
 
         SceneManager.UnloadSceneAsync("Battle");
         gm.gameViewController.SetActive(true);
@@ -699,14 +705,15 @@ public class Combat : MonoBehaviour
 
         //update HP
         //GameManager gm = Singleton.instance.GameManager;
-        //HunterManager hm = Singleton.instance.HunterManager;
+        HunterManager hm = Singleton.instance.HunterManager;
         if (!attackerTurnOver)
         {
             defenderHealthPoints.text = string.Format("{0}/{1}", defender.healthPoints, defender.maxHealthPoints);
             //update super meter
             if (defender is Hunter hunter)
             {
-                UpdateSuperMeter(hunter);
+                //UpdateSuperMeter(hunter);
+                hunter.super.AddMeter(hm.SuperMeterGain_combatDamage);
             }
 
         }
@@ -718,7 +725,8 @@ public class Combat : MonoBehaviour
             //update super meter
             if (defender is Hunter hunter)
             {
-                UpdateSuperMeter(hunter);
+                //UpdateSuperMeter(hunter);
+                hunter.super.AddMeter(hm.SuperMeterGain_combatDamage);
             }
         }
 

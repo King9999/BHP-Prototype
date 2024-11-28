@@ -24,6 +24,7 @@ public abstract class Card : ScriptableObject
 
     //card effects last for the duration of combat or a turn.
     public virtual void ActivateCard_Field(Hunter user) { }
+    public virtual void DeactivateCard_Field(Hunter user) { }
     public virtual void ActivateCard_Combat(Hunter user) { }
     public virtual void DeactivateCard_Combat(Hunter user) { }  //used to undo any effects without overwriting effects from other sources.
 }

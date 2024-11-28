@@ -17,8 +17,11 @@ public class Room : MonoBehaviour
     public Node[] nodes;
     public int roomID;                  //easy way to identify a room
     public int row, col;                //room's position in 2D array
+
+    [Header("---Room references---")]
     public Entity entity;               //can be a chest, spawn point, exit, or terminal.
     public Character character;         //reference to a Hunter or monster.
+    public Trap trap;                   //reference to a placed trap.
 
     //constants for node direction
     public int FORWARD { get; } = 0;        //this is "up"

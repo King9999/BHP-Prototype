@@ -151,6 +151,7 @@ public class HunterUI : MonoBehaviour
             int i = 0;
             foreach(Hunter hunter in hm.hunters)
             {
+                hunter.HudID = i;
                 hunterHudObjects[i].SetActive(true);
                 hunterHuds[i].hunterNameText.text = hunter.characterName;
                 hunterHuds[i].hunterHpText.text = string.Format("{0}/{1}", hunter.healthPoints, hunter.maxHealthPoints);

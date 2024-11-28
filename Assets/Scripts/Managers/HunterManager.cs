@@ -978,6 +978,51 @@ public class HunterManager : MonoBehaviour
         return skill;
     }
 
+    /// <summary>
+    /// Updates hunter's super meter by given amount
+    /// </summary>
+    /// <param name="hunter"></param>
+    /// <param name="amount">The amount of meter to give. max value is 1.</param>
+    public void UpdateSuperMeter(Hunter hunter, float amount)
+    {
+        if (amount < 0 || amount > 1)
+        {
+            Debug.LogError("Meter amount must be between 0 and 1!");
+            return;
+        }
+
+        hunter.super.AddMeter(amount);
+
+        //find hunter in hunter HUD
+        ui.hunterHuds[hunter.HudID].superMeterUI.value = hunter.super.superMeter;
+        /*bool hunterFound = false;
+        int i = 0;
+        while (!hunterFound && i < hunters.Count)
+        {
+            if (hunters[i] == hunter)
+            {
+                hunterFound = true;
+                ui.hunterHuds[i].superMeterUI.value += amount;
+            }
+            else
+            {
+                i++;
+            }
+        }*/
+    }
+
+    //updates all values
+    public void UpdateHunterHUD(Hunter hunter)
+    {
+        if (hunter == null)
+            return;
+
+        //Update HP/SP/Super meter
+        ui.hunterHuds[hunter.HudID].hunterHpText.text = string.Format("{0}/{1}", hunter.healthPoints, hunter.maxHealthPoints);
+        ui.hunterHuds[hunter.HudID].hunterSpText.text = string.Format("{0}/{1}", hunter.skillPoints, hunter.maxSkillPoints);
+        ui.hunterHuds[hunter.HudID].superMeterUI.value = hunter.super.superMeter;
+    }
+
     #region Point Allocation
     //Allocates a point to STR when clicked
     void AllocatePoint_STR(Hunter hunter, int amount)

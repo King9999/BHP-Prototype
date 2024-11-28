@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: MOV +3
   cardDetails_field: Adds 3 spaces to total MOV
-  cardDetails_combat: +30% chance to run away
+  cardDetails_combat: +30% chance to run away/prevent running away
   cardSprite: {fileID: 0}
   cardType: 0
   fieldCardType: 0

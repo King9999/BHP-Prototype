@@ -18,11 +18,19 @@ public class Card_PerfectDefense : Card
     }
     public override void ActivateCard_Field(Hunter user)
     {
-        base.ActivateCard_Field(user);
+        user.evdMod += 1;
+    }
+
+    public override void DeactivateCard_Field(Hunter user)
+    {
+        user.evdMod -= 1;
+        if (user.evdMod < 0)
+            user.evdMod = 0;
     }
 
     public override void ActivateCard_Combat(Hunter user)
     {
-        base.ActivateCard_Combat(user);
+        Combat combat = Singleton.instance.Combat;
+        combat.perfectDefenseMod = 0;
     }
 }

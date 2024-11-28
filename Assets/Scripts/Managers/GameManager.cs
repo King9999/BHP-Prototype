@@ -1404,7 +1404,7 @@ public class GameManager : MonoBehaviour
             Debug.LogFormat("Hunter {0} drew a card", hunter.characterName);
 
             //gain super meter
-            UpdateSuperMeter(hunter, hm.SuperMeterGain_turnStart);
+            hm.UpdateSuperMeter(hunter, hm.SuperMeterGain_turnStart);
 
             if (!hunter.cpuControlled)
             {
