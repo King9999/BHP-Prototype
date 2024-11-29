@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.TextCore.Text;
 using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 /* handles the game state */
@@ -21,7 +22,7 @@ public class GameManager : MonoBehaviour
     public int defenderTotalRoll;   //single die roll + DFP + any other bonuses
 
     [Header("---UI---")]
-    [SerializeField]private TextMeshProUGUI seedText;           //for debugging only
+    [SerializeField] private TextMeshProUGUI seedText;           //for debugging only
 
     [Header("---Turn order and count---")]
     public List<Character> turnOrder;
@@ -46,7 +47,7 @@ public class GameManager : MonoBehaviour
 
 
     //states determine which UI is active
-    public enum GameState { HunterSetup, Dungeon, Combat, Inventory}
+    public enum GameState { HunterSetup, Dungeon, Combat, Inventory }
     public GameState gameState;
 
     public static GameManager instance;
@@ -67,7 +68,7 @@ public class GameManager : MonoBehaviour
     {
         Singleton.instance.GameManager = this;      //master singleton captures
         Debug.Log("Hunter Manager status: " + Singleton.instance.HunterManager);
-       // gameState = GameState.Dungeon;
+        // gameState = GameState.Dungeon;
         //ChangeGameState(gameState);
 
         /**** USE THE NEXT 5 LINES TO GET SEED FOR BUG TESTING*****/
@@ -98,7 +99,7 @@ public class GameManager : MonoBehaviour
         }
 
         turnOrder = turnOrder.OrderByDescending(x => x.spd).ToList();    //TODO: Check to make sure this worked
-        
+
         //MonsterManager mm = MonsterManager.instance;
         //CreateHunter();
         //mm.SpawnMonster(monsterLevel:1);
@@ -188,7 +189,7 @@ public class GameManager : MonoBehaviour
                     tile.transform.position = new Vector3(pos.transform.position.x, 0.6f, pos.transform.position.z);
                     moveTileList.Add(tile);
                 }
-                
+
             }
 
             if (moveTileBin.Count <= 0)
@@ -210,7 +211,7 @@ public class GameManager : MonoBehaviour
                 Vector3 tilePos = hitTile.transform.position;
                 selectTile.transform.position = new Vector3(tilePos.x, 0.61f, tilePos.z);
                 //Debug.Log("Select Tile at position " + selectTile.transform.position);
-                        
+
             }
 
             //if mouse button is clicked, move hunter to chosen tile.
@@ -299,7 +300,7 @@ public class GameManager : MonoBehaviour
                 bool charFound = false;
                 while (!charFound && j < turnOrder.Count)
                 {
-                    if (Mathf.Approximately(destinationPos.x, turnOrder[j].transform.position.x) && 
+                    if (Mathf.Approximately(destinationPos.x, turnOrder[j].transform.position.x) &&
                         Mathf.Approximately(destinationPos.z, turnOrder[j].transform.position.z))
                     //if (destinationPos.x == turnOrder[j].transform.position.x && destinationPos.z == turnOrder[j].transform.position.z)
                     {
@@ -370,9 +371,9 @@ public class GameManager : MonoBehaviour
 
     public void ChangeGameState(GameState gameState)
     {
-        switch(gameState)
+        switch (gameState)
         {
-            
+
             case GameState.HunterSetup:
                 //show the setup screen where player allocates points.
                 break;
@@ -522,7 +523,7 @@ public class GameManager : MonoBehaviour
     /// <returns>The list of valid spaces the character can move.</returns>
     public List<Room> ShowMoveRange(Character character, int spaceCount)
     {
-        List<Room>  validPositions = new List<Room>();
+        List<Room> validPositions = new List<Room>();
         Dungeon dungeon = Singleton.instance.Dungeon;
         char[,] grid = dungeon.dungeonGrid;
 
@@ -703,7 +704,7 @@ public class GameManager : MonoBehaviour
             currentRow = startRow;
             consecutiveGaps = 0;
             currentSpaceCount = nextSpace;
-            while(currentRow + 1 < grid.GetLength(0) && currentSpaceCount < spaceCount)
+            while (currentRow + 1 < grid.GetLength(0) && currentSpaceCount < spaceCount)
             {
                 currentRow++;
                 if (grid[currentRow, currentCol].Equals('1'))
@@ -804,7 +805,7 @@ public class GameManager : MonoBehaviour
             currentCol = startCol;
             currentSpaceCount = nextSpace;
             consecutiveGaps = 0;
-            while(currentCol - 1 >= 0 && currentSpaceCount < spaceCount)
+            while (currentCol - 1 >= 0 && currentSpaceCount < spaceCount)
             {
                 currentCol--;
                 if (grid[currentRow, currentCol].Equals('1'))
@@ -990,7 +991,7 @@ public class GameManager : MonoBehaviour
                 {
                     validPositions.Add(GetRoomPosition(currentRow, currentCol));
                 }
-               
+
             }
 
             //search down
@@ -1004,7 +1005,7 @@ public class GameManager : MonoBehaviour
                 {
                     validPositions.Add(GetRoomPosition(currentRow, currentCol));
                 }
-               
+
             }
 
             //reset space count
@@ -1026,7 +1027,7 @@ public class GameManager : MonoBehaviour
                 if (!validPositions.Contains(newPos))
                     validPositions.Add(newPos);
             }
-            
+
 
             //check surrounding spaces and record their equivalent positions in world space
             //search up
@@ -1058,7 +1059,7 @@ public class GameManager : MonoBehaviour
                     if (!validPositions.Contains(newPos))
                         validPositions.Add(newPos);
                 }
-               
+
             }
 
             //reset space count
@@ -1232,14 +1233,14 @@ public class GameManager : MonoBehaviour
     Vector3 GetRoomsInDirection(RaycastHit hit)
     {
         //List<Vector3> positions = new List<Vector3>();
-       // for (int i = 0; i < hit.Length; i++)
+        // for (int i = 0; i < hit.Length; i++)
         //{
-            Vector3 roomPos = hit.transform.position;
-            //positions.Add(roomPos);
-            //Debug.Log("leftCast Room " + i + " pos: " + roomPos + "\n");
-            GameObject tile = Instantiate(moveTilePrefab);
-            tile.transform.position = new Vector3(roomPos.x, 0.6f, roomPos.z);
-       //}
+        Vector3 roomPos = hit.transform.position;
+        //positions.Add(roomPos);
+        //Debug.Log("leftCast Room " + i + " pos: " + roomPos + "\n");
+        GameObject tile = Instantiate(moveTilePrefab);
+        tile.transform.position = new Vector3(roomPos.x, 0.6f, roomPos.z);
+        //}
 
         return roomPos;
     }
@@ -1294,7 +1295,7 @@ public class GameManager : MonoBehaviour
             if (characterMoved && !characterActed)
             {
                 yield return MoveCameraToCharacter(character);
-                
+
                 if (!character.cpuControlled)
                 {
                     //check if hunter has too many items in inventory.
@@ -1331,7 +1332,7 @@ public class GameManager : MonoBehaviour
                             EndTurn();
                         }
                     }
-                    
+
                 }
             }
             else if (!characterMoved && characterActed)
@@ -1368,7 +1369,7 @@ public class GameManager : MonoBehaviour
         Debug.LogFormat("{0}'s turn", character.characterName);
 
         //update buffs/debuffs
-        for(int i = 0; i < character.buffs.Count; i++)
+        for (int i = 0; i < character.buffs.Count; i++)
         {
             character.buffs[i].UpdateEffect(character);
             if (character.buffs[i].hasDuration && character.buffs[i].currentDuration >= character.buffs[i].totalDuration)
@@ -1433,12 +1434,12 @@ public class GameManager : MonoBehaviour
                             activeSkills.Add(activeSkill);
                         }
                     }
-                    
+
                 }
                 //ActiveSkill basicAttack = hunter.skills[0] as ActiveSkill;
                 //List<Room> skillRange = ShowSkillRange(hunter, basicAttack.minRange, basicAttack.maxRange);
                 //List<Character> targetChars = hunter.CPU_CheckCharactersInRange(skillRange);
-                
+
                 if (activeSkills.Count > 0)
                 {
                     int randSkill = Random.Range(0, activeSkills.Count);
@@ -1470,7 +1471,7 @@ public class GameManager : MonoBehaviour
         //if the room is the destination, move the player using MoveTowards. Must move from one room to the next until
         //destination is reached.
         Dungeon dungeon = Singleton.instance.Dungeon;
-        
+
         List<Room> destinationRooms = new List<Room>();
         List<Room> attackRange = new List<Room>();
 
@@ -1486,7 +1487,7 @@ public class GameManager : MonoBehaviour
             attackRange = ShowSkillRange(character.targetChar, character.chosenSkill.minRange, character.chosenSkill.maxRange);
         }
 
-        while(!destinationFound)
+        while (!destinationFound)
         {
             List<Room> adjacentRooms = new List<Room>();
 
@@ -1592,17 +1593,17 @@ public class GameManager : MonoBehaviour
                 cm.selectedCard.ActivateCard_Field(hunter);
             }
         }
-        
+
         //start moving character TODO: MUST UPDATE CODE TO INCLUDE FOG OF WAR CONDITIONS
         character.ChangeCharacterState(character.characterState = Character.CharacterState.Moving);
         int j = 0;
         float speed = 8;
-        while(j < destinationRooms.Count && character.transform.position != destination)
+        while (j < destinationRooms.Count && character.transform.position != destination)
         {
             //the room's Y position must match the character's since the character is above the room
             Vector3 nextPos = new Vector3(destinationRooms[j].transform.position.x, character.transform.position.y,
                 destinationRooms[j].transform.position.z);
-            
+
             while (character.transform.position != nextPos)
             {
                 character.transform.position = Vector3.MoveTowards(character.transform.position,
@@ -1631,17 +1632,20 @@ public class GameManager : MonoBehaviour
             if (character.room.trap != null)
             {
                 //trap triggered! Pause movement and do evasion check. TODO: Add coroutine here
-                if (Random.value <= character.evd * character.evdMod)
+                yield return TriggerTrap(character, character.room.trap);
+                /*if (Random.value <= character.evd * character.evdMod)
                 {
                     //trap evaded, keep moving
                     Debug.LogFormat("{0} evaded {1}", character.characterName, character.room.trap.trapName);
-                    character.room.trap = null;
+                    TrapManager tm = Singleton.instance.TrapManager;
+                    //character.room.trap = null;
+                    tm.RemoveTrap(character.room.trap);
                 }
                 else
                 {
                     //trap triggered, stop moving
                     character.room.trap.ActivateTrap(character);
-                }
+                }*/
             }
 
             /******Check if CPU character is in attack range*****/
@@ -1710,6 +1714,56 @@ public class GameManager : MonoBehaviour
         }
 
         //moveCameraToCharacter = false;
+    }
+
+    /* Character attempts to avoid trap */
+    IEnumerator TriggerTrap(Character character, Trap trap)
+    {
+        //show '!!' animation to indicate that a trap was sprung
+
+        yield return new WaitForSeconds(1);
+
+        if (Random.value <= character.evd * character.evdMod)
+        {
+            //trap evaded, keep moving
+            Debug.LogFormat("{0} evaded {1}", character.characterName, trap.trapName);
+            TrapManager tm = Singleton.instance.TrapManager;
+            //character.room.trap = null;
+            tm.RemoveTrap(trap);
+        }
+        else
+        {
+            //trap triggered, stop moving
+            //shake the character around to indicate damage
+            yield return ShakeCharacter(character, 1);
+            trap.ActivateTrap(character);
+        }
+        //yield return null;
+    }
+
+    //animation for when a character takes damage.
+    IEnumerator ShakeCharacter(Character character, float duration)
+    {
+        float shakeValue = 0.4f;
+        float currentTime = Time.time;
+        Vector3 originalPos = character.transform.position;
+        character.GetComponent<Rigidbody>().useGravity = false; //temporarily disable this to get proper shake effect.
+        float shakeTime = 0.04f;
+        float shakeIntensity = 0.25f;
+        character.ChangeCharacterState(Character.CharacterState.Idle);      //TODO change this to a hit animation when available.
+
+        while (Time.time < currentTime + duration)
+        {
+            float xValue = Random.Range(-shakeValue, shakeValue);
+            float yValue = Random.Range(0, shakeValue);
+            //character.transform.position = new Vector3(originalPos.x, originalPos.y + shakeIntensity, originalPos.z);
+            character.transform.position = new Vector3(originalPos.x + xValue, originalPos.y + yValue, originalPos.z);
+            yield return new WaitForSeconds(shakeTime);
+            character.transform.position = originalPos;
+            yield return new WaitForSeconds(shakeTime);
+        }
+        character.transform.position = originalPos;
+        character.GetComponent<Rigidbody>().useGravity = true;
     }
 
     #endregion

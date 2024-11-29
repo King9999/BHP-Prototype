@@ -302,8 +302,8 @@ public class HunterManager : MonoBehaviour
         hunter.animations[1].sprites = Resources.LoadAll<Sprite>("Run Cycle").ToList();
 
         //testing out cards
-        //CardManager cm = Singleton.instance.CardManager;
-        //cm.DrawCard(hunter, Card.CardID.TrapDamage);
+        CardManager cm = Singleton.instance.CardManager;
+        cm.DrawCard(hunter, Card.CardID.TrapDamage);
         //cm.DrawCard(hunter, cm.deck, 5);
 
         /****Give super TODO: Player can choose which super they want. For now, will just pick random */
