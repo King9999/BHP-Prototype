@@ -26,4 +26,4 @@ MonoBehaviour:
   usageType: 0
   superMeter: 0
   chargePentalty: 0.5
-  chargeRate: 0
+  chargeRate: 1

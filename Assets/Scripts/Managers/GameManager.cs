@@ -45,6 +45,9 @@ public class GameManager : MonoBehaviour
     public ActiveSkill selectedSkill;     //the active skill being used after being selected from skill menu.
     public int movementMod;             //value that's added to character's roll when moving. Altered by cards and skills.
 
+    [Header("---Icons---")]
+    [SerializeField] private GameObject icon_trapWarning;    //displayed when a trap is triggered.
+
 
     //states determine which UI is active
     public enum GameState { HunterSetup, Dungeon, Combat, Inventory }
@@ -124,6 +127,9 @@ public class GameManager : MonoBehaviour
         dice.dieImages[0].sprite = dice.diceSprites[0];
         dice.dieImages[1].sprite = dice.diceSprites[0];
         //gameCamera.transform.position = new Vector3(newCamPos.x - 4, 5, newCamPos.z + 4);
+
+        //icon setup
+        icon_trapWarning.SetActive(false);
 
         //combat setup
         //combatManager.InitSetup();
@@ -1720,9 +1726,13 @@ public class GameManager : MonoBehaviour
     IEnumerator TriggerTrap(Character character, Trap trap)
     {
         //show '!!' animation to indicate that a trap was sprung
+        icon_trapWarning.SetActive(true);
+        icon_trapWarning.transform.position = new Vector3(character.transform.position.x + 1, character.transform.position.y + 1,
+            character.transform.position.z);
 
         yield return new WaitForSeconds(1);
 
+        icon_trapWarning.SetActive(false);
         if (Random.value <= character.evd * character.evdMod)
         {
             //trap evaded, keep moving

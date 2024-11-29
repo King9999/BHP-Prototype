@@ -323,7 +323,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7342513284022463625}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.30070576, z: 0, w: 0.953717}
   m_LocalPosition: {x: -2.7192686, y: -1.3400458, z: 0.24262273}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -331,8 +331,9 @@ Transform:
   - {fileID: 6408682257025875192}
   - {fileID: 6334003989940257887}
   - {fileID: 6006333144996094830}
+  - {fileID: 4752503979516213258}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 35, z: 0}
 --- !u!114 &7881919487199102850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,63 +346,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d7ebf531f1e99b4aa98064c022f8203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameViewController: {fileID: 0}
   gameCamera: {fileID: 0}
   dice: {fileID: 0}
   attackerTotalRoll: 0
   defenderTotalRoll: 0
-  hunterName: {fileID: 0}
-  hunterStr: {fileID: 0}
-  hunterVit: {fileID: 0}
-  hunterMnt: {fileID: 0}
-  hunterSpd: {fileID: 0}
-  hunterAtp: {fileID: 0}
-  hunterDfp: {fileID: 0}
-  hunterMnp: {fileID: 0}
-  hunterRst: {fileID: 0}
-  hunterEvd: {fileID: 0}
-  hunterHp: {fileID: 0}
-  hunterSp: {fileID: 0}
-  hunterMov: {fileID: 0}
-  strPointsGUI: {fileID: 0}
-  spdPointsGUI: {fileID: 0}
-  vitPointsGUI: {fileID: 0}
-  mntPointsGUI: {fileID: 0}
-  equippedWeaponText: {fileID: 0}
-  equippedArmorText: {fileID: 0}
-  equippedAccText: {fileID: 0}
-  monsterName: {fileID: 0}
-  monsterAtp: {fileID: 0}
-  monsterDfp: {fileID: 0}
-  monsterMnp: {fileID: 0}
-  monsterRst: {fileID: 0}
-  monsterEvd: {fileID: 0}
-  monsterHp: {fileID: 0}
-  monsterSp: {fileID: 0}
-  monsterMov: {fileID: 0}
-  monsterSpd: {fileID: 0}
-  attackerDieOneGUI: {fileID: 0}
-  attackerDieTwoGUI: {fileID: 0}
-  attackerAtp_total: {fileID: 0}
-  attackerTotalAttackDamage: {fileID: 0}
-  defenderDieOneGUI: {fileID: 0}
-  defenderDieTwoGUI: {fileID: 0}
-  defenderDfp_total: {fileID: 0}
-  defenderTotalDefense: {fileID: 0}
   seedText: {fileID: 1885663631894303303}
-  inventoryContainer: {fileID: 0}
-  skillContainer: {fileID: 0}
-  hunterInventory:
-  - {fileID: 0}
-  hunterSkills: []
-  combatManager: {fileID: 0}
-  lootTable: {fileID: 0}
+  turnOrder: []
+  turnCount: 0
   moveTileContainer: {fileID: 231463923363974374}
   skillTileContainer: {fileID: 3101366694221376734}
   moveTilePrefab: {fileID: 2232471571221434396, guid: e69e9613ba75b3f4ba68d01559754911, type: 3}
   skillTilePrefab: {fileID: 2232471571221434396, guid: c4a706c3f54a4824e9780b160f5ba915, type: 3}
   selectTilePrefab: {fileID: 2232471571221434396, guid: 4a54d9051261c7c4db8e837f447d17ca, type: 3}
   selectTile: {fileID: 0}
-  turnOrder: []
   movementPositions: []
   attackPositions: []
   moveTileList: []
@@ -412,4 +370,72 @@ MonoBehaviour:
   characterActed: 0
   selectedSkill: {fileID: 0}
   movementMod: 0
+  icon_trapWarning: {fileID: 5822980563662488650}
   gameState: 0
+--- !u!1001 &1127449226682355512
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8857110697663509135}
+    m_Modifications:
+    - target: {fileID: 5643511889276270386, guid: 9f85ff411aa9c6a4a995419ed6e288d0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643511889276270386, guid: 9f85ff411aa9c6a4a995419ed6e288d0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643511889276270386, guid: 9f85ff411aa9c6a4a995419ed6e288d0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643511889276270386, guid: 9f85ff411aa9c6a4a995419ed6e288d0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.953717
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643511889276270386, guid: 9f85ff411aa9c6a4a995419ed6e288d0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643511889276270386, guid: 9f85ff411aa9c6a4a995419ed6e288d0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.30070576
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643511889276270386, guid: 9f85ff411aa9c6a4a995419ed6e288d0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643511889276270386, guid: 9f85ff411aa9c6a4a995419ed6e288d0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643511889276270386, guid: 9f85ff411aa9c6a4a995419ed6e288d0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643511889276270386, guid: 9f85ff411aa9c6a4a995419ed6e288d0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6875555041288883058, guid: 9f85ff411aa9c6a4a995419ed6e288d0, type: 3}
+      propertyPath: m_Name
+      value: Trap Warning
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f85ff411aa9c6a4a995419ed6e288d0, type: 3}
+--- !u!4 &4752503979516213258 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5643511889276270386, guid: 9f85ff411aa9c6a4a995419ed6e288d0, type: 3}
+  m_PrefabInstance: {fileID: 1127449226682355512}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5822980563662488650 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6875555041288883058, guid: 9f85ff411aa9c6a4a995419ed6e288d0, type: 3}
+  m_PrefabInstance: {fileID: 1127449226682355512}
+  m_PrefabAsset: {fileID: 0}
