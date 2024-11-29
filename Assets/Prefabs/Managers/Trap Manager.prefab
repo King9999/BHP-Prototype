@@ -44,4 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fbfc185d9d99a14a85663d5f62e038b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masterTrapList: []
+  masterTrapList:
+  - {fileID: 11400000, guid: 9ba35ea860218a24c91541ca5a0f22b8, type: 2}
+  activeTrapList: []

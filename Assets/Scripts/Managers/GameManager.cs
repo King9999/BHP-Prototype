@@ -1567,7 +1567,8 @@ public class GameManager : MonoBehaviour
         }*/
 
         //find the character's current location in the dungeon and remove reference
-        int k = 0;
+        character.room.character = null;
+        /*int k = 0;
         bool charFound = false;
         while(!charFound && k < turnOrder.Count)
         {
@@ -1580,8 +1581,18 @@ public class GameManager : MonoBehaviour
             {
                 k++;
             }
-        }
+        }*/
 
+        /* Check if card needs to be activated */
+        if (character is Hunter hunter)
+        {
+            CardManager cm = Singleton.instance.CardManager;
+            if (cm.selectedCard != null && cm.selectedCard.triggerBeforeMoving == true)
+            {
+                cm.selectedCard.ActivateCard_Field(hunter);
+            }
+        }
+        
         //start moving character TODO: MUST UPDATE CODE TO INCLUDE FOG OF WAR CONDITIONS
         character.ChangeCharacterState(character.characterState = Character.CharacterState.Moving);
         int j = 0;
@@ -1615,6 +1626,23 @@ public class GameManager : MonoBehaviour
                 destinationRooms[j].character = character;
                 destinationRooms[j - 1].character = null;
             }*/
+
+            //DOES THIS ROOM HAVE A TRAP?
+            if (character.room.trap != null)
+            {
+                //trap triggered! Pause movement and do evasion check. TODO: Add coroutine here
+                if (Random.value <= character.evd * character.evdMod)
+                {
+                    //trap evaded, keep moving
+                    Debug.LogFormat("{0} evaded {1}", character.characterName, character.room.trap.trapName);
+                    character.room.trap = null;
+                }
+                else
+                {
+                    //trap triggered, stop moving
+                    character.room.trap.ActivateTrap(character);
+                }
+            }
 
             /******Check if CPU character is in attack range*****/
             if (cpuAttacking && character.chosenSkill != null)

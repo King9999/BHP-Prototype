@@ -17,9 +17,10 @@ MonoBehaviour:
     item, they are sent to a random location.
   cardDetails_combat: 100% chance to run away/prevent running away
   cardSprite: {fileID: 0}
+  cardID: 3
   cardType: 0
   fieldCardType: 0
   weight: 40
-  triggerWhenDiceRolled: 1
-  triggerAfterMoving: 0
+  triggerWhenDiceRolled: 0
+  triggerBeforeMoving: 1
   triggerWhenTrapSprung: 0

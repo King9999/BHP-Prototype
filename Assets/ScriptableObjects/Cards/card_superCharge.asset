@@ -16,9 +16,10 @@ MonoBehaviour:
   cardDetails_field: +30% to super meter
   cardDetails_combat: 
   cardSprite: {fileID: 0}
+  cardID: 8
   cardType: 1
   fieldCardType: 0
   weight: 50
   triggerWhenDiceRolled: 0
-  triggerAfterMoving: 1
+  triggerBeforeMoving: 1
   triggerWhenTrapSprung: 0

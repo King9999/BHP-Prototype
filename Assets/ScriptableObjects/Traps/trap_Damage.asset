@@ -9,15 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1adc2481b33662c4eaa916f0dcab7b97, type: 3}
-  m_Name: loot_emerald
+  m_Script: {fileID: 11500000, guid: 3a7694128258f604f8afed31774672ad, type: 3}
+  m_Name: trap_Damage
   m_EditorClassIdentifier: 
-  itemName: Emerald
-  details: Valuable gem from a bygone era
-  itemID: 
-  itemLevel: 0
-  price: 0
-  isKeyItem: 0
-  isTargetItem: 0
-  sprite: {fileID: 0}
-  itemType: 0
+  trapName: Trap - Damage
+  trapID: 0

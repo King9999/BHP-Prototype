@@ -16,9 +16,10 @@ MonoBehaviour:
   cardDetails_field: +20% chance to avoid traps
   cardDetails_combat: +20% DFP
   cardSprite: {fileID: 0}
+  cardID: 9
   cardType: 0
   fieldCardType: 2
   weight: 50
   triggerWhenDiceRolled: 0
-  triggerAfterMoving: 0
+  triggerBeforeMoving: 0
   triggerWhenTrapSprung: 1

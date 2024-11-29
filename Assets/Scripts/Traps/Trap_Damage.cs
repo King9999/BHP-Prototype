@@ -19,5 +19,29 @@ public class Trap_Damage : Trap
             HunterManager hm = Singleton.instance.HunterManager;
             hm.UpdateHunterHUD(hunter);
         }
+
+        //destroy itself
+        TrapManager tm = Singleton.instance.TrapManager;
+
+        //find trap in active trap list and remove it
+        tm.RemoveTrap(this);
+        /*int i = 0;
+        bool trapFound = false;
+        while (!trapFound && i < tm.activeTrapList.Count)
+        {
+            if (tm.activeTrapList[i].trap == this)
+            {
+                trapFound = true;
+                Debug.LogFormat("Removed trap {0} from room {1}", trapName, tm.activeTrapList[i].roomID);
+                tm.activeTrapList[i].trap = null;
+                tm.activeTrapList.Remove(tm.activeTrapList[i]);
+            }
+            else
+            {
+                i++;
+            }
+        }*/
+        
+        //Object.Destroy(this);
     }
 }

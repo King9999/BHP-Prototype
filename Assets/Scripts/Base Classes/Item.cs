@@ -16,7 +16,6 @@ public abstract class Item : ScriptableObject
     public bool isKeyItem;      //key items cannot be sold or dropped.
     public bool isTargetItem;   //the target item required to complete a dungeon.
     public Sprite sprite;
-    
 
     public enum ItemType
     {

@@ -17,9 +17,10 @@ MonoBehaviour:
   cardDetails_combat: Reduce all damage against user to 0. Debuff chance against
     user is 0%
   cardSprite: {fileID: 0}
+  cardID: 12
   cardType: 0
   fieldCardType: 2
   weight: 80
   triggerWhenDiceRolled: 0
-  triggerAfterMoving: 0
+  triggerBeforeMoving: 0
   triggerWhenTrapSprung: 1

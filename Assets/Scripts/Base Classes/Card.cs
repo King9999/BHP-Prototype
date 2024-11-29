@@ -8,6 +8,10 @@ public abstract class Card : ScriptableObject
 {
     public string cardName, cardDetails_field, cardDetails_combat;
     public Sprite cardSprite;
+
+    public enum CardID { Move1, Move2, Move3, Exit, Attack20, Attack40, Attack60, Pierce, SuperCharge, Defense20, Defense40, Defense60,
+                        PerfectDefense, TrapDamage, TrapDizzy, TrapVise, TrapDrain }
+    public CardID cardID;       //used to get specific cards from deck.
     public enum CardType { Versatile, Field, Combat }
     public CardType cardType;
     public enum FieldCardType { None, Trap, TrapAvoidance, Movement }

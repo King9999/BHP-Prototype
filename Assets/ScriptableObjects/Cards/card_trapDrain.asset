@@ -16,9 +16,10 @@ MonoBehaviour:
   cardDetails_field: Sets a trap that inflicts Card Drain
   cardDetails_combat: 
   cardSprite: {fileID: 0}
+  cardID: 16
   cardType: 1
   fieldCardType: 1
   weight: 60
   triggerWhenDiceRolled: 0
-  triggerAfterMoving: 1
+  triggerBeforeMoving: 1
   triggerWhenTrapSprung: 0

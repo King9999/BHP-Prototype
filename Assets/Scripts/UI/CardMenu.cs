@@ -57,7 +57,7 @@ public class CardMenu : MonoBehaviour
            // mouseOnCard = false;*/
     }
 
-    public void ShowMenu(bool toggle, Character character = null, Card.CardType validCardType = Card.CardType.Versatile)
+    public void ShowMenu(bool toggle, Character character = null, Card.CardType validCardType = Card.CardType.Field)
     {
         gameObject.SetActive(toggle);
         ShowCardDetails(false);

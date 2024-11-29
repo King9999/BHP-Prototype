@@ -14,9 +14,15 @@ public class Card_TrapDamage : Card
     {
         weight = 50;
     }
+
+    //place a trap on the space the hunter is on before moving.
     public override void ActivateCard_Field(Hunter user)
     {
-        base.ActivateCard_Field(user);
+        TrapManager tm = Singleton.instance.TrapManager;
+        Trap trap = tm.GetTrap(Trap.TrapID.Damage);
+        user.room.trap = trap;
+        tm.activeTrapList.Add(user.room);
+        Debug.LogFormat("{0} has placed a trap '{1}'", user.characterName, trap.trapName);
     }
 
 }

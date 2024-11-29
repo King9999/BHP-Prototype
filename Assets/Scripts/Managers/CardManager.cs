@@ -16,10 +16,10 @@ public class CardManager : MonoBehaviour
         public int copies;
     }
 
-    public MasterCardList[] masterCardList;
+    [SerializeField]private MasterCardList[] masterCardList;
 
-    public CardObject cardPrefab;
-    GameObject cardContainer;
+    [SerializeField]private CardObject cardPrefab;
+    private GameObject cardContainer;
     public List<Card> deck;
     public Card selectedCard;           //reference to card a player picks in the field/during combat.
     private int maxHand { get; } = 5;   //total number of cards a hunter can have in their hand.
@@ -87,11 +87,11 @@ public class CardManager : MonoBehaviour
             if (hunter.cards.Count < maxHand)
             {
                 hunter.cards.Add(deck[0]);
-                Debug.Log("Drew card " + deck[0].cardName);
+                Debug.LogFormat("Drew card {0}", deck[0].cardName);
             }
             else
             {
-                Debug.Log(hunter.characterName + "'s hand is full! Discarding " + deck[0].cardName);
+                Debug.LogFormat("{0}'s hand is full! Discarding {1}", hunter.characterName, deck[0].cardName);
             }
 
             deck.Remove(deck[0]);
@@ -101,9 +101,38 @@ public class CardManager : MonoBehaviour
         UpdateDeckCount();
     }
 
+    /// <summary>
+    /// Gets a specified card from the deck.
+    /// </summary>
+    /// <param name="hunter">The hunter who gets the card.</param>
+    /// <param name="cardID">The card going into the hunter's hand.</param>
+    public void DrawCard(Hunter hunter, Card.CardID cardID)
+    {
+        bool cardFound = false;
+        int i = 0;
+        while (!cardFound && i < deck.Count)
+        {
+            if (deck[i].cardID == cardID)
+            {
+                cardFound = true;
+                hunter.cards.Add(deck[i]);
+                Debug.LogFormat("Added {0} to hand", deck[i].cardName);
+                deck.Remove(deck[i]);
+                
+            }
+            else
+            {
+                i++;
+            }
+        }
+
+        if (!cardFound)
+            Debug.LogFormat("{0} not in deck", cardID);
+    }
+
     public void UpdateDeckCount()
     {
         HunterManager hm = Singleton.instance.HunterManager;
-        hm.ui.deckCountText.text = "Cards in Deck: " + deck.Count;
+        hm.ui.deckCountText.text = string.Format("Cards in Deck: {0}", deck.Count);
     }
 }
