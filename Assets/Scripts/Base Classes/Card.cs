@@ -18,7 +18,7 @@ public abstract class Card : ScriptableObject
     //trigger conditions
     [Header("---Field Triggers---")]
     public bool triggerWhenDiceRolled;     //used by MOV cards
-    public bool triggerAfterMoving;        //used by trap cards
+    public bool triggerBeforeMoving;        //used by trap cards
     public bool triggerWhenTrapSprung;     //used by Defense cards
     
 

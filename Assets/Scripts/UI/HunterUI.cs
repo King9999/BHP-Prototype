@@ -151,7 +151,7 @@ public class HunterUI : MonoBehaviour
             int i = 0;
             foreach(Hunter hunter in hm.hunters)
             {
-                hunter.HudID = i;
+                hunter.HudID = i;   //this makes it easy to access each hunter's values in the HUD
                 hunterHudObjects[i].SetActive(true);
                 hunterHuds[i].hunterNameText.text = hunter.characterName;
                 hunterHuds[i].hunterHpText.text = string.Format("{0}/{1}", hunter.healthPoints, hunter.maxHealthPoints);
@@ -184,7 +184,7 @@ public class HunterUI : MonoBehaviour
             hunterMenuObject_main.transform.position = Camera.main.WorldToScreenPoint(menuPos);
 
             //get character info
-            hunterMenu_hunterNameText.text = character.characterName + "'s Turn";
+            hunterMenu_hunterNameText.text = string.Format("{0}'s Turn", character.characterName);
 
             //check if any buttons need to be disabled
             GameManager gm = Singleton.instance.GameManager;
@@ -415,7 +415,7 @@ public class HunterUI : MonoBehaviour
                         //formatting of skill range varies
                         if (skill.minRange > 0)
                         {
-                            hunterSkills[currentSkillIndex].rangeText.text = skill.minRange + " - " + skill.maxRange;
+                            hunterSkills[currentSkillIndex].rangeText.text = string.Format("{0} - {1}", skill.minRange, skill.maxRange);
                         }
                         else
                         {

@@ -12,7 +12,7 @@ public class SkillChip : Item
     void Reset()
     {
         itemType = ItemType.SkillChip;
-        price = 500;   //all chips have the same price since there's no rarity associated with skills.
+        price = 1000;   //all chips have the same price since there's no rarity associated with skills.
     }
 
     //generate a random skill.
@@ -24,19 +24,19 @@ public class SkillChip : Item
         else
             skill = sm.AddSkill(sm.passiveSkillList);
 
-        itemName = "Skill Chip [" + skill.skillName + "]";
-        this.name += skill.skillName;
+        itemName = string.Format("Skill Chip [{0}]", skill.skillName);
+        this.name += skill.skillName;   //appends skill name to the file name.
         details = skill.skillDetails;
 
         if (skill is ActiveSkill activeSkill)
         {
-            details += "\n\nCost: " + activeSkill.skillCost + " SP\nCooldown: " + activeSkill.skillCooldown;
+            details += string.Format("\n\nCost: {0} SP\nCooldown: {1}", activeSkill.skillCost, activeSkill.skillCooldown);
             if (activeSkill.minRange > 0)
-                details += "\nRange: " + activeSkill.minRange + " - " + activeSkill.maxRange;
+                details += string.Format("\nRange: {0} - {1}", activeSkill.minRange, activeSkill.maxRange);
             else
-                details += "\nRange: " + activeSkill + activeSkill.maxRange;
+                details += string.Format("\nRange: {0}", activeSkill.maxRange);
         }
 
-        details += "\n\nWpn. Restriction: " + skill.weaponRestriction + "\nUsage: " + skill.usageType;
+        details += string.Format("\n\nWpn. Restriction: {0}\nUsage: {1}", skill.weaponRestriction, skill.usageType);
     }
 }

@@ -17,7 +17,7 @@ public class TrapManager : MonoBehaviour
             if (masterTrapList[i].trapID == trapID)
             {
                 trapFound = true;
-                trap = masterTrapList[i];
+                trap = Instantiate(masterTrapList[i]);
             }
             else
             {
@@ -25,6 +25,6 @@ public class TrapManager : MonoBehaviour
             }
         }
 
-        return Instantiate(trap);
+        return trap;
     }
 }

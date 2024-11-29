@@ -17,6 +17,7 @@ public class Singleton : MonoBehaviour
     public HunterManager HunterManager { get; set; }
     public EffectManager EffectManager { get; private set; }
     public SkillManager SkillManager { get; private set; }
+    public TrapManager TrapManager { get; private set; }
     public HunterUI HunterUI { get; set; }
     public Dungeon Dungeon { get; private set; }
     public CardMenu CardMenu { get; private set; }
@@ -55,6 +56,7 @@ public class Singleton : MonoBehaviour
         CardManager = GetComponentInChildren<CardManager>();
         EffectManager = GetComponentInChildren<EffectManager>();
         SkillManager = GetComponentInChildren<SkillManager>();
+        TrapManager = GetComponentInChildren<TrapManager>();
         CardMenu = GetComponentInChildren<CardMenu>();
         this.CardMenu.gameObject.SetActive(false);
         //HunterManager = GetComponentInChildren<HunterManager>();
