@@ -13,5 +13,8 @@ public abstract class Trap : ScriptableObject
     public TrapID trapID;
 
 
-    public virtual void ActivateTrap(Character target) { }
+    public virtual void ActivateTrap(Character target) 
+    {
+       
+    }
 }

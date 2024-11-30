@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
 
     [Header("---UI---")]
     [SerializeField] private TextMeshProUGUI seedText;           //for debugging only
+    [SerializeField] private TextMeshProUGUI damageText;
 
     [Header("---Turn order and count---")]
     public List<Character> turnOrder;
@@ -130,6 +131,7 @@ public class GameManager : MonoBehaviour
 
         //icon setup
         icon_trapWarning.SetActive(false);
+        damageText.gameObject.SetActive(false);
 
         //combat setup
         //combatManager.InitSetup();
@@ -1283,6 +1285,11 @@ public class GameManager : MonoBehaviour
         StartCoroutine(MoveCharacter(character, destination, cpuAttacking));
     }
 
+    public void DisplayDamage(Character character, float damage)
+    {
+        StartCoroutine(ShowDamage(character, damage));
+    }
+
     #region Coroutines
     IEnumerator CheckCharacterState(Character character)
     {
@@ -1726,13 +1733,8 @@ public class GameManager : MonoBehaviour
     IEnumerator TriggerTrap(Character character, Trap trap)
     {
         //show '!!' animation to indicate that a trap was sprung
-        icon_trapWarning.SetActive(true);
-        icon_trapWarning.transform.position = new Vector3(character.transform.position.x + 1, character.transform.position.y + 1,
-            character.transform.position.z);
+        yield return ShowWarning(character, 0.6f);
 
-        yield return new WaitForSeconds(1);
-
-        icon_trapWarning.SetActive(false);
         if (Random.value <= character.evd * character.evdMod)
         {
             //trap evaded, keep moving
@@ -1745,10 +1747,9 @@ public class GameManager : MonoBehaviour
         {
             //trap triggered, stop moving
             //shake the character around to indicate damage
-            yield return ShakeCharacter(character, 1);
+            yield return ShakeCharacter(character, 0.8f);
             trap.ActivateTrap(character);
         }
-        //yield return null;
     }
 
     //animation for when a character takes damage.
@@ -1774,6 +1775,40 @@ public class GameManager : MonoBehaviour
         }
         character.transform.position = originalPos;
         character.GetComponent<Rigidbody>().useGravity = true;
+    }
+
+    //displays damage dealt in the field.
+    IEnumerator ShowDamage(Character character, float damage)
+    {
+        float duration = 1;
+        float currentTime = Time.time;
+        Vector3 charPos = new Vector3(character.transform.position.x + 2, character.transform.position.y + 2, 0);
+        damageText.transform.position = Camera.main.WorldToScreenPoint(charPos);
+        Vector3 textPos = damageText.transform.position;
+
+        //show damage
+        damageText.gameObject.SetActive(true);
+        damageText.text = damage.ToString();
+        while (Time.time < currentTime + duration)
+        {
+            textPos = new Vector3(textPos.x, textPos.y + 50 * Time.deltaTime, textPos.z);
+            damageText.transform.position = textPos;
+            yield return null;
+        }
+
+        damageText.gameObject.SetActive(false);
+    }
+
+    //displays '!!' on a character
+    IEnumerator ShowWarning(Character character, float duration)
+    {
+        icon_trapWarning.SetActive(true);
+        icon_trapWarning.transform.position = new Vector3(character.transform.position.x + 1, character.transform.position.y + 1,
+            character.transform.position.z);
+
+        yield return new WaitForSeconds(duration);
+
+        icon_trapWarning.SetActive(false);
     }
 
     #endregion

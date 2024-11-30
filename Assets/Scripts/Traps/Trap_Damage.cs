@@ -13,6 +13,10 @@ public class Trap_Damage : Trap
         target.healthPoints -= damageAmount;
         Debug.LogFormat("{0} triggered a damage trap and has taken {1} damage!", target.characterName, damageAmount);
 
+        //display damage
+        GameManager gm = Singleton.instance.GameManager;
+        gm.DisplayDamage(target, damageAmount);
+
         //update HUD
         if (target is Hunter hunter)
         {
