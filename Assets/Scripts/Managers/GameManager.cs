@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
 
     [Header("---UI---")]
     [SerializeField] private TextMeshProUGUI seedText;           //for debugging only
-    [SerializeField] private TextMeshProUGUI damageText;
+    [SerializeField] private TextMeshProUGUI damageText, statusText;
 
     [Header("---Turn order and count---")]
     public List<Character> turnOrder;
@@ -131,9 +131,10 @@ public class GameManager : MonoBehaviour
         dice.dieImages[1].sprite = dice.diceSprites[0];
         //gameCamera.transform.position = new Vector3(newCamPos.x - 4, 5, newCamPos.z + 4);
 
-        //icon setup
+        //UI & icon setup
         icon_trapWarning.SetActive(false);
         damageText.gameObject.SetActive(false);
+        statusText.gameObject.SetActive(false);
 
         //combat setup
         //combatManager.InitSetup();
@@ -1292,6 +1293,11 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ShowDamage(character, damage));
     }
 
+    public void DisplayStatusEffect(Character character, string statusText)
+    {
+        StartCoroutine(ShowStatusEffect(character, statusText));
+    }
+
     #region Coroutines
     IEnumerator CheckCharacterState(Character character)
     {
@@ -1808,6 +1814,27 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         icon_trapWarning.SetActive(false);
+    }
+
+    IEnumerator ShowStatusEffect(Character character, string statusText)
+    {
+        float duration = 1;
+        float currentTime = Time.time;
+        Vector3 charPos = new Vector3(character.transform.position.x + 2, character.transform.position.y + 2, 0);
+        this.statusText.transform.position = Camera.main.WorldToScreenPoint(charPos);
+        Vector3 textPos = this.statusText.transform.position;
+
+        //show status effect text
+        this.statusText.gameObject.SetActive(true);
+        this.statusText.text = statusText;
+        while (Time.time < currentTime + duration)
+        {
+            textPos = new Vector3(textPos.x, textPos.y + 50 * Time.deltaTime, textPos.z);
+            this.statusText.transform.position = textPos;
+            yield return null;
+        }
+
+        this.statusText.gameObject.SetActive(false);
     }
 
     #endregion

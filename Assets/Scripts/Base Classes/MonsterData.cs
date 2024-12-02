@@ -22,6 +22,7 @@ public class MonsterData : ScriptableObject
     public int baseMoney;                //amount of money dropped scales with level.
     public float growthRate;            //increases stats. Not sure if I want individual rates for each stat yet.
     public Monster_AI behaviour;
+    public List<Skill> skills;
 
     [Serializable]
     public struct DropTable

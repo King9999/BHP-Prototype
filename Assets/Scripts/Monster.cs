@@ -61,6 +61,11 @@ public abstract class Monster : Character
         growthRate = data.growthRate;
         cpuBehaviour = data.behaviour;
 
+        //add skills
+        for (int i = 0; i < data.skills.Count; i++)
+            skills.Add(Instantiate(data.skills[i]));
+        
+
 
         //growth rate is 0 if average level is less than 5.
         growthRate = averageLevel < 5 ? 0 : 0.125f;
