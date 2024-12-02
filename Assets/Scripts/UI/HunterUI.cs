@@ -188,18 +188,18 @@ public class HunterUI : MonoBehaviour
 
             //check if any buttons need to be disabled
             GameManager gm = Singleton.instance.GameManager;
-            if (gm.characterActed)
+            if (gm.CharacterActed)
                 EnableButton(actionButton, false);
             else
                 EnableButton(actionButton, true);
 
-            if (gm.characterMoved)
+            if (gm.CharacterMoved)
                 EnableButton(moveButton, false);
             else
                 EnableButton(moveButton, true);
 
             //did character rest?
-            if (gm.characterActed || gm.characterMoved)
+            if (gm.CharacterActed || gm.CharacterMoved)
                 EnableButton(restButton, false);
             else
                 EnableButton(restButton, true);

@@ -303,7 +303,7 @@ public class HunterManager : MonoBehaviour
 
         //testing out cards
         CardManager cm = Singleton.instance.CardManager;
-        cm.DrawCard(hunter, Card.CardID.TrapDamage);
+        cm.DrawCard(hunter, Card.CardID.TrapDizzy);
         //cm.DrawCard(hunter, cm.deck, 5);
 
         /****Give super TODO: Player can choose which super they want. For now, will just pick random */
@@ -1279,7 +1279,7 @@ public class HunterManager : MonoBehaviour
     public void OnMoveButtonPressed()
     {
         GameManager gm = Singleton.instance.GameManager;
-        if (gm.characterMoved)
+        if (gm.CharacterMoved)
             return;
 
         //gm.dice.ShowSingleDieUI(true);
@@ -1291,7 +1291,7 @@ public class HunterManager : MonoBehaviour
     public void OnActionButtonPressed()
     {
         GameManager gm = Singleton.instance.GameManager;
-        if (gm.characterActed)
+        if (gm.CharacterActed)
             return;
 
         //show submenu here
@@ -1318,7 +1318,7 @@ public class HunterManager : MonoBehaviour
     public void OnRestButtonPressed()
     {
         GameManager gm = Singleton.instance.GameManager;
-        if (gm.characterActed || gm.characterMoved)
+        if (gm.CharacterActed || gm.CharacterMoved)
             return;
 
         if (gm.ActiveCharacter() is Hunter hunter)

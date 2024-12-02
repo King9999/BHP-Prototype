@@ -7,17 +7,36 @@ using UnityEngine;
 public class StatusEffect_Dizzy : StatusEffect
 {
    void Reset()
-    {
+   {
         effectName = "Dizzy";
         effectDetails = "Target cannot act. If target is damaged, dizzy is removed.";
         effectType = EffectType.Debuff;
         hasDuration = true;
+   }
+
+    public override void ApplyEffect(Character user)
+    {
+        Debug.LogFormat("{0} is stunned. Turn is over", user.characterName);
+        GameManager gm = Singleton.instance.GameManager;
+        gm.ForceStop = true;
+        //gm.EndTurn();
+        //Debug.LogFormat("It's now {0}'s turn", gm.ActiveCharacter().characterName);
+    }
+
+    public override void UpdateEffect(Character user)
+    {
+        //if we get here, apply effect
+        Debug.LogFormat("{0} is stunned. Turn is passed", user.characterName);
+        GameManager gm = Singleton.instance.GameManager;
+        gm.ForceStop = true;
+        //Debug.LogFormat("It's now {0}'s turn", gm.ActiveCharacter().characterName);
+        base.UpdateEffect(user);
     }
 
     //remove dizzy status
     public override void CleanupEffect(Character user)
     {
-        Debug.Log("Removing dizzy status from " + user.characterName);
+        Debug.LogFormat("Removing dizzy status from {0}", user.characterName);
         base.CleanupEffect(user);   
     }
 }

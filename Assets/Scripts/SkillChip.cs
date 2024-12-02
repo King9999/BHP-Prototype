@@ -12,7 +12,7 @@ public class SkillChip : Item
     void Reset()
     {
         itemType = ItemType.SkillChip;
-        price = 1000;   //all chips have the same price since there's no rarity associated with skills.
+        price = 2500;   //all chips have the same price since there's no rarity associated with skills.
     }
 
     //generate a random skill.

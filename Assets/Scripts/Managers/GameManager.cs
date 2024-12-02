@@ -42,7 +42,9 @@ public class GameManager : MonoBehaviour
     public List<GameObject> moveTileList, moveTileBin, skillTileList, skillTileBin;          //bin is used for recycling instantiated move tiles
 
     bool runMovementCheck, runSkillCheck, moveTilesActive, skillTilesActive;
-    public bool characterMoved, characterActed;    //acted includes attacking, using a skill or item.
+    public bool CharacterMoved { get; set; } 
+    public bool CharacterActed { get; set; }    //acted includes attacking, using a skill or item. 
+    public bool ForceStop { get; set; }                  //ForceStop is for when movement is interrupted by debuffs or skills.
     public ActiveSkill selectedSkill;     //the active skill being used after being selected from skill menu.
     public int movementMod;             //value that's added to character's roll when moving. Altered by cards and skills.
 
@@ -391,7 +393,7 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.Combat:
-                characterActed = true;
+                CharacterActed = true;
                 Singleton s = Singleton.instance;
                 s.attacker = ActiveCharacter();
                 s.defender = ActiveCharacter().targetChar;
@@ -486,7 +488,7 @@ public class GameManager : MonoBehaviour
 
     public void StartCombat(Character attacker, Character defender)
     {
-        characterActed = true;
+        CharacterActed = true;
         selectTile.SetActive(false);
         //combatManager.gameObject.SetActive(true);
         //combatManager.StartCombat(attacker, defender);
@@ -1293,11 +1295,11 @@ public class GameManager : MonoBehaviour
     #region Coroutines
     IEnumerator CheckCharacterState(Character character)
     {
-        if (characterActed && characterMoved)
+        if (ForceStop || (CharacterActed && CharacterMoved))
         {
             EndTurn();
         }
-        else if (!characterActed && !characterMoved)
+        else if (!CharacterActed && !CharacterMoved)
         {
             StartCoroutine(TakeTurn(character));
         }
@@ -1305,7 +1307,7 @@ public class GameManager : MonoBehaviour
         {
             HunterManager hm = Singleton.instance.HunterManager;
             //disable move button if moved, or other buttons if character took action.
-            if (characterMoved && !characterActed)
+            if (CharacterMoved && !CharacterActed)
             {
                 yield return MoveCameraToCharacter(character);
 
@@ -1348,7 +1350,7 @@ public class GameManager : MonoBehaviour
 
                 }
             }
-            else if (!characterMoved && characterActed)
+            else if (!CharacterMoved && CharacterActed)
             {
                 //move character
                 if (character.cpuControlled)
@@ -1361,8 +1363,9 @@ public class GameManager : MonoBehaviour
     //a menu is displayed if the character is controlled by a player. Otherwise, CPU takes action.
     IEnumerator TakeTurn(Character character)
     {
-        characterActed = false;
-        characterMoved = false;
+        CharacterActed = false;
+        CharacterMoved = false;
+        ForceStop = false;
         turnCount++;
         Debug.LogFormat("------Turn {0}------", turnCount);
 
@@ -1410,68 +1413,75 @@ public class GameManager : MonoBehaviour
 
 
         //once complete, show the menu if the active character is a player. Otherwise, CPU takes action.
-        //draw a card
-        if (character is Hunter hunter)
+        if (!ForceStop)
         {
-            CardManager cm = Singleton.instance.CardManager;
-            cm.DrawCard(hunter, cm.deck);
-            Debug.LogFormat("Hunter {0} drew a card", hunter.characterName);
-
-            //gain super meter
-            hm.UpdateSuperMeter(hunter, hm.SuperMeterGain_turnStart);
-
-            if (!hunter.cpuControlled)
+            //draw a card
+            if (character is Hunter hunter)
             {
-                hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Default);
-            }
-            else
-            {
-                //CPU takes action.
-                hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.CPUTurn);
-                //activate any behaviour-specific abilities.
-                hunter.cpuBehaviour.ActivateAbility(hunter);
+                CardManager cm = Singleton.instance.CardManager;
+                cm.DrawCard(hunter, cm.deck);
+                Debug.LogFormat("Hunter {0} drew a card", hunter.characterName);
 
-                //Before moving, check if the hunter is already in attack range by checking all applicable skills.
-                //Pick basic attack for checking, will choose another skill later
-                List<Room> skillRange = new List<Room>();
-                List<Character> targetChars = new List<Character>();
-                List<ActiveSkill> activeSkills = new List<ActiveSkill>();
-                for (int i = 0; i < hunter.skills.Count; i++)
+                //gain super meter
+                hm.UpdateSuperMeter(hunter, hm.SuperMeterGain_turnStart);
+
+                if (!hunter.cpuControlled)
                 {
-                    if (hunter.skills[i] is ActiveSkill activeSkill && activeSkill.skillCost <= hunter.skillPoints)
-                    {
-                        skillRange = ShowSkillRange(hunter, activeSkill.minRange, activeSkill.maxRange);
-                        targetChars = hunter.CPU_CheckCharactersInRange(skillRange);
-                        if (targetChars.Count > 0)
-                        {
-                            activeSkills.Add(activeSkill);
-                        }
-                    }
-
-                }
-                //ActiveSkill basicAttack = hunter.skills[0] as ActiveSkill;
-                //List<Room> skillRange = ShowSkillRange(hunter, basicAttack.minRange, basicAttack.maxRange);
-                //List<Character> targetChars = hunter.CPU_CheckCharactersInRange(skillRange);
-
-                if (activeSkills.Count > 0)
-                {
-                    int randSkill = Random.Range(0, activeSkills.Count);
-                    int randTarget = Random.Range(0, targetChars.Count);
-                    hunter.chosenSkill = activeSkills[randSkill];
-                    hunter.targetChar = targetChars[randTarget];
-                    hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.UseSkill, hunter);
+                    hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Default);
                 }
                 else
                 {
-                    hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.Moving, hunter);
+                    //CPU takes action.
+                    hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.CPUTurn);
+                    //activate any behaviour-specific abilities.
+                    hunter.cpuBehaviour.ActivateAbility(hunter);
+
+                    //Before moving, check if the hunter is already in attack range by checking all applicable skills.
+                    //Pick basic attack for checking, will choose another skill later
+                    List<Room> skillRange = new List<Room>();
+                    List<Character> targetChars = new List<Character>();
+                    List<ActiveSkill> activeSkills = new List<ActiveSkill>();
+                    for (int i = 0; i < hunter.skills.Count; i++)
+                    {
+                        if (hunter.skills[i] is ActiveSkill activeSkill && activeSkill.skillCost <= hunter.skillPoints)
+                        {
+                            skillRange = ShowSkillRange(hunter, activeSkill.minRange, activeSkill.maxRange);
+                            targetChars = hunter.CPU_CheckCharactersInRange(skillRange);
+                            if (targetChars.Count > 0)
+                            {
+                                activeSkills.Add(activeSkill);
+                            }
+                        }
+
+                    }
+                    //ActiveSkill basicAttack = hunter.skills[0] as ActiveSkill;
+                    //List<Room> skillRange = ShowSkillRange(hunter, basicAttack.minRange, basicAttack.maxRange);
+                    //List<Character> targetChars = hunter.CPU_CheckCharactersInRange(skillRange);
+
+                    if (activeSkills.Count > 0)
+                    {
+                        int randSkill = Random.Range(0, activeSkills.Count);
+                        int randTarget = Random.Range(0, targetChars.Count);
+                        hunter.chosenSkill = activeSkills[randSkill];
+                        hunter.targetChar = targetChars[randTarget];
+                        hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.UseSkill, hunter);
+                    }
+                    else
+                    {
+                        hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.Moving, hunter);
+                    }
                 }
             }
+            else  //this is a monster, which is always CPU-controlled.
+            {
+                hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.CPUTurn);
+                Monster monster = character as Monster;
+                monster.MoveMonster(monster);
+            }
         }
-        else  //this is a monster, which is always CPU-controlled.
+        else //turn ends due to some abnormal condition
         {
-            hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.CPUTurn);
-            Monster monster = character as Monster;
-            monster.MoveMonster(monster);
+            StartCoroutine(CheckCharacterState(character));
         }
         //hm.ui.ShowHunterMenu(true, character);
     }
@@ -1611,7 +1621,7 @@ public class GameManager : MonoBehaviour
         character.ChangeCharacterState(character.characterState = Character.CharacterState.Moving);
         int j = 0;
         float speed = 8;
-        while (j < destinationRooms.Count && character.transform.position != destination)
+        while (!ForceStop && j < destinationRooms.Count && character.transform.position != destination)
         {
             //the room's Y position must match the character's since the character is above the room
             Vector3 nextPos = new Vector3(destinationRooms[j].transform.position.x, character.transform.position.y,
@@ -1646,23 +1656,11 @@ public class GameManager : MonoBehaviour
             {
                 //trap triggered! Pause movement and do evasion check. TODO: Add coroutine here
                 yield return TriggerTrap(character, character.room.trap);
-                /*if (Random.value <= character.evd * character.evdMod)
-                {
-                    //trap evaded, keep moving
-                    Debug.LogFormat("{0} evaded {1}", character.characterName, character.room.trap.trapName);
-                    TrapManager tm = Singleton.instance.TrapManager;
-                    //character.room.trap = null;
-                    tm.RemoveTrap(character.room.trap);
-                }
-                else
-                {
-                    //trap triggered, stop moving
-                    character.room.trap.ActivateTrap(character);
-                }*/
+                
             }
 
             /******Check if CPU character is in attack range*****/
-            if (cpuAttacking && character.chosenSkill != null)
+            if (!ForceStop && cpuAttacking && character.chosenSkill != null)
             {
                 //scan area using the chosen skill's attack range. If the target is in range, stop
                 //character where they are.
@@ -1704,10 +1702,11 @@ public class GameManager : MonoBehaviour
         }
 
         //check if anything is on the space the hunter landed on
-        CheckForEntities(character.room, character);
+        if (!ForceStop)
+            CheckForEntities(character.room, character);
 
         //if character can still act, do so if necessary
-        characterMoved = true;
+        CharacterMoved = true;
         StartCoroutine(CheckCharacterState(character));
     }
 
