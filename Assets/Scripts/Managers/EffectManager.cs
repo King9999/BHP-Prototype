@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 /* Manages buffs and debuffs, and terminal effects. */
 public class EffectManager : MonoBehaviour
@@ -43,8 +44,41 @@ public class EffectManager : MonoBehaviour
 
         if (statusEffect.effectType == StatusEffect.EffectType.Buff)
         {
-            character.buffs.Add(statusEffect);
-            statusEffect.ApplyEffect(character);
+            //if we already have this buff and it has a duration, refresh duration.
+            if (character.buffs.Contains(statusEffect))
+            {
+                if (statusEffect.hasDuration)
+                {
+                    i = 0;
+                    bool buffFound = false;
+                    while (!buffFound && i < character.buffs.Count)
+                    {
+                        if (character.buffs[i] == statusEffect)
+                        {
+                            buffFound = true;
+                            character.buffs[i].currentDuration = 0;
+                        }
+                        else
+                        {
+                            i++;
+                        }
+                    }
+                }
+
+                //if we get here, effect doesn't have duration, and we don't need to do anything more.
+            }
+            //if character already has 3 buffs, remove the oldest buff which will be the one in index 0.
+            else if (character.MaxBuffs)
+            {
+                character.buffs[0].CleanupEffect(character);
+                character.buffs.Add(statusEffect);
+                statusEffect.ApplyEffect(character);
+            }
+            else
+            {
+                character.buffs.Add(statusEffect);
+                statusEffect.ApplyEffect(character);
+            }
         }
         else
         {
@@ -69,18 +103,96 @@ public class EffectManager : MonoBehaviour
 
                 if (!injuredFound)
                 {
-                    character.debuffs.Add(injured);
-                    injured.ApplyEffect(character);
+                    if (character.MaxDebuffs)
+                    {
+                        character.debuffs[0].CleanupEffect(character);
+                        character.debuffs.Add(injured);
+                        injured.ApplyEffect(character);
+                    }
+                    else
+                    {
+                        character.debuffs.Add(injured);
+                        injured.ApplyEffect(character);
+                    }
                 }
             }
             else
             {
-                character.debuffs.Add(statusEffect);
-                statusEffect.ApplyEffect(character);
+                //if we already have this debuff and it has a duration, refresh duration.
+                if (character.debuffs.Contains(statusEffect))
+                {
+                    if (statusEffect.hasDuration)
+                    {
+                        i = 0;
+                        bool debuffFound = false;
+                        while (!debuffFound && i < character.debuffs.Count)
+                        {
+                            if (character.debuffs[i] == statusEffect)
+                            {
+                                debuffFound = true;
+                                character.debuffs[i].currentDuration = 0;
+                            }
+                            else
+                            {
+                                i++;
+                            }
+                        }
+                    }
+                    
+                    //if we get here, effect doesn't have duration, and we don't need to do anything more.
+                }
+                else if (character.MaxDebuffs)
+                {
+                    character.debuffs[0].CleanupEffect(character);
+                    character.debuffs.Add(statusEffect);
+                    statusEffect.ApplyEffect(character);
+                }
+                else
+                {
+                    character.debuffs.Add(statusEffect);
+                    statusEffect.ApplyEffect(character);
+                }
             }
 
         }
         //statusEffect.ApplyEffect(character);
     }
+
+    /*private StatusEffect AddEffect(Character character, List<StatusEffect> effectList)
+    {
+        StatusEffect effect = null;
+        //if we already have this buff and it has a duration, refresh duration.
+        if (effect.hasDuration && effectList.Contains(effect))
+        {
+            int i = 0;
+            //bool buffFound = false;
+            while (!buffFound && i < effectList.Count)
+            {
+                if (effectList[i] == effect)
+                {
+                    //buffFound = true;
+                    effectList[i].currentDuration = 0;
+                    return null;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+        }
+        //if character already has 3 buffs/debuffs, remove the oldest de/buff which will be the one in index 0.
+        else if (effectList.Count >= 3)
+        {
+            effectList[0].CleanupEffect(character);
+            return effect;
+            //effectList.Add(effect);
+            //effect.ApplyEffect(character);
+        }
+        else
+        {
+            return effect;
+            //effect.ApplyEffect(character);
+        }
+    }*/
    
 }

@@ -35,14 +35,6 @@ public abstract class StatusEffect : ScriptableObject
             //remove this effect
             //currentDuration = 0;
             CleanupEffect(user);
-            /*if (effectType == EffectType.Buff) 
-            {
-                user.buffs.Remove(this);
-            }
-            else
-            {
-                user.debuffs.Remove(this);
-            }*/
         }
     }
 
@@ -54,6 +46,15 @@ public abstract class StatusEffect : ScriptableObject
     //removes effect
     public virtual void CleanupEffect(Character user)
     {
+        if (effectType == EffectType.Buff)
+        {
+            user.buffs.Remove(this);
+        }
+        else
+        {
+            user.debuffs.Remove(this);
+        }
+        
         Destroy(this);
     }
 }

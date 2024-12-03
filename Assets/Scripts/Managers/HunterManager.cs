@@ -10,6 +10,7 @@ using JetBrains.Annotations;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor.PackageManager;
+using UnityEngine.UIElements;
 //using System;
 
 /* This script handles hunter creation. The UI for hunter setup is here. */
@@ -303,18 +304,17 @@ public class HunterManager : MonoBehaviour
 
         //testing out cards
         CardManager cm = Singleton.instance.CardManager;
-        cm.DrawCard(hunter, Card.CardID.TrapDizzy);
+        cm.DrawCard(hunter, Card.CardID.TrapVise);
         //cm.DrawCard(hunter, cm.deck, 5);
 
         /****Give super TODO: Player can choose which super they want. For now, will just pick random */
         SkillManager sm = Singleton.instance.SkillManager;
         hunter.super = sm.AddSuper();
 
-        //give hunter a weapon
-        /*ItemManager im = ItemManager.instance;
-        hunter.Equip(im.GenerateWeapon());
-        ui.equippedWeaponText.text = hunter.equippedWeapon.itemName;
-        ui.hunterAtpText.text = hunter.atp.ToString();*/
+        //give hunter an item
+        //ItemManager im = ItemManager.instance;
+        //hunter.inventory.Add(im.lootTable.GetItem(Table.ItemType.SkillChip));
+
         ToggleHunter(hunter, false);    //disable hunter for now
         hunters.Add(hunter);
         //hunters[0].inventory.Add(im.GenerateWeapon());  //adding weapon as a test
@@ -705,7 +705,7 @@ public class HunterManager : MonoBehaviour
         yield return new WaitForSeconds(1);
 
         //show move tiles. This code is identical to the code in the Update look of GameManager.
-        int totalMove = hunter.mov + gm.dice.RollSingleDie() + gm.movementMod;
+        int totalMove = Mathf.RoundToInt((hunter.mov + gm.dice.RollSingleDie() + gm.movementMod) * hunter.movMod);
         List<Room> moveRange = gm.ShowMoveRange(hunter, totalMove);
         Debug.LogFormat("Total Move for {0}: {1}", hunter.characterName, totalMove);
 

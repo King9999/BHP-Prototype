@@ -80,7 +80,7 @@ public abstract class Monster : Character
         spd = baseSpd * (1 + Mathf.Round(growthRate * monsterLevel));
         evd = baseEvd * (1 + Mathf.Round(growthRate * monsterLevel));
         //Debug.Log("Monster ATP: " + baseAtp * 1 + (growthRate * monsterLevel));
-        mov = baseMov + (monsterLevel / 5);
+        mov = baseMov + (monsterLevel / 10);
         //evd = Mathf.Round(baseEvd)
         healthPoints = maxHealthPoints;
         skillPoints = maxSkillPoints;

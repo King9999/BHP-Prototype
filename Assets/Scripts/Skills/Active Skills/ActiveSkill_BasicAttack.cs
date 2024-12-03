@@ -35,51 +35,58 @@ public class ActiveSkill_BasicAttack : ActiveSkill
     public override IEnumerator Animate(Character character, Character target/*Vector3 destination*/)
     {
         //different function depending on whether weapon is ranged or melee
-        Hunter hunter = character as Hunter;
-        if (hunter.equippedWeapon.weaponType == Weapon.WeaponType.BeamSword)
+        if (character is Hunter hunter)
         {
-            float moveSpeed = 12;
-
-            //get the space in fron of target
-            Vector3 destination = target.transform.position;
-            //float direction = destination.x - hunter.transform.position.x;
-            float newX = 0;
-            if (destination.x > hunter.transform.position.x)
+            if (hunter.equippedWeapon.weaponType == Weapon.WeaponType.BeamSword)
             {
-                newX = destination.x - 2;
+                float moveSpeed = 12;
+
+                //get the space in front of target. We don't want the Y position to change, otherwise the hunter
+                //might get stuck in the geometry trying to match the target's Y position.
+                Vector3 destination = new Vector3(target.transform.position.x, hunter.transform.position.y, target.transform.position.z);
+                //float direction = destination.x - hunter.transform.position.x;
+                float newX = 0;
+                if (destination.x > hunter.transform.position.x)
+                {
+                    newX = destination.x - 2;
+                }
+                else if (destination.x < hunter.transform.position.x)
+                {
+                    newX = destination.x + 2;
+                }
+
+                destination = new Vector3(newX, destination.y, destination.z);
+                Vector3 originalPos = hunter.transform.position;
+                //run up to space in front of target
+                while (hunter.transform.position != destination)
+                {
+                    hunter.transform.position = Vector3.MoveTowards(hunter.transform.position, destination, moveSpeed * Time.deltaTime);
+                    yield return null;
+                }
+
+                //deal damage, then return to original position.
+                //GameManager gm = Singleton.instance.GameManager;
+                //gm.combatManager.DoDamage(hunter, target);
+
+                Combat combat = Singleton.instance.Combat;
+                combat.DoDamage(hunter, target);
+
+                yield return new WaitForSeconds(0.5f);
+                hunter.transform.position = originalPos;
             }
-            else if (destination.x < hunter.transform.position.x)
+            else
             {
-                newX = destination.x + 2;
+                //ranged attack. Just call sprite animation
+                Combat combat = Singleton.instance.Combat;
+                combat.DoDamage(hunter, target);
+
+                yield return new WaitForSeconds(0.5f);
+                //yield return null;
             }
-
-            destination = new Vector3(newX, destination.y, destination.z);
-            Vector3 originalPos = hunter.transform.position;
-            //run up to space in front of target
-            while (hunter.transform.position != destination)
-            {
-                hunter.transform.position = Vector3.MoveTowards(hunter.transform.position, destination, moveSpeed * Time.deltaTime);
-                yield return null;
-            }
-
-            //deal damage, then return to original position.
-            //GameManager gm = Singleton.instance.GameManager;
-            //gm.combatManager.DoDamage(hunter, target);
-
-            Combat combat = Singleton.instance.Combat;
-            combat.DoDamage(hunter, target);
-
-            yield return new WaitForSeconds(0.5f);
-            hunter.transform.position = originalPos;
         }
-        else
+        else //a monster is attacking.
         {
-            //ranged attack. Just call sprite animation
-            Combat combat = Singleton.instance.Combat;
-            combat.DoDamage(hunter, target);
-
-            yield return new WaitForSeconds(0.5f);
-            //yield return null;
+            //monsters have unique basic attacks, which could be either ranged or melee.
         }
     }
 

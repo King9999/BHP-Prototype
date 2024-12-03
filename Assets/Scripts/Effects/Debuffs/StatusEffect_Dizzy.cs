@@ -19,8 +19,6 @@ public class StatusEffect_Dizzy : StatusEffect
         Debug.LogFormat("{0} is stunned. Turn is over", user.characterName);
         GameManager gm = Singleton.instance.GameManager;
         gm.ForceStop = true;
-        //gm.EndTurn();
-        //Debug.LogFormat("It's now {0}'s turn", gm.ActiveCharacter().characterName);
     }
 
     public override void UpdateEffect(Character user)
@@ -29,7 +27,6 @@ public class StatusEffect_Dizzy : StatusEffect
         Debug.LogFormat("{0} is stunned. Turn is passed", user.characterName);
         GameManager gm = Singleton.instance.GameManager;
         gm.ForceStop = true;
-        //Debug.LogFormat("It's now {0}'s turn", gm.ActiveCharacter().characterName);
         base.UpdateEffect(user);
     }
 

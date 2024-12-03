@@ -19,7 +19,7 @@ public abstract class Character : MonoBehaviour
     public float dfp;           //defense power. VIT + equipped armor + any other bonuses
     public float mnp;           //mental power. MNT + equipped weapon + any other bonuses
     public float rst;           //resistance. MNT + equipped armor + any other bonuses
-    public int mov;           //movement. MOV = SPD / 3 (rounded down) + any other bonuses
+    public float mov;           //movement. MOV = SPD / 3 (rounded down) + any other bonuses
     public float evd;           //evade chance. 
     protected bool isTheirTurn; //if true, avatar can perform actions.
     protected bool turnTaken;
@@ -35,6 +35,7 @@ public abstract class Character : MonoBehaviour
     public float mnpMod = 1;
     public float rstMod = 1;
     public float evdMod = 1;
+    public float movMod = 1;             
     public float debuffResist = 0;      //reduces the chance of being affected by a debuff. Value from 0 to 1. This is a hidden value.
 
     //coroutine check
@@ -123,7 +124,8 @@ public abstract class Character : MonoBehaviour
     [Header("---Status Effects---")]
     public List<StatusEffect> debuffs;     //Characters can have up to 3 buffs and debuffs. Adding a 4th overwrites the oldest effect.
     public List<StatusEffect> buffs;
-    protected int maxEffects { get; } = 3;
+    public bool MaxDebuffs { get { return debuffs.Count >= 3; } }
+    public bool MaxBuffs { get { return buffs.Count >= 3; } }
 
     public void Attack(ActiveSkill skill, Character target) 
     {
