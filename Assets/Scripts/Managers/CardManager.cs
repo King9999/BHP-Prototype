@@ -84,14 +84,14 @@ public class CardManager : MonoBehaviour
         int i = 0;
         do
         {
-            if (hunter.cards.Count < maxHand)
+            if (hunter.canDrawCard && hunter.cards.Count < maxHand )
             {
                 hunter.cards.Add(deck[0]);
                 Debug.LogFormat("Drew card {0}", deck[0].cardName);
             }
             else
             {
-                Debug.LogFormat("{0}'s hand is full! Discarding {1}", hunter.characterName, deck[0].cardName);
+                Debug.LogFormat("{0}'s hand is full!/cannot draw card! Discarding {1}", hunter.characterName, deck[0].cardName);
             }
 
             deck.Remove(deck[0]);

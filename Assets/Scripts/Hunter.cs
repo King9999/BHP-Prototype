@@ -49,6 +49,7 @@ public class Hunter : Character
 
     [Header("---Cards---")]
     public List<Card> cards;
+    public bool canDrawCard = true;     //affected by card drain debuff.
 
     private void Start()
     {

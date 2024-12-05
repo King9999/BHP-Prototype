@@ -48,4 +48,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9ba35ea860218a24c91541ca5a0f22b8, type: 2}
   - {fileID: 11400000, guid: e5fd8eccb3020bf4c9bb224f032e3464, type: 2}
   - {fileID: 11400000, guid: cd8a74168b91fb44ba1b74b23a029ec4, type: 2}
+  - {fileID: 11400000, guid: 40475d0a99585a6499803febb5e6a08f, type: 2}
   activeTrapList: []

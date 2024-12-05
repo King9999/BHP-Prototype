@@ -1424,6 +1424,7 @@ public class GameManager : MonoBehaviour
             //draw a card
             if (character is Hunter hunter)
             {
+                //Check if hunter has "Card Drain" debuff
                 CardManager cm = Singleton.instance.CardManager;
                 cm.DrawCard(hunter, cm.deck);
                 Debug.LogFormat("Hunter {0} drew a card", hunter.characterName);
