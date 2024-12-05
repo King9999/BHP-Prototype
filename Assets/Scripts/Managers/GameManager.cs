@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     [Header("---UI---")]
     [SerializeField] private TextMeshProUGUI seedText;           //for debugging only
     [SerializeField] private TextMeshProUGUI damageText, statusText;
+    [SerializeField] private TextMeshProUGUI terminalText;      //display messages when terminal touched.
+    [SerializeField] private GameObject terminalContainer;
 
     [Header("---Turn order and count---")]
     public List<Character> turnOrder;
@@ -135,6 +137,7 @@ public class GameManager : MonoBehaviour
         icon_trapWarning.SetActive(false);
         damageText.gameObject.SetActive(false);
         statusText.gameObject.SetActive(false);
+        terminalContainer.SetActive(false);
 
         //combat setup
         //combatManager.InitSetup();
@@ -466,24 +469,20 @@ public class GameManager : MonoBehaviour
         if (room.entity == null)
             return;
 
-        if (room.entity is Entity_TreasureChest chest && character is Hunter hunter)
+        if (character is Hunter hunter)
         {
-            //if it hasn't been opened, then character takes it.
-            chest.OpenChest(hunter);
-
-            //TODO: if item is target item, show some feedback.
-            /*if (!chest.playerInteracted)
+            if (room.entity is Entity_TreasureChest chest)
             {
-                hunter.inventory.Add(chest.item);
-                
-                chest.item = null;  //make sure by doing this, the item in inventory isn't also null
-                chest.playerInteracted = true;
-                
-                
-            }*/
-        }
+                //if it hasn't been opened, then character takes it.
+                chest.OpenChest(hunter);
+            }
 
-        //terminal check
+            //terminal check
+            if (room.entity is Entity_Terminal terminal)
+            {
+                terminal.ActivateTerminal(hunter);
+            }
+        }
 
         //exit check
         if (room.entity is Entity_Exit exit)
@@ -1802,6 +1801,26 @@ public class GameManager : MonoBehaviour
         }
 
         this.statusText.gameObject.SetActive(false);
+    }
+
+    IEnumerator ShowTerminalMessage(Hunter hunter, string message)
+    {
+        terminalContainer.SetActive(true);
+        Vector3 pos = new Vector3(hunter.transform.position.x - 1, hunter.transform.position.y + 4, 0);
+        terminalContainer.transform.position = Camera.main.WorldToScreenPoint(pos);
+
+        terminalText.text = message;
+        yield return new WaitForSeconds(3);
+
+        terminalContainer.SetActive(false);
+    }
+
+    #endregion
+
+    #region UI
+    public void DisplayTerminalBonus(Hunter hunter, string message)
+    {
+        StartCoroutine(ShowTerminalMessage(hunter, message));
     }
 
     #endregion

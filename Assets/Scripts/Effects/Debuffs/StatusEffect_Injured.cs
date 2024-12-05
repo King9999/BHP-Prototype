@@ -42,7 +42,7 @@ public class StatusEffect_Injured : StatusEffect
     //remove injured status
     public override void CleanupEffect(Character user)
     {
-        Debug.Log("Removing injured status from " + user.characterName);
+        Debug.LogFormat("Removing injured status from {0}", user.characterName);
         user.maxHealthPoints = originalHealthPoints;
         base.CleanupEffect(user);
         //Destroy(this);

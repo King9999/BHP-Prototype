@@ -30,7 +30,7 @@ public class StatusEffect_CardDrain : StatusEffect
             hunter.cards.Clear();
 
             //cannot draw card for 1 turn.
-            hunter.canDrawCard = false;
+            hunter.CanDrawCard = false;
         }
 
         //TODO: Add special condition for boss who has their own deck
@@ -42,7 +42,7 @@ public class StatusEffect_CardDrain : StatusEffect
         Debug.LogFormat("Removing 'Card Drain' debuff from {0}", user.characterName);
         if (user is Hunter hunter)
         {
-            hunter.canDrawCard = true;
+            hunter.CanDrawCard = true;
         }
         base.CleanupEffect(user);   
     }

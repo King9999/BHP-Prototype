@@ -84,7 +84,7 @@ public class CardManager : MonoBehaviour
         int i = 0;
         do
         {
-            if (hunter.canDrawCard && hunter.cards.Count < maxHand )
+            if (hunter.CanDrawCard && hunter.cards.Count < maxHand )
             {
                 hunter.cards.Add(deck[0]);
                 Debug.LogFormat("Drew card {0}", deck[0].cardName);

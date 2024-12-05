@@ -450,7 +450,7 @@ public class Dungeon : MonoBehaviour
         terminalContainer.transform.SetParent(transform);
 
         //# of terminals = random number between 0 and (Hunter count / 2)
-        int terminalCount = 1; //Random.Range(0, (hm.hunters.Count / 2) + 1);
+        int terminalCount = Random.Range(0, (hm.hunters.Count / 2) + 1);
         for (int i = 0; i < terminalCount; i++)
         {
             roomFound = false;
@@ -474,7 +474,11 @@ public class Dungeon : MonoBehaviour
                         occupiedLocations.Add(randRoom);
 
                         UpdateEntityRoom(terminal, dungeonRooms[randRoom]);
-                        //dungeonRooms[randRoom].entity = spawner;
+
+                        //get random terminal effect
+                        EffectManager em = Singleton.instance.EffectManager;
+                        int randEffect = Random.Range(0, em.terminalEffects.Count);
+                        terminal.terminalEffect = Instantiate(em.terminalEffects[randEffect]);
                         terminals.Add(terminal);
                     }
                     else

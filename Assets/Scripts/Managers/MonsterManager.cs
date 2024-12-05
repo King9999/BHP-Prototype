@@ -10,6 +10,7 @@ public class MonsterManager : MonoBehaviour
     public List<Monster> graveyard;             //killed monsters go here and are reused when necessary.
     //public List<Entity_Spawner> spawners;
     public static MonsterManager instance;
+    private GameObject monsterObject;
 
     private int spawnTimer { get; } = 8;        //minimum value is 3. Any less than that and hunters never get a turn.
     public int spawnMod;                        //used by dungeon mod to adjust spawn timer. Value can never be more than 5.
@@ -24,6 +25,12 @@ public class MonsterManager : MonoBehaviour
         }
 
         instance = this;
+    }
+
+    private void Start()
+    {
+        monsterObject = new GameObject("Monsters");
+        monsterObject.transform.SetParent(transform);
     }
 
     public int GetMonsterLimit()
@@ -41,7 +48,7 @@ public class MonsterManager : MonoBehaviour
     public Monster SpawnMonster(int monsterLevel)
     {
         int randMonster = Random.Range(0, masterMonsterList.Count);
-        Monster monster = Instantiate(masterMonsterList[randMonster]);
+        Monster monster = Instantiate(masterMonsterList[randMonster], monsterObject.transform);
         monster.InitializeStats(monsterLevel, monster.monsterData);
 
 

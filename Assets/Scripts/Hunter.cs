@@ -43,13 +43,16 @@ public class Hunter : Character
     public Item targetItem;             //easy way to check if hunter has the target.
     //public List<Item> stash;              //100 items max. THIS SHOULD NOT BE ATTACHED TO HUNTER, ONLY 1 STASH SHARED BETWEEN ALL HUNTERS
     public int credits;                     //money on hand
-    public int maxInventorySize { get; } = 10;
+    public int MaxInventorySize { get; } = 10;
     public int HudID { get; set; }                       //used to quickly identify hunter's HUD in game.
     //public int maxStashCount { get; } = 100;
 
     [Header("---Cards---")]
     public List<Card> cards;
-    public bool canDrawCard = true;     //affected by card drain debuff.
+    public bool CanDrawCard { get; set; } = true;     //affected by card drain debuff.
+
+    [Header("---Terminal Effects---")]
+    public List<TerminalEffect> terminalEffects;
 
     private void Start()
     {

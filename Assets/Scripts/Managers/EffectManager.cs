@@ -7,6 +7,7 @@ using UnityEngine.TextCore.Text;
 public class EffectManager : MonoBehaviour
 {
     public List<StatusEffect> statusEffects;    //contains both buffs and debuffs
+    public List<TerminalEffect> terminalEffects;
 
     public static EffectManager instance;
 
@@ -158,27 +159,57 @@ public class EffectManager : MonoBehaviour
         //statusEffect.ApplyEffect(character);
     }
 
-    /*private StatusEffect AddEffect(Character character, List<StatusEffect> effectList)
+    public void AddEffect(TerminalEffect.EffectID effectID, Hunter hunter)
+    {
+        //search for the effect
+        TerminalEffect effect = null;
+        int i = 0;
+        bool buffFound = false;
+        while (!buffFound && i < terminalEffects.Count)
+        {
+            if (terminalEffects[i].effectID == effectID)
+            {
+                buffFound = true;
+                effect = Instantiate(terminalEffects[i]);
+
+                //does hunter already have this effect?
+                if (!hunter.terminalEffects.Contains(effect))
+                {
+                    hunter.terminalEffects.Add(effect);
+                    effect.ActivateEffect(hunter);
+                }
+            }
+            else
+            {
+                i++;
+            }
+        }
+           
+    }
+
+    /*private StatusEffect GetEffect(Character character, List<StatusEffect> effectList)
     {
         StatusEffect effect = null;
         //if we already have this buff and it has a duration, refresh duration.
         if (effect.hasDuration && effectList.Contains(effect))
         {
             int i = 0;
-            //bool buffFound = false;
+            bool buffFound = false;
             while (!buffFound && i < effectList.Count)
             {
                 if (effectList[i] == effect)
                 {
-                    //buffFound = true;
+                    buffFound = true;
                     effectList[i].currentDuration = 0;
-                    return null;
+                    return effect;
                 }
                 else
                 {
                     i++;
                 }
             }
+
+            if (!buffFound) return effect;
         }
         //if character already has 3 buffs/debuffs, remove the oldest de/buff which will be the one in index 0.
         else if (effectList.Count >= 3)

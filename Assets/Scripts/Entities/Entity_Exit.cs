@@ -25,7 +25,7 @@ public class Entity_Exit : Entity
             if (hunter.HasTargetItem())
             {
                 //game is over, target has been found.
-                Debug.Log(hunter.characterName + "is the winner!");
+                Debug.LogFormat("{0} is the winner!", hunter.characterName);
             }
             else
             {

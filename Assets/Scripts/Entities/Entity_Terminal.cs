@@ -6,6 +6,7 @@ using UnityEngine;
 public class Entity_Terminal : Entity
 {
     public Sprite activeTerminal, inactiveTerminal;
+    public TerminalEffect terminalEffect;
 
     // Start is called before the first frame update
     void Awake()
@@ -24,7 +25,10 @@ public class Entity_Terminal : Entity
 
     public void ActivateTerminal(Hunter hunter)
     {
+        if (playerInteracted) return;
         //get a random bonus and apply it to hunter.
+        terminalEffect.ActivateEffect(hunter);
+        playerInteracted = true;
     }
     
 }
