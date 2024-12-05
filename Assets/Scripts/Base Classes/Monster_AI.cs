@@ -51,7 +51,7 @@ public class Monster_AI : ScriptableObject
         yield return new WaitForSeconds(1);
 
         //show move tiles. This code is identical to the code in the Update method of GameManager.
-        int totalMove = Mathf.RoundToInt((monster.mov + gm.dice.RollSingleDie() + gm.movementMod) * monster.movMod);
+        int totalMove = Mathf.RoundToInt((monster.mov + gm.dice.RollSingleDie(Dice.DiceType.Move) + gm.movementMod) * monster.movMod);
         List<Room> moveRange = gm.ShowMoveRange(monster, totalMove);
         Debug.LogFormat("Total Move for {0}: {1}", monster.characterName, totalMove);
 

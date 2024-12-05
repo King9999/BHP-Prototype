@@ -127,8 +127,8 @@ public class GameManager : MonoBehaviour
         //moveCameraToCharacter = true;
         currentCharacter = 0;
         //StartCoroutine(TakeTurn(ActiveCharacter()));
-        dice.dieImages[0].sprite = dice.diceSprites[0];
-        dice.dieImages[1].sprite = dice.diceSprites[0];
+        dice.dieImages[0].sprite = dice.diceObjects[(int)dice.diceType].diceSprites[0];
+        dice.dieImages[1].sprite = dice.diceObjects[(int)dice.diceType].diceSprites[0];
         //gameCamera.transform.position = new Vector3(newCamPos.x - 4, 5, newCamPos.z + 4);
 
         //UI & icon setup
@@ -179,7 +179,7 @@ public class GameManager : MonoBehaviour
             //HunterManager hm = Singleton.instance.HunterManager;
 
             //Dungeon dun = Singleton.instance.Dungeon;
-            int totalMove = Mathf.RoundToInt((ActiveCharacter().mov + dice.RollSingleDie() + movementMod) * ActiveCharacter().movMod);
+            int totalMove = Mathf.RoundToInt((ActiveCharacter().mov + dice.RollSingleDie(Dice.DiceType.Move) + movementMod) * ActiveCharacter().movMod);
             List<Room> moveRange = ShowMoveRange(ActiveCharacter(), totalMove);
             Debug.LogFormat("Total Move: {0}", totalMove);
 
@@ -451,40 +451,6 @@ public class GameManager : MonoBehaviour
         defenderDieTwoGUI.text = dice.die2.ToString();
         defenderDfp_total.text = "DFP\n+" + mm.activeMonsters[0].dfp;
         defenderTotalDefense.text = defenderTotalRoll.ToString();*/
-    }
-
-    private int GetTotalRoll_Attacker(Character character)
-    {
-
-        int diceResult = dice.RollDice();
-
-        if (character is Hunter hunter /*character.TryGetComponent<Hunter>(out Hunter hunter)*/)
-        {
-            return diceResult + (int)hunter.atp;
-        }
-        else if (character is Monster monster /*character.TryGetComponent<Monster>(out Monster monster)*/)
-        {
-            return diceResult + (int)monster.atp;
-        }
-        else
-            return 0;
-    }
-
-    private int GetTotalRoll_Defender(Character character)
-    {
-        //roll 2 dice if character is defending, i.e. they forfeit their chance to counterattack.
-        int dieResult = character.characterState == Character.CharacterState.Guarding ? dice.RollDice() : dice.RollSingleDie();
-
-        if (character is Hunter hunter /*character.TryGetComponent<Hunter>(out Hunter hunter)*/)
-        {
-            return dieResult + (int)hunter.dfp;
-        }
-        else if (character is Monster monster /*character.TryGetComponent<Monster>(out Monster monster)*/)
-        {
-            return dieResult + (int)monster.dfp;
-        }
-        else
-            return 0;
     }
 
     public void StartCombat(Character attacker, Character defender)

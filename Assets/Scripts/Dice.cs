@@ -4,16 +4,28 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 //simple script for rolling two six-sided dice. There will be an option to roll one die if necessary.
 public class Dice : MonoBehaviour
 {
     public int die1, die2;
-    public Sprite[] diceSprites;
+    public DiceObject[] diceObjects;
+    //[SerializeField] public Sprite[,] diceSprites;
     public Image[] dieImages;     //0 is die 1, 1 is die 2
     public TextMeshProUGUI singleDieText, TwoDiceText;
     bool showDice, showSingleDie;
     public GameObject diceContainer1, diceContainer2;   //dice container 2 shows single die roll
+
+    public enum DiceType { Move, Attack, Defend}   //move = blue, attack = red, yellow = defend
+    public DiceType diceType;
+
+    [Serializable]
+    public struct DiceObject
+    {
+        public Sprite[] diceSprites;
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -22,45 +34,54 @@ public class Dice : MonoBehaviour
         ShowSingleDieUI(false);
     }
 
+
+    //sets the correct sprite set before the update loop.
+    public void InitializeDice(DiceType diceType)
+    {
+        this.diceType = diceType;
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (showDice == true)
         {
             //roll dice
-            die1 = Random.Range(1, 7);
-            die2 = Random.Range(1, 7);
-            dieImages[0].sprite = diceSprites[die1 - 1];
-            dieImages[1].sprite = diceSprites[die2 - 1];
+            die1 = UnityEngine.Random.Range(1, 7);
+            die2 = UnityEngine.Random.Range(1, 7);
+            dieImages[0].sprite = diceObjects[(int)diceType].diceSprites[die1 - 1];
+            dieImages[1].sprite = diceObjects[(int)diceType].diceSprites[die2 - 1];
         }
 
         if (showSingleDie == true)
         {
             //roll single die
-            die1 = Random.Range(1, 7);
+            die1 = UnityEngine.Random.Range(1, 7);
             die2 = 0;
-            dieImages[0].sprite = diceSprites[die1 - 1];
+            dieImages[0].sprite = diceObjects[(int)diceType].diceSprites[die1 - 1];
         }
     }
 
-    public int RollDice()
+    public int RollDice(DiceType diceType)
     {
         showDice = false;
-        die1 = Random.Range(1, 7);
-        die2 = Random.Range(1, 7);
-        dieImages[0].sprite = diceSprites[die1 - 1];
-        dieImages[1].sprite = diceSprites[die2 - 1];
+        this.diceType = diceType;
+        die1 = UnityEngine.Random.Range(1, 7);
+        die2 = UnityEngine.Random.Range(1, 7);
+        dieImages[0].sprite = diceObjects[(int)diceType].diceSprites[die1 - 1];
+        dieImages[1].sprite = diceObjects[(int)diceType].diceSprites[die2 - 1];
         TwoDiceText.text = string.Format("{0}", die1 + die2);
         //die2_text.text = die2.ToString();
         return die1 + die2;
     }
 
-    public int RollSingleDie()
+    public int RollSingleDie(DiceType diceType)
     {
         showSingleDie = false;
-        die1 = Random.Range(1, 7);
+        this.diceType = diceType;
+        die1 = UnityEngine.Random.Range(1, 7);
         die2 = 0;
-        dieImages[0].sprite = diceSprites[die1 - 1];
+        dieImages[0].sprite = diceObjects[(int)diceType].diceSprites[die1 - 1];
         singleDieText.text = die1.ToString();
 
         //check if there's a bonus 

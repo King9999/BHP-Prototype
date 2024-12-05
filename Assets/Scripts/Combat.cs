@@ -296,6 +296,10 @@ public class Combat : MonoBehaviour
         //gm.gameCamera.transform.position = new Vector3(-1, 5, -2);  //not sure if the camera will remain consistent with these values.
         combatCamera.transform.position = new Vector3(-1, 5, -2);
 
+        //setup dice
+        attackerDice.InitializeDice(Dice.DiceType.Attack);
+        defenderDice.InitializeDice(Dice.DiceType.Defend);
+
         //setup UI
         attackerNameText.text = attacker.characterName;
         attackerHealthPoints.text = string.Format("{0}/{1}", attacker.healthPoints, attacker.maxHealthPoints);
@@ -380,40 +384,7 @@ public class Combat : MonoBehaviour
         character.transform.position = new Vector3(room.transform.position.x, character.transform.position.y, room.transform.position.z);
     }
 
-    private int GetTotalRoll_Attacker(Character character)
-    {
-
-        int diceResult = attackerDice.RollDice();
-
-        if (character.TryGetComponent<Hunter>(out Hunter hunter))
-        {
-            return diceResult + (int)hunter.atp;
-        }
-        else if (character.TryGetComponent<Monster>(out Monster monster))
-        {
-            return diceResult + (int)monster.atp;
-        }
-        else
-            return 0;
-    }
-
-    private int GetTotalRoll_Defender(Character character)
-    {
-        //roll 2 dice if character is defending, i.e. they forfeit their chance to counterattack.
-        int dieResult = character.characterState == Character.CharacterState.Guarding ? defenderDice.RollDice() : defenderDice.RollSingleDie();
-
-
-        if (character.TryGetComponent<Hunter>(out Hunter hunter))
-        {
-            return dieResult + (int)hunter.dfp;
-        }
-        else if (character.TryGetComponent<Monster>(out Monster monster))
-        {
-            return dieResult + (int)monster.dfp;
-        }
-        else
-            return 0;
-    }
+    
 
     /* toggles non-releavant UI on or off */
     private void SetNonCombatUI(bool toggle)
@@ -630,8 +601,8 @@ public class Combat : MonoBehaviour
             yield return new WaitForSeconds(1);
 
         //get roll results.
-            attackRollResult = attackerDice.RollDice();
-            defendRollResult = (defender.characterState == Character.CharacterState.Guarding) ? defenderDice.RollDice() : defenderDice.RollSingleDie();
+            attackRollResult = attackerDice.RollDice(Dice.DiceType.Attack);
+            defendRollResult = (defender.characterState == Character.CharacterState.Guarding) ? defenderDice.RollDice(Dice.DiceType.Defend) : defenderDice.RollSingleDie(Dice.DiceType.Defend);
        // this.attackerDice = attackerDice;
         //this.defenderDice = defenderDice;
         //apply mods

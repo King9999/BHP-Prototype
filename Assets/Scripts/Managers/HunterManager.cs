@@ -705,7 +705,7 @@ public class HunterManager : MonoBehaviour
         yield return new WaitForSeconds(1);
 
         //show move tiles. This code is identical to the code in the Update look of GameManager.
-        int totalMove = Mathf.RoundToInt((hunter.mov + gm.dice.RollSingleDie() + gm.movementMod) * hunter.movMod);
+        int totalMove = Mathf.RoundToInt((hunter.mov + gm.dice.RollSingleDie(Dice.DiceType.Move) + gm.movementMod) * hunter.movMod);
         List<Room> moveRange = gm.ShowMoveRange(hunter, totalMove);
         Debug.LogFormat("Total Move for {0}: {1}", hunter.characterName, totalMove);
 
