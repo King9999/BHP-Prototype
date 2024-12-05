@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectName: Card Drain
   effectDetails: All cards in hand are discarded. Cannot receive cards for 1 turn
-  totalDuration: 1
+  totalDuration: 2
   currentDuration: 0
   hasDuration: 1
   effectIcon: {fileID: 0}

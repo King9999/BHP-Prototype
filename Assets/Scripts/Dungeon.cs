@@ -30,8 +30,9 @@ public class Dungeon : MonoBehaviour
     [SerializeField]private Entity_Spawner spawnerPrefab;
     public List<Entity_Spawner> spawnPoints;
 
-
-    
+    [Header("---Terminals----")]
+    [SerializeField] private Entity_Terminal terminalPrefab;
+    public List<Entity_Terminal> terminals;
 
 
     //private readonly Hashtable occupiedPositions = new();
@@ -438,6 +439,47 @@ public class Dungeon : MonoBehaviour
                     else
                     {
                         Debug.Log("Spawner too close to other objects, finding another location");
+                        occupiedLocations.Add(randRoom);
+                    }
+                }
+            }
+        }
+
+        /***************Terminals********************/
+        GameObject terminalContainer = new GameObject("Terminals");
+        terminalContainer.transform.SetParent(transform);
+
+        //# of terminals = random number between 0 and (Hunter count / 2)
+        int terminalCount = 1; //Random.Range(0, (hm.hunters.Count / 2) + 1);
+        for (int i = 0; i < terminalCount; i++)
+        {
+            roomFound = false;
+            while (!roomFound)
+            {
+                int randRoom = Random.Range(0, dungeonRooms.Count);
+
+                if (!occupiedLocations.Contains(randRoom))
+                {
+                    //check if this object collides with nearby objects. If true, find another location.
+                    Vector3 roomPos = dungeonRooms[randRoom].transform.position;
+                    Collider[] colliders = Physics.OverlapSphere(roomPos, 2, 0, QueryTriggerInteraction.Collide);
+                    if (colliders.Length <= 0)
+                    {
+
+                        roomFound = true;
+                        Entity_Terminal terminal = Instantiate(terminalPrefab, terminalContainer.transform);
+
+                        //1.45 is added to Y so terminal is above the room. It should lie above the move tiles.
+                        terminal.transform.position = new Vector3(roomPos.x, roomPos.y + 1.45f, roomPos.z);
+                        occupiedLocations.Add(randRoom);
+
+                        UpdateEntityRoom(terminal, dungeonRooms[randRoom]);
+                        //dungeonRooms[randRoom].entity = spawner;
+                        terminals.Add(terminal);
+                    }
+                    else
+                    {
+                        Debug.Log("Terminal too close to other objects, finding another location");
                         occupiedLocations.Add(randRoom);
                     }
                 }

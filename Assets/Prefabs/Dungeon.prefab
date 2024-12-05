@@ -55,3 +55,5 @@ MonoBehaviour:
   exitRoom: {fileID: 0}
   spawnerPrefab: {fileID: 1534884772304732216, guid: 62e3a2cd25ab5ca4b9dee61c3f88694d, type: 3}
   spawnPoints: []
+  terminalPrefab: {fileID: 8579357618963967006, guid: 4797444872cb61d458f0e17e36585703, type: 3}
+  terminals: []
