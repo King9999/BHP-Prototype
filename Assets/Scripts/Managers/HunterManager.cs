@@ -307,6 +307,8 @@ public class HunterManager : MonoBehaviour
         //cm.DrawCard(hunter, Card.CardID.TrapDrain);
         //cm.DrawCard(hunter, cm.deck, 3);
 
+       
+
         /****Give super TODO: Player can choose which super they want. For now, will just pick random */
         SkillManager sm = Singleton.instance.SkillManager;
         hunter.super = sm.AddSuper();

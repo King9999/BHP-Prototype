@@ -607,7 +607,7 @@ public class Combat : MonoBehaviour
         //this.defenderDice = defenderDice;
         //apply mods
         perfectDefenseMod = defenderDice.RolledTwelve() ? 0 : 1;
-        criticalDamageMod = attackerDice.RolledTwelve() ? 2 : 1;
+        //criticalDamageMod = attackerDice.RolledTwelve() ? 2 : 1;
         counterAttackMod = attacker.isDefender ? 0.5f : 1;
 
         if (attackerDice.RolledTwelve())
@@ -664,23 +664,39 @@ public class Combat : MonoBehaviour
     private IEnumerator ResolveDamage(Character attacker, Character defender)
     {
         Debug.Log("Dealing damage");
+        float damage;
 
-        float damage = attacker.chosenSkill.CalculateDamage(attacker, defender, attackRollResult, defendRollResult);
-        Debug.LogFormat("{0}'s counter attack mod: {1}", defender.characterName, counterAttackMod);
-        damage = (damage < 1) ? 0 : Mathf.Round(damage * perfectDefenseMod * counterAttackMod);
+        //blind check.
+        StatusEffect_Blind blind = attacker.GetStatusEffect(StatusEffect.Effect.Blind, attacker.debuffs) as StatusEffect_Blind;
+        if (blind != null && !blind.AttackSuccessful())
+        {
+            //no damage
+            Debug.LogFormat("missed");
+            damage = 0;
+            damageValues[0].color = damageColor;
+            damageValues[0].text = "MISS";
+            damageValues[0].gameObject.SetActive(true);
+        }
+        else
+        {
+            damage = attacker.chosenSkill.CalculateDamage(attacker, defender, attackRollResult, defendRollResult);
+            Debug.LogFormat("{0}'s counter attack mod: {1}", defender.characterName, counterAttackMod);
+            damage = (damage < 1) ? 0 : Mathf.Round(damage * perfectDefenseMod * counterAttackMod);
 
-        defender.healthPoints -= damage * criticalDamageMod;
-        defender.healthPoints = (defender.healthPoints < 0) ? 0 : defender.healthPoints;
-        Debug.LogFormat("Total damage to {0}: {1}", defender.characterName, damage);
+            defender.healthPoints -= damage * criticalDamageMod;
+            defender.healthPoints = (defender.healthPoints < 0) ? 0 : defender.healthPoints;
+            Debug.LogFormat("Total damage to {0}: {1}", defender.characterName, damage);
 
-        //text changes if critical was performed, or if character is defending.
-        //damageText.color = (defender.characterState == Character.CharacterState.Guarding) ? reducedColor : damageColor;
-       // damageText.text = criticalDamageMod > 1 ? string.Format("{0}!!", damage) : damage.ToString();
-        //damageText.gameObject.SetActive(true);
 
-        damageValues[0].color = (defender.characterState == Character.CharacterState.Guarding) ? reducedColor : damageColor;
-        damageValues[0].text = criticalDamageMod > 1 ? string.Format("{0}!!", damage) : damage.ToString();
-        damageValues[0].gameObject.SetActive(true);
+            //text changes if critical was performed, or if character is defending.
+            //damageText.color = (defender.characterState == Character.CharacterState.Guarding) ? reducedColor : damageColor;
+            // damageText.text = criticalDamageMod > 1 ? string.Format("{0}!!", damage) : damage.ToString();
+            //damageText.gameObject.SetActive(true);
+
+            damageValues[0].color = (defender.characterState == Character.CharacterState.Guarding) ? reducedColor : damageColor;
+            damageValues[0].text = criticalDamageMod > 1 ? string.Format("{0}!!", damage) : damage.ToString();
+            damageValues[0].gameObject.SetActive(true);
+        }
 
         //set position based on who's the current defender
         float xPos = defender.isDefender ? 6 : -1;
@@ -694,10 +710,10 @@ public class Combat : MonoBehaviour
         {
             defenderHealthPoints.text = string.Format("{0}/{1}", defender.healthPoints, defender.maxHealthPoints);
             //update super meter
-            if (defender is Hunter hunter)
+            if (defender is Hunter hunterDefender)
             {
                 //UpdateSuperMeter(hunter);
-                hunter.super.AddMeter(hm.SuperMeterGain_combatDamage);
+                hunterDefender.super.AddMeter(hm.SuperMeterGain_combatDamage);
             }
 
         }
@@ -707,10 +723,10 @@ public class Combat : MonoBehaviour
             attackerHealthPoints.text = string.Format("{0}/{1}", defender.healthPoints, defender.maxHealthPoints);
 
             //update super meter
-            if (defender is Hunter hunter)
+            if (defender is Hunter hun)
             {
                 //UpdateSuperMeter(hunter);
-                hunter.super.AddMeter(hm.SuperMeterGain_combatDamage);
+                hun.super.AddMeter(hm.SuperMeterGain_combatDamage);
             }
         }
 
@@ -729,6 +745,12 @@ public class Combat : MonoBehaviour
 
         damageValues[0].transform.position = origPos;
         damageValues[0].gameObject.SetActive(false);
+
+        //if augmenter was used, apply debuff
+        if (hasAugmenter && attacker is Hunter hunter)
+        {
+            hunter.equippedWeapon.ApplyAugmenterDebuff(defender);
+        }
 
         //check if defender counterattacks, otherwise combat is over.
         if (defender.characterState == Character.CharacterState.Guarding)

@@ -50,5 +50,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: edac609ed3bd5074cb5fa81500e3905b, type: 2}
   - {fileID: 11400000, guid: c6bb8fb3ece842d4d9f646484616ad53, type: 2}
   - {fileID: 11400000, guid: 7148c0249e45263419dbb3112240f171, type: 2}
+  - {fileID: 11400000, guid: 4060a398f0678754d83c8ece1b0a3b4f, type: 2}
   terminalEffects:
   - {fileID: 11400000, guid: 10bc8e88345f4d84ebcabee434aeb007, type: 2}

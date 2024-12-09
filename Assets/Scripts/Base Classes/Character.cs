@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -186,6 +187,26 @@ public abstract class Character : MonoBehaviour
             case CharacterState.Injured:
                 break;
         }
+    }
+
+    public StatusEffect GetStatusEffect(StatusEffect.Effect effectType, List<StatusEffect> effects)
+    {
+        StatusEffect statusEffect = null;
+        int i = 0;
+        bool effectFound = false;
+        while(!effectFound && i < effects.Count)
+        {
+            if (effects[i].effect == effectType)
+            {
+                effectFound = true;
+                statusEffect = effects[i];
+            }
+            else
+            {
+                i++;
+            }
+        }
+        return statusEffect;
     }
 
     /// <summary>

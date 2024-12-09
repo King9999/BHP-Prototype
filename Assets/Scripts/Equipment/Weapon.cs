@@ -33,60 +33,13 @@ public class Weapon : Item
     {
         EffectManager em = Singleton.instance.EffectManager;
 
-        
         StatusEffect.Effect[] augmenterDebuffs = { StatusEffect.Effect.Dizzy, StatusEffect.Effect.CardDrain, 
             StatusEffect.Effect.Weakened, StatusEffect.Effect.Blind };
 
         int randEffect = Random.Range(0, augmenterDebuffs.Length + 1);
 
-        em.AddEffect(augmenterDebuffs[randEffect], character);
-
-        
+        if (!em.DebuffResisted(augmenterDebuffs[randEffect], character))
+            em.AddEffect(augmenterDebuffs[randEffect], character);   
     }
    
-    /*public override void Equip(Hunter hunter)
-    {
-        //item can only be equipped if the player meets the level requirement
-        if (hunter.hunterLevel < itemLevel || isEquipped)
-            return;
-
-        isEquipped = true;
-        hunter.equippedWeapon = this;
-        hunter.atp = hunter.str + atp;
-        hunter.mnp = hunter.mnt + mnp;
-
-        if (itemMods.Count > 0)
-        {
-            //apply effects of mods
-            foreach(ItemMod mod in itemMods)
-            {
-                mod.ActivateOnEquip(hunter);
-            }
-        }
-
-        //TODO: if there's a skill, add it to hunter's inventory.
-        
-    }
-
-    public override void Unequip(Hunter hunter)
-    {
-        if (hunter.equippedWeapon == null || !isEquipped) return;
-
-        isEquipped = false;
-        hunter.equippedWeapon = null;
-        hunter.atp = hunter.str - atp;
-        hunter.mnp = hunter.mnt - mnp;
-
-        if (itemMods.Count > 0)
-        {
-            //remove effects of item mods
-            foreach (ItemMod mod in itemMods)
-            {
-                mod.DeactivateOnUnequip(hunter);
-            }
-        }
-
-        //TODO: remove skill from inventory
-    }*/
-
 }
