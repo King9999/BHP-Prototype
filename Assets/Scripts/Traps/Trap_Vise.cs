@@ -15,8 +15,8 @@ public class Trap_Vise : Trap
         em.AddEffect(StatusEffect.Effect.DisableLeg, target);
 
         //display message
-        GameManager gm = Singleton.instance.GameManager;
-        gm.DisplayStatusEffect(target, "DISABLE LEG");
+        //GameManager gm = Singleton.instance.GameManager;
+        //gm.DisplayStatusEffect(target, "DISABLE LEG");
 
         //update HUD
         if (target is Hunter hunter)

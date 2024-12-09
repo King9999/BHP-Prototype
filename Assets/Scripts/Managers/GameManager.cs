@@ -108,12 +108,6 @@ public class GameManager : MonoBehaviour
 
         turnOrder = turnOrder.OrderByDescending(x => x.spd).ToList();    //TODO: Check to make sure this worked
 
-        //MonsterManager mm = MonsterManager.instance;
-        //CreateHunter();
-        //mm.SpawnMonster(monsterLevel:1);
-        //SetupMonsterUI(mm.activeMonsters[0]);
-
-
         //tile setup
         moveTileContainer.name = "Move Tiles";
         skillTileContainer.name = "Skill Tiles";

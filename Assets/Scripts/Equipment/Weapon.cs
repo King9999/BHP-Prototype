@@ -28,6 +28,21 @@ public class Weapon : Item
         //isEquipped = false;
     }
 
+    //only applies when augmenter is used.
+    public void ApplyAugmenterDebuff(Character character)
+    {
+        EffectManager em = Singleton.instance.EffectManager;
+
+        
+        StatusEffect.Effect[] augmenterDebuffs = { StatusEffect.Effect.Dizzy, StatusEffect.Effect.CardDrain, 
+            StatusEffect.Effect.Weakened, StatusEffect.Effect.Blind };
+
+        int randEffect = Random.Range(0, augmenterDebuffs.Length + 1);
+
+        em.AddEffect(augmenterDebuffs[randEffect], character);
+
+        
+    }
    
     /*public override void Equip(Hunter hunter)
     {

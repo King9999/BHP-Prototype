@@ -25,11 +25,12 @@ public class PassiveSkill_Stun : PassiveSkill
     {
         base.ActivateSkill(user, target);
 
-        if (Random.value <= dizzyChance - target.resistDizzy)
-        {
+        //if (Random.value <= dizzyChance - target.resistDizzy)
+        //{
             //target is dizzied
             EffectManager em = Singleton.instance.EffectManager;
-            em.AddEffect(StatusEffect.Effect.Dizzy, target);
-        }
+            if (!em.DebuffResisted(StatusEffect.Effect.Dizzy, target, dizzyChance))
+                em.AddEffect(StatusEffect.Effect.Dizzy, target);
+        //}
     }
 }

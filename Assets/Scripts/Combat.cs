@@ -28,7 +28,7 @@ public class Combat : MonoBehaviour
     public float runChance;                //affected by attacker and defender SPD
     public float counterAttackMod;
     public float defenseBoost;              //used by defender when guarding.
-
+    public bool hasAugmenter;       //when true, apply debuff instead of crit damage.
 
 
 
@@ -610,6 +610,19 @@ public class Combat : MonoBehaviour
         criticalDamageMod = attackerDice.RolledTwelve() ? 2 : 1;
         counterAttackMod = attacker.isDefender ? 0.5f : 1;
 
+        if (attackerDice.RolledTwelve())
+        {
+            //is the weapon an augmenter?
+            if (attacker is Hunter hunter && hunter.equippedWeapon.weaponType == Weapon.WeaponType.Augmenter)
+            {
+                criticalDamageMod = 1;
+                hasAugmenter = true;
+            }
+            else
+            {
+                criticalDamageMod = 2;
+            }
+        }
 
         //attack is performed.
         yield return new WaitForSeconds(1);
@@ -818,6 +831,7 @@ public class Combat : MonoBehaviour
 
             //reset the criticalmod
             criticalDamageMod = 1;
+            hasAugmenter = false;
 
             yield return new WaitForSeconds(1);
             yield return SimulateDiceRoll(defenderDice, attackerDice, defender, attacker);

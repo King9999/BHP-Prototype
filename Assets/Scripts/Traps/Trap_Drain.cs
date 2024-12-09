@@ -15,8 +15,8 @@ public class Trap_Drain : Trap
         em.AddEffect(StatusEffect.Effect.CardDrain, target);
 
         //display message
-        GameManager gm = Singleton.instance.GameManager;
-        gm.DisplayStatusEffect(target, "CARD DRAIN");
+        //GameManager gm = Singleton.instance.GameManager;
+        //gm.DisplayStatusEffect(target, "CARD DRAIN");
 
         //update HUD
         if (target is Hunter hunter)

@@ -43,6 +43,10 @@ public class EffectManager : MonoBehaviour
             }
         }
 
+        //show message
+        GameManager gm = Singleton.instance.GameManager;
+        gm.DisplayStatusEffect(character, statusEffect.effectName.ToUpper());
+
         if (statusEffect.effectType == StatusEffect.EffectType.Buff)
         {
             //if we already have this buff and it has a duration, refresh duration.
@@ -156,7 +160,7 @@ public class EffectManager : MonoBehaviour
             }
 
         }
-        //statusEffect.ApplyEffect(character);
+
     }
 
     public void AddEffect(TerminalEffect.EffectID effectID, Hunter hunter)
@@ -185,6 +189,62 @@ public class EffectManager : MonoBehaviour
             }
         }
            
+    }
+
+    public bool DebuffResisted(StatusEffect.Effect debuff, Character character, float baseChance = 1)
+    {
+        bool debuffResisted = false;
+
+        switch(debuff)
+        {
+            case StatusEffect.Effect.Dizzy:
+                if (Random.value > baseChance - character.resistDizzy)
+                    debuffResisted = true;
+                break;
+
+            case StatusEffect.Effect.Berserk:
+                if (Random.value > baseChance - character.resistBerserk)
+                    debuffResisted = true;
+                break;
+
+            case StatusEffect.Effect.DisableSuper:
+                if (Random.value > baseChance - character.resistDisableSuper)
+                    debuffResisted = true;
+                break;
+
+            case StatusEffect.Effect.DisableSkill:
+                if (Random.value > baseChance - character.resistDisableSkill)
+                    debuffResisted = true;
+                break;
+
+            case StatusEffect.Effect.DisableLeg:
+                if (Random.value > baseChance - character.resistDisableLeg)
+                    debuffResisted = true;
+                break;
+
+            case StatusEffect.Effect.Blind:
+                if (Random.value > baseChance - character.resistBlind)
+                    debuffResisted = true;
+                break;
+
+            case StatusEffect.Effect.CardDrain:
+                if (Random.value > baseChance - character.resistCardDrain)
+                    debuffResisted = true;
+                break;
+
+            case StatusEffect.Effect.Poison:
+                if (Random.value > baseChance - character.resistPoison)
+                    debuffResisted = true;
+                break;
+
+            case StatusEffect.Effect.Weakened:
+                if (Random.value > baseChance - character.resistWeak)
+                    debuffResisted = true;
+                break;
+
+        }
+
+        return debuffResisted;
     }
 
     /*private StatusEffect GetEffect(Character character, List<StatusEffect> effectList)

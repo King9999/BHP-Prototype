@@ -17,8 +17,8 @@ public class Trap_Dizzy : Trap
             em.AddEffect(StatusEffect.Effect.Dizzy, target);
 
             //display damage
-            GameManager gm = Singleton.instance.GameManager;
-            gm.DisplayStatusEffect(target, "DIZZY");
+            //GameManager gm = Singleton.instance.GameManager;
+            //gm.DisplayStatusEffect(target, "DIZZY");
 
             //update HUD
             if (target is Hunter hunter)
