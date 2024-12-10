@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour
 
         //testing debuffs
         //EffectManager em = Singleton.instance.EffectManager;
-        //em.AddEffect(StatusEffect.Effect.Blind, hm.hunters[0]);
+        //em.AddEffect(StatusEffect.Effect.Weakened, hm.hunters[0]);
 
         //testing item swap
         /*for (int i = 0; i < hm.MaxInventorySize; i++)

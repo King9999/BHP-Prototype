@@ -297,8 +297,8 @@ public class Combat : MonoBehaviour
         combatCamera.transform.position = new Vector3(-1, 5, -2);
 
         //setup dice
-        attackerDice.InitializeDice(Dice.DiceType.Attack);
-        defenderDice.InitializeDice(Dice.DiceType.Defend);
+        //attackerDice.InitializeDice(Dice.DiceType.Attack);
+        //defenderDice.InitializeDice(Dice.DiceType.Defend);
 
         //setup UI
         attackerNameText.text = attacker.characterName;
@@ -577,34 +577,42 @@ public class Combat : MonoBehaviour
         attackerTotalAttackDamage.text = "";
         defenderTotalDefense.text = "";
 
+        //setup dice
+        attackerDice.InitializeDice(Dice.DiceType.Attack);
+        defenderDice.InitializeDice(Dice.DiceType.Defend);
+
         //attacker attacks first
         //if (attackersTurn)
         //{
-            //roll dice for both attacker and defender
-            //NOTE: When ShowDiceUI is enabled, it immediately begins rolling
+        //roll dice for both attacker and defender. For the attacker, must check for 'weakened' debuff.
+        //NOTE: When ShowDiceUI is enabled, it immediately begins rolling
+        StatusEffect_Weakened weak = attacker.GetStatusEffect(StatusEffect.Effect.Weakened, attacker.debuffs) as StatusEffect_Weakened;
+        if (weak != null)
+            attackerDice.ShowSingleDieUI(true);
+        else
             attackerDice.ShowDiceUI(true);
 
-            //if defender is not guarding, then only 1 die is rolled. Otherwise, DFP/RST is boosted and defender rolls 2 dice.
-            if (defender.characterState == Character.CharacterState.Guarding)
-            {
-                defenderCounterattacking = false;
-                defender.dfpMod += defenseBoost;
-                defender.rstMod += defenseBoost;
-                defenderDice.ShowDiceUI(true);
-            }
-            else
-            {
-                defenderDice.ShowSingleDieUI(true);
-            }
+        //if defender is not guarding, then only 1 die is rolled. Otherwise, DFP/RST is boosted and defender rolls 2 dice.
+        if (defender.characterState == Character.CharacterState.Guarding)
+        {
+            defenderCounterattacking = false;
+            defender.dfpMod += defenseBoost;
+            defender.rstMod += defenseBoost;
+            defenderDice.ShowDiceUI(true);
+        }
+        else
+        {
+            defenderDice.ShowSingleDieUI(true);
+        }
 
-            float currentTime = Time.time;
-            yield return new WaitForSeconds(1);
+        float currentTime = Time.time;
+        yield return new WaitForSeconds(1);
 
-        //get roll results.
-            attackRollResult = attackerDice.RollDice(Dice.DiceType.Attack);
-            defendRollResult = (defender.characterState == Character.CharacterState.Guarding) ? defenderDice.RollDice(Dice.DiceType.Defend) : defenderDice.RollSingleDie(Dice.DiceType.Defend);
-       // this.attackerDice = attackerDice;
-        //this.defenderDice = defenderDice;
+        //get roll results. For the attacker, must check for 'weakened' debuff.
+        attackRollResult = (weak != null) ? attackerDice.RollSingleDie(Dice.DiceType.Attack) : attackerDice.RollDice(Dice.DiceType.Attack);
+        defendRollResult = (defender.characterState == Character.CharacterState.Guarding) ? defenderDice.RollDice(Dice.DiceType.Defend) : 
+            defenderDice.RollSingleDie(Dice.DiceType.Defend);
+
         //apply mods
         perfectDefenseMod = defenderDice.RolledTwelve() ? 0 : 1;
         //criticalDamageMod = attackerDice.RolledTwelve() ? 2 : 1;

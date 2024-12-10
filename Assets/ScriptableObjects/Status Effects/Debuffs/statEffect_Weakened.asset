@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d264a4014592b534397026fd3bc175a0, type: 3}
-  m_Name: statEffect_Blind
+  m_Script: {fileID: 11500000, guid: 3c32e8d6412f8c44a966396808d7aa04, type: 3}
+  m_Name: statEffect_Weakened
   m_EditorClassIdentifier: 
-  effectName: Blind
-  effectDetails: Attacks have a 30% chance to hit
+  effectName: Weakened
+  effectDetails: Roll 1 die when using a skill
   totalDuration: 3
   currentDuration: 0
   hasDuration: 1
   effectIcon: {fileID: 0}
-  effect: 3
+  effect: 9
   effectType: 1
