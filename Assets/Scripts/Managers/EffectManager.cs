@@ -91,35 +91,23 @@ public class EffectManager : MonoBehaviour
             if (statusEffect is StatusEffect_Injured injured)
             {
                 //update existing debuff
-                bool injuredFound = false;
-                i = 0;
-                while (!injuredFound && i < character.debuffs.Count)
+                StatusEffect_Injured inj = character.GetStatusEffect(StatusEffect.Effect.Injured, character.debuffs) as StatusEffect_Injured;
+                if (inj != null)
                 {
-                    if (character.debuffs[i].effect == StatusEffect.Effect.Injured)
-                    {
-                        character.debuffs[i].ApplyEffect(character);
-                        injuredFound = true;
-                    }
-                    else
-                    {
-                        i++;
-                    }
+                    inj.ApplyEffect(character);
                 }
-
-                if (!injuredFound)
+                else if (character.MaxDebuffs)
                 {
-                    if (character.MaxDebuffs)
-                    {
-                        character.debuffs[0].CleanupEffect(character);
-                        character.debuffs.Add(injured);
-                        injured.ApplyEffect(character);
-                    }
-                    else
-                    {
-                        character.debuffs.Add(injured);
-                        injured.ApplyEffect(character);
-                    }
+                    character.debuffs[0].CleanupEffect(character);
+                    character.debuffs.Add(injured);
+                    injured.ApplyEffect(character);
                 }
+                else
+                {
+                    character.debuffs.Add(injured);
+                    injured.ApplyEffect(character);
+                }
+                
             }
             else
             {

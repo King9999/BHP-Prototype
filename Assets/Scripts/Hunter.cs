@@ -54,11 +54,7 @@ public class Hunter : Character
     [Header("---Terminal Effects---")]
     public List<TerminalEffect> terminalEffects;
 
-    private void Start()
-    {
-        //InitializeStats();
-    }
-
+   
     public void InitializeStats()
     {
         hunterLevel = 1;

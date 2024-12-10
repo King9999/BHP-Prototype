@@ -18,7 +18,13 @@ public class TerminalEffect_Overflow : TerminalEffect
         //first, remove Injured status
         bool debuffFound = false;
         int i = 0;
-        while(!debuffFound && i < hunter.debuffs.Count)
+        StatusEffect_Injured injured = hunter.GetStatusEffect(StatusEffect.Effect.Injured, hunter.debuffs) as StatusEffect_Injured;
+        if (injured != null)
+        {
+            injured.CleanupEffect(hunter);
+        }
+
+        /*while(!debuffFound && i < hunter.debuffs.Count)
         {
             if (hunter.debuffs[i] is StatusEffect_Injured injured)
             {
@@ -29,7 +35,7 @@ public class TerminalEffect_Overflow : TerminalEffect
             {
                 i++;
             }
-        }
+        }*/
 
         //restore HP and double it.
         hunter.healthPoints = hunter.maxHealthPoints;

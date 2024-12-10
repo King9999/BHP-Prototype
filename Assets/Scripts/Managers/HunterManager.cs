@@ -1000,20 +1000,7 @@ public class HunterManager : MonoBehaviour
 
         //find hunter in hunter HUD
         ui.hunterHuds[hunter.HudID].superMeterUI.value = hunter.super.superMeter;
-        /*bool hunterFound = false;
-        int i = 0;
-        while (!hunterFound && i < hunters.Count)
-        {
-            if (hunters[i] == hunter)
-            {
-                hunterFound = true;
-                ui.hunterHuds[i].superMeterUI.value += amount;
-            }
-            else
-            {
-                i++;
-            }
-        }*/
+        
     }
 
     //updates all values
@@ -1041,8 +1028,8 @@ public class HunterManager : MonoBehaviour
         ui.hunterStrText.text = hunter.str.ToString();
         ui.strPointsText.text = hunter.strPoints.ToString();
         ui.hunterAtpText.text = hunter.atp.ToString();
-        ui.hunterHpText.text = string.Format("{0} / {1}", hunter.healthPoints, hunter.maxHealthPoints);
-        ui.hunterSpText.text = string.Format("{0} / {1}", hunter.skillPoints, hunter.maxSkillPoints);
+        ui.hunterHpText.text = string.Format("{0}/{1}", hunter.healthPoints, hunter.maxHealthPoints);
+        ui.hunterSpText.text = string.Format("{0}/{1}", hunter.skillPoints, hunter.maxSkillPoints);
         
         ui.allocationPointsText.text = string.Format("{0} Allocation Points Remaining", startingAllocationPoints);
     }
@@ -1059,8 +1046,8 @@ public class HunterManager : MonoBehaviour
         ui.spdPointsText.text = hunter.spdPoints.ToString();
         ui.hunterMovText.text = hunter.mov.ToString();
         ui.hunterEvdText.text = string.Format("{0}%", (hunter.evd * 100));
-        ui.hunterHpText.text = string.Format("{0} / {1}", hunter.healthPoints, hunter.maxHealthPoints);
-        ui.hunterSpText.text = string.Format("{0} / {1}", hunter.skillPoints, hunter.maxSkillPoints);
+        ui.hunterHpText.text = string.Format("{0}/{1}", hunter.healthPoints, hunter.maxHealthPoints);
+        ui.hunterSpText.text = string.Format("{0}/{1}", hunter.skillPoints, hunter.maxSkillPoints);
 
         ui.allocationPointsText.text = string.Format("{0} Allocation Points Remaining", startingAllocationPoints);
     }
@@ -1075,8 +1062,8 @@ public class HunterManager : MonoBehaviour
         ui.hunterVitText.text = hunter.vit.ToString();
         ui.vitPointsText.text = hunter.vitPoints.ToString();
         ui.hunterDfpText.text = hunter.dfp.ToString();
-        ui.hunterHpText.text = string.Format("{0} / {1}", hunter.healthPoints, hunter.maxHealthPoints);
-        ui.hunterSpText.text = string.Format("{0} / {1}", hunter.skillPoints, hunter.maxSkillPoints);
+        ui.hunterHpText.text = string.Format("{0}/{1}", hunter.healthPoints, hunter.maxHealthPoints);
+        ui.hunterSpText.text = string.Format("{0}/{1}", hunter.skillPoints, hunter.maxSkillPoints);
 
         ui.allocationPointsText.text = string.Format("{0} Allocation Points Remaining", startingAllocationPoints);
     }
@@ -1091,8 +1078,8 @@ public class HunterManager : MonoBehaviour
         ui.mntPointsText.text = hunter.mntPoints.ToString();
         ui.hunterRstText.text = hunter.rst.ToString();
         ui.hunterMnpText.text = hunter.mnp.ToString();
-        ui.hunterHpText.text = string.Format("{0} / {1}", hunter.healthPoints, hunter.maxHealthPoints);
-        ui.hunterSpText.text = string.Format("{0} / {1}", hunter.skillPoints, hunter.maxSkillPoints);
+        ui.hunterHpText.text = string.Format("{0}/{1}", hunter.healthPoints, hunter.maxHealthPoints);
+        ui.hunterSpText.text = string.Format("{0}/{1}", hunter.skillPoints, hunter.maxSkillPoints);
 
         ui.allocationPointsText.text = string.Format("{0} Allocation Points Remaining", startingAllocationPoints);
     }

@@ -7,17 +7,7 @@ using UnityEngine;
 public class Entity_Spawner : Entity
 {
     [SerializeField] private Sprite spawnerSprite;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   
 
     public void SpawnMonster(Monster monster)
     {

@@ -44,36 +44,6 @@ public class ItemManager : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        /*if (Input.GetKeyDown(KeyCode.Space))
-        {
-            List<LootItem> table = new List<LootItem>();
-            table = lootTable.GetTable();
-            Item item = lootTable.GetItem(table);
-            if (item != null)
-                Debug.Log("Generated " + item.itemName);
-            else
-                Debug.Log("No item found");
-        }*/
-
-        /*if (Input.GetKeyDown(KeyCode.Space))
-        {
-            foreach(DungeonMod mod in dungeonMods)
-            {
-                mod.DeactivateMod();
-            }
-        }*/
-
-        //Genereate weapon test
-        /*if (Input.GetKeyDown(KeyCode.Space))
-        {
-            int weaponIndex = (int)Table.ItemType.Weapon;
-            int randWeapon = Random.Range(0, lootTable.itemTables[weaponIndex].item.Count);
-            GenerateWeaponMods(Instantiate((Weapon)lootTable.itemTables[weaponIndex].item[randWeapon].item));
-        }*/
-    }
 
     public void SortTableItems(List<Table> tables)
     {

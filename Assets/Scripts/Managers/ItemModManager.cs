@@ -58,7 +58,7 @@ public class ItemModManager : MonoBehaviour
 
         //get random value and check result against the weight of each table.
         int roll = Random.Range(0, totalWeight);
-        Debug.Log("Rolled " + roll);
+        Debug.LogFormat("Rolled {0}", roll);
 
         int j = 0;
         bool modFound = false;

@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour
 
         //testing debuffs
         //EffectManager em = Singleton.instance.EffectManager;
-        //em.AddEffect(StatusEffect.Effect.Weakened, hm.hunters[0]);
+        //em.AddEffect(StatusEffect.Effect.Injured, hm.hunters[1]);
 
         //testing item swap
         /*for (int i = 0; i < hm.MaxInventorySize; i++)
@@ -1338,6 +1338,7 @@ public class GameManager : MonoBehaviour
         turnCount++;
         Debug.LogFormat("------Turn {0}------", turnCount);
 
+
         //TODO: if monster spawns, they take their turn immediately.
         HunterManager hm = Singleton.instance.HunterManager;
         MonsterManager mm = Singleton.instance.MonsterManager;
@@ -1348,6 +1349,9 @@ public class GameManager : MonoBehaviour
             Debug.LogFormat("Monster is spawning. {0} is taking their turn", monster.characterName);
             yield return TakeTurn(monster);
         }
+
+        yield return new WaitForSeconds(1.3f); //so the game doesn't immediately shift to character's next turn.
+
         //move camera to the active character
         yield return MoveCameraToCharacter(character);
 
@@ -1808,7 +1812,7 @@ public class GameManager : MonoBehaviour
         terminalContainer.transform.position = Camera.main.WorldToScreenPoint(pos);
 
         terminalText.text = message;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1.3f);
 
         terminalContainer.SetActive(false);
     }

@@ -17,11 +17,6 @@ public class StatusEffect_Injured : StatusEffect
         hasDuration = false;
     }
 
-    /*private void OnDestroy()
-    {
-        GameManager gm = Singleton.instance.GameManager;
-        CleanupEffect(gm.ActiveCharacter());
-    }*/
 
     public override void ApplyEffect(Character user)
     {
@@ -29,23 +24,21 @@ public class StatusEffect_Injured : StatusEffect
             return;
 
         stackCount++;
-        Debug.Log("Injured stack count on " + user.characterName + ": " + stackCount);
+        Debug.LogFormat("Injured stack count on {0}: {1}", user.characterName, stackCount);
         if (stackCount <= 1)
             originalHealthPoints = user.maxHealthPoints;    //keep copy of hunter's original health points. 
 
-        //user.maxHealthPoints *= 0.5f;
         user.maxHealthPoints = Mathf.Round(user.maxHealthPoints * 0.5f);
         user.healthPoints = user.maxHealthPoints;
-        //if (!user.debuffs.Contains(this))
-            //user.debuffs.Add(this);
+        HunterManager hm = Singleton.instance.HunterManager;
+        hm.UpdateHunterHUD(user as Hunter);
     }
+
     //remove injured status
     public override void CleanupEffect(Character user)
     {
         Debug.LogFormat("Removing injured status from {0}", user.characterName);
         user.maxHealthPoints = originalHealthPoints;
         base.CleanupEffect(user);
-        //Destroy(this);
-        //user.debuffs.Remove(this);
     }
 }
