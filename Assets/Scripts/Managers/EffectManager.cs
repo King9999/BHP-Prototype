@@ -45,7 +45,16 @@ public class EffectManager : MonoBehaviour
 
         //show message
         GameManager gm = Singleton.instance.GameManager;
-        gm.DisplayStatusEffect(character, statusEffect.effectName.ToUpper());
+        if (gm.gameState == GameManager.GameState.Dungeon)
+        {
+            gm.DisplayStatusEffect(character, statusEffect.effectName.ToUpper());
+        }
+        else if (gm.gameState == GameManager.GameState.Combat)
+        {
+            Combat combat = Singleton.instance.Combat;
+            combat.DisplayStatusEffect(character, statusEffect.effectName.ToUpper());
+        }
+        
 
         if (statusEffect.effectType == StatusEffect.EffectType.Buff)
         {
@@ -179,6 +188,13 @@ public class EffectManager : MonoBehaviour
            
     }
 
+    /// <summary>
+    /// Checks if a debuff should be applied. This code does not apply the debuff itself.
+    /// </summary>
+    /// <param name="debuff">The debuff to check resistance against.</param>
+    /// <param name="character">The character receiving the debuff.</param>
+    /// <param name="baseChance">The default chance to apply a debuff. A skill can override the default.</param>
+    /// <returns>Whether a given debuff is resisted or not.</returns>
     public bool DebuffResisted(StatusEffect.Effect debuff, Character character, float baseChance = 1)
     {
         bool debuffResisted = false;

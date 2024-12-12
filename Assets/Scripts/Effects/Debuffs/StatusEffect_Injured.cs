@@ -20,18 +20,26 @@ public class StatusEffect_Injured : StatusEffect
 
     public override void ApplyEffect(Character user)
     {
+        Hunter hunter = user as Hunter;
         if (stackCount >= 2)
+        {
+            //max HP is not reduced further, but hunter is still forced to teleport
+            hunter.ForceTeleport = true;
             return;
+        }
 
         stackCount++;
         Debug.LogFormat("Injured stack count on {0}: {1}", user.characterName, stackCount);
         if (stackCount <= 1)
             originalHealthPoints = user.maxHealthPoints;    //keep copy of hunter's original health points. 
 
-        user.maxHealthPoints = Mathf.Round(user.maxHealthPoints * 0.5f);
+        user.maxHealthPoints = user.maxHealthPoints <= 1 ? 1 : Mathf.Round(user.maxHealthPoints * 0.5f);
         user.healthPoints = user.maxHealthPoints;
         HunterManager hm = Singleton.instance.HunterManager;
-        hm.UpdateHunterHUD(user as Hunter);
+        hm.UpdateHunterHUD(hunter);
+
+        //force teleport
+        hunter.ForceTeleport = true;
     }
 
     //remove injured status

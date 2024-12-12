@@ -643,7 +643,7 @@ public class HunterManager : MonoBehaviour
         Debug.LogFormat("Number of items CPU Hunter will carry: {0}", itemCount);
 
         //Test purposes only
-        //hunter.spd = 0;
+        hunter.maxHealthPoints = 1;
 
         //Add random super
         hunter.super = sm.AddSuper();

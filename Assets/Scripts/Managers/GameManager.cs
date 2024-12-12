@@ -43,10 +43,14 @@ public class GameManager : MonoBehaviour
     public List<Room> movementPositions, attackPositions;     //holds valid positions for moving and attacking
     public List<GameObject> moveTileList, moveTileBin, skillTileList, skillTileBin;          //bin is used for recycling instantiated move tiles
 
+    [Header("---Conditions----")]
     bool runMovementCheck, runSkillCheck, moveTilesActive, skillTilesActive;
     public bool CharacterMoved { get; set; } 
     public bool CharacterActed { get; set; }    //acted includes attacking, using a skill or item. 
     public bool ForceStop { get; set; }                  //ForceStop is for when movement is interrupted by debuffs or skills.
+    public bool HunterInjured { get; set; }
+
+    [Header("---Active Skill & Movement---")]
     public ActiveSkill selectedSkill;     //the active skill being used after being selected from skill menu.
     public int movementMod;             //value that's added to character's roll when moving. Altered by cards and skills.
 
@@ -55,7 +59,7 @@ public class GameManager : MonoBehaviour
 
 
     //states determine which UI is active
-    public enum GameState { HunterSetup, Dungeon, Combat, Inventory }
+    public enum GameState { HunterSetup, Dungeon, Combat, Inventory, HunterInjured }
     public GameState gameState;
 
     public static GameManager instance;
@@ -381,7 +385,7 @@ public class GameManager : MonoBehaviour
         runSkillCheck = true;
     }
 
-    public void ChangeGameState(GameState gameState)
+    public void ChangeGameState(GameState gameState, Hunter injuredHunter = null)
     {
         switch (gameState)
         {
@@ -392,6 +396,10 @@ public class GameManager : MonoBehaviour
 
             case GameState.Dungeon:
                 StartCoroutine(CheckCharacterState(ActiveCharacter()));
+                break;
+
+            case GameState.HunterInjured:
+                StartCoroutine(CheckCharacterState(injuredHunter));
                 break;
 
             case GameState.Combat:
@@ -1264,67 +1272,83 @@ public class GameManager : MonoBehaviour
     #region Coroutines
     IEnumerator CheckCharacterState(Character character)
     {
-        if (ForceStop || (CharacterActed && CharacterMoved))
+        //check if hunter injured. TODO: Create a List of injured hunters and iterate through it before
+        //switching back to active character.
+        if (character is Hunter hunterForced && hunterForced.ForceTeleport == true)
         {
-            EndTurn();
+            hunterForced.ForceTeleport = false;
+            yield return TeleportCharacter(hunterForced);
         }
-        else if (!CharacterActed && !CharacterMoved)
-        {
-            StartCoroutine(TakeTurn(character));
-        }
-        else
-        {
-            HunterManager hm = Singleton.instance.HunterManager;
-            //disable move button if moved, or other buttons if character took action.
-            if (CharacterMoved && !CharacterActed)
-            {
-                yield return MoveCameraToCharacter(character);
 
-                if (!character.cpuControlled)
+        if (character == ActiveCharacter()) //If it's not the active character's turn, we don't go any further since something interrupted their turn.
+        {
+            if (ForceStop || (CharacterActed && CharacterMoved))
+            {
+                EndTurn();
+            }
+            else if (!CharacterActed && !CharacterMoved)
+            {
+                StartCoroutine(TakeTurn(character));
+            }
+            else
+            {
+                HunterManager hm = Singleton.instance.HunterManager;
+                //disable move button if moved, or other buttons if character took action.
+                if (CharacterMoved && !CharacterActed)
                 {
-                    //check if hunter has too many items in inventory.
-                    if (character is Hunter hunter && hunter.inventory.Count > hm.MaxInventorySize)
+                    yield return MoveCameraToCharacter(character);
+
+                    if (!character.cpuControlled)
                     {
-                        hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.TooManyItems);
-                    }
-                    else
-                    {
-                        hm.ui.EnableButton(hm.ui.moveButton, false);
-                        hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Default);
-                    }
-                }
-                else
-                {
-                    //cpu takes action
-                    //does hunter have too many items?
-                    if (character is Hunter hunter && hunter.inventory.Count > hm.MaxInventorySize)
-                    {
-                        Debug.LogFormat("{0} is removing extra item", character.characterName);
-                        hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.RemovingExtraItem, hunter);
-                    }
-                    else
-                    {
-                        if (character.targetChar != null)
+                        //check if hunter has too many items in inventory.
+                        if (character is Hunter hunter && hunter.inventory.Count > hm.MaxInventorySize)
                         {
-                            //attack
-                            Debug.LogFormat("{0} is attacking {1}!", character.characterName, character.targetChar.characterName);
-                            //StartCombat(character, character.targetChar);
-                            hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.UseSkill, (Hunter)character);
+                            hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.TooManyItems);
                         }
                         else
                         {
-                            EndTurn();
+                            hm.ui.EnableButton(hm.ui.moveButton, false);
+                            hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.Default);
                         }
                     }
+                    else
+                    {
+                        //cpu takes action
+                        //does hunter have too many items?
+                        if (character is Hunter hunter && hunter.inventory.Count > hm.MaxInventorySize)
+                        {
+                            Debug.LogFormat("{0} is removing extra item", character.characterName);
+                            hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.RemovingExtraItem, hunter);
+                        }
+                        else
+                        {
+                            if (character.targetChar != null)
+                            {
+                                //attack
+                                Debug.LogFormat("{0} is attacking {1}!", character.characterName, character.targetChar.characterName);
+                                //StartCombat(character, character.targetChar);
+                                hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.UseSkill, (Hunter)character);
+                            }
+                            else
+                            {
+                                EndTurn();
+                            }
+                        }
 
+                    }
+                }
+                else if (!CharacterMoved && CharacterActed)
+                {
+                    //move character
+                    if (character.cpuControlled)
+                        hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.Moving, (Hunter)character);
                 }
             }
-            else if (!CharacterMoved && CharacterActed)
-            {
-                //move character
-                if (character.cpuControlled)
-                    hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.Moving, (Hunter)character);
-            }
+        }
+        else
+        {
+            //Game state was changed to get here, so game state is changed back to Dungeon
+            ChangeGameState(gameState = GameState.Dungeon);
         }
     }
 
@@ -1702,6 +1726,19 @@ public class GameManager : MonoBehaviour
         //moveCameraToCharacter = false;
     }
 
+    IEnumerator MoveCameraToRoom(Room room)
+    {
+        Vector3 newCamPos = new Vector3(room.transform.position.x - 4, 5, room.transform.position.z - 6);
+        float speed = 16;
+
+        while (gameCamera.transform.position != newCamPos)
+        {
+            gameCamera.transform.position = Vector3.MoveTowards(gameCamera.transform.position, newCamPos, speed * Time.deltaTime);
+            yield return null;
+        }
+
+    }
+
     /* Character attempts to avoid trap */
     IEnumerator TriggerTrap(Character character, Trap trap)
     {
@@ -1815,6 +1852,41 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1.3f);
 
         terminalContainer.SetActive(false);
+    }
+
+    /// <summary>
+    /// Teleports a character to a random room.
+    /// </summary>
+    /// <param name="character">The character to be teleported</param>
+    /// <param name="hunterInjured">If true, then the game state is changed back to Dungeon after teleport is finished.</param>
+    /// <returns></returns>
+    IEnumerator TeleportCharacter(Character character, bool hunterInjured = false)
+    {
+        Dungeon dun = Singleton.instance.Dungeon;
+        
+        //teleport to random empty space
+        bool roomFound = false;
+        while (!roomFound)
+        {
+            int randRoom = Random.Range(0, dun.dungeonRooms.Count);
+
+            if (dun.dungeonRooms[randRoom].entity == null && dun.dungeonRooms[randRoom].character == null)
+            {
+                roomFound = true;
+
+                //play animation
+                yield return MoveCameraToRoom(dun.dungeonRooms[randRoom]);
+
+                dun.UpdateCharacterRoom(character, dun.dungeonRooms[randRoom]);
+
+            }
+        }
+
+        //change game state
+        /*if (hunterInjured)
+        {
+            ChangeGameState(gameState = GameState.Dungeon);
+        }*/
     }
 
     #endregion

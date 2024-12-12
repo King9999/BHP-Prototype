@@ -56,7 +56,7 @@ public abstract class Character : MonoBehaviour
 
     //resists are a value from 0 to 1. This allows multiple sources of a resist to take effect,
     //and makes it easier to recalculate values when equipping/unequipping sources.
-    [Header("---Ailment Status---")]
+    [Header("---Ailment Resistances---")]
     public float resistPoison;
     public float resistDizzy;
     public float resistBlind;
@@ -69,7 +69,7 @@ public abstract class Character : MonoBehaviour
 
     public enum CharacterState
     {
-        Idle, Attacking, Guarding, Moving, Resting, Injured
+        Idle, Attacking, Guarding, Moving, Resting, Injured, Dead   //dead only occurs when hunter is defeated by a monster, or the character is a monster.
     }
 
     public CharacterState characterState;

@@ -49,12 +49,15 @@ public class Hunter : Character
 
     [Header("---Cards---")]
     public List<Card> cards;
-    public bool CanDrawCard { get; set; } = true;     //affected by card drain debuff.
 
     [Header("---Terminal Effects---")]
     public List<TerminalEffect> terminalEffects;
 
-   
+    //conditions
+    public bool ForceTeleport { get; set; }             //if true, hunter is teleported either due to injury or after running/surrendering.
+    public bool CanDrawCard { get; set; } = true;     //affected by card drain debuff.
+
+
     public void InitializeStats()
     {
         hunterLevel = 1;

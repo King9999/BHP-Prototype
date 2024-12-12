@@ -342,8 +342,8 @@ public class Combat : MonoBehaviour
         //update character states
         Character attacker = attackerRoom.character;
         Character defender = defenderRoom.character;
-        attacker.ChangeCharacterState(attacker.characterState = Character.CharacterState.Idle);
-        defender.ChangeCharacterState(defender.characterState = Character.CharacterState.Idle);
+
+        
 
         //update hunter UI
         HunterManager hm = Singleton.instance.HunterManager;
@@ -363,7 +363,14 @@ public class Combat : MonoBehaviour
         gm.gameViewController.SetActive(true);
         dun.UpdateCharacterRoom(s.attacker, attackerLastRoom);
         dun.UpdateCharacterRoom(s.defender, defenderLastRoom);
-        gm.ChangeGameState(gm.gameState = GameManager.GameState.Dungeon);
+
+        //check for injured hunters.
+        if (s.attacker is Hunter attackHunter && attackHunter.ForceTeleport == true)
+            gm.ChangeGameState(gm.gameState = GameManager.GameState.HunterInjured, attackHunter);
+        else if (s.defender is Hunter defendHunter && defendHunter.ForceTeleport == true)
+            gm.ChangeGameState(gm.gameState = GameManager.GameState.HunterInjured, defendHunter);
+        else
+            gm.ChangeGameState(gm.gameState = GameManager.GameState.Dungeon);
         
     }
     
@@ -428,23 +435,12 @@ public class Combat : MonoBehaviour
         }
     }
 
-    private IEnumerator ShowSkillName(string skillName, Character skillUser)
+    public void DisplayStatusEffect(Character character, string statusText)
     {
-        skillNameUI.SetActive(true);
-       
-        Color attackerColor = new Color(0, 0, 0.5f, 0.5f);
-        Color defenderColor = new Color(0.5f, 0, 0, 0.5f);
-        //get skill name
-        skillNameText.text = skillUser.chosenSkill.skillName;
+        StartCoroutine(ShowStatusEffect(character, statusText));
+    }
 
-        //change window colour based on who is attacking and defending.
-        skillNameBackground.color = skillUser.isAttacker ? attackerColor : defenderColor;
-
-        //turn off after a few seconds
-        yield return new WaitForSeconds(2);
-        skillNameUI.SetActive(false);
-        
-    }    
+    
 
     #region Button Methods
     public void OnSelectCardButtonPressed()
@@ -768,7 +764,7 @@ public class Combat : MonoBehaviour
         }
         
         attackerTurnOver = true;
-        if (attackerTurnOver && defenderCounterattacking)
+        if (defender.healthPoints > 0 && attackerTurnOver && defenderCounterattacking)
         {
             defenderCounterattacking = false;
             //defender always uses basic attack
@@ -779,6 +775,55 @@ public class Combat : MonoBehaviour
 
             yield return new WaitForSeconds(1);
             yield return SimulateDiceRoll(defenderDice, attackerDice, defender, attacker);
+        }
+
+        //is one the opponents defeated?
+        EffectManager em = Singleton.instance.EffectManager;
+        if (attacker.healthPoints <= 0)
+        {
+            //was the opponent another hunter?
+            if (attacker is Hunter && defender is Hunter)
+            {
+                attacker.ChangeCharacterState(attacker.characterState = Character.CharacterState.Injured);
+                em.AddEffect(StatusEffect.Effect.Injured, attacker);
+            }
+            else if (attacker is Hunter && defender is not Hunter)
+            {
+                //the opponent was a monster; remove hunter from the game.
+            }
+            else
+            {
+                //attacker is a monster; remove from game.
+                //grant money to opponent
+                //roll for item
+            }
+        }
+        else
+        {
+            attacker.ChangeCharacterState(attacker.characterState = Character.CharacterState.Idle);
+        }
+
+        if (defender.healthPoints <= 0)
+        {
+            if (attacker is Hunter && defender is Hunter)
+            {
+                defender.ChangeCharacterState(defender.characterState = Character.CharacterState.Injured);
+                em.AddEffect(StatusEffect.Effect.Injured, defender);
+            }
+            else if (defender is Hunter && attacker is not Hunter)
+            {
+                //the opponent was a monster; remove hunter from the game.
+            }
+            else
+            {
+                //defender is a monster; remove from game.
+                //grant money to opponent
+                //roll for item
+            }
+        }
+        else
+        {
+            defender.ChangeCharacterState(defender.characterState = Character.CharacterState.Idle);
         }
 
         //if we get here, combat has ended.
@@ -877,6 +922,45 @@ public class Combat : MonoBehaviour
     IEnumerator ResolveEffect(Character target)
     {
         yield return null;
+    }
+
+    IEnumerator ShowStatusEffect(Character character, string statusText)
+    {
+        float duration = 1;
+        float currentTime = Time.time;
+        Vector3 charPos = new Vector3(character.transform.position.x + 2, character.transform.position.y + 2, 0);
+        this.statusText.transform.position = Camera.main.WorldToScreenPoint(charPos);
+        Vector3 textPos = this.statusText.transform.position;
+
+        //show status effect text
+        this.statusText.gameObject.SetActive(true);
+        this.statusText.text = statusText;
+        while (Time.time < currentTime + duration)
+        {
+            textPos = new Vector3(textPos.x, textPos.y + 50 * Time.deltaTime, textPos.z);
+            this.statusText.transform.position = textPos;
+            yield return null;
+        }
+
+        this.statusText.gameObject.SetActive(false);
+    }
+
+    private IEnumerator ShowSkillName(string skillName, Character skillUser)
+    {
+        skillNameUI.SetActive(true);
+
+        Color attackerColor = new Color(0, 0, 0.5f, 0.5f);
+        Color defenderColor = new Color(0.5f, 0, 0, 0.5f);
+        //get skill name
+        skillNameText.text = skillUser.chosenSkill.skillName;
+
+        //change window colour based on who is attacking and defending.
+        skillNameBackground.color = skillUser.isAttacker ? attackerColor : defenderColor;
+
+        //turn off after a few seconds
+        yield return new WaitForSeconds(2);
+        skillNameUI.SetActive(false);
+
     }
     #endregion
 }
