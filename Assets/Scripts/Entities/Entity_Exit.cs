@@ -19,6 +19,8 @@ public class Entity_Exit : Entity
     public void TeleportCharacter(Character character)
     {
         Dungeon dun = Singleton.instance.Dungeon;
+        GameManager gm = Singleton.instance.GameManager;
+
         if (character is Hunter hunter)
         {
             //check for target item
@@ -30,8 +32,9 @@ public class Entity_Exit : Entity
             else
             {
                 //teleport to random empty space
-                bool roomFound = false;
-                while(!roomFound)
+                gm.Teleport(hunter);
+                //bool roomFound = false;
+                /*while(!roomFound)
                 {
                     int randRoom = Random.Range(0, dun.dungeonRooms.Count);
 
@@ -39,15 +42,16 @@ public class Entity_Exit : Entity
                     {
                         roomFound = true;
                         dun.UpdateCharacterRoom(hunter, dun.dungeonRooms[randRoom]);
-
+                        
                     }
-                }
+                }*/
             }
         }
         else
         {
             //teleport to empty space
-            bool roomFound = false;
+            gm.Teleport(character);
+            /*bool roomFound = false;
             while (!roomFound)
             {
                 int randRoom = Random.Range(0, dun.dungeonRooms.Count);
@@ -58,7 +62,7 @@ public class Entity_Exit : Entity
                     dun.UpdateCharacterRoom(character, dun.dungeonRooms[randRoom]);
                 }
                     
-            }
+            }*/
         }
     }
 

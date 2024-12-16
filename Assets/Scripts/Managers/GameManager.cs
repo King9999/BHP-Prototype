@@ -1247,6 +1247,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(TakeTurn(ActiveCharacter()));
     }
 
+    #region Coroutine Methods Used Outside of GameManager
     //runs CheckCharacterState coroutine from elsewhere
     public void CharacterState(Character character)
     {
@@ -1268,6 +1269,12 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(ShowStatusEffect(character, statusText));
     }
+
+    public void Teleport(Character character)
+    {
+        StartCoroutine(TeleportCharacter(character));
+    }
+    #endregion
 
     #region Coroutines
     IEnumerator CheckCharacterState(Character character)
@@ -1893,6 +1900,7 @@ public class GameManager : MonoBehaviour
                 dun.UpdateCharacterRoom(character, dun.dungeonRooms[randRoom]);
 
                 //return scale to normal
+                yield return new WaitForSeconds(0.5f);
                 while (character.transform.localScale.x < origScale_x)
                 {
                     Vector3 newScale = character.transform.localScale;
