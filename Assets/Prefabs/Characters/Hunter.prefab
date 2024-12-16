@@ -73,6 +73,7 @@ MonoBehaviour:
   mnpMod: 1
   rstMod: 1
   evdMod: 1
+  movMod: 1
   debuffResist: 0
   attackSpark: {fileID: 0}
   attackSound: {fileID: 0}
@@ -113,6 +114,7 @@ MonoBehaviour:
   targetItem: {fileID: 0}
   credits: 0
   cards: []
+  terminalEffects: []
 --- !u!212 &3247727559695982901
 SpriteRenderer:
   m_ObjectHideFlags: 0

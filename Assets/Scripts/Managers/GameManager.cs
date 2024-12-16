@@ -1860,7 +1860,7 @@ public class GameManager : MonoBehaviour
     /// <param name="character">The character to be teleported</param>
     /// <param name="hunterInjured">If true, then the game state is changed back to Dungeon after teleport is finished.</param>
     /// <returns></returns>
-    IEnumerator TeleportCharacter(Character character, bool hunterInjured = false)
+    IEnumerator TeleportCharacter(Character character/*, bool hunterInjured = false*/)
     {
         Dungeon dun = Singleton.instance.Dungeon;
         
@@ -1874,10 +1874,33 @@ public class GameManager : MonoBehaviour
             {
                 roomFound = true;
 
-                //play animation
-                yield return MoveCameraToRoom(dun.dungeonRooms[randRoom]);
+                //play animation. Character's X scale goes to 0, and Y scale increases to 3. 
+                float origScale_x = character.transform.localScale.x;
+                float origScale_y = character.transform.localScale.y;
+                float rate = 4;
+
+                while (character.transform.localScale.x > 0)
+                {
+                    Vector3 newScale = character.transform.localScale;
+                    character.transform.localScale = new Vector3(newScale.x - rate * Time.deltaTime, newScale.y /*+ rate * Time.deltaTime*/, newScale.z);
+                    yield return null;
+                }
+
+                character.transform.localScale = new Vector3(0, character.transform.localScale.y, character.transform.localScale.z);
+
+                yield return MoveCameraToRoom(dun.dungeonRooms[randRoom]);               
 
                 dun.UpdateCharacterRoom(character, dun.dungeonRooms[randRoom]);
+
+                //return scale to normal
+                while (character.transform.localScale.x < origScale_x)
+                {
+                    Vector3 newScale = character.transform.localScale;
+                    character.transform.localScale = new Vector3(newScale.x + rate * Time.deltaTime, newScale.y/* - rate * Time.deltaTime*/, newScale.z);
+                    yield return null;
+                }
+
+                character.transform.localScale = new Vector3(origScale_x, origScale_y, character.transform.localScale.z);
 
             }
         }
