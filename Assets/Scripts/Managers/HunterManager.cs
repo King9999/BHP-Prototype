@@ -869,7 +869,8 @@ public class HunterManager : MonoBehaviour
         {
             //nothing of interest, move to a random spot. Move the full distance.
             //TODO: may make it so that CPU looks for an out of range target and move towards it.
-            gm.MoveCPUCharacter(hunter, moveRange[moveRange.Count - 1].transform.position);
+            int randRange = Random.Range(0, moveRange.Count);
+            gm.MoveCPUCharacter(hunter, moveRange[randRange].transform.position);
         }
         else
         {

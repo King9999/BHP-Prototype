@@ -1244,6 +1244,16 @@ public class GameManager : MonoBehaviour
         cm.selectedCard = null; //in case a card was used but wasn't triggered.
         hm.ui.activeCardText.text = "";
 
+        //add to turn count. check if monster is going to spawn
+        turnCount++;
+        MonsterManager mm = Singleton.instance.MonsterManager;
+        if (mm.activeMonsters.Count < mm.GetMonsterLimit() && mm.TimeToSpawnMonster())
+        {
+            Monster monster = mm.SpawnMonster(hm.AverageHunterLevel());
+            turnOrder.Insert(0, monster);
+            Debug.LogFormat("Monster is spawning. {0} is taking their turn", monster.characterName);
+        }
+
         StartCoroutine(TakeTurn(ActiveCharacter()));
     }
 
@@ -1321,20 +1331,37 @@ public class GameManager : MonoBehaviour
                     else
                     {
                         //cpu takes action
+                        hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.CPUTurn);
+
                         //does hunter have too many items?
-                        if (character is Hunter hunter && hunter.inventory.Count > hm.MaxInventorySize)
+                        if (character is Hunter hunter) 
                         {
-                            Debug.LogFormat("{0} is removing extra item", character.characterName);
-                            hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.RemovingExtraItem, hunter);
+                            if (hunter.inventory.Count > hm.MaxInventorySize)
+                            {
+                                Debug.LogFormat("{0} is removing extra item", character.characterName);
+                                hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.RemovingExtraItem, hunter);    //TODO: This state is missing
+                            }
+                            else if (hunter.targetChar != null)
+                            {
+                                //attack
+                                Debug.LogFormat("{0} is attacking {1}!", hunter.characterName, hunter.targetChar.characterName);
+                                hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.UseSkill, hunter);
+                            }
+                            else
+                            {
+                                EndTurn();
+                            }
                         }
-                        else
+                        else  //monster actions.
                         {
+                            MonsterManager mm = Singleton.instance.MonsterManager;
                             if (character.targetChar != null)
                             {
                                 //attack
                                 Debug.LogFormat("{0} is attacking {1}!", character.characterName, character.targetChar.characterName);
-                                //StartCombat(character, character.targetChar);
-                                hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.UseSkill, (Hunter)character);
+                                Monster monster = character as Monster;
+                                mm.ChangeMonsterState(monster, mm.aiState = MonsterManager.MonsterState.UseSkill);
+                                //hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.UseSkill, (Hunter)character);
                             }
                             else
                             {
@@ -1366,20 +1393,20 @@ public class GameManager : MonoBehaviour
         CharacterActed = false;
         CharacterMoved = false;
         ForceStop = false;
-        turnCount++;
+        //turnCount++;
         Debug.LogFormat("------Turn {0}------", turnCount);
 
 
         //TODO: if monster spawns, they take their turn immediately.
         HunterManager hm = Singleton.instance.HunterManager;
         MonsterManager mm = Singleton.instance.MonsterManager;
-        if (mm.activeMonsters.Count < mm.GetMonsterLimit() && mm.TimeToSpawnMonster())
+        /*if (mm.activeMonsters.Count < mm.GetMonsterLimit() && mm.TimeToSpawnMonster())
         {
             Monster monster = mm.SpawnMonster(hm.AverageHunterLevel());
             turnOrder.Insert(0, monster);
             Debug.LogFormat("Monster is spawning. {0} is taking their turn", monster.characterName);
             yield return TakeTurn(monster);
-        }
+        }*/
 
         yield return new WaitForSeconds(1.3f); //so the game doesn't immediately shift to character's next turn.
 
@@ -1481,7 +1508,8 @@ public class GameManager : MonoBehaviour
             {
                 hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.CPUTurn);
                 Monster monster = character as Monster;
-                monster.MoveMonster(monster);
+                mm.ChangeMonsterState(monster, mm.aiState = MonsterManager.MonsterState.Moving);
+                //monster.MoveMonster();
             }
         }
         else //turn ends due to some abnormal condition
@@ -1503,6 +1531,7 @@ public class GameManager : MonoBehaviour
         List<Room> destinationRooms = new List<Room>();
         List<Room> attackRange = new List<Room>();
 
+        
 
         char[,] grid = dungeon.dungeonGrid;
         int currentRow = character.room.row;
@@ -1626,6 +1655,9 @@ public class GameManager : MonoBehaviour
         character.ChangeCharacterState(character.characterState = Character.CharacterState.Moving);
         int j = 0;
         float speed = 8;
+        //update destination so that its Y matches the character's Y value
+        destination = new Vector3(destination.x, character.transform.position.y, destination.z);
+
         while (!ForceStop && j < destinationRooms.Count && character.transform.position != destination)
         {
             //the room's Y position must match the character's since the character is above the room
@@ -1634,6 +1666,7 @@ public class GameManager : MonoBehaviour
 
             while (character.transform.position != nextPos)
             {
+       
                 character.transform.position = Vector3.MoveTowards(character.transform.position,
                     nextPos, speed * Time.deltaTime);
                 yield return null;
@@ -1754,7 +1787,7 @@ public class GameManager : MonoBehaviour
 
         if (Random.value <= character.evd * character.evdMod)
         {
-            //trap evaded, keep moving
+            //trap evaded, keep moving TODO: show an icon (musical note?) to indicate trap was evaded
             Debug.LogFormat("{0} evaded {1}", character.characterName, trap.trapName);
             TrapManager tm = Singleton.instance.TrapManager;
             //character.room.trap = null;

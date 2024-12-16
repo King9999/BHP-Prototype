@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 //Base AI behaviours used mainly by monsters. Base method for moving and attacking is stored here. This can be used
 //for when a monster doesn't have any special behaviours.
@@ -164,11 +165,12 @@ public class Monster_AI : ScriptableObject
                     Vector3 newPos = new Vector3(targetEntity.transform.position.x, 0, targetEntity.transform.position.z);
                     monster.targetChar = null;       //not targeting a hunter so must clear.
                     gm.MoveCPUCharacter(monster, newPos);
-                    Debug.LogFormat("{0} moving to entity", monster.characterName);
+                    Debug.LogFormat("{0} moving to entity {1}", monster.characterName, targetEntity.name);
                 }
                 else
                 {
                     //target hunter.
+                    targetEntity = null;
                     monster.chosenSkill = GetSkill(monster, monster.targetChar as Hunter);
                     Vector3 newPos = new Vector3(monster.targetChar.transform.position.x, 0, monster.targetChar.transform.position.z);
                     gm.MoveCPUCharacter(monster, newPos, true);
@@ -178,7 +180,6 @@ public class Monster_AI : ScriptableObject
             else if (monster.targetChar == null && targetEntity != null)
             {
                 Vector3 newPos = new Vector3(targetEntity.transform.position.x, 0, targetEntity.transform.position.z);
-                monster.targetChar = null;       //not targeting a character so must clear.
                 gm.MoveCPUCharacter(monster, newPos);
                 Debug.LogFormat("{0} moving to entity", monster.characterName);
             }
@@ -192,5 +193,25 @@ public class Monster_AI : ScriptableObject
 
         }
 
+    }
+
+    public virtual IEnumerator UseSkill(Monster monster)
+    {
+        //display the skill's range
+        GameManager gm = Singleton.instance.GameManager;
+        List<Room> skillRange = gm.ShowSkillRange(monster, monster.chosenSkill.minRange, monster.chosenSkill.maxRange);
+        gm.DisplaySkillTiles(skillRange);
+        yield return new WaitForSeconds(1);
+
+        for (int i = 0; i < gm.skillTileList.Count; i++)
+        {
+            gm.skillTileList[i].SetActive(false);
+            gm.skillTileBin.Add(gm.skillTileList[i]);
+        }
+        gm.skillTileList.Clear();
+        gm.skillTileList.TrimExcess();
+
+        //Start combat
+        gm.ChangeGameState(gm.gameState = GameManager.GameState.Combat);
     }
 }

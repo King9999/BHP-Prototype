@@ -86,8 +86,13 @@ public abstract class Monster : Character
         skillPoints = maxSkillPoints;
     }
 
-    public void MoveMonster(Monster monster)
+    public void MoveMonster()
     {
-        StartCoroutine(cpuBehaviour.MoveMonster(monster));
+        StartCoroutine(cpuBehaviour.MoveMonster(this));
+    }
+
+    public void UseSkill()
+    {
+        StartCoroutine(cpuBehaviour.UseSkill(this));
     }
 }

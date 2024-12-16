@@ -12,9 +12,13 @@ public class MonsterManager : MonoBehaviour
     public static MonsterManager instance;
     private GameObject monsterObject;
 
-    private int spawnTimer { get; } = 8;        //minimum value is 3. Any less than that and hunters never get a turn.
+    private int spawnTimer { get; } = 3;        //minimum value is 3. Any less than that and hunters never get a turn.
     public int spawnMod;                        //used by dungeon mod to adjust spawn timer. Value can never be more than 5.
     private int MaxMonsters { get; } = 8;       //doesn't include boss
+
+    //monster states
+    public enum MonsterState { Idle, Moving, UseSkill }
+    public MonsterState aiState;
 
     void Awake()
     {
@@ -65,4 +69,22 @@ public class MonsterManager : MonoBehaviour
     {
         StartCoroutine(monster.cpuBehaviour.MoveMonster(monster));
     }
+
+    public void ChangeMonsterState(Monster monster, MonsterState state)
+    {
+        switch(state)
+        {
+            case MonsterState.Idle:
+                break;
+
+            case MonsterState.Moving:
+                monster.MoveMonster();
+                break;
+
+            case MonsterState.UseSkill:
+                monster.UseSkill();
+                break;
+        }
+    }
+
 }
