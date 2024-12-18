@@ -52,7 +52,7 @@ public class MonsterManager : MonoBehaviour
     public Monster SpawnMonster(int monsterLevel)
     {
         int randMonster = Random.Range(0, masterMonsterList.Count);
-        Monster monster = Instantiate(masterMonsterList[randMonster], monsterObject.transform);
+        Monster monster = Instantiate(masterMonsterList[randMonster]/*, monsterObject.transform*/);
         monster.InitializeStats(monsterLevel, monster.monsterData);
 
 
