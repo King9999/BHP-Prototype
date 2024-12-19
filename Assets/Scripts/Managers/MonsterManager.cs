@@ -17,7 +17,7 @@ public class MonsterManager : MonoBehaviour
     private int MaxMonsters { get; } = 8;       //doesn't include boss
 
     //monster states
-    public enum MonsterState { Idle, Moving, UseSkill }
+    public enum MonsterState { Idle, Moving, UseSkill, CheckEnemiesInRange }    //CheckEnemiesInRange is used before moving, in case a hunter is in range to attack.
     public MonsterState aiState;
 
     void Awake()
@@ -84,6 +84,10 @@ public class MonsterManager : MonoBehaviour
 
             case MonsterState.UseSkill:
                 monster.UseSkill();
+                break;
+
+            case MonsterState.CheckEnemiesInRange:
+                monster.CheckHuntersInRange();
                 break;
         }
     }

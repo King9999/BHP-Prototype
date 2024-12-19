@@ -1375,7 +1375,17 @@ public class GameManager : MonoBehaviour
                 {
                     //move character
                     if (character.cpuControlled)
-                        hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.Moving, (Hunter)character);
+                    {
+                        if (character is Hunter)
+                        {
+                            hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.Moving, character as Hunter);
+                        }
+                        else
+                        {
+                            MonsterManager mm = Singleton.instance.MonsterManager;
+                            mm.ChangeMonsterState(character as Monster, mm.aiState = MonsterManager.MonsterState.Moving);
+                        }
+                    }
                 }
             }
         }
@@ -1506,9 +1516,9 @@ public class GameManager : MonoBehaviour
             }
             else  //this is a monster, which is always CPU-controlled.
             {
-                hm.ChangeHunterMenuState(hm.hunterMenuState = HunterManager.HunterMenuState.CPUTurn);
-                Monster monster = character as Monster;
-                mm.ChangeMonsterState(monster, mm.aiState = MonsterManager.MonsterState.Moving);
+               // mm.ChangeMonsterState(monster, mm.aiState = MonsterManager.MonsterState.Moving);
+               //always check if hunter is in range before moving.
+                mm.ChangeMonsterState(character as Monster, mm.aiState = MonsterManager.MonsterState.CheckEnemiesInRange);
                 //monster.MoveMonster();
             }
         }

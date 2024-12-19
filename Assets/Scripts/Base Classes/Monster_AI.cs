@@ -214,4 +214,43 @@ public class Monster_AI : ScriptableObject
         //Start combat
         gm.ChangeGameState(gm.gameState = GameManager.GameState.Combat);
     }
+
+    /*public virtual IEnumerator CheckHuntersInRange(Monster monster)
+    {
+        //Before moving, check if the hunter is already in attack range by checking all applicable skills.
+        //Pick basic attack for checking, will choose another skill later
+        List<Room> skillRange = new List<Room>();
+        List<Character> targetChars = new List<Character>();
+        List<ActiveSkill> activeSkills = new List<ActiveSkill>();
+        GameManager gm = Singleton.instance.GameManager;
+        for (int i = 0; i < monster.skills.Count; i++)
+        {
+            if (monster.skills[i] is ActiveSkill activeSkill && activeSkill.skillCost <= monster.skillPoints)
+            {
+                skillRange = gm.ShowSkillRange(monster, activeSkill.minRange, activeSkill.maxRange);
+                targetChars = monster.CPU_CheckCharactersInRange(skillRange);
+                if (targetChars.Count > 0)
+                {
+                    activeSkills.Add(activeSkill);
+                }
+            }
+
+        }
+
+        //pick a random skill
+        MonsterManager mm = Singleton.instance.MonsterManager;
+
+        if (activeSkills.Count > 0)
+        {
+            int randSkill = Random.Range(0, activeSkills.Count);
+            int randTarget = Random.Range(0, targetChars.Count);
+            monster.chosenSkill = activeSkills[randSkill];
+            monster.targetChar = targetChars[randTarget];
+            mm.ChangeMonsterState(monster, mm.aiState = MonsterManager.MonsterState.UseSkill);
+        }
+        else
+        {
+            mm.ChangeMonsterState(monster, mm.aiState = MonsterManager.MonsterState.Moving);
+        }
+    }*/
 }

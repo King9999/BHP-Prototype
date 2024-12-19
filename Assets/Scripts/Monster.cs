@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 /* Monsters are CPU-controlled characters. Their level is the average level of all hunters. The items they drop depends on their level. 
@@ -89,5 +90,45 @@ public abstract class Monster : Character
     public void UseSkill()
     {
         StartCoroutine(cpuBehaviour.UseSkill(this));
+    }
+
+    //used in cases where monster may be in range to attack before moving.
+    public void CheckHuntersInRange()
+    {
+        //Before moving, check if the hunter is already in attack range by checking all applicable skills.
+        //Pick basic attack for checking, will choose another skill later
+        List<Room> skillRange = new List<Room>();
+        List<Character> targetChars = new List<Character>();
+        List<ActiveSkill> activeSkills = new List<ActiveSkill>();
+        GameManager gm = Singleton.instance.GameManager;
+        for (int i = 0; i < skills.Count; i++)
+        {
+            if (skills[i] is ActiveSkill activeSkill && activeSkill.skillCost <= skillPoints)
+            {
+                skillRange = gm.ShowSkillRange(this, activeSkill.minRange, activeSkill.maxRange);
+                targetChars = CPU_CheckCharactersInRange(skillRange);
+                if (targetChars.Count > 0)
+                {
+                    activeSkills.Add(activeSkill);
+                }
+            }
+
+        }
+
+        //pick a random skill
+        MonsterManager mm = Singleton.instance.MonsterManager;
+
+        if (activeSkills.Count > 0)
+        {
+            int randSkill = Random.Range(0, activeSkills.Count);
+            int randTarget = Random.Range(0, targetChars.Count);
+            chosenSkill = activeSkills[randSkill];
+            targetChar = targetChars[randTarget];
+            mm.ChangeMonsterState(this, mm.aiState = MonsterManager.MonsterState.UseSkill);
+        }
+        else
+        {
+            mm.ChangeMonsterState(this, mm.aiState = MonsterManager.MonsterState.Moving);
+        }
     }
 }
