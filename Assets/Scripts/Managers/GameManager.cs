@@ -1735,8 +1735,16 @@ public class GameManager : MonoBehaviour
         //change CPU HUnter state
         if (character.cpuControlled)
         {
-            HunterManager hm = Singleton.instance.HunterManager;
-            hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.Idle, character as Hunter);
+            if (character is Hunter)
+            {
+                HunterManager hm = Singleton.instance.HunterManager;
+                hm.ChangeCPUHunterState(hm.aiState = HunterManager.HunterAIState.Idle, character as Hunter);
+            }
+            else
+            {
+                MonsterManager mm = Singleton.instance.MonsterManager;
+                mm.ChangeMonsterState(character as Monster, mm.aiState = MonsterManager.MonsterState.Idle);
+            }
         }
 
         //check if anything is on the space the hunter landed on

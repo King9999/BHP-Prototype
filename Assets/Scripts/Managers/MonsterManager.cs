@@ -49,6 +49,7 @@ public class MonsterManager : MonoBehaviour
         return gm.turnCount % (spawnTimer - spawnMod) == 0;
     }
 
+    /* NOTE: For some reason, I can't set the monster object's parent, or else the movement messes up. I don't know why this happens. */
     public Monster SpawnMonster(int monsterLevel)
     {
         int randMonster = Random.Range(0, masterMonsterList.Count);

@@ -30,14 +30,9 @@ public abstract class Monster : Character
 
     private void Awake()
     {
-        
+        cpuControlled = true;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     /* Generate monster stats based on the average level of the hunters.
      * The average will be calculated elsewhere.
