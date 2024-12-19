@@ -18,11 +18,18 @@ public class MonsterData : ScriptableObject
     public int baseMov;
     public float baseHealthPoints;      //max health
     public float baseSkillPoints;        //max Sp
-    public int minAttackRange, maxAttackRange;      //range of standard attack.
     public int baseMoney;                //amount of money dropped scales with level.
     public float growthRate;            //increases stats. Not sure if I want individual rates for each stat yet.
     public Monster_AI behaviour;
     public List<Skill> skills;
+
+    [Header("---Basic Attack data---")]
+    public int minAttackRange;
+    public int maxAttackRange;      //range of standard attack.
+    public float dmgMod;      //multiplier of how much ATP or MNP affects the damage of the skill. 1 = 100% damage, < 1 = reduced damage, > 1 = more damage.
+    public ActiveSkill.SkillAttribute attribute;
+    public ActiveSkill.MonsterSkillRange monsterSkillRange;
+    
 
     [Serializable]
     public struct DropTable
@@ -38,6 +45,7 @@ public class MonsterData : ScriptableObject
         public List<DropTable> dropTable;
     }
 
+    [Header("---Drop Tables---")]
     public List<DropTables> dropTables;
 
     

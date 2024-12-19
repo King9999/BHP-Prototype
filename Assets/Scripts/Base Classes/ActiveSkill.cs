@@ -14,6 +14,8 @@ public abstract class ActiveSkill : Skill
     //public Dice dice;
     public enum SkillAttribute { PhysDamage, PsychDamage, Restorative, Buff, Debuff }
     public SkillAttribute attribute;
+    public enum MonsterSkillRange { Melee, Ranged }            //used by monsters only since they don't equip weapons.
+    public MonsterSkillRange monsterSkillRange;
 
     //moves/animates the character when skill is activated.
     public virtual IEnumerator Animate(Character character) { yield return null; }

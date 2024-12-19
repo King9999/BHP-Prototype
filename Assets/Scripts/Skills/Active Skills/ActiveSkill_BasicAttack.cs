@@ -7,6 +7,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Skills/Active Skills/Basic Attack", fileName = "activeSkill_BasicAttack")]
 public class ActiveSkill_BasicAttack : ActiveSkill
 {
+    private const float waitTime = 0.5f;      //delay before next action occurs.
     void Reset()
     {
         skillName = "Attack";
@@ -44,7 +45,6 @@ public class ActiveSkill_BasicAttack : ActiveSkill
                 //get the space in front of target. We don't want the Y position to change, otherwise the hunter
                 //might get stuck in the geometry trying to match the target's Y position.
                 Vector3 destination = new Vector3(target.transform.position.x, hunter.transform.position.y, target.transform.position.z);
-                //float direction = destination.x - hunter.transform.position.x;
                 float newX = 0;
                 if (destination.x > hunter.transform.position.x)
                 {
@@ -65,13 +65,11 @@ public class ActiveSkill_BasicAttack : ActiveSkill
                 }
 
                 //deal damage, then return to original position.
-                //GameManager gm = Singleton.instance.GameManager;
-                //gm.combatManager.DoDamage(hunter, target);
 
                 Combat combat = Singleton.instance.Combat;
                 combat.DoDamage(hunter, target);
 
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(waitTime);
                 hunter.transform.position = originalPos;
             }
             else
@@ -80,13 +78,56 @@ public class ActiveSkill_BasicAttack : ActiveSkill
                 Combat combat = Singleton.instance.Combat;
                 combat.DoDamage(hunter, target);
 
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(waitTime);
                 //yield return null;
             }
         }
         else //a monster is attacking.
         {
+            Monster monster = character as Monster;
             //monsters have unique basic attacks, which could be either ranged or melee.
+            if (monsterSkillRange == MonsterSkillRange.Melee)
+            {
+                float moveSpeed = 12;
+
+                //get the space in front of target. We don't want the Y position to change, otherwise the hunter
+                //might get stuck in the geometry trying to match the target's Y position.
+                Vector3 destination = new Vector3(target.transform.position.x, monster.transform.position.y, target.transform.position.z);
+                float newX = 0;
+                if (destination.x > monster.transform.position.x)
+                {
+                    newX = destination.x - 2;
+                }
+                else if (destination.x < monster.transform.position.x)
+                {
+                    newX = destination.x + 2;
+                }
+
+                destination = new Vector3(newX, destination.y, destination.z);
+                Vector3 originalPos = monster.transform.position;
+                //run up to space in front of target
+                while (monster.transform.position != destination)
+                {
+                    monster.transform.position = Vector3.MoveTowards(monster.transform.position, destination, moveSpeed * Time.deltaTime);
+                    yield return null;
+                }
+
+                //deal damage, then return to original position.
+
+                Combat combat = Singleton.instance.Combat;
+                combat.DoDamage(monster, target);
+
+                yield return new WaitForSeconds(waitTime);
+                monster.transform.position = originalPos;
+            }
+            else
+            {
+                //ranged attack
+                Combat combat = Singleton.instance.Combat;
+                combat.DoDamage(monster, target);
+
+                yield return new WaitForSeconds(waitTime);
+            }
         }
     }
 

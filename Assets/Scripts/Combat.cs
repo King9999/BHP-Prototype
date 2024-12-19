@@ -614,6 +614,7 @@ public class Combat : MonoBehaviour
         //criticalDamageMod = attackerDice.RolledTwelve() ? 2 : 1;
         counterAttackMod = attacker.isDefender ? 0.5f : 1;
 
+        //critical check
         if (attackerDice.RolledTwelve())
         {
             //is the weapon an augmenter?
@@ -764,6 +765,7 @@ public class Combat : MonoBehaviour
         }
         
         attackerTurnOver = true;
+        yield return new WaitForSeconds(1);
         if (defender.healthPoints > 0 && attackerTurnOver && defenderCounterattacking)
         {
             defenderCounterattacking = false;
@@ -773,12 +775,16 @@ public class Combat : MonoBehaviour
             //reset the criticalmod
             criticalDamageMod = 1;
 
-            yield return new WaitForSeconds(1);
+            //yield return new WaitForSeconds(1);
             yield return SimulateDiceRoll(defenderDice, attackerDice, defender, attacker);
+        }
+        else
+        {
+            yield return CheckCombatResults(attacker, defender);
         }
 
         //is one the opponents defeated?
-        EffectManager em = Singleton.instance.EffectManager;
+        /*EffectManager em = Singleton.instance.EffectManager;
         if (attacker.healthPoints <= 0)
         {
             //was the opponent another hunter?
@@ -828,7 +834,7 @@ public class Combat : MonoBehaviour
 
         //if we get here, combat has ended.
         yield return new WaitForSeconds(3);
-        EndCombat();
+        EndCombat();*/
     }
 
     //special coroutine for skills that deal fixed damage that don't require dice roll.
@@ -961,6 +967,62 @@ public class Combat : MonoBehaviour
         yield return new WaitForSeconds(2);
         skillNameUI.SetActive(false);
 
+    }
+
+    private IEnumerator CheckCombatResults(Character attacker, Character defender)
+    {
+        //is one the opponents defeated?
+        EffectManager em = Singleton.instance.EffectManager;
+        if (attacker.healthPoints <= 0)
+        {
+            //was the opponent another hunter?
+            if (attacker is Hunter && defender is Hunter)
+            {
+                attacker.ChangeCharacterState(attacker.characterState = Character.CharacterState.Injured);
+                em.AddEffect(StatusEffect.Effect.Injured, attacker);
+            }
+            else if (attacker is Hunter && defender is not Hunter)
+            {
+                //the opponent was a monster; remove hunter from the game.
+            }
+            else
+            {
+                //attacker is a monster; remove from game.
+                //grant money to opponent
+                //roll for item
+            }
+        }
+        else
+        {
+            attacker.ChangeCharacterState(attacker.characterState = Character.CharacterState.Idle);
+        }
+
+        if (defender.healthPoints <= 0)
+        {
+            if (attacker is Hunter && defender is Hunter)
+            {
+                defender.ChangeCharacterState(defender.characterState = Character.CharacterState.Injured);
+                em.AddEffect(StatusEffect.Effect.Injured, defender);
+            }
+            else if (defender is Hunter && attacker is not Hunter)
+            {
+                //the opponent was a monster; remove hunter from the game.
+            }
+            else
+            {
+                //defender is a monster; remove from game.
+                //grant money to opponent
+                //roll for item
+            }
+        }
+        else
+        {
+            defender.ChangeCharacterState(defender.characterState = Character.CharacterState.Idle);
+        }
+
+        //if we get here, combat has ended.
+        yield return new WaitForSeconds(2);
+        EndCombat();
     }
     #endregion
 }

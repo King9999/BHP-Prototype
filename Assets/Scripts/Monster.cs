@@ -60,7 +60,14 @@ public abstract class Monster : Character
         //add skills
         for (int i = 0; i < data.skills.Count; i++)
             skills.Add(Instantiate(data.skills[i]));
-        
+
+        //update basic attack data
+        ActiveSkill basicAttack = data.skills[0] as ActiveSkill;
+        basicAttack.attribute = data.attribute;
+        basicAttack.monsterSkillRange = data.monsterSkillRange;
+        basicAttack.minRange = data.minAttackRange;
+        basicAttack.maxRange = data.maxAttackRange;
+        basicAttack.dmgMod = data.dmgMod;
 
 
         //growth rate is 0 if average level is less than 5.
