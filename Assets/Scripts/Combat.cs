@@ -980,6 +980,10 @@ public class Combat : MonoBehaviour
             {
                 attacker.ChangeCharacterState(attacker.characterState = Character.CharacterState.Injured);
                 em.AddEffect(StatusEffect.Effect.Injured, attacker);
+
+                //TODO: attacker takes item from defender.
+                yield return new WaitForSeconds(1);
+                yield return TakeItemFromLoser(defender as Hunter, attacker as Hunter);
             }
             else if (attacker is Hunter && defender is not Hunter)
             {
@@ -990,6 +994,7 @@ public class Combat : MonoBehaviour
                 //attacker is a monster; remove from game.
                 //grant money to opponent
                 //roll for item
+                yield return RollForLoot(defender as Hunter, attacker as Monster);
             }
         }
         else
@@ -1003,6 +1008,10 @@ public class Combat : MonoBehaviour
             {
                 defender.ChangeCharacterState(defender.characterState = Character.CharacterState.Injured);
                 em.AddEffect(StatusEffect.Effect.Injured, defender);
+
+                //TODO: attacker takes item from defender.
+                yield return new WaitForSeconds(1);
+                yield return TakeItemFromLoser(attacker as Hunter, defender as Hunter);
             }
             else if (defender is Hunter && attacker is not Hunter)
             {
@@ -1013,6 +1022,7 @@ public class Combat : MonoBehaviour
                 //defender is a monster; remove from game.
                 //grant money to opponent
                 //roll for item
+                yield return RollForLoot(attacker as Hunter, defender as Monster);
             }
         }
         else
@@ -1023,6 +1033,31 @@ public class Combat : MonoBehaviour
         //if we get here, combat has ended.
         yield return new WaitForSeconds(2);
         EndCombat();
+    }
+
+    private IEnumerator TakeItemFromLoser(Hunter winner, Hunter loser)
+    {
+        //open up the loser's inventory
+        //winner chooses an item to take.
+        //if winner has too many items, winner drops an item. Target item cannot be dropped.
+        //end combat
+        yield return null;
+    }
+
+    private IEnumerator RollForLoot(Hunter hunter, Monster monster)
+    {
+        //grant money to winner
+        //check if monster drops an item
+        //if item drops, add item to winner's inventory
+        //if winner has too many items, they drop one.
+        yield return null;
+    }
+
+    private IEnumerator KillHunter(Hunter hunter)
+    {
+        //hunter is removed from dungeon
+        //all collected items are dropped for anyone to pick up
+        yield return null;
     }
     #endregion
 }
