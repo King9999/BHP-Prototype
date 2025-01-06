@@ -45,6 +45,9 @@ public class MonsterData : ScriptableObject
         public List<DropTable> dropTable;
     }
 
+    [Header("---Item Drop Chance---")]
+    public float dropChance;            //the chance that monster drops an item. If successful, then drop table is accessed.
+
     [Header("---Drop Tables---")]
     public List<DropTables> dropTables;
 

@@ -19,8 +19,9 @@ public abstract class Monster : Character
     public float baseHealthPoints;      //max health
     public float baseSkillPoints;        //max Sp
     public int minAttackRange, maxAttackRange;      //range of standard attack.
-    public int baseMoney;                //amount of money dropped scales with level.
+    public int baseMoney, credits;       //amount of money dropped scales with level.
     public float growthRate;            //increases stats. Not sure if I want individual rates for each stat yet.
+    public float dropChance;            //the chance that monster drops an item. Data is pulled from MonsterData.
     public enum AI_State
     {
         Idle, Moving, Aggro, Retreating
@@ -56,6 +57,7 @@ public abstract class Monster : Character
         maxAttackRange = data.maxAttackRange;
         growthRate = data.growthRate;
         cpuBehaviour = data.behaviour;
+        dropChance = data.dropChance;
 
         //add skills
         for (int i = 0; i < data.skills.Count; i++)
@@ -84,7 +86,7 @@ public abstract class Monster : Character
         evd = baseEvd * (1 + Mathf.Round(growthRate * monsterLevel));
         //Debug.Log("Monster ATP: " + baseAtp * 1 + (growthRate * monsterLevel));
         mov = baseMov + (monsterLevel / 10);
-        //evd = Mathf.Round(baseEvd)
+        credits = baseMoney + (monsterLevel - 1) * 8;
         healthPoints = maxHealthPoints;
         skillPoints = maxSkillPoints;
     }
