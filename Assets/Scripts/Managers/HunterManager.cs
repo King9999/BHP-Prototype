@@ -313,6 +313,8 @@ public class HunterManager : MonoBehaviour
         SkillManager sm = Singleton.instance.SkillManager;
         hunter.super = sm.AddSuper();
 
+        //hunter.hunterLevel = 5;
+
         //give hunter an item
         //ItemManager im = ItemManager.instance;
         //hunter.inventory.Add(im.lootTable.GetItem(Table.ItemType.SkillChip));

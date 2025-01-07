@@ -21,6 +21,7 @@ public abstract class Monster : Character
     public int minAttackRange, maxAttackRange;      //range of standard attack.
     public int baseMoney, credits;       //amount of money dropped scales with level.
     public float growthRate;            //increases stats. Not sure if I want individual rates for each stat yet.
+    const float growthValue = 0.125f;
     public float dropChance;            //the chance that monster drops an item. Data is pulled from MonsterData.
     public enum AI_State
     {
@@ -73,20 +74,20 @@ public abstract class Monster : Character
 
 
         //growth rate is 0 if average level is less than 5.
-        growthRate = averageLevel < 5 ? 0 : 0.125f;
+        growthRate = averageLevel < 5 ? 0 : growthValue;
 
         monsterLevel = averageLevel;
-        maxHealthPoints = baseHealthPoints * (1 + Mathf.Round(growthRate * monsterLevel));
-        maxSkillPoints = baseSkillPoints * (1 + Mathf.Round(growthRate * monsterLevel));
-        atp = baseAtp * (1 + Mathf.Round(growthRate * monsterLevel));
-        dfp = baseDfp * (1 + Mathf.Round(growthRate * monsterLevel));
-        mnp = baseMnp * (1 + Mathf.Round(growthRate * monsterLevel));
-        rst = baseRst * (1 + Mathf.Round(growthRate * monsterLevel));
-        spd = baseSpd * (1 + Mathf.Round(growthRate * monsterLevel));
-        evd = baseEvd * (1 + Mathf.Round(growthRate * monsterLevel));
+        maxHealthPoints = Mathf.Round(baseHealthPoints * (1 + growthRate * monsterLevel));
+        maxSkillPoints = Mathf.Round(baseSkillPoints * (1 + growthRate * monsterLevel));
+        atp = Mathf.Round(baseAtp * (1 + growthRate * monsterLevel));
+        dfp = Mathf.Round(baseDfp * (1 + growthRate * monsterLevel));
+        mnp = Mathf.Round(baseMnp * (1 + growthRate * monsterLevel));
+        rst = Mathf.Round(baseRst * (1 + growthRate * monsterLevel));
+        spd = Mathf.Round(baseSpd * (1 + growthRate * monsterLevel));
+        evd = Mathf.Round(baseEvd * (1 + growthRate * monsterLevel));
         //Debug.Log("Monster ATP: " + baseAtp * 1 + (growthRate * monsterLevel));
         mov = baseMov + (monsterLevel / 10);
-        credits = baseMoney + (monsterLevel - 1) * 8;
+        credits = baseMoney + (monsterLevel - 1) * Mathf.RoundToInt(baseMoney * 0.55f);
         healthPoints = maxHealthPoints;
         skillPoints = maxSkillPoints;
     }

@@ -33,13 +33,14 @@ MonoBehaviour:
   dmgMod: 1
   attribute: 0
   monsterSkillRange: 0
+  dropChance: 0.5
   dropTables:
   - minLevel: 1
     dropTable:
-    - item: {fileID: 0}
-      itemWeight: 0
-    - item: {fileID: 0}
-      itemWeight: 0
+    - item: {fileID: 11400000, guid: d02642b5983312241b68ab733af45fcd, type: 2}
+      itemWeight: 750
+    - item: {fileID: 11400000, guid: f9bfc8beb1db3ee4fad5169cada3d201, type: 2}
+      itemWeight: 250
   - minLevel: 20
     dropTable:
     - item: {fileID: 0}
