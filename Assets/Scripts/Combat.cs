@@ -52,6 +52,9 @@ public class Combat : MonoBehaviour
     [SerializeField] private GameObject skillNameUI;
     [SerializeField] private TextMeshProUGUI skillNameText;
     [SerializeField] private Image skillNameBackground;
+    [SerializeField] private TextMeshProUGUI droppedItemText;   //UI for when an item drops from monster
+    [SerializeField] private GameObject droppedItemUI;
+
 
     [Header("---Combat Grid---")]
     [SerializeField] private Room roomPrefab;
@@ -116,6 +119,7 @@ public class Combat : MonoBehaviour
         activeCard_defenderText.text = "";
         inventory.ShowInventory(false);
         skillNameUI.SetActive(false);
+        droppedItemUI.SetActive(false);
 
         //set up card menu buttons.
         CardMenu cm = Singleton.instance.CardMenu;
@@ -1046,10 +1050,63 @@ public class Combat : MonoBehaviour
 
     private IEnumerator RollForLoot(Hunter hunter, Monster monster)
     {
-        //grant money to winner
+        //grant money to winner TODO: show UI
+        hunter.credits += monster.credits;
+
         //check if monster drops an item
+        float roll = Random.value;
+        Debug.LogFormat("Rolled {0}", roll);
+        if (roll <= monster.monsterData.dropChance)
+        {
+            //access drop table, starting from the highest level table.
+            int i = monster.monsterData.dropTables.Count - 1;
+            bool tableFound = false;
+            while (!tableFound && i >= 0)
+            {
+                if (hunter.hunterLevel >= monster.monsterData.dropTables[i].minLevel)
+                {
+                    tableFound = true;
+                    //roll for item
+                    int totalWeight = 0;
+                    List<MonsterData.DropTable> dropTable = monster.monsterData.dropTables[i].dropTable;
+                    for (int j = 0; j < dropTable.Count; j++)
+                    {
+                        totalWeight += dropTable[j].itemWeight;
+                    }
+
+                    int randValue = Random.Range(0, totalWeight);
+
+                    //which item did we get?
+                    int k = 0;
+                    bool itemFound = false;
+                    while(!itemFound && k < dropTable.Count)
+                    {
+                        if (randValue <= dropTable[k].itemWeight)
+                        {
+                            //add item
+                            itemFound = true;
+                            yield return ShowDroppedItemUI(dropTable[k].item.itemName, 2);
+                            hunter.inventory.Add(dropTable[k].item);
+                        }
+                        else
+                        {
+                            randValue -= dropTable[k].itemWeight;
+                            k++;
+                        }
+                    }
+
+                }
+                else
+                {
+                    i--;
+                }
+            }
+
+        }
+
         //if item drops, add item to winner's inventory
         //if winner has too many items, they drop one.
+        //display UI showing what the hunter recieved.
         yield return null;
     }
 
@@ -1058,6 +1115,15 @@ public class Combat : MonoBehaviour
         //hunter is removed from dungeon
         //all collected items are dropped for anyone to pick up
         yield return null;
+    }
+
+    //shows item name for a duration.
+    private IEnumerator ShowDroppedItemUI(string itemName, float duration)
+    {
+        droppedItemText.text = string.Format("Found {0}!", itemName); 
+        droppedItemUI.SetActive(true);
+        yield return new WaitForSeconds(duration);
+        droppedItemUI.SetActive(false);
     }
     #endregion
 }
