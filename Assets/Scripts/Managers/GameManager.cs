@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
     public bool CharacterActed { get; set; }    //acted includes attacking, using a skill or item. 
     public bool ForceStop { get; set; }                  //ForceStop is for when movement is interrupted by debuffs or skills.
     public bool HunterInjured { get; set; }
+    public bool ActiveCharacterDefeated { get; set; }   //used when the active character (usually a monster) is removed from game and turn must pass.
 
     [Header("---Active Skill & Movement---")]
     public ActiveSkill selectedSkill;     //the active skill being used after being selected from skill menu.
@@ -1234,8 +1235,17 @@ public class GameManager : MonoBehaviour
         hm.ui.ShowHunterMenuContainer(false);
 
         //push active character to end of queue
-        turnOrder.Add(ActiveCharacter());
-        turnOrder.RemoveAt(0);              //removes the active character from the first position
+        //if active character is a monster and they were defeated, remove them
+        MonsterManager mm = Singleton.instance.MonsterManager;
+        if (ActiveCharacter() is Monster monster && monster.healthPoints <= 0)
+        {
+            mm.KillMonster(monster);
+        }
+        else
+        {
+            turnOrder.Add(ActiveCharacter());
+            turnOrder.RemoveAt(0);              //removes the active character from the first position
+        }
         //currentCharacter = currentCharacter + 1 >= turnOrder.Count ? 0 : currentCharacter + 1;
 
         //clean up any buffs/debuffs/other effects or mods
@@ -1246,12 +1256,12 @@ public class GameManager : MonoBehaviour
 
         //add to turn count. check if monster is going to spawn
         turnCount++;
-        MonsterManager mm = Singleton.instance.MonsterManager;
+        //MonsterManager mm = Singleton.instance.MonsterManager;
         if (mm.activeMonsters.Count < mm.GetMonsterLimit() && mm.TimeToSpawnMonster())
         {
-            Monster monster = mm.SpawnMonster(hm.AverageHunterLevel());
-            turnOrder.Insert(0, monster);
-            Debug.LogFormat("Monster is spawning. {0} is taking their turn", monster.characterName);
+            Monster newMonster = mm.SpawnMonster(hm.AverageHunterLevel());
+            turnOrder.Insert(0, newMonster);
+            Debug.LogFormat("Monster is spawning. {0} is taking their turn", newMonster.characterName);
         }
 
         StartCoroutine(TakeTurn(ActiveCharacter()));
@@ -1299,7 +1309,8 @@ public class GameManager : MonoBehaviour
 
         if (character == ActiveCharacter()) //If it's not the active character's turn, we don't go any further since something interrupted their turn.
         {
-            if (ForceStop || (CharacterActed && CharacterMoved))
+            
+            if (ActiveCharacterDefeated || ForceStop || (CharacterActed && CharacterMoved))
             {
                 EndTurn();
             }
@@ -1403,6 +1414,7 @@ public class GameManager : MonoBehaviour
         CharacterActed = false;
         CharacterMoved = false;
         ForceStop = false;
+        ActiveCharacterDefeated = false;
         //turnCount++;
         Debug.LogFormat("------Turn {0}------", turnCount);
 

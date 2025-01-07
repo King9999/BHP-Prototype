@@ -92,4 +92,22 @@ public class MonsterManager : MonoBehaviour
         }
     }
 
+    //removes monster from dungeon and sends them to graveyard.
+    public void KillMonster(Monster monster)
+    {
+        graveyard.Add(monster);
+        activeMonsters.Remove(monster);
+
+        GameManager gm = Singleton.instance.GameManager;
+        //if they are the active character, their turn ends.
+        //if (monster == gm.ActiveCharacter())
+          //  gm.EndTurn();
+
+        gm.turnOrder.Remove(monster);
+
+        
+
+        monster.gameObject.SetActive(false);
+    }
+
 }

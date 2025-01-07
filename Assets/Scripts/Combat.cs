@@ -997,6 +997,10 @@ public class Combat : MonoBehaviour
             {
                 //attacker is a monster; remove from game.
                 //grant money to opponent
+                GameManager gm = Singleton.instance.GameManager;
+                if (attacker == gm.ActiveCharacter())
+                    gm.ActiveCharacterDefeated = true; //this will handle removing monster once game manager resumes.
+
                 //roll for item
                 yield return RollForLoot(defender as Hunter, attacker as Monster);
             }
@@ -1024,6 +1028,15 @@ public class Combat : MonoBehaviour
             else
             {
                 //defender is a monster; remove from game.
+                GameManager gm = Singleton.instance.GameManager;
+                //gm.ForceStop = true;    
+                if (defender == gm.ActiveCharacter())
+                    gm.ActiveCharacterDefeated = true; //this will handle removing monster once game manager resumes.
+
+                defender.gameObject.SetActive(false);
+                //Monster monster = defender as Monster;
+                //MonsterManager mm = Singleton.instance.MonsterManager;
+                //mm.KillMonster(monster);
                 //grant money to opponent
                 //roll for item
                 yield return RollForLoot(attacker as Hunter, defender as Monster);
@@ -1107,7 +1120,7 @@ public class Combat : MonoBehaviour
         //if item drops, add item to winner's inventory
         //if winner has too many items, they drop one.
         //display UI showing what the hunter recieved.
-        yield return null;
+        //yield return null;
     }
 
     private IEnumerator KillHunter(Hunter hunter)
