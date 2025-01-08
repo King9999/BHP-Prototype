@@ -50,6 +50,8 @@ public class GameManager : MonoBehaviour
     public bool ForceStop { get; set; }                  //ForceStop is for when movement is interrupted by debuffs or skills.
     public bool HunterInjured { get; set; }
     public bool ActiveCharacterDefeated { get; set; }   //used when the active character (usually a monster) is removed from game and turn must pass.
+    public bool EnteredCombat { get; set; }     //used to do certain tasks after exiting combat.
+    public bool CharacterTeleporting { get; set; }  //when true, game ignores character state check until teleport is finished.
 
     [Header("---Active Skill & Movement---")]
     public ActiveSkill selectedSkill;     //the active skill being used after being selected from skill menu.
@@ -373,7 +375,7 @@ public class GameManager : MonoBehaviour
 
     public Character ActiveCharacter()
     {
-        return turnOrder[0/*currentCharacter*/];
+        return turnOrder[0];
     }
 
     public void GetMoveRange()
@@ -388,14 +390,39 @@ public class GameManager : MonoBehaviour
 
     public void ChangeGameState(GameState gameState, Hunter injuredHunter = null)
     {
+        HunterManager hm = Singleton.instance.HunterManager;
+        MonsterManager mm = Singleton.instance.MonsterManager;
+
         switch (gameState)
         {
-
             case GameState.HunterSetup:
                 //show the setup screen where player allocates points.
                 break;
 
             case GameState.Dungeon:
+
+                //restore all characters who weren't active in combat.
+                if (EnteredCombat)
+                {
+                    dice.ShowSingleDieUI(false);    //this is here to prevent dice from appearing when exiting combat. Not sure why this happens in the first place.
+                    EnteredCombat = false;
+
+                    for (int i = 0; i < hm.hunters.Count; i++)
+                    {
+                        if (hm.hunters[i] == ActiveCharacter() || hm.hunters[i] == ActiveCharacter().targetChar)
+                            continue;
+
+                        hm.ToggleHunter(hm.hunters[i], true);
+                    }
+
+                    for (int i = 0; i < mm.activeMonsters.Count; i++)
+                    {
+                        if (mm.activeMonsters[i] == ActiveCharacter() || mm.activeMonsters[i] == ActiveCharacter().targetChar)
+                            continue;
+
+                        mm.ToggleMonster(mm.activeMonsters[i], true);
+                    }
+                }
                 StartCoroutine(CheckCharacterState(ActiveCharacter()));
                 break;
 
@@ -405,11 +432,30 @@ public class GameManager : MonoBehaviour
 
             case GameState.Combat:
                 CharacterActed = true;
+                EnteredCombat = true;
                 Singleton s = Singleton.instance;
                 s.attacker = ActiveCharacter();
                 s.defender = ActiveCharacter().targetChar;
                 s.attackerLastRoom = ActiveCharacter().room;
                 s.defenderLastRoom = ActiveCharacter().targetChar.room;
+
+                //deactivate all other characters so nothing happens to them during transition to combat.
+                for (int i = 0; i < hm.hunters.Count; i++)
+                {
+                    if (hm.hunters[i] == ActiveCharacter() || hm.hunters[i] == ActiveCharacter().targetChar)
+                        continue;
+
+                    hm.ToggleHunter(hm.hunters[i], false);
+                }
+
+                for (int i = 0; i < mm.activeMonsters.Count; i++)
+                {
+                    if (mm.activeMonsters[i] == ActiveCharacter() || mm.activeMonsters[i] == ActiveCharacter().targetChar)
+                        continue;
+
+                    mm.ToggleMonster(mm.activeMonsters[i], false);
+                }
+
                 SceneManager.LoadScene("Battle", LoadSceneMode.Additive);
                 //SceneManager.UnloadSceneAsync("Battle");          //use this to unload combat when it's done.
                 gameViewController.SetActive(false);
@@ -1299,6 +1345,10 @@ public class GameManager : MonoBehaviour
     #region Coroutines
     IEnumerator CheckCharacterState(Character character)
     {
+        //we don't run this coroutine while character is in middle of teleporting. Otherwise, this coroutine will interrupt the teleport.
+        if (CharacterTeleporting)   
+            yield return null;
+
         //check if hunter injured. TODO: Create a List of injured hunters and iterate through it before
         //switching back to active character.
         if (character is Hunter hunterForced && hunterForced.ForceTeleport == true)
@@ -1933,8 +1983,9 @@ public class GameManager : MonoBehaviour
     IEnumerator TeleportCharacter(Character character/*, bool hunterInjured = false*/)
     {
         Dungeon dun = Singleton.instance.Dungeon;
-        
+
         //teleport to random empty space
+        CharacterTeleporting = true;
         bool roomFound = false;
         while (!roomFound)
         {
@@ -1972,7 +2023,8 @@ public class GameManager : MonoBehaviour
                 }
 
                 character.transform.localScale = new Vector3(origScale_x, origScale_y, character.transform.localScale.z);
-
+                CharacterTeleporting = false;
+                yield return CheckCharacterState(character);
             }
         }
 

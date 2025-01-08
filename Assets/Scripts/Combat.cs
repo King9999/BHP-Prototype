@@ -636,6 +636,7 @@ public class Combat : MonoBehaviour
         //attack is performed.
         yield return new WaitForSeconds(1);
         attackerDice.ShowDiceUI(false);
+        attackerDice.ShowSingleDieUI(false);
         defenderDice.ShowDiceUI(false);
         defenderDice.ShowSingleDieUI(false);
 

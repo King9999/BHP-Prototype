@@ -92,6 +92,11 @@ public class MonsterManager : MonoBehaviour
         }
     }
 
+    public void ToggleMonster(Monster monster, bool toggle)
+    {
+        monster.gameObject.SetActive(toggle);
+    }
+
     //removes monster from dungeon and sends them to graveyard.
     public void KillMonster(Monster monster)
     {
@@ -105,7 +110,6 @@ public class MonsterManager : MonoBehaviour
 
         gm.turnOrder.Remove(monster);
 
-        
 
         monster.gameObject.SetActive(false);
     }

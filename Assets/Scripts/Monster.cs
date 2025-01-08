@@ -108,7 +108,7 @@ public abstract class Monster : Character
         //Before moving, check if the hunter is already in attack range by checking all applicable skills.
         //Pick basic attack for checking, will choose another skill later
         List<Room> skillRange = new List<Room>();
-        List<Character> targetChars = new List<Character>();
+        List<Hunter> targetChars = new List<Hunter>();
         List<ActiveSkill> activeSkills = new List<ActiveSkill>();
         GameManager gm = Singleton.instance.GameManager;
         for (int i = 0; i < skills.Count; i++)
@@ -116,7 +116,8 @@ public abstract class Monster : Character
             if (skills[i] is ActiveSkill activeSkill && activeSkill.skillCost <= skillPoints)
             {
                 skillRange = gm.ShowSkillRange(this, activeSkill.minRange, activeSkill.maxRange);
-                targetChars = CPU_CheckCharactersInRange(skillRange);
+                targetChars = GetHuntersInRange(skillRange);
+
                 if (targetChars.Count > 0)
                 {
                     activeSkills.Add(activeSkill);
@@ -140,5 +141,20 @@ public abstract class Monster : Character
         {
             mm.ChangeMonsterState(this, mm.aiState = MonsterManager.MonsterState.Moving);
         }
+    }
+
+    private List<Hunter> GetHuntersInRange(List<Room> skillRange)
+    {
+        List<Hunter> targetChars = new List<Hunter>();
+
+        foreach (Room room in skillRange)
+        {
+            if (room.character != null)
+            {
+                targetChars.Add(room.character as Hunter);
+            }
+        }
+
+        return targetChars;
     }
 }

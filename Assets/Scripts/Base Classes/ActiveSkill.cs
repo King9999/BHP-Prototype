@@ -27,7 +27,7 @@ public abstract class ActiveSkill : Skill
         float totalDamage = 0;
         float totalAttack_Atp = attacker.atp * attacker.atpMod * 0.8f + (attackDiceRoll * 0.1f);
         float totalAttack_Mnp = attacker.mnp * attacker.mnpMod * 0.8f + (attackDiceRoll * 0.1f);
-        float totalDefense_Dfp = defender.dfp * defender.dfpMod * 0.9f + (defenderDiceRoll * 0.1f); //0.9 is used instead of 0.8 because if a
+        float totalDefense_Dfp = defender.dfp * defender.dfpMod * 0.9f + (defenderDiceRoll * 0.1f); //0.9 is used instead of 0.8 because if a 1
         float totalDefense_Rst = defender.rst * defender.rstMod * 0.9f + (defenderDiceRoll * 0.1f); //is rolled, only 90% of DFP is used.
         if (attribute == SkillAttribute.PhysDamage)
         {
