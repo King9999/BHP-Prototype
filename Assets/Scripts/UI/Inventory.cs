@@ -97,14 +97,19 @@ public class Inventory : MonoBehaviour
         detailsWindow.SetActive(toggle);
     }
 
-    public void ShowInventory(bool toggle, Hunter hunter = null)
+    //back button is hidden when a hunter loses to another hunter in combat.
+    public void ShowInventory(bool toggle, Hunter hunter = null, bool hideBackButton = false)
     {
         gameObject.SetActive(toggle);
         ShowItemDetails(false);
         ShowExtraItemInventory(false);
 
+        
         if (!backButton.gameObject.activeSelf)
             ShowBackButton(true);
+        if (hideBackButton)
+            ShowBackButton(false);           //not sure why I can't do 1 condition check on one line here.
+
 
         if (toggle == true)
         {

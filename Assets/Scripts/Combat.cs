@@ -69,6 +69,7 @@ public class Combat : MonoBehaviour
     [Header("---Combat State---")]
     public CombatState combatState;
     private Coroutine combatCoroutine;
+    bool CharacterDefeated { get; set; }                //if true, then combat doesn't end normally until a condition is met.
 
 
     // Start is called before the first frame update
@@ -126,6 +127,11 @@ public class Combat : MonoBehaviour
         //cm.backButton.onClick.AddListener();
         cm.selectCardButton.onClick.AddListener(OnSelectCardButtonPressed);
         cm.skipButton.onClick.AddListener(OnSkipCardButtonPressed);
+    }
+
+    private void Update()
+    {
+        
     }
 
     public void InitSetup()
@@ -788,58 +794,6 @@ public class Combat : MonoBehaviour
             yield return CheckCombatResults(attacker, defender);
         }
 
-        //is one the opponents defeated?
-        /*EffectManager em = Singleton.instance.EffectManager;
-        if (attacker.healthPoints <= 0)
-        {
-            //was the opponent another hunter?
-            if (attacker is Hunter && defender is Hunter)
-            {
-                attacker.ChangeCharacterState(attacker.characterState = Character.CharacterState.Injured);
-                em.AddEffect(StatusEffect.Effect.Injured, attacker);
-            }
-            else if (attacker is Hunter && defender is not Hunter)
-            {
-                //the opponent was a monster; remove hunter from the game.
-            }
-            else
-            {
-                //attacker is a monster; remove from game.
-                //grant money to opponent
-                //roll for item
-            }
-        }
-        else
-        {
-            attacker.ChangeCharacterState(attacker.characterState = Character.CharacterState.Idle);
-        }
-
-        if (defender.healthPoints <= 0)
-        {
-            if (attacker is Hunter && defender is Hunter)
-            {
-                defender.ChangeCharacterState(defender.characterState = Character.CharacterState.Injured);
-                em.AddEffect(StatusEffect.Effect.Injured, defender);
-            }
-            else if (defender is Hunter && attacker is not Hunter)
-            {
-                //the opponent was a monster; remove hunter from the game.
-            }
-            else
-            {
-                //defender is a monster; remove from game.
-                //grant money to opponent
-                //roll for item
-            }
-        }
-        else
-        {
-            defender.ChangeCharacterState(defender.characterState = Character.CharacterState.Idle);
-        }
-
-        //if we get here, combat has ended.
-        yield return new WaitForSeconds(3);
-        EndCombat();*/
     }
 
     //special coroutine for skills that deal fixed damage that don't require dice roll.
@@ -980,6 +934,7 @@ public class Combat : MonoBehaviour
         EffectManager em = Singleton.instance.EffectManager;
         if (attacker.healthPoints <= 0)
         {
+            CharacterDefeated = true;
             //was the opponent another hunter?
             if (attacker is Hunter && defender is Hunter)
             {
@@ -989,10 +944,12 @@ public class Combat : MonoBehaviour
                 //TODO: attacker takes item from defender.
                 yield return new WaitForSeconds(1);
                 yield return TakeItemFromLoser(defender as Hunter, attacker as Hunter);
+                //TakeItemFromLoser(defender as Hunter, attacker as Hunter);
             }
-            else if (attacker is Hunter && defender is not Hunter)
+            else if (attacker is Hunter && defender is Monster)
             {
                 //the opponent was a monster; remove hunter from the game.
+                yield return KillHunter(attacker as Hunter);
             }
             else
             {
@@ -1013,6 +970,7 @@ public class Combat : MonoBehaviour
 
         if (defender.healthPoints <= 0)
         {
+            CharacterDefeated = true;
             if (attacker is Hunter && defender is Hunter)
             {
                 defender.ChangeCharacterState(defender.characterState = Character.CharacterState.Injured);
@@ -1021,10 +979,12 @@ public class Combat : MonoBehaviour
                 //TODO: attacker takes item from defender.
                 yield return new WaitForSeconds(1);
                 yield return TakeItemFromLoser(attacker as Hunter, defender as Hunter);
+                //TakeItemFromLoser(attacker as Hunter, defender as Hunter);
             }
-            else if (defender is Hunter && attacker is not Hunter)
+            else if (defender is Hunter && attacker is Monster)
             {
                 //the opponent was a monster; remove hunter from the game.
+                yield return KillHunter(defender as Hunter);
             }
             else
             {
@@ -1035,10 +995,7 @@ public class Combat : MonoBehaviour
                     gm.ActiveCharacterDefeated = true; //this will handle removing monster once game manager resumes.
 
                 defender.gameObject.SetActive(false);
-                //Monster monster = defender as Monster;
-                //MonsterManager mm = Singleton.instance.MonsterManager;
-                //mm.KillMonster(monster);
-                //grant money to opponent
+                
                 //roll for item
                 yield return RollForLoot(attacker as Hunter, defender as Monster);
             }
@@ -1048,28 +1005,37 @@ public class Combat : MonoBehaviour
             defender.ChangeCharacterState(defender.characterState = Character.CharacterState.Idle);
         }
 
-        //if we get here, combat has ended.
-        yield return new WaitForSeconds(2);
-        EndCombat();
+        //if nobody was defeated, end combat
+        if (!CharacterDefeated)
+        {
+            yield return new WaitForSeconds(2);
+            EndCombat();
+        }
+
     }
 
     private IEnumerator TakeItemFromLoser(Hunter winner, Hunter loser)
     {
         //open up the loser's inventory
+        inventory.ShowInventory(true, loser, hideBackButton: true);
+
         //winner chooses an item to take.
         //if winner has too many items, winner drops an item. Target item cannot be dropped.
         //end combat
         yield return null;
+        //yield return new WaitForSeconds(2);
+        //EndCombat();
     }
 
     private IEnumerator RollForLoot(Hunter hunter, Monster monster)
     {
         //grant money to winner TODO: show UI
         hunter.credits += monster.credits;
+        yield return ShowRewardUI(string.Format("Obtained {0} CR", monster.credits), 1.3f);
 
         //check if monster drops an item
         float roll = Random.value;
-        Debug.LogFormat("Rolled {0}", roll);
+        Debug.LogFormat("Rolling for item chance. Rolled {0}", roll);
         if (roll <= monster.monsterData.dropChance)
         {
             //access drop table, starting from the highest level table.
@@ -1099,7 +1065,7 @@ public class Combat : MonoBehaviour
                         {
                             //add item
                             itemFound = true;
-                            yield return ShowDroppedItemUI(dropTable[k].item.itemName, 2);
+                            yield return ShowRewardUI(string.Format("Found {0}!", dropTable[k].item.itemName), 1.3f);
                             hunter.inventory.Add(dropTable[k].item);
                         }
                         else
@@ -1122,19 +1088,22 @@ public class Combat : MonoBehaviour
         //if winner has too many items, they drop one.
         //display UI showing what the hunter recieved.
         //yield return null;
+        yield return new WaitForSeconds(2);
+        EndCombat();
     }
 
     private IEnumerator KillHunter(Hunter hunter)
     {
         //hunter is removed from dungeon
         //all collected items are dropped for anyone to pick up
-        yield return null;
+        yield return new WaitForSeconds(2);
+        EndCombat();
     }
 
     //shows item name for a duration.
-    private IEnumerator ShowDroppedItemUI(string itemName, float duration)
+    private IEnumerator ShowRewardUI(string itemName, float duration)
     {
-        droppedItemText.text = string.Format("Found {0}!", itemName); 
+        droppedItemText.text = itemName; 
         droppedItemUI.SetActive(true);
         yield return new WaitForSeconds(duration);
         droppedItemUI.SetActive(false);

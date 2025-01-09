@@ -645,7 +645,9 @@ public class HunterManager : MonoBehaviour
         Debug.LogFormat("Number of items CPU Hunter will carry: {0}", itemCount);
 
         //Test purposes only
-        //hunter.maxHealthPoints = 1;
+        hunter.maxHealthPoints = 1;
+        //ItemManager im = ItemManager.instance;
+        hunter.inventory.Add(im.lootTable.GetItem(Table.ItemType.Valuable));
 
         //Add random super
         hunter.super = sm.AddSuper();
