@@ -24,6 +24,12 @@ public class Inventory : MonoBehaviour
         //emptyIndex = 0;
     }
 
+    //ensure that we never lose reference to inventory.
+    private void OnEnable()
+    {
+        Singleton.instance.Inventory = this;
+    }
+
     public void AddItem(Item item)
     {
         //before adding item, set the index to the last space
@@ -202,14 +208,29 @@ public class Inventory : MonoBehaviour
         }
 
         GameManager gm = Singleton.instance.GameManager;
-        Hunter hunter = gm.ActiveCharacter() as Hunter;
+        //check if we're in combat. If so, then winner had too many items and is cleaning up.
+        if (gm.gameState == GameManager.GameState.Combat)
+        {
+            Combat combat = Singleton.instance.Combat;
+            Hunter winner = Singleton.instance.winner as Hunter;
 
-        //remove item from hunter inventory
-        hunter.inventory.Remove(extraItem.item);
-        extraItem.item = null;
-        ShowInventory(false);
+            //remove item from hunter inventory
+            winner.inventory.Remove(extraItem.item);
+            extraItem.item = null;
+            combat.CloseInventory();
+        }
+        else
+        {
+            Hunter hunter = gm.ActiveCharacter() as Hunter;
+
+            //remove item from hunter inventory
+            hunter.inventory.Remove(extraItem.item);
+            extraItem.item = null;
+            ShowInventory(false);
         
-        gm.CharacterState(gm.ActiveCharacter());
+            gm.CharacterState(gm.ActiveCharacter());
+           
+        }
     }
 
     //used by Items button in the field

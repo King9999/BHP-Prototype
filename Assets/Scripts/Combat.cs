@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
@@ -10,6 +11,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 /* This is the combat system. It takes two character objects and two pairs of dice. Combat lasts for 1 round.
  In cases where one character uses a ranged attack and the other character uses a melee counterattack, there will be a 
@@ -65,7 +67,8 @@ public class Combat : MonoBehaviour
     public Card attackersCard, defendersCard;   //used by CardObject to get reference to chosen cards        
 
     //combat states
-    public enum CombatState { AttackerTurn, DefenderTurn, DefenderChooseCard, BeginCombat, Surrendering, RunAway}
+    public enum CombatState { AttackerTurn, DefenderTurn, DefenderChooseCard, BeginCombat, Surrendering, RunAway, WinnerTakesItemFromLoser,
+        WinnerTooManyItems }
     [Header("---Combat State---")]
     public CombatState combatState;
     private Coroutine combatCoroutine;
@@ -130,10 +133,6 @@ public class Combat : MonoBehaviour
         cm.skipButton.onClick.AddListener(OnSkipCardButtonPressed);
     }
 
-    private void Update()
-    {
-        
-    }
 
     public void InitSetup()
     {
@@ -271,6 +270,19 @@ public class Combat : MonoBehaviour
             case CombatState.RunAway:
                 cardMenu.ShowMenu(false);
                 //run couroutine to handle running away
+                break;
+
+            case CombatState.WinnerTakesItemFromLoser:
+                //winner chooses an item to take. Grabbing reference for use by ItemObject's OnItemSelected method.
+                Singleton s = Singleton.instance;
+                //s.winner = winner;
+                //s.loser = loser;
+                inventory.ShowInventory(true, s.loser as Hunter, hideBackButton: true);
+                break;
+
+            case CombatState.WinnerTooManyItems:
+                Hunter winner = Singleton.instance.winner as Hunter;
+                inventory.ShowInventory(true, winner);
                 break;
         }
     }
@@ -1023,12 +1035,16 @@ public class Combat : MonoBehaviour
     private IEnumerator TakeItemFromLoser(Hunter winner, Hunter loser)
     {
         //open up the loser's inventory
-        inventory.ShowInventory(true, loser, hideBackButton: true);
-
-        //winner chooses an item to take. Grabbing reference for use by ItemObject's OnItemSelected method.
         Singleton s = Singleton.instance;
         s.winner = winner;
         s.loser = loser;
+        ChangeCombatState(combatState = CombatState.WinnerTakesItemFromLoser);
+        //inventory.ShowInventory(true, loser, hideBackButton: true);
+
+        //winner chooses an item to take. Grabbing reference for use by ItemObject's OnItemSelected method.
+        //Singleton s = Singleton.instance;
+        //s.winner = winner;
+        //s.loser = loser;
         //if winner has too many items, winner drops an item. Target item cannot be dropped.
         //end combat
         yield return null;
@@ -1123,10 +1139,22 @@ public class Combat : MonoBehaviour
     {
         inventory.ShowInventory(false);
         //show message of item that winner obtained
-        yield return ShowRewardUI(string.Format("Took {0}!", ItemTaken.itemName), 1.3f);
+        if (combatState == CombatState.WinnerTakesItemFromLoser)
+            yield return ShowRewardUI(string.Format("Took {0}!", ItemTaken.itemName), 1.3f);
 
-        yield return new WaitForSeconds(2);
-        EndCombat();
+        //if the winner has too many items, they must make space or drop the item they took. Cannot drop target item.
+        Hunter winner = Singleton.instance.winner as Hunter;
+        HunterManager hm = Singleton.instance.HunterManager;
+
+        if (winner.inventory.Count > hm.MaxInventorySize)
+        {
+            ChangeCombatState(combatState = CombatState.WinnerTooManyItems);
+        }
+        else
+        {
+            yield return new WaitForSeconds(2);
+            EndCombat();
+        }
     }
     #endregion
 }

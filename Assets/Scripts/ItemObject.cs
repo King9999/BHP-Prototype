@@ -262,8 +262,10 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             //swap item that was clicked with the extra item.
             inv.SwapItems(this, inv.extraItem);
         }
-        else if (gm.gameState == GameManager.GameState.Combat /*&& gm.combatManager.combatState == Combat.CombatState.Surrendering*/)
+        else if (gm.gameState == GameManager.GameState.Combat)
         {
+            
+            Combat combat = Singleton.instance.Combat;
             //clicking the item transfers the item over to the attacker.
             Singleton s = Singleton.instance;
             Hunter winner = s.winner as Hunter;
@@ -273,7 +275,6 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             //ClearItemData();
 
             //call coroutine to close inventory and end combat.
-            Combat combat = Singleton.instance.Combat;
             combat.ItemTaken = item;
             combat.CloseInventory();
         }
