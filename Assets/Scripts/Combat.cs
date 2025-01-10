@@ -70,6 +70,7 @@ public class Combat : MonoBehaviour
     public CombatState combatState;
     private Coroutine combatCoroutine;
     bool CharacterDefeated { get; set; }                //if true, then combat doesn't end normally until a condition is met.
+    public Item ItemTaken { get; set; }                  //reference to the item the winner takes from loser.
 
 
     // Start is called before the first frame update
@@ -677,6 +678,11 @@ public class Combat : MonoBehaviour
         StartCoroutine(ResolveEffect(target));
     }
 
+    public void CloseInventory()
+    {
+        StartCoroutine(CloseInventory_Coroutine());
+    }
+
     private IEnumerator ResolveDamage(Character attacker, Character defender)
     {
         Debug.Log("Dealing damage");
@@ -1019,7 +1025,10 @@ public class Combat : MonoBehaviour
         //open up the loser's inventory
         inventory.ShowInventory(true, loser, hideBackButton: true);
 
-        //winner chooses an item to take.
+        //winner chooses an item to take. Grabbing reference for use by ItemObject's OnItemSelected method.
+        Singleton s = Singleton.instance;
+        s.winner = winner;
+        s.loser = loser;
         //if winner has too many items, winner drops an item. Target item cannot be dropped.
         //end combat
         yield return null;
@@ -1107,6 +1116,17 @@ public class Combat : MonoBehaviour
         droppedItemUI.SetActive(true);
         yield return new WaitForSeconds(duration);
         droppedItemUI.SetActive(false);
+    }
+
+    //closes inventory after winner of combat takes item from loser, then ends combat.
+    private IEnumerator CloseInventory_Coroutine()
+    {
+        inventory.ShowInventory(false);
+        //show message of item that winner obtained
+        yield return ShowRewardUI(string.Format("Took {0}!", ItemTaken.itemName), 1.3f);
+
+        yield return new WaitForSeconds(2);
+        EndCombat();
     }
     #endregion
 }

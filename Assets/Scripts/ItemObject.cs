@@ -265,6 +265,17 @@ public class ItemObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         else if (gm.gameState == GameManager.GameState.Combat /*&& gm.combatManager.combatState == Combat.CombatState.Surrendering*/)
         {
             //clicking the item transfers the item over to the attacker.
+            Singleton s = Singleton.instance;
+            Hunter winner = s.winner as Hunter;
+            Hunter loser = s.loser as Hunter;
+            winner.inventory.Add(item);
+            loser.inventory.Remove(item);
+            //ClearItemData();
+
+            //call coroutine to close inventory and end combat.
+            Combat combat = Singleton.instance.Combat;
+            combat.ItemTaken = item;
+            combat.CloseInventory();
         }
         else
         {

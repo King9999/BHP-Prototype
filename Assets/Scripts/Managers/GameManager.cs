@@ -2024,6 +2024,7 @@ public class GameManager : MonoBehaviour
 
                 character.transform.localScale = new Vector3(origScale_x, origScale_y, character.transform.localScale.z);
                 CharacterTeleporting = false;
+                ForceStop = true;                   //character can't move after teleporting.
                 yield return CheckCharacterState(character);
             }
         }
