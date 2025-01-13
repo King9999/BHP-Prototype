@@ -18,6 +18,7 @@ public abstract class Card : ScriptableObject
     public FieldCardType fieldCardType;     //used by AI to idenfity specific cards.
     public int weight;          //used by AI to determine card priority. Value is out of 100. The higher, the better.
                                 //card weight varies by behaviour, as different behaviours value some cards more than others.
+    public int defaultWeight;
 
     //trigger conditions
     [Header("---Field Triggers---")]
@@ -31,4 +32,5 @@ public abstract class Card : ScriptableObject
     public virtual void DeactivateCard_Field(Hunter user) { }
     public virtual void ActivateCard_Combat(Hunter user) { }
     public virtual void DeactivateCard_Combat(Hunter user) { }  //used to undo any effects without overwriting effects from other sources.
+    
 }

@@ -15,7 +15,8 @@ public class Card_AttackTwenty : Card
 
     private void OnEnable()
     {
-        weight = 50;
+        defaultWeight = 50;
+        weight = defaultWeight;
     }
 
     public override void ActivateCard_Combat(Hunter user)

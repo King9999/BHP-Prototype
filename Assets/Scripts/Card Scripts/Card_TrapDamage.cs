@@ -12,7 +12,8 @@ public class Card_TrapDamage : Card
     }
     private void OnEnable()
     {
-        weight = 50;
+        defaultWeight = 50;
+        weight = defaultWeight;
     }
 
     //place a trap on the space the hunter is on before moving.

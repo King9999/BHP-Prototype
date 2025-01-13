@@ -14,7 +14,8 @@ public class Card_DefenseForty : Card
     }
     private void OnEnable()
     {
-        weight = 60;
+        defaultWeight = 60;
+        weight = defaultWeight;
     }
     public override void ActivateCard_Field(Hunter user)
     {

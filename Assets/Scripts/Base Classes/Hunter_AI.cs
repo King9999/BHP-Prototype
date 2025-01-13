@@ -128,19 +128,76 @@ public abstract class Hunter_AI : ScriptableObject
         Card card = null;
         List<Card> topCards = new List<Card>();
 
-        for (int i = 0; i < hunter.cards.Count; i++)
+        //for (int i = 0; i < hunter.cards.Count; i++)
+        //{
+            //gather all of the combat and versatile cards. Certain cards are prioritized based on whether hunter is attacking/counterattacking, 
+            //guarding, or running. The weights of these cards are modified.
+            //if (hunter.cards[i].cardType == Card.CardType.Combat || hunter.cards[i].cardType == Card.CardType.Versatile)
+            //{
+                //hunter.cards[i].weight = hunter.cards[i].defaultWeight;
+        switch (hunter.characterState)
         {
-            //gather all of the combat and versatile cards. Certain cards are prioritized based on whether hunter is attacking or
-            //guarding/counter-attacking.
-            if (hunter.cards[i].cardType == Card.CardType.Combat || hunter.cards[i].cardType == Card.CardType.Versatile)
-            {
-                switch (hunter.characterState)
+            case Character.CharacterState.Attacking:
+                //look for attack and defense cards, attack cards are higher priority
+                for (int i = 0; i < hunter.cards.Count; i++)
                 {
-                    case 
+                    Card currentCard = hunter.cards[i];
+                    if (currentCard.cardType == Card.CardType.Combat || currentCard.cardType == Card.CardType.Versatile)
+                    {
+                        if (currentCard.cardID == Card.CardID.Attack20 || currentCard.cardID == Card.CardID.Attack40 ||
+                            currentCard.cardID == Card.CardID.Attack60 || currentCard.cardID == Card.CardID.Pierce)
+                        {
+                            topCards.Add(currentCard);
+                        }
+                        else if (currentCard.cardID == Card.CardID.Defense20 || currentCard.cardID == Card.CardID.Defense40 ||
+                                    currentCard.cardID == Card.CardID.Defense60 || currentCard.cardID == Card.CardID.PerfectDefense)
+                        {
+                            //reduce weight
+                            currentCard.weight /= 2;
+                            topCards.Add(currentCard);
+                        }
+
+                    }
                 }
-                topCards.Add(hunter.cards[i]);
-            }
+                break;
+
+            case Character.CharacterState.Guarding:
+                //only want defense cards
+                for (int i = 0; i < hunter.cards.Count; i++)
+                {
+                    Card currentCard = hunter.cards[i];
+                    if (currentCard.cardType == Card.CardType.Versatile)
+                    {
+                        if (currentCard.cardID == Card.CardID.Defense20 || currentCard.cardID == Card.CardID.Defense40 ||
+                            currentCard.cardID == Card.CardID.Defense60 || currentCard.cardID == Card.CardID.PerfectDefense)
+                        {
+                            topCards.Add(currentCard);
+                        }
+
+                    }
+                }
+                break;
+
+            case Character.CharacterState.Running:
+                //only want move cards + exit card
+                for (int i = 0; i < hunter.cards.Count; i++)
+                {
+                    Card currentCard = hunter.cards[i];
+                    if (currentCard.cardType == Card.CardType.Versatile)
+                    {
+                        if (currentCard.cardID == Card.CardID.Move1 || currentCard.cardID == Card.CardID.Move2 ||
+                            currentCard.cardID == Card.CardID.Move3 || currentCard.cardID == Card.CardID.Exit)
+                        {
+                            topCards.Add(currentCard);
+                        }
+
+                    }
+                }
+                break;
         }
+                //topCards.Add(hunter.cards[i]);
+            //}
+        //}
 
         //look at the available cards and pick the most suitable one
         if (topCards.Count <= 0)
@@ -194,7 +251,7 @@ public abstract class Hunter_AI : ScriptableObject
             else
             {
                 hunter.ChangeCharacterState(hunter.characterState = Character.CharacterState.Running);
-                combat.ChangeCombatState(combat.combatState = Combat.CombatState.RunAway);
+                combat.ChangeCombatState(combat.combatState = Combat.CombatState.DefenderChooseCard);
             }    
         }
         else

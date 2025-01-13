@@ -15,7 +15,8 @@ public class Card_Exit : Card
     }
     private void OnEnable()
     {
-        weight = 40;
+        defaultWeight = 40;
+        weight = defaultWeight;
     }
     public override void ActivateCard_Field(Hunter user)
     {

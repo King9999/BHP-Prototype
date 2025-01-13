@@ -14,7 +14,8 @@ public class Card_Pierce : Card
 
     private void OnEnable()
     {
-        weight = 80;
+        defaultWeight = 80;
+        weight = defaultWeight;
     }
     public override void ActivateCard_Combat(Hunter user)
     {

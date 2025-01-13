@@ -12,7 +12,8 @@ public class Card_TrapDizzy : Card
     }
     private void OnEnable()
     {
-        weight = 50;
+        defaultWeight = 50;
+        weight = defaultWeight;
     }
     public override void ActivateCard_Field(Hunter user)
     {

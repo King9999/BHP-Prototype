@@ -15,7 +15,8 @@ public class Card_AttackForty : Card
 
     private void OnEnable()
     {
-        weight = 60;
+        defaultWeight = 60;
+        weight = defaultWeight;
     }
 
     public override void ActivateCard_Combat(Hunter user)
