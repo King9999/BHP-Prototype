@@ -252,9 +252,19 @@ public class Combat : MonoBehaviour
                     //if attacker is monster, skip to defender turn.
                     //if attacker is hunter, check if a card can be played.
                     if (attacker is Hunter hunter)
+                    {
+                        yield return new WaitForSeconds(1);
                         hunter.combatCard = hunter.cpuBehaviour.ChooseCard_Combat(hunter);
+                        if (hunter.combatCard != null)
+                        {
+                            activeCard_attackerText.text = string.Format("Active Card: {0}", hunter.combatCard.cardName);
+                            hunter.cards.Remove(hunter.combatCard);
+                            hunter.combatCard.ActivateCard_Combat(hunter);
+                        }
+                        ChangeCombatState(combatState = CombatState.DefenderTurn);
+                    }
                     else
-                        goto case CombatState.DefenderTurn;
+                        ChangeCombatState(combatState = CombatState.DefenderTurn);
                 }
                 break;
 
@@ -268,12 +278,11 @@ public class Combat : MonoBehaviour
                 {
                     //if defender is monster, skip to 'BeginCombat'.
                     //if defender is hunter, choose between counter attacking, running away, or surrendering.
-                    if (defender is Hunter)
-                        //hunter.combatCard = hunter.cpuBehaviour.ChooseCard_Combat(hunter);
-                        CPU_DefenderMakeChoice(defender as Hunter);
-                    //goto case CombatState.DefenderChooseCard;
+                    yield return new WaitForSeconds(1);
+                    if (defender is Hunter hunter_defender)
+                        hunter_defender.cpuBehaviour.MakeDefenderChoice(hunter_defender);
                     else
-                        goto case CombatState.BeginCombat;
+                        ChangeCombatState(combatState = CombatState.BeginCombat);
                 }
                 break;
 
@@ -288,7 +297,15 @@ public class Combat : MonoBehaviour
                 else
                 {
                     Hunter hunter = defender as Hunter;
+                    yield return new WaitForSeconds(1);
                     hunter.combatCard = hunter.cpuBehaviour.ChooseCard_Combat(hunter);
+                    if (hunter.combatCard != null)
+                    {
+                        activeCard_defenderText.text = string.Format("Active Card: {0}", hunter.combatCard.cardName);
+                        hunter.cards.Remove(hunter.combatCard);
+                        hunter.combatCard.ActivateCard_Combat(hunter);
+                    }
+                    ChangeCombatState(combatState = CombatState.BeginCombat);
                 }
                 break;
 
