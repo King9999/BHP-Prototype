@@ -118,14 +118,18 @@ public class CardObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         //if (/*mouseOnCard &&*/ !cardInvalid )
         //{
-            GameManager gm = Singleton.instance.GameManager;
+        GameManager gm = Singleton.instance.GameManager;
         Combat combat = Singleton.instance.Combat;
         if (gm.gameState == GameManager.GameState.Combat)
         {
+            Hunter attacker = combat.attackerRoom.character as Hunter;
+            Hunter defender = combat.defenderRoom.character as Hunter;
             if (combat.combatState == Combat.CombatState.AttackerTurn)
-                combat.attackersCard = cardData;
+                attacker.combatCard = cardData;
+                //combat.attackersCard = cardData;
             else
-                combat.defendersCard = cardData;
+                //combat.defendersCard = cardData;
+                defender.combatCard = cardData;
         }
         else
         {

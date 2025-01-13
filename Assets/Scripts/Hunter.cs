@@ -49,6 +49,7 @@ public class Hunter : Character
 
     [Header("---Cards---")]
     public List<Card> cards;
+    public Card combatCard;                 //card that's selected during combat.
 
     [Header("---Terminal Effects---")]
     public List<TerminalEffect> terminalEffects;

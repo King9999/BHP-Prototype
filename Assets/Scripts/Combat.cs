@@ -62,7 +62,7 @@ public class Combat : MonoBehaviour
     [SerializeField] private Room roomPrefab;
     private GameObject battlefieldContainer, damageValueContainer;
     private Room[,] fieldGrid;        //used to layout the battlefield. In a ranged fight, there will be a gap to show that melee counters are ineffective.
-    [SerializeField] private Room attackerRoom, defenderRoom; //where the combatants are positioned.
+    [SerializeField] public Room attackerRoom, defenderRoom; //where the combatants are positioned.
     private bool attackersTurn, defendersTurn;         //used to keep track of who's taking their turn
     public Card attackersCard, defendersCard;   //used by CardObject to get reference to chosen cards        
 
@@ -478,22 +478,24 @@ public class Combat : MonoBehaviour
 
         if (combatState == CombatState.AttackerTurn)
         {
-            if (attackersCard == null)
+            //if (attackersCard == null)
+            if (attacker.combatCard == null)
                 return;
 
-            activeCard_attackerText.text = string.Format("Active Card: {0}", attackersCard.cardName);
-            attacker.cards.Remove(attackersCard);
-            attackersCard.ActivateCard_Combat(attacker);
+            activeCard_attackerText.text = string.Format("Active Card: {0}", attacker.combatCard.cardName /*attackersCard.cardName*/);
+            attacker.cards.Remove(attacker.combatCard /*attackersCard*/);
+            attacker.combatCard.ActivateCard_Combat(attacker);
             ChangeCombatState(combatState = CombatState.DefenderTurn);
         }
         else if (combatState == CombatState.DefenderChooseCard)
         {
-            if (defendersCard == null)
+            //if (defendersCard == null)
+            if (defender.combatCard == null)
                 return;
 
-            activeCard_defenderText.text = string.Format("Active Card: {0}", defendersCard.cardName);
-            defender.cards.Remove(defendersCard);
-            defendersCard.ActivateCard_Combat(defender);
+            activeCard_defenderText.text = string.Format("Active Card: {0}", defender.combatCard.cardName /*defendersCard.cardName*/);
+            defender.cards.Remove(defender.combatCard);
+            defender.combatCard.ActivateCard_Combat(defender);
             ChangeCombatState(combatState = CombatState.BeginCombat);
         }
     }
@@ -502,14 +504,18 @@ public class Combat : MonoBehaviour
     {
         CardManager cm = Singleton.instance.CardManager;
 
+        Hunter attacker = attackerRoom.character as Hunter;
+        Hunter defender = defenderRoom.character as Hunter;
         if (combatState == CombatState.AttackerTurn)
         {
-            attackersCard = null;
+            //attackersCard = null;
+            attacker.combatCard = null;
             ChangeCombatState(combatState = CombatState.DefenderTurn);
         }
         else
         {
-            defendersCard = null;
+            //defendersCard = null;
+            defender.combatCard = null;
             ChangeCombatState(combatState = CombatState.BeginCombat);
         }
     }
@@ -631,6 +637,13 @@ public class Combat : MonoBehaviour
         attackRollResult = (weak != null) ? attackerDice.RollSingleDie(Dice.DiceType.Attack) : attackerDice.RollDice(Dice.DiceType.Attack);
         defendRollResult = (defender.characterState == Character.CharacterState.Guarding) ? defenderDice.RollDice(Dice.DiceType.Defend) : 
             defenderDice.RollSingleDie(Dice.DiceType.Defend);
+
+        //check if "Pierce" card was used by the attacker
+        if (attacker is Hunter hunterAttacker && hunterAttacker.combatCard != null && hunterAttacker.combatCard.cardID == Card.CardID.Pierce)
+        {
+            defendRollResult = 0;
+            //TODO: Show UI indicating that Pierce is in effect. Show an "X" on the dice or something
+        }
 
         //apply mods
         perfectDefenseMod = defenderDice.RolledTwelve() ? 0 : 1;
