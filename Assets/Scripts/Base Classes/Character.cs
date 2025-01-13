@@ -69,7 +69,9 @@ public abstract class Character : MonoBehaviour
 
     public enum CharacterState
     {
-        Idle, Attacking, Guarding, Moving, Resting, Injured, Dead   //dead only occurs when hunter is defeated by a monster, or the character is a monster.
+        //Some states only apply to one type of character.
+        Idle, Attacking, Guarding, Moving, Resting, Injured, Dead,
+        Running, Surrendering 
     }
 
     public CharacterState characterState;

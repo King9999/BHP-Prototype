@@ -32,10 +32,13 @@ public class Hunter_AI_Aggro : Hunter_AI
     {
         if (Random.value <= 0.3f)
         {
-            //add berserk
-            //StatusEffect_Berserk berserk = new();     //want to check if this code works
-            //if (hunter.debuffs.Contains(berserk))
-            bool berserkFound = false;
+                EffectManager em = Singleton.instance.EffectManager;
+                em.AddEffect(StatusEffect.Effect.Berserk, hunter);
+                Debug.LogFormat("Berserk triggered for {0}", hunter.characterName);
+                //add berserk
+                //StatusEffect_Berserk berserk = new();     //want to check if this code works
+                //if (hunter.debuffs.Contains(berserk))
+                /*bool berserkFound = false;
             int i = 0;
             while (!berserkFound && i < hunter.debuffs.Count)
             {
@@ -49,12 +52,12 @@ public class Hunter_AI_Aggro : Hunter_AI
             {
                 EffectManager em = Singleton.instance.EffectManager;
                 em.AddEffect(StatusEffect.Effect.Berserk, hunter);
-                Debug.Log("Berserk triggered for " + hunter.characterName);
+                Debug.LogFormat("Berserk triggered for {0}", hunter.characterName);
             }
             else
             {
-                Debug.Log(" Berserk already active for " + hunter.characterName);
-            }
+                Debug.LogFormat(" Berserk already active for {0}", hunter.characterName);
+            }*/
 
         }
     }

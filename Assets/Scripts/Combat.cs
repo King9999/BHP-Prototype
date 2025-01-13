@@ -194,7 +194,7 @@ public class Combat : MonoBehaviour
                     hunterCards[i].ShowCard(true);
                     hunterCards[i].cardData = hunter.cards[i];
                     if (hunter.cards[i].cardType == Card.CardType.Combat || hunter.cards[i].cardType == Card.CardType.Versatile)
-                    { 
+                    {
                         hunterCards[i].UpdateCardSprite(hunterCards[i].cardSprite);
                         hunterCards[i].cardInvalid = false;
                     }
@@ -237,7 +237,7 @@ public class Combat : MonoBehaviour
         }
     }
 
-    private void ChangeCombatState(CombatState state)
+    public void ChangeCombatState(CombatState state)
     {
         Character attacker = attackerRoom.character;
         Character defender = defenderRoom.character;
@@ -245,20 +245,51 @@ public class Combat : MonoBehaviour
         switch (state)
         {
             case CombatState.AttackerTurn:
-                cardMenu.ShowMenu(true, attacker, Card.CardType.Combat);
-                //ShowCardMenu(true, attackerRoom.character);
+                if (!attacker.cpuControlled)
+                    cardMenu.ShowMenu(true, attacker, Card.CardType.Combat);
+                else
+                {
+                    //if attacker is monster, skip to defender turn.
+                    //if attacker is hunter, check if a card can be played.
+                    if (attacker is Hunter hunter)
+                        hunter.combatCard = hunter.cpuBehaviour.ChooseCard_Combat(hunter);
+                    else
+                        goto case CombatState.DefenderTurn;
+                }
                 break;
 
             case CombatState.DefenderTurn:
                 cardMenu.ShowMenu(false);
-                //ShowCardMenu(false);
-                ShowDefenderMenu(true, defender);
+                if (!defender.cpuControlled)
+                {
+                    ShowDefenderMenu(true, defender);
+                }
+                else
+                {
+                    //if defender is monster, skip to 'BeginCombat'.
+                    //if defender is hunter, choose between counter attacking, running away, or surrendering.
+                    if (defender is Hunter)
+                        //hunter.combatCard = hunter.cpuBehaviour.ChooseCard_Combat(hunter);
+                        CPU_DefenderMakeChoice(defender as Hunter);
+                    //goto case CombatState.DefenderChooseCard;
+                    else
+                        goto case CombatState.BeginCombat;
+                }
                 break;
 
             case CombatState.DefenderChooseCard:
                 ShowDefenderMenu(false);
                 EnableTooltipUI(false);
-                cardMenu.ShowMenu(true, defender, Card.CardType.Combat);
+
+                if (!defender.cpuControlled)
+                {
+                    cardMenu.ShowMenu(true, defender, Card.CardType.Combat);
+                }
+                else
+                {
+                    Hunter hunter = defender as Hunter;
+                    hunter.combatCard = hunter.cpuBehaviour.ChooseCard_Combat(hunter);
+                }
                 break;
 
             case CombatState.BeginCombat:
@@ -270,6 +301,9 @@ public class Combat : MonoBehaviour
             case CombatState.RunAway:
                 cardMenu.ShowMenu(false);
                 //run couroutine to handle running away
+                break;
+
+            case CombatState.Surrendering:
                 break;
 
             case CombatState.WinnerTakesItemFromLoser:
@@ -329,7 +363,7 @@ public class Combat : MonoBehaviour
         attackerSkillPoints.text = string.Format("{0}/{1}", attacker.skillPoints, attacker.maxSkillPoints);
 
         defenderNameText.text = defender.characterName;
-        defenderHealthPoints.text = string.Format("{0}/{1}",defender.healthPoints, defender.maxHealthPoints);
+        defenderHealthPoints.text = string.Format("{0}/{1}", defender.healthPoints, defender.maxHealthPoints);
         defenderSkillPoints.text = string.Format("{0}/{1}", defender.skillPoints, defender.maxSkillPoints);
 
         //set up mod values
@@ -349,7 +383,7 @@ public class Combat : MonoBehaviour
 
         //attacker goes first, display card menu
         ChangeCombatState(combatState = CombatState.AttackerTurn);
-        
+
     }
 
     //clean up. Must restore Game Manager and update UI. The order of events here matters.
@@ -366,7 +400,7 @@ public class Combat : MonoBehaviour
         Character attacker = attackerRoom.character;
         Character defender = defenderRoom.character;
 
-        
+
 
         //update hunter UI
         HunterManager hm = Singleton.instance.HunterManager;
@@ -394,17 +428,17 @@ public class Combat : MonoBehaviour
             gm.ChangeGameState(gm.gameState = GameManager.GameState.HunterInjured, defendHunter);
         else
             gm.ChangeGameState(gm.gameState = GameManager.GameState.Dungeon);
-        
+
     }
-    
-   
+
+
 
     public void UpdateRunChance(Character attacker, Character defender, float runPreventionMod, float runMod)
     {
         runChance = 1 - (attacker.spd * 0.02f + runPreventionMod) + (defender.spd * 0.01f + runMod);
         runChance = runChance < 0 ? 0 : runChance;
         runChance = runChance > 1 ? 1 : runChance;
-        
+
     }
 
     //sets character's position to a room on the battlefield.
@@ -414,7 +448,7 @@ public class Combat : MonoBehaviour
         character.transform.position = new Vector3(room.transform.position.x, character.transform.position.y, room.transform.position.z);
     }
 
-    
+
 
     /* toggles non-releavant UI on or off */
     private void SetNonCombatUI(bool toggle)
@@ -463,7 +497,18 @@ public class Combat : MonoBehaviour
         StartCoroutine(ShowStatusEffect(character, statusText));
     }
 
-    
+    //CPU Hunter chooses a card to play if able.
+    private void CPU_PickCard(Hunter hunter)
+    {
+
+    }
+
+    //CPU Hunter makes a selection based on their current state. Each behaviour will make different choices.
+    private void CPU_DefenderMakeChoice(Hunter hunter)
+    {
+        hunter.cpuBehaviour.MakeDefenderChoice(hunter);
+    }
+
 
     #region Button Methods
     public void OnSelectCardButtonPressed()
@@ -541,7 +586,7 @@ public class Combat : MonoBehaviour
         Character attacker = attackerRoom.character;
         Character defender = defenderRoom.character;
         UpdateRunChance(attacker, defender, runPreventionMod, runMod);
-        defender.ChangeCharacterState(defender.characterState = Character.CharacterState.Moving); //must increase animation speed temporarily
+        defender.ChangeCharacterState(defender.characterState = Character.CharacterState.Running); //must increase animation speed temporarily
         ChangeCombatState(combatState = CombatState.DefenderChooseCard);
     }
 
@@ -554,6 +599,7 @@ public class Combat : MonoBehaviour
             return;
 
         //open defender's inventory so they can choose an item to give to attacker.
+        hunter.ChangeCharacterState(hunter.characterState = Character.CharacterState.Surrendering);
         inventory.ShowInventory(true, hunter);       
     }
     #endregion

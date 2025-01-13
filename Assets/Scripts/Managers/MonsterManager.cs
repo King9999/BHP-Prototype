@@ -52,18 +52,36 @@ public class MonsterManager : MonoBehaviour
     /* NOTE: For some reason, I can't set the monster object's parent, or else the movement messes up. I don't know why this happens. */
     public Monster SpawnMonster(int monsterLevel)
     {
-        int randMonster = Random.Range(0, masterMonsterList.Count);
-        Monster monster = Instantiate(masterMonsterList[randMonster]/*, monsterObject.transform*/);
-        monster.InitializeStats(monsterLevel, monster.monsterData);
+        //int randMonster = Random.Range(0, masterMonsterList.Count);
+        //Monster monster = Instantiate(masterMonsterList[randMonster]/*, monsterObject.transform*/);
+        //monster.InitializeStats(monsterLevel, monster.monsterData);
 
 
-        //TODO choose a spawner to spawn from.
+        //choose a spawner to spawn from. Monster cannot spawn from a point that's occupied by another character.
+        //In the unlikely event that a monster can't spawn anywhere, the game will quit trying to spawn if the fail counter reaches 10.
+        //a boss must be spawned no matter what, even if I have to kill whoever's sitting on a spawn point.
         Dungeon dun = Singleton.instance.Dungeon;
-        int randSpawner = Random.Range(0, dun.spawnPoints.Count);
-        dun.UpdateCharacterRoom(monster, dun.spawnPoints[randSpawner].room);
+        int randSpawner;
+        int failCounter = 0;
+        do
+        {
+            randSpawner = Random.Range(0, dun.spawnPoints.Count);
+            failCounter++;
+        }
+        while (dun.spawnPoints[randSpawner].room.character != null && failCounter < 10);
 
-        activeMonsters.Add(monster);
-        return monster;
+        //generate monster at spawn point
+        if (failCounter < 10)
+        {
+            int randMonster = Random.Range(0, masterMonsterList.Count);
+            Monster monster = Instantiate(masterMonsterList[randMonster]);
+            monster.InitializeStats(monsterLevel, monster.monsterData);
+            dun.UpdateCharacterRoom(monster, dun.spawnPoints[randSpawner].room);
+            activeMonsters.Add(monster);
+            return monster;
+        }
+        else
+            return null;
     }
 
     public void MoveMonster(Monster monster)

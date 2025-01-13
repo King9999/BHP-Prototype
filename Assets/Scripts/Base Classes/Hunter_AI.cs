@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static Combat;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 /* CPU Hunters use a scriptable object that control their behaviour. These objects will have toggles that determine a hunter's
  * actions. Behaviours also influence which stats are more likely to rise during hunter generation. 
@@ -115,8 +117,110 @@ public abstract class Hunter_AI : ScriptableObject
                 j++;
             }
         }
+        return card;
+    }
+
+    public virtual Card ChooseCard_Combat(Hunter hunter)
+    {
+        if (hunter.cards.Count <= 0)
+            return null;
+
+        Card card = null;
+        List<Card> topCards = new List<Card>();
+
+        for (int i = 0; i < hunter.cards.Count; i++)
+        {
+            //gather all of the combat and versatile cards. Certain cards are prioritized based on whether hunter is attacking or
+            //guarding/counter-attacking.
+            if (hunter.cards[i].cardType == Card.CardType.Combat || hunter.cards[i].cardType == Card.CardType.Versatile)
+            {
+                switch (hunter.characterState)
+                {
+                    case 
+                }
+                topCards.Add(hunter.cards[i]);
+            }
+        }
+
+        //look at the available cards and pick the most suitable one
+        if (topCards.Count <= 0)
+            return null; //no cards
+
+        int totalWeight = 0;
+
+        for (int i = 0; i < topCards.Count; i++)
+        {
+            totalWeight += topCards[i].weight;
+        }
+
+        int j = 0;
+        bool cardFound = false;
+        topCards = topCards.OrderByDescending(x => x.weight).ToList();  //sort by highest weight
+        int randWeight = UnityEngine.Random.Range(0, totalWeight);
+        while (!cardFound && j < topCards.Count)
+        {
+            if (randWeight <= topCards[j].weight)
+            {
+                cardFound = true;
+                card = topCards[j];
+                Debug.LogFormat("CPU chose card {0}", card.cardName);
+            }
+            else
+            {
+                randWeight -= topCards[j].weight;
+                j++;
+            }
+        }
 
         return card;
+    }
+
+    //actions a defender takes during combat
+    public virtual void MakeDefenderChoice(Hunter hunter)
+    {
+        /*basic behaviour:
+         * If hunter has low health (< 25%), try surrendering non-target item. If no item, then run away.
+         * 
+        */
+        Combat combat = Singleton.instance.Combat;
+        if (LowHealth(hunter))
+        {
+            //check if there are any items to surrender
+            if (hunter.inventory.Count > 0)
+            {
+                hunter.ChangeCharacterState(hunter.characterState = Character.CharacterState.Surrendering);
+                combat.ChangeCombatState(combat.combatState = Combat.CombatState.Surrendering);
+            }
+            else
+            {
+                hunter.ChangeCharacterState(hunter.characterState = Character.CharacterState.Running);
+                combat.ChangeCombatState(combat.combatState = Combat.CombatState.RunAway);
+            }    
+        }
+        else
+        {
+            //either counter attack or defend depending on remaining health.
+            if (AtLeastHalfHealth(hunter))
+            {
+                hunter.ChangeCharacterState(hunter.characterState = Character.CharacterState.Attacking);
+            }
+            else
+            {
+                hunter.ChangeCharacterState(hunter.characterState = Character.CharacterState.Guarding);
+            }
+            combat.ChangeCombatState(combat.combatState = CombatState.DefenderChooseCard);
+
+        }
+    }
+
+    protected bool LowHealth(Hunter hunter)
+    {
+        return hunter.healthPoints <= Mathf.Round(hunter.maxHealthPoints * 0.25f);
+    }
+
+    protected bool AtLeastHalfHealth(Hunter hunter)
+    {
+        return hunter.healthPoints >= Mathf.Round(hunter.maxHealthPoints * 0.5f);
     }
 
 
