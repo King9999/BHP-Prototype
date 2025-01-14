@@ -56,6 +56,8 @@ public class Combat : MonoBehaviour
     [SerializeField] private Image skillNameBackground;
     [SerializeField] private TextMeshProUGUI droppedItemText;   //UI for when an item drops from monster
     [SerializeField] private GameObject droppedItemUI;
+    [SerializeField] private GameObject runChanceUI;
+    [SerializeField] private TextMeshProUGUI runChanceText;
 
 
     [Header("---Combat Grid---")]
@@ -69,8 +71,10 @@ public class Combat : MonoBehaviour
     //combat states
     public enum CombatState { AttackerTurn, DefenderTurn, DefenderChooseCard, BeginCombat, Surrendering, RunAway, WinnerTakesItemFromLoser,
         WinnerTooManyItems }
+    public enum DefenderAction { CounterAttack, Guard, Surrender, RunAway }
     [Header("---Combat State---")]
-    public CombatState combatState;
+    public CombatState combatState;          
+    public DefenderAction defenderAction;               //used to move to correct state after card menu.
     private Coroutine combatCoroutine;
     bool CharacterDefeated { get; set; }                //if true, then combat doesn't end normally until a condition is met.
     public Item ItemTaken { get; set; }                  //reference to the item the winner takes from loser.
@@ -125,6 +129,7 @@ public class Combat : MonoBehaviour
         inventory.ShowInventory(false);
         skillNameUI.SetActive(false);
         droppedItemUI.SetActive(false);
+        runChanceUI.SetActive(false);
 
         //set up card menu buttons.
         CardMenu cm = Singleton.instance.CardMenu;
@@ -254,14 +259,15 @@ public class Combat : MonoBehaviour
                     if (attacker is Hunter hunter)
                     {
                         //yield return new WaitForSeconds(1);
-                        hunter.combatCard = hunter.cpuBehaviour.ChooseCard_Combat(hunter);
+                        StartCoroutine(CPU_ChooseCard(hunter));
+                        /*hunter.combatCard = hunter.cpuBehaviour.ChooseCard_Combat(hunter);
                         if (hunter.combatCard != null)
                         {
                             activeCard_attackerText.text = string.Format("Active Card: {0}", hunter.combatCard.cardName);
                             hunter.cards.Remove(hunter.combatCard);
                             hunter.combatCard.ActivateCard_Combat(hunter);
                         }
-                        ChangeCombatState(combatState = CombatState.DefenderTurn);
+                        ChangeCombatState(combatState = CombatState.DefenderTurn);*/
                     }
                     else
                         ChangeCombatState(combatState = CombatState.DefenderTurn);
@@ -272,13 +278,13 @@ public class Combat : MonoBehaviour
                 cardMenu.ShowMenu(false);
                 if (!defender.cpuControlled)
                 {
+                    inventory.ShowInventory(false); //defender backed out of surrendering, so inventory is closed.
                     ShowDefenderMenu(true, defender);
                 }
                 else
                 {
                     //if defender is monster, skip to 'BeginCombat'.
                     //if defender is hunter, choose between counter attacking, running away, or surrendering.
-                    //yield return new WaitForSeconds(1);
                     if (defender is Hunter hunter_defender)
                         hunter_defender.cpuBehaviour.MakeDefenderChoice(hunter_defender);
                     else
@@ -296,31 +302,34 @@ public class Combat : MonoBehaviour
                 }
                 else
                 {
-                    Hunter hunter = defender as Hunter;
-                   // yield return new WaitForSeconds(1);
-                    hunter.combatCard = hunter.cpuBehaviour.ChooseCard_Combat(hunter);
+                    //Hunter hunter = defender as Hunter;
+                    StartCoroutine(CPU_ChooseCard(defender as Hunter));
+                    /*hunter.combatCard = hunter.cpuBehaviour.ChooseCard_Combat(hunter);
                     if (hunter.combatCard != null)
                     {
                         activeCard_defenderText.text = string.Format("Active Card: {0}", hunter.combatCard.cardName);
                         hunter.cards.Remove(hunter.combatCard);
                         hunter.combatCard.ActivateCard_Combat(hunter);
                     }
-                    ChangeCombatState(combatState = CombatState.BeginCombat);
+                    ChangeCombatState(combatState = CombatState.BeginCombat);*/
                 }
                 break;
 
             case CombatState.BeginCombat:
                 cardMenu.ShowMenu(false);
+                ShowRunChanceUI(false);
                 //run coroutine here to handle combat resolution, animations, etc.
-                StartCoroutine(SimulateDiceRoll(attackerDice, defenderDice, attacker, defender));
+                StartCoroutine(RollDice_Attack(attackerDice, defenderDice, attacker, defender));
                 break;
 
             case CombatState.RunAway:
                 cardMenu.ShowMenu(false);
                 //run couroutine to handle running away
+                StartCoroutine(RollDice_RunAway(attackerDice, defenderDice, attacker, defender));
                 break;
 
             case CombatState.Surrendering:
+                inventory.ShowInventory(true, defender as Hunter);
                 break;
 
             case CombatState.WinnerTakesItemFromLoser:
@@ -392,7 +401,7 @@ public class Combat : MonoBehaviour
         defenseBoost = 0.5f;
 
         //run chance. This is displayed when the defender hovers over the run button.
-        UpdateRunChance(attacker, defender, runPreventionMod, runMod);
+        runChance = UpdateRunChance(attacker, defender, runPreventionMod, runMod);
 
         //attacker takes their turn first. Attack would've already been chosen, so all attacker does is pick a card.
         attackerTurnOver = false;
@@ -450,12 +459,12 @@ public class Combat : MonoBehaviour
 
 
 
-    public void UpdateRunChance(Character attacker, Character defender, float runPreventionMod, float runMod)
+    public float UpdateRunChance(Character attacker, Character defender, float runPreventionMod, float runMod)
     {
-        runChance = 1 - (attacker.spd * 0.02f + runPreventionMod) + (defender.spd * 0.01f + runMod);
+        float runChance = 1 - (attacker.spd * 0.02f + runPreventionMod) + (defender.spd * 0.01f + runMod);
         runChance = runChance < 0 ? 0 : runChance;
         runChance = runChance > 1 ? 1 : runChance;
-
+        return runChance;
     }
 
     //sets character's position to a room on the battlefield.
@@ -514,18 +523,10 @@ public class Combat : MonoBehaviour
         StartCoroutine(ShowStatusEffect(character, statusText));
     }
 
-    //CPU Hunter chooses a card to play if able.
-    private void CPU_PickCard(Hunter hunter)
+    private void ShowRunChanceUI(bool toggle)
     {
-
+        runChanceUI.SetActive(toggle);
     }
-
-    //CPU Hunter makes a selection based on their current state. Each behaviour will make different choices.
-    private void CPU_DefenderMakeChoice(Hunter hunter)
-    {
-        hunter.cpuBehaviour.MakeDefenderChoice(hunter);
-    }
-
 
     #region Button Methods
     public void OnSelectCardButtonPressed()
@@ -558,7 +559,21 @@ public class Combat : MonoBehaviour
             activeCard_defenderText.text = string.Format("Active Card: {0}", defender.combatCard.cardName /*defendersCard.cardName*/);
             defender.cards.Remove(defender.combatCard);
             defender.combatCard.ActivateCard_Combat(defender);
-            ChangeCombatState(combatState = CombatState.BeginCombat);
+
+            //check which state we should be going to based on what state the game was in before choosing card.
+            switch(defenderAction)
+            {
+                case DefenderAction.CounterAttack:
+                case DefenderAction.Guard:
+                    ChangeCombatState(combatState = CombatState.BeginCombat);
+                    break;
+
+                case DefenderAction.RunAway:
+                    ChangeCombatState(combatState = CombatState.RunAway);
+                    break;
+            }
+
+            
         }
     }
 
@@ -587,6 +602,7 @@ public class Combat : MonoBehaviour
         //perform a basic attack with a 50% damage reduction. Passive skill effects apply.
         Character defender = defenderRoom.character;
         defender.ChangeCharacterState(defender.characterState = Character.CharacterState.Attacking);
+        defenderAction = DefenderAction.CounterAttack;
         ChangeCombatState(combatState = CombatState.DefenderChooseCard);
     }
 
@@ -595,6 +611,7 @@ public class Combat : MonoBehaviour
         //roll 2 dice to reduce damage, with a chance of perfect guard
         Character defender = defenderRoom.character;
         defender.ChangeCharacterState(defender.characterState = Character.CharacterState.Guarding);
+        defenderAction = DefenderAction.Guard;
         ChangeCombatState(combatState = CombatState.DefenderChooseCard);
     }
 
@@ -602,8 +619,9 @@ public class Combat : MonoBehaviour
     {
         Character attacker = attackerRoom.character;
         Character defender = defenderRoom.character;
-        UpdateRunChance(attacker, defender, runPreventionMod, runMod);
+        runChance = UpdateRunChance(attacker, defender, runPreventionMod, runMod);
         defender.ChangeCharacterState(defender.characterState = Character.CharacterState.Running); //must increase animation speed temporarily
+        defenderAction = DefenderAction.RunAway;
         ChangeCombatState(combatState = CombatState.DefenderChooseCard);
     }
 
@@ -616,8 +634,15 @@ public class Combat : MonoBehaviour
             return;
 
         //open defender's inventory so they can choose an item to give to attacker.
-        hunter.ChangeCharacterState(hunter.characterState = Character.CharacterState.Surrendering);
-        inventory.ShowInventory(true, hunter);       
+        //hunter.ChangeCharacterState(hunter.characterState = Character.CharacterState.Surrendering);
+        ChangeCombatState(combatState = CombatState.Surrendering);
+              
+    }
+
+    //only occurs when player backs out of surrendering an item.
+    public void OnInventoryBackButtonPressed()
+    {
+        ChangeCombatState(combatState = CombatState.DefenderTurn);
     }
     #endregion
 
@@ -645,7 +670,7 @@ public class Combat : MonoBehaviour
     {
         Character attacker = attackerRoom.character;
         Character defender = defenderRoom.character;
-        UpdateRunChance(attacker, defender, runPreventionMod, runMod);
+        runChance = UpdateRunChance(attacker, defender, runPreventionMod, runMod);
         EnableTooltipUI(true);
         tooltipText.text = string.Format("{0}% chance to escape", runChance * 100);
     }
@@ -659,9 +684,8 @@ public class Combat : MonoBehaviour
     #region Coroutines
 
     /* State is used to determine how the defender's rolls are simulated. */
-    private IEnumerator SimulateDiceRoll(Dice attackerDice, Dice defenderDice, Character attacker, Character defender)
+    private IEnumerator RollDice_Attack(Dice attackerDice, Dice defenderDice, Character attacker, Character defender)
     {
-        float rollDuration = 0.4f;
         attackerTotalAttackDamage.text = "";
         defenderTotalDefense.text = "";
 
@@ -736,6 +760,59 @@ public class Combat : MonoBehaviour
         defenderDice.ShowSingleDieUI(false);
 
         yield return Attack(attacker, defender);
+
+    }
+
+    /* Used when defender attempts to run away. Attacker's dice roll reduces the run chance, while the defender's
+     * dice roll adds to it. */
+    IEnumerator RollDice_RunAway(Dice attackerDice, Dice defenderDice, Character attacker, Character defender)
+    {
+        //get updated run chance
+        ShowRunChanceUI(true);
+        runChance = UpdateRunChance(attacker, defender, runPreventionMod, runMod);
+        runChanceText.text = string.Format("Run Chance: {0}%", runChance * 100);
+
+
+        //setup dice
+        attackerDice.InitializeDice(Dice.DiceType.Attack);
+        defenderDice.InitializeDice(Dice.DiceType.Defend);
+        attackerDice.ShowDiceUI(true);
+        defenderDice.ShowDiceUI(true);
+
+        yield return new WaitForSeconds(1);
+
+        //get roll results.
+        attackRollResult = attackerDice.RollDice(Dice.DiceType.Attack);
+        defendRollResult = defenderDice.RollDice(Dice.DiceType.Defend);
+
+        //attacker's roll reduces run chance, then defender's roll increases it. Attacker has advantage.
+        runChance -= attackRollResult * 0.02f;
+        yield return new WaitForSeconds(1);
+        runChanceText.text = string.Format("Run Chance: {0}%", Mathf.Round(runChance * 100));
+
+        //add defender's roll
+        runChance += defendRollResult * 0.01f;
+        yield return new WaitForSeconds(1);
+        runChanceText.text = string.Format("Run Chance: {0}%", Mathf.Round(runChance * 100));
+
+        /* Check if defender successfully runs away. If successful, combat ends and defender is teleported. Otherwise,
+         * combat continues and attacker gets a free hit (defender cannot counterattack). */
+        yield return new WaitForSeconds(1);
+        if (Random.value <= runChance)
+        {
+            runChanceText.text = string.Format("{0} ran away! Bye bye!", defender.characterName);
+            Hunter hunter = defender as Hunter;
+            hunter.ForceTeleport = true;            //game will treat hunter as injured and teleport them after combat.
+            yield return new WaitForSeconds(2);
+            EndCombat();
+        }
+        else
+        {
+            //combat resumes
+            runChanceText.text = string.Format("{0} couldn't run!", defender.characterName);
+            yield return new WaitForSeconds(2);
+            ChangeCombatState(combatState = CombatState.BeginCombat);
+        }
 
     }
 
@@ -881,7 +958,7 @@ public class Combat : MonoBehaviour
             criticalDamageMod = 1;
 
             //yield return new WaitForSeconds(1);
-            yield return SimulateDiceRoll(defenderDice, attackerDice, defender, attacker);
+            yield return RollDice_Attack(defenderDice, attackerDice, defender, attacker);
         }
         else
         {
@@ -968,7 +1045,7 @@ public class Combat : MonoBehaviour
             hasAugmenter = false;
 
             yield return new WaitForSeconds(1);
-            yield return SimulateDiceRoll(defenderDice, attackerDice, defender, attacker);
+            yield return RollDice_Attack(defenderDice, attackerDice, defender, attacker);
         }
 
         //if we get here, combat has ended.
@@ -1002,6 +1079,38 @@ public class Combat : MonoBehaviour
         }
 
         this.statusText.gameObject.SetActive(false);
+    }
+
+    //CPU hunter chooses a card to play.
+    IEnumerator CPU_ChooseCard(Hunter hunter)
+    {
+        hunter.combatCard = hunter.cpuBehaviour.ChooseCard_Combat(hunter);
+        yield return new WaitForSeconds(1);
+        if (hunter.combatCard != null)
+        {
+            if (hunter.isAttacker)
+            {
+                activeCard_attackerText.text = string.Format("Active Card: {0}", hunter.combatCard.cardName);
+                hunter.cards.Remove(hunter.combatCard);
+                hunter.combatCard.ActivateCard_Combat(hunter);
+                ChangeCombatState(combatState = CombatState.DefenderTurn);
+            }
+            else
+            {
+                activeCard_defenderText.text = string.Format("Active Card: {0}", hunter.combatCard.cardName);
+                hunter.cards.Remove(hunter.combatCard);
+                hunter.combatCard.ActivateCard_Combat(hunter);
+                ChangeCombatState(combatState = CombatState.BeginCombat);
+            }
+        }
+        else
+        {
+            if (hunter.isAttacker)
+                ChangeCombatState(combatState = CombatState.DefenderTurn);
+            else
+                ChangeCombatState(combatState = CombatState.BeginCombat);
+        }
+        
     }
 
     private IEnumerator ShowSkillName(string skillName, Character skillUser)
@@ -1209,6 +1318,7 @@ public class Combat : MonoBehaviour
         yield return new WaitForSeconds(duration);
         droppedItemUI.SetActive(false);
     }
+
 
     //closes inventory after winner of combat takes item from loser, then ends combat.
     private IEnumerator CloseInventory_Coroutine()
