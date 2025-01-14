@@ -246,11 +246,13 @@ public abstract class Hunter_AI : ScriptableObject
             if (hunter.inventory.Count > 0)
             {
                 hunter.ChangeCharacterState(hunter.characterState = Character.CharacterState.Surrendering);
+                combat.defenderAction = DefenderAction.Surrender;
                 combat.ChangeCombatState(combat.combatState = Combat.CombatState.Surrendering);
             }
             else
             {
                 hunter.ChangeCharacterState(hunter.characterState = Character.CharacterState.Running);
+                combat.defenderAction = DefenderAction.RunAway;
                 combat.ChangeCombatState(combat.combatState = Combat.CombatState.DefenderChooseCard);
             }    
         }
@@ -260,10 +262,12 @@ public abstract class Hunter_AI : ScriptableObject
             if (AtLeastHalfHealth(hunter))
             {
                 hunter.ChangeCharacterState(hunter.characterState = Character.CharacterState.Attacking);
+                combat.defenderAction = DefenderAction.CounterAttack;
             }
             else
             {
                 hunter.ChangeCharacterState(hunter.characterState = Character.CharacterState.Guarding);
+                combat.defenderAction = DefenderAction.Guard;
             }
             combat.ChangeCombatState(combat.combatState = CombatState.DefenderChooseCard);
 

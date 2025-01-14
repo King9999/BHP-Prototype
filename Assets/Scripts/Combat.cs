@@ -324,7 +324,7 @@ public class Combat : MonoBehaviour
 
             case CombatState.RunAway:
                 cardMenu.ShowMenu(false);
-                //run couroutine to handle running away
+                defenderCounterattacking = false;   //counterattacking is forefeited 
                 StartCoroutine(RollDice_RunAway(attackerDice, defenderDice, attacker, defender));
                 break;
 
@@ -1113,7 +1113,20 @@ public class Combat : MonoBehaviour
                 activeCard_defenderText.text = string.Format("Active Card: {0}", hunter.combatCard.cardName);
                 hunter.cards.Remove(hunter.combatCard);
                 hunter.combatCard.ActivateCard_Combat(hunter);
-                ChangeCombatState(combatState = CombatState.BeginCombat);
+
+                //check which state we should be going to based on what state the game was in before choosing card.
+                switch (defenderAction)
+                {
+                    case DefenderAction.CounterAttack:
+                    case DefenderAction.Guard:
+                        ChangeCombatState(combatState = CombatState.BeginCombat);
+                        break;
+
+                    case DefenderAction.RunAway:
+                        ChangeCombatState(combatState = CombatState.RunAway);
+                        break;
+                }
+                //ChangeCombatState(combatState = CombatState.BeginCombat);
             }
         }
         else
