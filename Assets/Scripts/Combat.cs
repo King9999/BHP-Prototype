@@ -593,7 +593,20 @@ public class Combat : MonoBehaviour
         {
             //defendersCard = null;
             defender.combatCard = null;
-            ChangeCombatState(combatState = CombatState.BeginCombat);
+
+            //check which state we should be going to based on what state the game was in before choosing card.
+            switch (defenderAction)
+            {
+                case DefenderAction.CounterAttack:
+                case DefenderAction.Guard:
+                    ChangeCombatState(combatState = CombatState.BeginCombat);
+                    break;
+
+                case DefenderAction.RunAway:
+                    ChangeCombatState(combatState = CombatState.RunAway);
+                    break;
+            }
+            //ChangeCombatState(combatState = CombatState.BeginCombat);
         }
     }
 
