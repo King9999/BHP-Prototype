@@ -1072,6 +1072,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attacker: {fileID: 0}
   defender: {fileID: 0}
+  winner: {fileID: 0}
+  loser: {fileID: 0}
   attackerLastRoom: {fileID: 0}
   defenderLastRoom: {fileID: 0}
 --- !u!4 &1786605411

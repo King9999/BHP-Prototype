@@ -253,7 +253,7 @@ public class Combat : MonoBehaviour
                     //if attacker is hunter, check if a card can be played.
                     if (attacker is Hunter hunter)
                     {
-                        yield return new WaitForSeconds(1);
+                        //yield return new WaitForSeconds(1);
                         hunter.combatCard = hunter.cpuBehaviour.ChooseCard_Combat(hunter);
                         if (hunter.combatCard != null)
                         {
@@ -278,7 +278,7 @@ public class Combat : MonoBehaviour
                 {
                     //if defender is monster, skip to 'BeginCombat'.
                     //if defender is hunter, choose between counter attacking, running away, or surrendering.
-                    yield return new WaitForSeconds(1);
+                    //yield return new WaitForSeconds(1);
                     if (defender is Hunter hunter_defender)
                         hunter_defender.cpuBehaviour.MakeDefenderChoice(hunter_defender);
                     else
@@ -297,7 +297,7 @@ public class Combat : MonoBehaviour
                 else
                 {
                     Hunter hunter = defender as Hunter;
-                    yield return new WaitForSeconds(1);
+                   // yield return new WaitForSeconds(1);
                     hunter.combatCard = hunter.cpuBehaviour.ChooseCard_Combat(hunter);
                     if (hunter.combatCard != null)
                     {
