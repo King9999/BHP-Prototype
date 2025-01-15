@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+//using UnityEngine.UIElements;
 using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 /* This is the combat system. It takes two character objects and two pairs of dice. Combat lasts for 1 round.
@@ -244,7 +245,11 @@ public class Combat : MonoBehaviour
             //if defender can't counterattack, counterattack button is disabled.
             if(!defenderCounterattacking)
             {
-
+                counterAttackButton.image.color = counterAttackButton.colors.disabledColor;
+            }
+            else
+            {
+                counterAttackButton.image.color = counterAttackButton.colors.normalColor;
             }
         }
     }
@@ -613,6 +618,9 @@ public class Combat : MonoBehaviour
 
     public void OnCounterAttackButtonPressed()
     {
+        if (!defenderCounterattacking)
+            return;
+
         //perform a basic attack with a 50% damage reduction. Passive skill effects apply.
         Character defender = defenderRoom.character;
         defender.ChangeCharacterState(defender.characterState = Character.CharacterState.Attacking);
@@ -671,7 +679,12 @@ public class Combat : MonoBehaviour
     public void OnCounterAttackButtonHover()
     {
         EnableTooltipUI(true);
-        tooltipText.text = "Perform basic attack that inflicts 50% damage";
+
+        if (defenderCounterattacking)
+            tooltipText.text = "Perform basic attack that inflicts 50% damage";
+        else
+            //cannot counterattack
+            tooltipText.text = "Not in range to counter attack!";
     }
 
     public void OnGuardButtonHover()
