@@ -86,7 +86,7 @@ public class ActiveSkill_BasicAttack : ActiveSkill
         {
             Monster monster = character as Monster;
             //monsters have unique basic attacks, which could be either ranged or melee.
-            if (monsterSkillRange == MonsterSkillRange.Melee)
+            if (skillRange == SkillRange.Melee)
             {
                 float moveSpeed = 12;
 

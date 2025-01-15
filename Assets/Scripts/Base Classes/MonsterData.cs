@@ -28,7 +28,7 @@ public class MonsterData : ScriptableObject
     public int maxAttackRange;      //range of standard attack.
     public float dmgMod;      //multiplier of how much ATP or MNP affects the damage of the skill. 1 = 100% damage, < 1 = reduced damage, > 1 = more damage.
     public ActiveSkill.SkillAttribute attribute;
-    public ActiveSkill.MonsterSkillRange monsterSkillRange;
+    public ActiveSkill.SkillRange monsterSkillRange;
     
 
     [Serializable]

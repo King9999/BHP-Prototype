@@ -171,6 +171,22 @@ public class Hunter : Character
         {
             basicAttack.minRange = equippedWeapon.minRange;
             basicAttack.maxRange = equippedWeapon.maxRange;
+            
+            //change range based on weapon type
+            switch(equippedWeapon.weaponType)
+            {
+                case Weapon.WeaponType.BeamSword:
+                    basicAttack.skillRange = ActiveSkill.SkillRange.Melee;
+                    break;
+
+                case Weapon.WeaponType.Railgun:
+                    basicAttack.skillRange = ActiveSkill.SkillRange.Ranged;
+                    break;
+
+                case Weapon.WeaponType.Augmenter:
+                    basicAttack.skillRange = ActiveSkill.SkillRange.Versatile;
+                    break;
+            }
         }
 
         if (weapon.itemMods.Count > 0)
@@ -202,6 +218,7 @@ public class Hunter : Character
         {
             basicAttack.minRange = 0;
             basicAttack.maxRange = 1;
+            basicAttack.skillRange = ActiveSkill.SkillRange.Melee;
         }
 
         if (weapon.itemMods.Count > 0)

@@ -45,8 +45,8 @@ public class Combat : MonoBehaviour
     private Color damageColor, reducedColor, healColor;              //red = damage, blue = reduced damage, green = heal
     [SerializeField] private TextMeshProUGUI statusText;      //used for buffs/debuffs
     [SerializeField] private List<TextMeshProUGUI> damageValues;      //used for displaying lots of damage values at a time.
-    //[SerializeField] private GameObject cardMenu;
     [SerializeField] private GameObject defenderMenu;
+    [SerializeField] private Button counterAttackButton;        //is disabled if can't counterattack.
     [SerializeField] private List<CardObject> hunterCards;      //used by both attacker and defender
     [SerializeField] private CardMenu cardMenu;
     [SerializeField] private TextMeshProUGUI activeCard_attackerText, activeCard_defenderText;
@@ -136,6 +136,7 @@ public class Combat : MonoBehaviour
         //cm.backButton.onClick.AddListener();
         cm.selectCardButton.onClick.AddListener(OnSelectCardButtonPressed);
         cm.skipButton.onClick.AddListener(OnSkipCardButtonPressed);
+        cm.backButton.onClick.AddListener(OnBackButtonPressed);
     }
 
 
@@ -239,6 +240,12 @@ public class Combat : MonoBehaviour
         {
             Vector3 menuPos = new Vector3(character.transform.position.x + 11, character.transform.position.y - 4f, character.transform.position.z);
             defenderMenu.transform.position = Camera.main.WorldToScreenPoint(menuPos);
+
+            //if defender can't counterattack, counterattack button is disabled.
+            if(!defenderCounterattacking)
+            {
+
+            }
         }
     }
 
@@ -251,23 +258,18 @@ public class Combat : MonoBehaviour
         {
             case CombatState.AttackerTurn:
                 if (!attacker.cpuControlled)
+                {
                     cardMenu.ShowMenu(true, attacker, Card.CardType.Combat);
+                    cardMenu.backButton.gameObject.SetActive(false);
+                }
                 else
                 {
                     //if attacker is monster, skip to defender turn.
                     //if attacker is hunter, check if a card can be played.
-                    if (attacker is Hunter hunter)
+                    if (attacker is Hunter)
                     {
                         //yield return new WaitForSeconds(1);
-                        StartCoroutine(CPU_ChooseCard(hunter));
-                        /*hunter.combatCard = hunter.cpuBehaviour.ChooseCard_Combat(hunter);
-                        if (hunter.combatCard != null)
-                        {
-                            activeCard_attackerText.text = string.Format("Active Card: {0}", hunter.combatCard.cardName);
-                            hunter.cards.Remove(hunter.combatCard);
-                            hunter.combatCard.ActivateCard_Combat(hunter);
-                        }
-                        ChangeCombatState(combatState = CombatState.DefenderTurn);*/
+                        StartCoroutine(CPU_ChooseCard(attacker as Hunter));
                     }
                     else
                         ChangeCombatState(combatState = CombatState.DefenderTurn);
@@ -276,6 +278,19 @@ public class Combat : MonoBehaviour
 
             case CombatState.DefenderTurn:
                 cardMenu.ShowMenu(false);
+
+                //check if defender can't counterattack
+                ActiveSkill_BasicAttack defenderAttack = defender.skills[0] as ActiveSkill_BasicAttack;
+                if (attacker.chosenSkill.skillRange == ActiveSkill.SkillRange.Melee && defenderAttack.skillRange == ActiveSkill.SkillRange.Ranged)
+                {
+                    defenderCounterattacking = false;
+                }
+                else if (attacker.chosenSkill.skillRange == ActiveSkill.SkillRange.Ranged && defenderAttack.skillRange == ActiveSkill.SkillRange.Melee)
+                {
+                    defenderCounterattacking = false;
+                }
+                
+
                 if (!defender.cpuControlled)
                 {
                     inventory.ShowInventory(false); //defender backed out of surrendering, so inventory is closed.
@@ -299,19 +314,11 @@ public class Combat : MonoBehaviour
                 if (!defender.cpuControlled)
                 {
                     cardMenu.ShowMenu(true, defender, Card.CardType.Combat);
+                    cardMenu.backButton.gameObject.SetActive(true);
                 }
                 else
                 {
-                    //Hunter hunter = defender as Hunter;
                     StartCoroutine(CPU_ChooseCard(defender as Hunter));
-                    /*hunter.combatCard = hunter.cpuBehaviour.ChooseCard_Combat(hunter);
-                    if (hunter.combatCard != null)
-                    {
-                        activeCard_defenderText.text = string.Format("Active Card: {0}", hunter.combatCard.cardName);
-                        hunter.cards.Remove(hunter.combatCard);
-                        hunter.combatCard.ActivateCard_Combat(hunter);
-                    }
-                    ChangeCombatState(combatState = CombatState.BeginCombat);*/
                 }
                 break;
 
@@ -347,12 +354,6 @@ public class Combat : MonoBehaviour
         }
     }
 
-
-    /*public void OnRollDiceButton()
-    {
-        GameManager gm = GameManager.instance;
-        StartCombat(gm.hunters[0], defender);
-    }*/
 
     public void StartCombat(Character attacker, Character defender)
     {
@@ -652,6 +653,13 @@ public class Combat : MonoBehaviour
               
     }
 
+    /* Handles returning to previous menu. This method only handles the back button when on the card menu. */
+    public void OnBackButtonPressed()
+    {
+        //in all cases, we return to the defender menu.
+        ChangeCombatState(combatState = CombatState.DefenderTurn);
+    }
+
     //only occurs when player backs out of surrendering an item.
     public void OnInventoryBackButtonPressed()
     {
@@ -813,6 +821,8 @@ public class Combat : MonoBehaviour
         yield return new WaitForSeconds(1);
         if (Random.value <= runChance)
         {
+            attackerDice.ShowDiceUI(false);
+            defenderDice.ShowDiceUI(false);
             runChanceText.text = string.Format("{0} ran away! Bye bye!", defender.characterName);
             Hunter hunter = defender as Hunter;
             hunter.ForceTeleport = true;            //game will treat hunter as injured and teleport them after combat.
@@ -822,6 +832,8 @@ public class Combat : MonoBehaviour
         else
         {
             //combat resumes
+            attackerDice.ShowDiceUI(false);
+            defenderDice.ShowDiceUI(false);
             runChanceText.text = string.Format("{0} couldn't run!", defender.characterName);
             yield return new WaitForSeconds(2);
             ChangeCombatState(combatState = CombatState.BeginCombat);

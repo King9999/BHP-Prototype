@@ -67,7 +67,7 @@ public abstract class Monster : Character
         //update basic attack data
         ActiveSkill basicAttack = data.skills[0] as ActiveSkill;
         basicAttack.attribute = data.attribute;
-        basicAttack.monsterSkillRange = data.monsterSkillRange;
+        basicAttack.skillRange = data.monsterSkillRange;
         basicAttack.minRange = data.minAttackRange;
         basicAttack.maxRange = data.maxAttackRange;
         basicAttack.dmgMod = data.dmgMod;
@@ -149,7 +149,7 @@ public abstract class Monster : Character
 
         foreach (Room room in skillRange)
         {
-            if (room.character != null)
+            if (room.character != null && room.character is Hunter)
             {
                 targetChars.Add(room.character as Hunter);
             }

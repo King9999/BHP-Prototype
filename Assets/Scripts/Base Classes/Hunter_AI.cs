@@ -1,4 +1,4 @@
-using System;
+//using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -266,8 +266,17 @@ public abstract class Hunter_AI : ScriptableObject
             }
             else
             {
-                hunter.ChangeCharacterState(hunter.characterState = Character.CharacterState.Guarding);
-                combat.defenderAction = DefenderAction.Guard;
+                //choose between attack and guard, with a slight preference toward guarding.
+                if (Random.value <= 0.4f)
+                {
+                    hunter.ChangeCharacterState(hunter.characterState = Character.CharacterState.Attacking);
+                    combat.defenderAction = DefenderAction.CounterAttack;
+                }
+                else
+                {
+                    hunter.ChangeCharacterState(hunter.characterState = Character.CharacterState.Guarding);
+                    combat.defenderAction = DefenderAction.Guard;
+                }
             }
             combat.ChangeCombatState(combat.combatState = CombatState.DefenderChooseCard);
 
