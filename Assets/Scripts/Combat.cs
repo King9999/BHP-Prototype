@@ -47,7 +47,7 @@ public class Combat : MonoBehaviour
     [SerializeField] private TextMeshProUGUI statusText;      //used for buffs/debuffs
     [SerializeField] private List<TextMeshProUGUI> damageValues;      //used for displaying lots of damage values at a time.
     [SerializeField] private GameObject defenderMenu;
-    [SerializeField] private Button counterAttackButton;        //is disabled if can't counterattack.
+    [SerializeField] private Button counterAttackButton, surrenderButton;        //is disabled if can't counterattack.
     [SerializeField] private List<CardObject> hunterCards;      //used by both attacker and defender
     [SerializeField] private CardMenu cardMenu;
     [SerializeField] private TextMeshProUGUI activeCard_attackerText, activeCard_defenderText;
@@ -250,6 +250,17 @@ public class Combat : MonoBehaviour
             else
             {
                 counterAttackButton.image.color = counterAttackButton.colors.normalColor;
+            }
+
+            //if no items or attacker is monster, cannot surrender
+            Hunter defender = defenderRoom.character as Hunter;
+            if (defender.inventory.Count <= 0 || attackerRoom.character is Monster)
+            {
+                surrenderButton.image.color = surrenderButton.colors.disabledColor;
+            }
+            else
+            {
+                surrenderButton.image.color = surrenderButton.colors.normalColor;
             }
         }
     }
@@ -696,7 +707,13 @@ public class Combat : MonoBehaviour
     public void OnSurrenderButtonHover()
     {
         EnableTooltipUI(true);
-        tooltipText.text = "Give an item to attacker, then run away";
+        Hunter defender = defenderRoom.character as Hunter;    
+        if (defender.inventory.Count <= 0 || attackerRoom.character is Monster)
+            tooltipText.text = "No items/cannot surrender to monsters";
+        else
+            tooltipText.text = "Give an item to attacker, then run away";
+        
+        //tooltipText.text = "Give an item to attacker, then run away";
     }
 
     //displays text when mouse cursor hovers over escape button

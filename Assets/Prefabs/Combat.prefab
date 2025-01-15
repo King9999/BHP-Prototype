@@ -665,6 +665,7 @@ MonoBehaviour:
   damageValues: []
   defenderMenu: {fileID: 409488479920927281}
   counterAttackButton: {fileID: 6465257997314116833}
+  surrenderButton: {fileID: 7581164217941607384}
   hunterCards:
   - {fileID: 5685256460616124501}
   - {fileID: 6734345558470576633}
