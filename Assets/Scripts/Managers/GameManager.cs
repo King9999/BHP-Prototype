@@ -1357,7 +1357,7 @@ public class GameManager : MonoBehaviour
             yield return TeleportCharacter(hunterForced);
         }
 
-        if (character == ActiveCharacter()) //If it's not the active character's turn, we don't go any further since something interrupted their turn.
+        else if (character == ActiveCharacter()) //If it's not the active character's turn, we don't go any further since something interrupted their turn.
         {
             
             if (ActiveCharacterDefeated || ForceStop || (CharacterActed && CharacterMoved))

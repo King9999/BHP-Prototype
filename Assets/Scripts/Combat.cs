@@ -1214,8 +1214,8 @@ public class Combat : MonoBehaviour
 
                 //TODO: attacker takes item from defender.
                 yield return new WaitForSeconds(1);
-                yield return TakeItemFromLoser(defender as Hunter, attacker as Hunter);
-                //TakeItemFromLoser(defender as Hunter, attacker as Hunter);
+                //yield return TakeItemFromLoser(defender as Hunter, attacker as Hunter);
+                TakeItemFromLoser(defender as Hunter, attacker as Hunter);
             }
             else if (attacker is Hunter && defender is Monster)
             {
@@ -1249,8 +1249,8 @@ public class Combat : MonoBehaviour
 
                 //TODO: attacker takes item from defender.
                 yield return new WaitForSeconds(1);
-                yield return TakeItemFromLoser(attacker as Hunter, defender as Hunter);
-                //TakeItemFromLoser(attacker as Hunter, defender as Hunter);
+                //yield return TakeItemFromLoser(attacker as Hunter, defender as Hunter);
+                TakeItemFromLoser(attacker as Hunter, defender as Hunter);
             }
             else if (defender is Hunter && attacker is Monster)
             {
@@ -1285,13 +1285,17 @@ public class Combat : MonoBehaviour
 
     }
 
-    private IEnumerator TakeItemFromLoser(Hunter winner, Hunter loser)
+    private void TakeItemFromLoser(Hunter winner, Hunter loser)
     {
         //open up the loser's inventory
         Singleton s = Singleton.instance;
         s.winner = winner;
         s.loser = loser;
-        ChangeCombatState(combatState = CombatState.WinnerTakesItemFromLoser);
+
+        if (loser.inventory.Count > 0)
+            ChangeCombatState(combatState = CombatState.WinnerTakesItemFromLoser);
+        else
+            EndCombat();
         //inventory.ShowInventory(true, loser, hideBackButton: true);
 
         //winner chooses an item to take. Grabbing reference for use by ItemObject's OnItemSelected method.
@@ -1300,7 +1304,7 @@ public class Combat : MonoBehaviour
         //s.loser = loser;
         //if winner has too many items, winner drops an item. Target item cannot be dropped.
         //end combat
-        yield return null;
+        //yield return null;
         //yield return new WaitForSeconds(2);
         //EndCombat();
     }

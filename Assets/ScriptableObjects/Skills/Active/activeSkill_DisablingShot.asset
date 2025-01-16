@@ -32,3 +32,4 @@ MonoBehaviour:
   minRange: 2
   maxRange: 3
   attribute: 0
+  skillRange: 1
