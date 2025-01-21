@@ -344,6 +344,7 @@ public class HunterManager : MonoBehaviour
         //get a behaviour, which will determine stat growth.
         int randBehaviour = Random.Range(0, hunterBehaviours.Count);
         hunter.cpuBehaviour = Instantiate(hunterBehaviours[randBehaviour]);
+        //hunter.cpuBehaviour = Instantiate(GetHunterAI(Hunter_AI.BehaviourType.Aggro));
         //EffectManager em = Singleton.instance.EffectManager;
         //em.AddEffect(StatusEffect.Effect.Berserk, hunter);
 
